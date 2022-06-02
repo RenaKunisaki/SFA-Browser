@@ -45,6 +45,8 @@ export const enum LightFlags {
     OverrideLighting = 0x2,
 } */
 
+const DefaultCull = GX.CullMode.BACK;
+
 const vatDefaults = [
     //these are set in videoInit() and almost never change
     { //VAT 0
@@ -128,9 +130,23 @@ const SurfaceTypeColors = {
     metal:       [0xC0, 0xC0, 0xC0],
 };
 
-function _setShaderParams(gl, gx, cull, blendMode, sFactor, dFactor, logicOp,
-compareEnable, compareFunc, updateEnable, alphaTest) {
-    if(cull) gl.enable(gl.CULL_FACE); else gl.disable(gl.CULL_FACE);
+function _setShaderParams(gl, gx, cullMode, blendMode, sFactor, dFactor,
+logicOp, compareEnable, compareFunc, updateEnable, alphaTest) {
+    switch(cullMode) {
+        case GX.CullMode.NONE: gl.disable(gl.CULL_FACE); break;
+        case GX.CullMode.FRONT:
+            gl.enable(gl.CULL_FACE);
+            gl.cullFace(gl.FRONT);
+            break;
+        case GX.CullMode.BACK:
+            gl.enable(gl.CULL_FACE);
+            gl.cullFace(gl.BACK);
+            break;
+        case GX.CullMode.ALL:
+            gl.enable(gl.CULL_FACE);
+            gl.cullFace(gl.FRONT_AND_BACK);
+            break;
+    }
     gx.setBlendMode(blendMode, sFactor, dFactor, logicOp);
     gx.setZMode(compareEnable, compareFunc, updateEnable);
     gx.setUseAlphaTest(alphaTest);
@@ -200,7 +216,7 @@ export default class BlockRenderer {
         this.curOps = ops;
 
         let done = false;
-        this._setInitialGxParams();
+        this._setInitialGxParams(whichStream);
         this.curBatch.addFunction(() => { this.setMtxForBlock(block) });
         while(!done && !ops.isEof) {
             //this is similar but not identical to the render instructions
@@ -228,13 +244,13 @@ export default class BlockRenderer {
         }
 
         this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
-            true, //cull backfaces
+            DefaultCull, //cull mode
             GX.BlendMode.NONE, //blend mode
             GX.BlendFactor.ONE, //sFactor
             GX.BlendFactor.ZERO, //dFactor
             GX.LogicOp.NOOP, //logicOp
             true, //compareEnable
-            GX.CompareMode.LEQUAL, //compareFunc
+            GX.Compare.LEQUAL, //compareFunc
             true, //updateEnable
             true, //alphaTest
         )});
@@ -293,10 +309,10 @@ export default class BlockRenderer {
 
         if(params.isPicker) batch.addFunction(() => {
             _setShaderParams(
-                this.gx.gl, this.gx, false, //culling disabled
+                this.gx.gl, this.gx, GX.CullMode.NONE,
                 GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
-                true, GX.CompareMode.LEQUAL, true, //depth test+update enabled
+                true, GX.Compare.LEQUAL, true, //depth test+update enabled
                 true); //alpha test enabled
             //blend off, face culling off
             gx.disableTextures(GX.BlendMode.NONE, false);
@@ -425,7 +441,7 @@ export default class BlockRenderer {
         return batch;
     }
 
-    _setInitialGxParams() {
+    _setInitialGxParams(whichStream) {
         //set default vtx formats for rendering block geometry
         this.gx.cp.setReg(CPReg.ARRAY_STRIDE_VTXS,  6); //sizeof(vec3s)
         this.gx.cp.setReg(CPReg.ARRAY_STRIDE_COLOR, 2); //sizeof(u16)
@@ -437,18 +453,27 @@ export default class BlockRenderer {
         //set initial render modes (XXX verify)
         if(this._isDrawingForPicker) {
             this.curBatch.addFunction(() => {_setShaderParams(
-                this.gx.gl, this.gx, true, //culling enabled
+                this.gx.gl, this.gx, DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
-                true, GX.CompareMode.LEQUAL, true, //depth test+update enabled
+                true, GX.Compare.LEQUAL, true, //depth test+update enabled
+                true); //alpha test enabled
+            });
+        }
+        else if(whichStream == 'reflective') {
+            this.curBatch.addFunction(() => {_setShaderParams(
+                this.gx.gl, this.gx, DefaultCull, //cull backfaces
+                GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
+                GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
+                true, GX.Compare.LEQUAL, true, //depth test+update enabled
                 true); //alpha test enabled
             });
         }
         else this.curBatch.addFunction(() => {_setShaderParams(
-            this.gx.gl, this.gx, true, //culling enabled
+            this.gx.gl, this.gx, DefaultCull, //cull backfaces
             GX.BlendMode.BLEND, GX.BlendFactor.SRCALPHA,
             GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
-            true, GX.CompareMode.LEQUAL, true, //depth test+update enabled
+            true, GX.Compare.LEQUAL, true, //depth test+update enabled
             true); //alpha test enabled
         });
     }
@@ -457,10 +482,107 @@ export default class BlockRenderer {
         const gx    = this.gx;
         const gl    = this.gx.gl;
         const flags = this.curShader.flags;
-        const cull  = flags & ShaderFlags.CullBackface;
-        let blendMode, sFactor, dFactor, logicOp,
-            compareEnable, compareFunc, updateEnable;
 
+        let blendMode         = GX.BlendMode.NONE;
+        let sFactor           = GX.BlendFactor.ONE;
+        let dFactor           = GX.BlendFactor.ZERO;
+        let logicOp           = GX.LogicOp.NOOP;
+        let compareEnable     = true;
+        let compareFunc       = GX.Compare.LEQUAL;
+        let updateEnable      = true;
+        let zCompLoc          = 1; //before tex
+        let alphaCompareA0    = GX.Compare.ALWAYS;
+        let alphaCompareA1    = 0;
+        let alphaCompareOP0   = GX.AlphaOp.AND;
+        let alphaCompareOP1   = GX.Compare.ALWAYS;
+        let alphaCompareLogic = 0;
+
+        let chan0_enable     = true;
+        let chan0_amb_src    = GX.ColorSrc.REG;
+        let chan0_mat_src    = GX.ColorSrc.VTX;
+        let chan0_light_mask = GX.LightID.NULL;
+        let chan0_diff_fn    = GX.DiffuseFn.NONE;
+        let chan0_attn_fn    = GX.AttnFn.NONE;
+
+        if(flags & ShaderFlags.Fog == 0) {
+            //gx.setFog(0, 0, 0, 0, 0, fogColor2);
+        }
+        else {
+            //_gxSetDefaultFog
+            //gx.setFog(fogStartZ,fogEndZ,fogNearZ,fogFarZ,4,fogColor);
+        }
+        if(!(flags & ShaderFlags.Water | ShaderFlags.StreamingVideo)) {
+            if(flags & ShaderFlags.Lava == 0) {
+                //shaderFn_8005f1e0(shader, 0x80)
+            }
+            //else shaderFn_8004da54(shader);
+        }
+        if(((flags & ShaderFlags.ReflectSkyscape) == 0)
+        /*|| (pSkyTexture == NULL)*/) {
+            if ((flags & ShaderFlags.Caustic) == 0) {
+                //if(isHeavyFogEnabled()) {
+                    //renderHeavyFog(getFogColor());
+                //}
+            }
+            else {
+                //drawWaterSurface();
+            }
+        }
+        else {
+            //drawSkyReflection(pSkyTexture,skyMtx);
+        }
+
+
+        if(((flags & ShaderFlags.ForceBlend) == 0)
+        && ((flags & 0x20000000) == 0)) {
+            if (((flags & ShaderFlags.AlphaCompare) == 0)
+            || ((flags & ShaderFlags.Lava) != 0)) {
+                //do nothing
+            }
+            else {
+                zCompLoc        = 0; //after tex
+                alphaCompareA0  = GX.Compare.GREATER;
+                alphaCompareOP1 = GX.Compare.GREATER;
+            }
+        }
+        else {
+            blendMode    = GX.BlendMode.BLEND;
+            sFactor      = GX.BlendFactor.SRCALPHA;
+            dFactor      = GX.BlendFactor.INVSRCALPHA;
+            updateEnable = false;
+        }
+
+        if(!(flags & (ShaderFlags.IndoorOutdoorBlend | 1 | 0x800 | 0x1000))) {
+            //objGetColor(0,&local_18.r,&local_18.g,&local_18.b);
+            //gx.setChanCtrl... all default params
+            //local_28 = local_18;
+            //gx.setChanAmbColor(Channel0_RGB,&local_28);
+        }
+        else {
+            //gx.setChanAmbColor(Channel0_RGB,color_803db63c);
+            chan0_enable     = (flags & ShaderFlags.IndoorOutdoorBlend) ? false : true;
+            chan0_amb_src    = GX.ColorSrc.REG;
+            chan0_mat_src    = GX.ColorSrc.VTX;
+            chan0_light_mask = GX.LightID.NULL;
+            chan0_diff_fn    = GX.DiffuseFn.NONE;
+            chan0_attn_fn    = GX.AttnFn.NONE;
+        }
+        //chan0 stuff relates to lighting, not worried about it right now...
+
+        const cull = flags & ShaderFlags.CullBackface ?
+            GX.CullMode.BACK : GX.CullMode.NONE;
+
+        //condense these into one function for hopefully better speed
+        if(!this._isDrawingForPicker) {
+            this.curBatch.addFunction(() => {
+                _setShaderParams(gl, gx, cull, blendMode, sFactor, dFactor,
+                    logicOp, compareEnable, compareFunc, updateEnable,
+                    alphaCompareA0 != GX.Compare.ALWAYS); //XXX proper alpha
+            });
+        }
+
+        //old code
+        /*
         let alphaTest = (flags & ShaderFlags.AlphaCompare) != 0;
         if(((flags & ShaderFlags.ForceBlend) == 0)
         && ((flags & ShaderFlags.BlendFlag29) == 0)) {
@@ -471,7 +593,7 @@ export default class BlockRenderer {
                 dFactor       = GX.BlendFactor.ZERO;
                 logicOp       = GX.LogicOp.NOOP;
                 compareEnable = true;
-                compareFunc   = GX.CompareMode.LEQUAL;
+                compareFunc   = GX.Compare.LEQUAL;
                 updateEnable  = true;
                 //XXX
                 //gx.setPeControl_ZCompLoc_(1);
@@ -483,7 +605,7 @@ export default class BlockRenderer {
                 dFactor       = GX.BlendFactor.ZERO;
                 logicOp       = GX.LogicOp.NOOP;
                 compareEnable = true;
-                compareFunc   = GX.CompareMode.LEQUAL;
+                compareFunc   = GX.Compare.LEQUAL;
                 updateEnable  = true;
                 //gx.setPeControl_ZCompLoc_(0);
                 //gx.setTevAlphaIn(4,0,0,4,0);
@@ -495,7 +617,7 @@ export default class BlockRenderer {
             dFactor       = GX.BlendFactor.INVSRCALPHA;
             logicOp       = GX.LogicOp.NOOP;
             compareEnable = true;
-            compareFunc   = GX.CompareMode.LEQUAL;
+            compareFunc   = GX.Compare.LEQUAL;
             updateEnable  = false;
             //gx.setPeControl_ZCompLoc_(1);
             //gx.setTevAlphaIn(7,0,0,7,0);
@@ -508,7 +630,7 @@ export default class BlockRenderer {
                     logicOp, compareEnable, compareFunc, updateEnable,
                     alphaTest);
             });
-        }
+        }*/
     }
 
     _makeSetTextureCmd(params) {
@@ -544,7 +666,7 @@ export default class BlockRenderer {
 
         /*if(this._isDrawingForPicker) {
             this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
-                true, //cull backfaces
+                DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, //blend mode
                 GX.BlendFactor.ONE, //sFactor
                 GX.BlendFactor.ZERO, //dFactor
@@ -561,26 +683,26 @@ export default class BlockRenderer {
         else if(this.curStream == 'water'
         || this.curStream == 'reflective') { //XXX verify these
             this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
-                true, //cull backfaces
+                DefaultCull, //cull backfaces
                 GX.BlendMode.BLEND, //blend mode
                 GX.BlendFactor.SRCALPHA, //sFactor
                 GX.BlendFactor.INVSRCALPHA, //dFactor
                 GX.LogicOp.NOOP, //logicOp
                 true, //compareEnable
-                GX.CompareMode.LEQUAL, //compareFunc
+                GX.Compare.LEQUAL, //compareFunc
                 false, //updateEnable
                 true, //alphaTest
             )});
         }
         else {
             this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
-                true, //cull backfaces
+                DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, //blend mode
                 GX.BlendFactor.ONE, //sFactor
                 GX.BlendFactor.ZERO, //dFactor
                 GX.LogicOp.NOOP, //logicOp
                 true, //compareEnable
-                GX.CompareMode.LEQUAL, //compareFunc
+                GX.Compare.LEQUAL, //compareFunc
                 true, //updateEnable
                 true, //alphaTest
             )});
