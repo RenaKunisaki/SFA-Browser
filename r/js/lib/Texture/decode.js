@@ -113,10 +113,10 @@ block_data_size, colors) {
     const pixel_color_data = [];
     for(let i=0; i<16; i++) {
         pixel_color_data.push([
-            image_data.getUint8(offset+(i*2)),
-            image_data.getUint8(offset+(i*2)+1),
-            image_data.getUint8(offset+(i*2)+32),
             image_data.getUint8(offset+(i*2)+33),
+            image_data.getUint8(offset+(i*2)+32),
+            image_data.getUint8(offset+(i*2)+1),
+            image_data.getUint8(offset+(i*2)),
         ]);
     }
     return pixel_color_data;

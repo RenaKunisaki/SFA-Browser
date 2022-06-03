@@ -240,10 +240,12 @@ function encode_image_to_rgba32_block(pixels, colors_to_color_indexes, block_x, 
             color = pixels.getPixel(x, y);
             [r, g, b, a] = color;
         }
-        write_u8(new_data, (i*2),    a);
-        write_u8(new_data, (i*2)+ 1, r);
-        write_u8(new_data, (i*2)+32, g);
+        //XXX verify. we had to reverse the order for decode,
+        //so I've reversed it here too...
         write_u8(new_data, (i*2)+33, b);
+        write_u8(new_data, (i*2)+32, g);
+        write_u8(new_data, (i*2)+ 1, r);
+        write_u8(new_data, (i*2),    a);
     }
     new_data.seek(0);
     return new_data.read();
