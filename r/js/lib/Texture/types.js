@@ -11,6 +11,19 @@ export const ImageFormat = {
     C14X2:  0xA,
     CMPR:   0xE,
 };
+export const ImageFormatNames = {
+    [ImageFormat.I4]    : 'I4',
+    [ImageFormat.I8]    : 'I8',
+    [ImageFormat.IA4]   : 'IA4',
+    [ImageFormat.IA8]   : 'IA8',
+    [ImageFormat.RGB565]: 'RGB565',
+    [ImageFormat.RGB5A3]: 'RGB5A3',
+    [ImageFormat.RGBA32]: 'RGBA32',
+    [ImageFormat.C4]    : 'C4',
+    [ImageFormat.C8]    : 'C8',
+    [ImageFormat.C14X2] : 'C14X2',
+    [ImageFormat.CMPR]  : 'CMPR',
+};
 export const PaletteFormat = {
     IA8:    0,
     RGB565: 1,

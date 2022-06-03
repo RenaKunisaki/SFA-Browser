@@ -1,5 +1,6 @@
 import { clearElement, E } from "../../../lib/Element.js";
 import { hex } from "../../../Util.js";
+import { ImageFormatNames } from "../../../lib/Texture/types.js";
 
 export default class TextureViewer {
     /** Widget displaying a map's textures. */
@@ -38,6 +39,7 @@ export default class TextureViewer {
 
     refresh() {
         if(!this.element.open) return; //don't redraw when hidden
+        this.texturePositions = {};
 
         const map  = this.mapViewer.map;
         const game = this.game;
@@ -107,8 +109,13 @@ export default class TextureViewer {
         const item = this._getTextureAt(e.offsetX, e.offsetY);
         if(!item) return;
 
+        const T = item.tex;
+        let fmt = T.format;
+        if(ImageFormatNames[fmt]) fmt = ImageFormatNames[fmt];
+        else fmt = `unk${hex(fmt,2)}`;
         clearElement(this.eTexInfo).append(
-            `Tex 0x${hex(item.id & 0xFFFF, 4)} size ${item.tex.width}x${item.tex.height}`);
+            `Tex 0x${hex(item.id & 0xFFFF, 4)}: `+
+            `${T.width}x${T.height}, ${fmt}, ${T.numMipMaps} mips`);
     }
 
     _onMouseDown(e) {
