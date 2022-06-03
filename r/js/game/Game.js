@@ -192,12 +192,18 @@ export default class Game {
         //load the texture
         //XXX investigate high byte of tab, something to do with mipmaps
         //and/or animation frames
-        let unkCount = 0; //((texOffs >> 24) & 0x3F) + 1;
+        let unkCount = ((texOffs >> 24) & 0x3F);
+        if(unkCount == 1) unkCount = 0;
+        else unkCount += 1;
         texOffs = (texOffs & 0xFFFFFF) * 2;
         const data = fBin.decompress(texOffs + (unkCount*4));
         console.log(`texId=0x${hex(id)} tbl=${tblIdx} texOffs=0x${hex(texOffs,6)} unkCount=${unkCount}`, data);
-        const texView = new DataView(data, 0x10); //no idea where this +0x10 comes from
+
+        const texView = new DataView(data);
         const tex = SfaTexture.fromData(this, texView);
+        tex.id = origId;
+        tex.offset = texOffs;
+        tex.tblIdx = tblIdx;
 
         this.loadedTextures[origId] = tex;
         return tex;

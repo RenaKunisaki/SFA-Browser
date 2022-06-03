@@ -15,6 +15,9 @@ export default class SfaTexture {
         this.format     = null;
         this.numMipMaps = null;
         this.image      = null;
+        this.id         = null; //set by loader
+        this.offset     = null; //set by loader
+        this.tblIdx     = null; //set by loader
         Header = game.app.types.getType('sfa.textures.Header');
     }
 

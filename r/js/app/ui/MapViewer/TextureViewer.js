@@ -53,7 +53,9 @@ export default class TextureViewer {
         //XXX this will include any object textures too once we have those...
         const textures = [];
         for(const [id, tex] of Object.entries(game.loadedTextures)) {
-            textures.push({id:id, tex:tex});
+            if(tex) {
+                textures.push({id:id, tex:tex});
+            }
         }
         textures.sort((a,b) => {
             return ((a.tex.height*10000)+a.tex.width) -
@@ -115,7 +117,8 @@ export default class TextureViewer {
         else fmt = `unk${hex(fmt,2)}`;
         clearElement(this.eTexInfo).append(
             `Tex 0x${hex(item.id & 0xFFFF, 4)}: `+
-            `${T.width}x${T.height}, ${fmt}, ${T.numMipMaps} mips`);
+            `${T.width}x${T.height}, ${fmt}, ${T.numMipMaps} mips; `+
+            `ID=0x${hex(T.id & 0xFFFF)} offs=0x${hex(T.offset)} T${T.tblIdx}`);
     }
 
     _onMouseDown(e) {

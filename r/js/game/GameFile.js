@@ -104,13 +104,13 @@ export default class GameFile extends BinaryFile {
             case 0x44495200: //'DIR\0'
             case 0x44495230: //'DIR0' (XXX used?)
             case 0x44495231: //'DIR1' (XXX used?)
-            case 0x4449526E: { //'DIRn' (XXX used?)
+            case 0x4449526E: { //'DIRn'
                 const result = {
                     fmt:         'DIR',
                     version:      this.readU32(), //always 1
                     unpackedSize: this.readU32(), //not checked, should be == packedSize
                     packedSize:   this.readU32(),
-                    offset:       0x10,
+                    offset:       0x20, //XXX this is sus, but it seems to work...
                     fileOffset:   offset,
                 };
                 result.fileSize = result.packedSize + result.offset;
