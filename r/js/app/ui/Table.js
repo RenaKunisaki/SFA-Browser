@@ -131,12 +131,14 @@ export default class Table {
     _buildRow(row) {
         const tr = E.tr(row.cls);
         for(let i=0; i<this.columns.length; i++) {
-            const col  = this.columns[i];
-            let   val  = row[col.name];
-            let   num  = null;
+            const col   = this.columns[i];
+            let   val   = row[col.name];
+            let   num   = null;
+            let   title = null;
             if(col.format) val = col.format(val, col, row);
             else switch(col.type) {
                 case 'int': {
+                    title = String(val);
                     if(val != null && val != undefined) {
                         num = parseInt(val);
                         //if(isNaN(num)) num = parseInt('0x'+val);
@@ -146,6 +148,7 @@ export default class Table {
                 }
                 case 'hex': {
                     num = parseInt(val);
+                    title = String(val);
                     if(isNaN(num) || num == null) val = '';
                     else {
                         let length = col.length;
@@ -158,6 +161,7 @@ export default class Table {
                 }
                 case 'float': {
                     num = parseFloat(val);
+                    title = String(val);
                     let decimals = col.decimals;
                     //null is a number because of fucking course it is
                     if(isNaN(val) || val == null) val = '';
@@ -168,6 +172,7 @@ export default class Table {
             if(val == null || val == undefined) val = '';
             let td = E.td(col.type, val);
             if(col.makeElem) td = col.makeElem(val, td, row);
+            if(title != null) td.setAttribute('title', title);
             if(num !== null) {
                 if(num == 0) td.classList.add('zero');
                 else if(num < 0) td.classList.add('negative');
