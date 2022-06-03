@@ -589,57 +589,6 @@ export default class BlockRenderer {
                     alphaCompareLogic, alphaCompareOP1, alphaCompareA1);
             });
         }
-
-        //old code
-        /*
-        let alphaTest = (flags & ShaderFlags.AlphaCompare) != 0;
-        if(((flags & ShaderFlags.ForceBlend) == 0)
-        && ((flags & ShaderFlags.BlendFlag29) == 0)) {
-            if (((flags & ShaderFlags.AlphaCompare) == 0)
-            || ((flags & ShaderFlags.Lava) != 0)) {
-                blendMode     = GX.BlendMode.NONE;
-                sFactor       = GX.BlendFactor.ONE;
-                dFactor       = GX.BlendFactor.ZERO;
-                logicOp       = GX.LogicOp.NOOP;
-                compareEnable = true;
-                compareFunc   = GX.Compare.LEQUAL;
-                updateEnable  = true;
-                //XXX
-                //gx.setPeControl_ZCompLoc_(1);
-                //gx.setTevAlphaIn(7,0,0,7,0); //stage, a, b, c, d
-            }
-            else {
-                blendMode     = GX.BlendMode.NONE;
-                sFactor       = GX.BlendFactor.ONE;
-                dFactor       = GX.BlendFactor.ZERO;
-                logicOp       = GX.LogicOp.NOOP;
-                compareEnable = true;
-                compareFunc   = GX.Compare.LEQUAL;
-                updateEnable  = true;
-                //gx.setPeControl_ZCompLoc_(0);
-                //gx.setTevAlphaIn(4,0,0,4,0);
-            }
-        }
-        else {
-            blendMode     = GX.BlendMode.BLEND;
-            sFactor       = GX.BlendFactor.SRCALPHA;
-            dFactor       = GX.BlendFactor.INVSRCALPHA;
-            logicOp       = GX.LogicOp.NOOP;
-            compareEnable = true;
-            compareFunc   = GX.Compare.LEQUAL;
-            updateEnable  = false;
-            //gx.setPeControl_ZCompLoc_(1);
-            //gx.setTevAlphaIn(7,0,0,7,0);
-        }
-
-        //condense these into one function for hopefully better speed
-        if(!this._isDrawingForPicker) {
-            this.curBatch.addFunction(() => {
-                _setShaderParams(gl, gx, cull, blendMode, sFactor, dFactor,
-                    logicOp, compareEnable, compareFunc, updateEnable,
-                    alphaTest);
-            });
-        }*/
     }
 
     _makeSetTextureCmd(params) {
