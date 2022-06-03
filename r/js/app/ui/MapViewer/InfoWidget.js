@@ -223,7 +223,8 @@ export default class InfoWidget {
          *  @param {object} info The object info.
          *  @note `info.obj` should be a RomListEntry.
          */
-        const entry = info.obj.entry;
+        let   entry = info.entry;
+        if(!entry) entry = info.obj.entry;
         const dll   = entry.object.dll;
         let   acts  = [];
         for(let iAct=1; iAct<16; iAct++) {
