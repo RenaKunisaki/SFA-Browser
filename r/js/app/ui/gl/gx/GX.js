@@ -868,6 +868,12 @@ export default class GX {
             this.context.lights.enabled ? 1 : 0);
         this.gl.uniform1i(this.programInfo.uniforms.useTexture,
             this.context.enableTextures ? 1 : 0);
+
+        this.alphaComp0 = GX.Compare.GREATER;
+        this.alphaRef0  = 0;
+        this.alphaOp    = GX.AlphaOp.AND;
+        this.alphaComp1 = GX.Compare.GREATER;
+        this.alphaRef1  = 0;
     }
 
     async loadPrograms() {
@@ -883,29 +889,44 @@ export default class GX {
         CHECK_ERROR(gl);
 
         //get program info, used to set variables
+        const getAttr = (name) => {
+            const r = this.program.getAttribLocation(name);
+            //console.assert(r);
+            return r;
+        };
+        const getUni = (name) => {
+            const r = this.program.getUniformLocation(name);
+            //console.assert(r);
+            return r;
+        };
         this.programInfo = {
             program: this.program,
             attribs: {
-                POS:  this.program.getAttribLocation('in_POS'),
-                COL0: this.program.getAttribLocation('in_COL0'),
-                NRM:  this.program.getAttribLocation('in_NRM'),
-                TEX0: this.program.getAttribLocation('in_TEX0'),
-                id:   this.program.getAttribLocation('in_ID'),
+                POS:  getAttr('in_POS'),
+                COL0: getAttr('in_COL0'),
+                NRM:  getAttr('in_NRM'),
+                TEX0: getAttr('in_TEX0'),
+                id:   getAttr('in_ID'),
             },
             uniforms: {
-                matProjection: this.program.getUniformLocation('u_matProjection'),
-                matModelView:  this.program.getUniformLocation('u_matModelView'),
-                matNormal:     this.program.getUniformLocation('u_matNormal'),
-                useId:         this.program.getUniformLocation('u_useId'),
-                useTexture:    this.program.getUniformLocation('u_useTexture'),
-                useAlphaTest:  this.program.getUniformLocation('u_useAlphaTest'),
-                ambLightColor: this.program.getUniformLocation('u_ambLightColor'),
-                dirLightColor: this.program.getUniformLocation('u_dirLightColor'),
-                dirLightVector:this.program.getUniformLocation('u_dirLightVector'),
+                matProjection: getUni('u_matProjection'),
+                matModelView:  getUni('u_matModelView'),
+                matNormal:     getUni('u_matNormal'),
+                useId:         getUni('u_useId'),
+                useTexture:    getUni('u_useTexture'),
+                useAlphaTest:  getUni('u_useAlphaTest'),
+                ambLightColor: getUni('u_ambLightColor'),
+                dirLightColor: getUni('u_dirLightColor'),
+                dirLightVector:getUni('u_dirLightVector'),
                 uSampler: [
-                    this.program.getUniformLocation('u_texture0'),
-                    this.program.getUniformLocation('u_texture1'),
+                    getUni('u_texture0'),
+                    getUni('u_texture1'),
                 ],
+                alphaComp0: getUni('u_alphaComp0'),
+                alphaRef0:  getUni('u_alphaRef0'),
+                alphaComp1: getUni('u_alphaComp1'),
+                alphaRef1:  getUni('u_alphaRef1'),
+                alphaOp:    getUni('u_alphaOp'),
             },
         };
         CHECK_ERROR(gl);
@@ -936,10 +957,17 @@ export default class GX {
         gl.uniform1i(this.programInfo.uniforms.useTexture,
             this.context.enableTextures ? 1 : 0);
 
+        gl.uniform1i(this.programInfo.uniforms.alphaComp0, this.alphaComp0);
+        gl.uniform1f(this.programInfo.uniforms.alphaRef0,  this.alphaRef0);
+        gl.uniform1i(this.programInfo.uniforms.alphaOp,    this.alphaOp);
+        gl.uniform1i(this.programInfo.uniforms.alphaComp1, this.alphaComp1);
+        gl.uniform1f(this.programInfo.uniforms.alphaRef1,  this.alphaRef1);
+
         const unif = this.programInfo.uniforms;
         gl.uniformMatrix4fv(unif.matProjection, false, mtxs.projection);
         gl.uniformMatrix4fv(unif.matModelView,  false, mtxs.modelView);
         gl.uniformMatrix4fv(unif.matNormal,     false, mtxs.normal);
+        //console.log("PROGRAM INFO", this.programInfo);
     }
 
     setModelViewMtx(mtx) {
@@ -1021,18 +1049,27 @@ export default class GX {
          *  @param {bool} updateEnable Whether to update Z buffer.
          */
         const gl = this.gl;
-        if(compareEnable) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
+        if(compareEnable) gl.enable(gl.DEPTH_TEST);
+        else gl.disable(gl.DEPTH_TEST);
         gl.depthFunc(this.CompareModeMap[compareFunc]);
         gl.depthMask(updateEnable);
     }
 
-    setAlphaCompare(stage, a, b, c, d) {
+    setAlphaCompare(comp0, ref0, op, comp1, ref1) {
+        //stage, a, b, c, d (I think this was some other function misnamed)
         //A0 = a
         //A1 = d
         //OP0 = stage & 0xFFC7
         //OP1 = c
         //LOGIC = b
-        //whatever all that means... XXX
+        //or maybe the params are: comp0, ref0, op, comp1, ref1
+        //and the compare is just: (Asrc comp0 Aref0) OP (Asrc comp1 Aref1)
+        //eg: (Asrc > Aref0) AND (Asrc < Aref1)
+        this.alphaComp0 = comp0;
+        this.alphaRef0  = ref0 / 255.0;
+        this.alphaOp    = op;
+        this.alphaComp1 = comp1;
+        this.alphaRef1  = ref1 / 255.0;
     }
 
     setZCompLoc(loc) {
@@ -1051,10 +1088,28 @@ export default class GX {
         * @param {AttnFn}    attn_fn
         */
        //XXX
+       //this is about lights, don't care right now
     }
 
     setCullMode(mode) {
-        //XXX
+        const gl = this.gl;
+        switch(mode) {
+            case GX.CullMode.NONE:
+                gl.disable(gl.CULL_FACE);
+                break;
+            case GX.CullMode.FRONT:
+                gl.enable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT);
+                break;
+            case GX.CullMode.BACK:
+                gl.enable(gl.CULL_FACE);
+                gl.cullFace(gl.BACK);
+                break;
+            case GX.CullMode.ALL:
+                gl.enable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT_AND_BACK);
+                break;
+        }
     }
 
     setUseAlphaTest(enable) {

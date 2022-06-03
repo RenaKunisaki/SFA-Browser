@@ -458,6 +458,8 @@ export default class BlockRenderer {
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
                 true, GX.Compare.LEQUAL, true, //depth test+update enabled
                 true); //alpha test enabled
+                this.gx.setAlphaCompare(GX.Compare.GREATER, 0,
+                    GX.AlphaOp.AND, GX.Compare.GREATER, 0);
             });
         }
         else if(whichStream == 'reflective') {
@@ -467,6 +469,8 @@ export default class BlockRenderer {
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
                 true, GX.Compare.LEQUAL, true, //depth test+update enabled
                 true); //alpha test enabled
+                this.gx.setAlphaCompare(GX.Compare.ALWAYS, 0,
+                    GX.AlphaOp.AND, GX.Compare.ALWAYS, 0);
             });
         }
         else this.curBatch.addFunction(() => {_setShaderParams(
@@ -475,6 +479,8 @@ export default class BlockRenderer {
             GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
             true, GX.Compare.LEQUAL, true, //depth test+update enabled
             true); //alpha test enabled
+            this.gx.setAlphaCompare(GX.Compare.GREATER, 0,
+                GX.AlphaOp.AND, GX.Compare.GREATER, 0);
         });
     }
 
@@ -491,10 +497,10 @@ export default class BlockRenderer {
         let compareFunc       = GX.Compare.LEQUAL;
         let updateEnable      = true;
         let zCompLoc          = 1; //before tex
-        let alphaCompareA0    = GX.Compare.ALWAYS;
+        let alphaCompareA0    = GX.Compare.GREATER;
         let alphaCompareA1    = 0;
         let alphaCompareOP0   = GX.AlphaOp.AND;
-        let alphaCompareOP1   = GX.Compare.ALWAYS;
+        let alphaCompareOP1   = GX.Compare.GREATER;
         let alphaCompareLogic = 0;
 
         let chan0_enable     = true;
@@ -537,7 +543,8 @@ export default class BlockRenderer {
         && ((flags & 0x20000000) == 0)) {
             if (((flags & ShaderFlags.AlphaCompare) == 0)
             || ((flags & ShaderFlags.Lava) != 0)) {
-                //do nothing
+                alphaCompareA0  = GX.Compare.ALWAYS;
+                alphaCompareOP1 = GX.Compare.ALWAYS;
             }
             else {
                 zCompLoc        = 0; //after tex
@@ -577,7 +584,9 @@ export default class BlockRenderer {
             this.curBatch.addFunction(() => {
                 _setShaderParams(gl, gx, cull, blendMode, sFactor, dFactor,
                     logicOp, compareEnable, compareFunc, updateEnable,
-                    alphaCompareA0 != GX.Compare.ALWAYS); //XXX proper alpha
+                    true); //XXX proper alpha
+                gx.setAlphaCompare(alphaCompareOP0, alphaCompareA0,
+                    alphaCompareLogic, alphaCompareOP1, alphaCompareA1);
             });
         }
 
@@ -693,19 +702,26 @@ export default class BlockRenderer {
                 false, //updateEnable
                 true, //alphaTest
             )});
+            gx.setAlphaCompare(GX.Compare.GREATER, 0,
+                GX.AlphaOp.AND, GX.Compare.GREATER, 0);
         }
         else {
-            this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
-                DefaultCull, //cull backfaces
-                GX.BlendMode.NONE, //blend mode
-                GX.BlendFactor.ONE, //sFactor
-                GX.BlendFactor.ZERO, //dFactor
-                GX.LogicOp.NOOP, //logicOp
-                true, //compareEnable
-                GX.Compare.LEQUAL, //compareFunc
-                true, //updateEnable
-                true, //alphaTest
-            )});
+            this.curBatch.addFunction(() => {
+                _setShaderParams(gl, gx,
+                    DefaultCull, //cull backfaces
+                    GX.BlendMode.NONE, //blend mode
+                    GX.BlendFactor.ONE, //sFactor
+                    GX.BlendFactor.ZERO, //dFactor
+                    GX.LogicOp.NOOP, //logicOp
+                    true, //compareEnable
+                    GX.Compare.LEQUAL, //compareFunc
+                    true, //updateEnable
+                    true, //alphaTest
+                );
+                //XXX this must be a flag on the texture or something
+                gx.setAlphaCompare(GX.Compare.GREATER, 0,
+                    GX.AlphaOp.AND, GX.Compare.GREATER, 0);
+            });
         }
 
         //if(!this._isDrawingForPicker) { //select the textures
