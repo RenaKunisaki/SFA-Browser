@@ -143,3 +143,8 @@
 .tabMapView .help div {
     padding: 0.5em;
 }
+
+.tabMapView .textures .body {
+    width: 25vw;
+    height: 90vh;
+}

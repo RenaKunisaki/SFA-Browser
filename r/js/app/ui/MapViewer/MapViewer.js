@@ -12,6 +12,7 @@ import LayerChooser from "./LayerChooser.js";
 import InfoWidget from "./InfoWidget.js";
 import ObjectList from "./ObjectList.js";
 import HelpBox from "./HelpBox.js";
+import TextureViewer from "./TextureViewer.js";
 import RenderBatch from "../gl/gx/RenderBatch.js";
 import EventHandler from "./EventHandler.js";
 import ObjectRenderer from "./ObjectRenderer.js";
@@ -38,6 +39,7 @@ export default class MapViewer {
         this.infoWidget    = new InfoWidget(this);
         this.objectList    = new ObjectList(this);
         this.helpBox       = new HelpBox(this);
+        this.textureViewer = new TextureViewer(this);
         this.eLeftSidebar  = E.div('sidebar sidebar-left');
         this.eRightSidebar = E.div('sidebar sidebar-right');
         this._eventHandler = new EventHandler(this);
@@ -105,6 +107,7 @@ export default class MapViewer {
             this.helpBox.element,
             this.grid.element,
             this.objectList.element,
+            this.textureViewer.element,
         );
 
         this._blockRenderer  = new BlockRenderer(this, this.gx);
@@ -194,6 +197,7 @@ export default class MapViewer {
         this.layerChooser.refresh();
         this.objectList.refresh();
         this.grid.refresh();
+        this.textureViewer.refresh();
         this.redraw();
         this._updatedStats = false;
     }
