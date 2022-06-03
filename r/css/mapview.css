@@ -144,7 +144,12 @@
     padding: 0.5em;
 }
 
-.tabMapView .textures .body {
+.tabMapView .textures .canvaswrap {
     width: 25vw;
     height: 90vh;
+    overflow: auto;
+}
+
+.tabMapView .textures .texinfo {
+    font-family: monospace;
 }
