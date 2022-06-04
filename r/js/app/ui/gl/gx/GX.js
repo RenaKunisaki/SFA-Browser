@@ -1056,15 +1056,8 @@ export default class GX {
     }
 
     setAlphaCompare(comp0, ref0, op, comp1, ref1) {
-        //stage, a, b, c, d (I think this was some other function misnamed)
-        //A0 = a
-        //A1 = d
-        //OP0 = stage & 0xFFC7
-        //OP1 = c
-        //LOGIC = b
-        //or maybe the params are: comp0, ref0, op, comp1, ref1
-        //and the compare is just: (Asrc comp0 Aref0) OP (Asrc comp1 Aref1)
-        //eg: (Asrc > Aref0) AND (Asrc < Aref1)
+        //console.log("setAlphaCompare", comp0, ref0, op, comp1, ref1);
+        //if(ref0 == 4 || ref0 == 7) debugger;
         this.alphaComp0 = comp0;
         this.alphaRef0  = ref0 / 255.0;
         this.alphaOp    = op;

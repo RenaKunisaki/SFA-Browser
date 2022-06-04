@@ -497,11 +497,11 @@ export default class BlockRenderer {
         let compareFunc       = GX.Compare.LEQUAL;
         let updateEnable      = true;
         let zCompLoc          = 1; //before tex
-        let alphaCompareA0    = GX.Compare.GREATER;
+        let alphaCompareA0    = 0;
         let alphaCompareA1    = 0;
-        let alphaCompareOP0   = GX.AlphaOp.AND;
+        let alphaCompareOP0   = GX.Compare.GREATER;
         let alphaCompareOP1   = GX.Compare.GREATER;
-        let alphaCompareLogic = 0;
+        let alphaCompareLogic = GX.AlphaOp.AND;
 
         let chan0_enable     = true;
         let chan0_amb_src    = GX.ColorSrc.REG;
@@ -543,16 +543,30 @@ export default class BlockRenderer {
         && ((flags & 0x20000000) == 0)) {
             if (((flags & ShaderFlags.AlphaCompare) == 0)
             || ((flags & ShaderFlags.Lava) != 0)) {
-                alphaCompareA0  = GX.Compare.ALWAYS;
-                alphaCompareOP1 = GX.Compare.ALWAYS;
+                //GXSetAlphaCompare(7,0,0,7,0);
+                alphaCompareOP0   = GX.Compare.ALWAYS;
+                alphaCompareA0    = 0;
+                alphaCompareLogic = GX.AlphaOp.AND;
+                alphaCompareOP1   = GX.Compare.ALWAYS;
+                alphaCompareA1    = 0;
             }
             else {
                 zCompLoc        = 0; //after tex
-                alphaCompareA0  = GX.Compare.GREATER;
-                alphaCompareOP1 = GX.Compare.GREATER;
+                //GXSetAlphaCompare(4,0,0,4,0);
+                alphaCompareOP0   = GX.Compare.GREATER;
+                alphaCompareA0    = 0;
+                alphaCompareLogic = GX.AlphaOp.AND;
+                alphaCompareOP1   = GX.Compare.GREATER;
+                alphaCompareA1    = 0;
             }
         }
         else {
+            //GXSetAlphaCompare(7,0,0,7,0);
+            alphaCompareOP0   = GX.Compare.ALWAYS;
+            alphaCompareA0    = 0;
+            alphaCompareLogic = GX.AlphaOp.AND;
+            alphaCompareOP1   = GX.Compare.ALWAYS;
+            alphaCompareA1    = 0;
             blendMode    = GX.BlendMode.BLEND;
             sFactor      = GX.BlendFactor.SRCALPHA;
             dFactor      = GX.BlendFactor.INVSRCALPHA;
@@ -561,6 +575,7 @@ export default class BlockRenderer {
 
         if(!(flags & (ShaderFlags.IndoorOutdoorBlend | 1 | 0x800 | 0x1000))) {
             //objGetColor(0,&local_18.r,&local_18.g,&local_18.b);
+            //GXSetChanCtrl(0,1,0,1,0,0,2);
             //gx.setChanCtrl... all default params
             //local_28 = local_18;
             //gx.setChanAmbColor(Channel0_RGB,&local_28);
@@ -584,7 +599,9 @@ export default class BlockRenderer {
             this.curBatch.addFunction(() => {
                 _setShaderParams(gl, gx, cull, blendMode, sFactor, dFactor,
                     logicOp, compareEnable, compareFunc, updateEnable,
-                    true); //XXX proper alpha
+                    alphaCompareOP0 != GX.Compare.ALWAYS);
+                    //this seems unnecessary. we should be able to
+                    //just leave the alpha compare enabled.
                 gx.setAlphaCompare(alphaCompareOP0, alphaCompareA0,
                     alphaCompareLogic, alphaCompareOP1, alphaCompareA1);
             });

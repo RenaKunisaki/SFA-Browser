@@ -72,5 +72,8 @@ void main() {
         }
         if(cond == 0) discard;
         else out_Color = col.rgba;
+        /*out_Color = vec4(
+            col.a, 1.0, 1.0, 1.0
+        );*/
     }
 }
