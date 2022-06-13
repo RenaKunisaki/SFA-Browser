@@ -78,7 +78,7 @@ export default class EventHandler {
             Math.max(obj.object.scale, 10) * 10);
     }
 
-    moveToPoint(x, y, z, radius=1, time=1.0) {
+    moveToPoint(x, y, z, radius=1, time=1.0, rotX=null, rotY=null, rotZ=null) {
         /** Move the camera to a point.
          *  @param {float} x X coordinate to move to.
          *  @param {float} y Y coordinate to move to.
@@ -86,10 +86,15 @@ export default class EventHandler {
          *  @param {float} radius How close to the point the camera should get.
          *  @param {float} time How many seconds the camera should take to
          *      reach the target point. (Can be zero)
+         *  @param {float} rotX X rotation for camera to have when done.
+         *  @param {float} rotY Y rotation for camera to have when done.
+         *  @param {float} rotZ Z rotation for camera to have when done.
          *  @description Moves the camera toward the target point, and rotates
          *      it to look at that point. The movement is animated over the
          *      given amount of time, and the camera is placed within the
          *      given radius of the target point, pointed toward the target.
+         *      If rotation values are given, uses them instead of pointing
+         *      at the target point.
          */
         const view = this.mapViewer.viewController.get();
 
@@ -114,11 +119,16 @@ export default class EventHandler {
         //calculate angle we need to be at to point to target
         let angleXZ  = Math.atan2(dstPos[2] - tgtPos[2], dstPos[0] - tgtPos[0]);
         angleXZ = CLAMP_RADIANS(angleXZ - (Math.PI / 2)); //no idea
+        if(rotX !== null) angleXZ = rotX;
         const startXZ = CLAMP_RADIANS(DEG2RAD(view.rot.y));
         let   diffXZ  = CLAMP_RADIANS(angleXZ - startXZ);
+        console.log("rotX=", RAD2DEG(rotX), "angle", RAD2DEG(angleXZ),
+            "diff", RAD2DEG(diffXZ));
 
         let startYZ = DEG2RAD(view.rot.x);
         let diffYZ  = -startYZ;
+        if(rotY !== null) diffYZ += rotY;
+        //XXX rotZ
 
         //don't do a full rotation if we don't have to.
         if(diffXZ  >= Math.PI) diffXZ = -((Math.PI * 2) - diffXZ);

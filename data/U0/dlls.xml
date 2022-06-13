@@ -9413,6 +9413,16 @@ seemingly only used to track magic plants' growth</description>
       <function address="0x00000000" idx="0x8" valid="0"/>
       <function address="0x00000000" idx="0x9" valid="0"/>
     </functions>
+    <objparams size="8">
+      <field type="unk8" offset="0x18" />
+      <field type="u8" offset="0x19" name="idx">
+        <description>Which setuppoint this is</description>
+      </field>
+      <field type="unk8" offset="0x1A" />
+      <field type="s8" offset="0x1B" name="rotX">
+        <note>Unsure; no code left in game that reads these</note>
+      </field>
+    </objparams>
   </dll>
   <dll address="0x80320BB0" dolOffs="0x31DBB0" id="0x00EA" interface="object" name="sideload" unk08="0x00000000" unk0E="0x0000">
     <description/>

@@ -80,7 +80,9 @@ class RomListEntry {
                 for(let [name, param] of Object.entries(params)) {
                     this.params[name] = {
                         //XXX this is gross, we end up with param.param
-                        //and value.value
+                        //and value.value and both of these are the same.
+                        //we should just assign params[name] = param but
+                        //we need to fix places that use it.
                         param: param,
                         value: params[name],
                     };
