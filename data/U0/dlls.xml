@@ -9414,13 +9414,18 @@ seemingly only used to track magic plants' growth</description>
       <function address="0x00000000" idx="0x9" valid="0"/>
     </functions>
     <objparams size="8">
-      <field type="unk8" offset="0x18" />
+      <field type="u8" offset="0x18" name="actNo">
+        <description>Which act to set the map to when loading at this point</description>
+      </field>
       <field type="u8" offset="0x19" name="idx">
         <description>Which setuppoint this is</description>
       </field>
       <field type="unk8" offset="0x1A" />
       <field type="s8" offset="0x1B" name="rotX">
         <note>Unsure; no code left in game that reads these</note>
+      </field>
+      <field type="u32" offset="0x1C" name="objGroups">
+        <description>Value to set objgroups to when loading at this point</description>
       </field>
     </objparams>
   </dll>
@@ -13112,8 +13117,8 @@ seemingly only used to track magic plants' growth</description>
       </function>
     </functions>
   </dll>
-  <dll address="0x80321F00" dolOffs="0x31EF00" id="0x012A" interface="object" name="CFCrate" unk08="0x00000000" unk0E="0x0000">
-    <description/>
+  <dll address="0x80321F00" dolOffs="0x31EF00" id="0x012A" interface="object" name="InteractObj12A" unk08="0x00000000" unk0E="0x0000">
+    <description>Many interactable objects</description>
     <functions>
       <function address="0x8018E6C0" idx="0x0" name="initialise" stub="1">
         <return type="void"/>

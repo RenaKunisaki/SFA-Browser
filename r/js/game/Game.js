@@ -9,6 +9,7 @@ import App from "../app/App.js";
 import { ISO } from "../types/iso/iso.js";
 import GameFile from "./GameFile.js";
 import SfaTexture from "./SfaTexture.js";
+import Model from "./model/Model.js";
 
 export const MAP_CELL_SIZE = 640;
 
@@ -36,6 +37,7 @@ export default class Game {
         this.warpTab     = null;
         this.texts       = null;
         this.loadedTextures = {}; //ID => Texture
+        this.loadedModels   = {}; //ID => Model
         this.texTable    = null;
         this.texPreTab   = null;
         this.texPreBin   = null;
@@ -211,6 +213,55 @@ export default class Game {
 
     unloadTextures() {
         this.loadedTextures = {};
+    }
+
+    loadModel(gx, id, dir) {
+        if(this.loadedModels[id]) return this.loadedModels[id];
+        let mTab = this.iso.getFile(`${dir}/MODELS.tab`);
+        let mBin = this.iso.getFile(`${dir}/MODELS.bin`);
+        let mInd = this.iso.getFile(`${dir}/MODELIND.bin`);
+        if(!mTab) {
+            console.error("Model files not found in", dir);
+            return null;
+        }
+        mTab = new GameFile(mTab);
+        mBin = new GameFile(mBin);
+        mInd = new GameFile(mInd);
+
+        //translate the ID
+        const origId = id;
+        if(id < 0) id = -id;
+        else {
+            mInd.seek(id*2);
+            const newId = mInd.readU16();
+            console.log(`modelId 0x${hex(id,4)} => 0x${hex(newId,4)}`)
+            id = newId;
+        }
+
+        //find the model
+        mTab.seek(id*4);
+        let mdlOffs = mTab.readU32();
+        console.log(`Load model ${id} from offs 0x${hex(mdlOffs,8)}`);
+
+        //load the model
+        if((mdlOffs & 0x30000000) == 0) {
+            console.error(`Model 0x${hex(id)} not found in ${dir}`);
+            return null;
+        }
+        mdlOffs &= 0x0FFFFFFF;
+        const data = mBin.decompress(mdlOffs);
+        console.log(`modelId=0x${hex(id)} mdlOffs=0x${hex(mdlOffs,6)}`, data);
+
+        const mdlView = new DataView(data);
+        const model = Model.fromData(this, gx, mdlView, dir);
+        model.offset = mdlOffs;
+
+        this.loadedModels[origId] = model;
+        return model;
+    }
+
+    unloadModels() {
+        this.loadedModels = {};
     }
 
     async _loadDlls() {

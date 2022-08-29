@@ -278,10 +278,10 @@ export default class CP {
         this.vcd[vcd].TEX4SHFT =  val        & 0x1F;
     }
     _setArrayBase(field, val) { // CP registers 0xA0 - 0xAF
+        //not really used, but included for completeness' sake.
         this.arrayBase[field] = val;
     }
     _setArrayStride(field, val) { // CP registers 0xB0 - 0xBF
-        //not really used, but included for completeness' sake.
         this.arrayStride[field] = val;
     }
 
@@ -340,7 +340,15 @@ export default class CP {
                 TEX4IDX:  r_MATINDEX_B        & 0x3F,
                 _value:  hex(r_MATINDEX_B),
             },
+            ARRAY_BASE:   this.arrayBase,
+            ARRAY_STRIDE: this.arrayStride,
+            RAW_VALUES:   [],
         };
+        for(let i=0; i<256; i++) {
+            let v = this._rawVals[i];
+            if(v == null || isNaN(v)) v = 0xEEEEEEEE;
+            result.RAW_VALUES.push(`0x${hex(v,8)} ${v}`);
+        }
         for(let i=0; i<NUM_VATS; i++) {
             const vcd_lo = this.getReg(Reg.VCD_LO + i);
             const vcd_hi = this.getReg(Reg.VCD_HI + i);

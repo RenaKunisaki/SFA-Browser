@@ -221,7 +221,7 @@ export default class Context {
         this.matModelView  = mat4.create();
         this.matNormal     = null; //generated when redrawing
         this.view = {
-            pos:      {x:-10, y:-10, z:-100},
+            pos:      {x:0,   y:0,   z:-1},
             scale:    {x:1,   y:1,   z:1},
             rotation: {x:20,  y:120, z:0}, //degrees
         };
@@ -239,8 +239,16 @@ export default class Context {
         //fudge factor to make it actually fit on screen.
         const rect = gl.canvas.getBoundingClientRect();
         console.log("GL rect", rect, "win", window.innerWidth, window.innerHeight);
-        gl.canvas.setAttribute('width', window.innerWidth   - (rect.left +  2));
-        gl.canvas.setAttribute('height', window.innerHeight - (rect.top  + 80));
+
+        const cWidth  = window.innerWidth  - (rect.left +  2);
+        const cHeight = window.innerHeight - (rect.top  + 80);
+        console.log("set canvas size", gl.canvas, cWidth, cHeight);
+        gl.canvas.setAttribute('width',  cWidth);
+        gl.canvas.setAttribute('height', cHeight);
+        console.log("canvas size now", gl.canvas,
+            gl.canvas.getAttribute('width'),
+            gl.canvas.getAttribute('height'),
+        );
 
         const tStart = performance.now();
         const lol = () => {
@@ -262,7 +270,8 @@ export default class Context {
                 else window.requestAnimationFrame(lol);
             }
             else {
-                console.log("GL: setting viewport size:", width, height);
+                console.log("GL: setting viewport size:", width, height,
+                    "canvas", gl.canvas);
                 gl.viewport(0, 0, width, height);
                 CHECK_ERROR(this.gl);
                 this._setupDepthTexture();
@@ -270,6 +279,16 @@ export default class Context {
             }
         };
         window.requestAnimationFrame(lol);
+
+        const lol2 = () => {
+            if(gl.canvas.width < 1 || gl.canvas.height < 1) {
+                console.log("LOL", gl.canvas);
+                gl.canvas.setAttribute('width', cWidth);
+                gl.canvas.setAttribute('height', cHeight);
+                this.redraw();
+            }
+        };
+        setInterval(lol2, 1000);
     }
 
     _onResetCamera() {

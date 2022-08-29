@@ -49,6 +49,22 @@ export default class GameFile extends BinaryFile {
                         extData.push(item);
                     }
                 }
+                /*if(header.fmt == 'FACEFEED') {
+                    console.log(`FACEFEED offset 0x${hex(header.offset)}`);
+                    this.seek(header.offset, 'SEEK_CUR');
+                    const data   = this.readBytes(
+                        (header.packedSize - header.offset) + 0x10);
+                        //XXX where does this +0xC come from?
+                    const view   = new DataView(data);
+                    const wtf    = [];
+                    for(let i=0; i<view.byteLength; i += 4) {
+                        wtf.push(hex(view.getUint32(i)));
+                    }
+                    console.log("decompress", wtf);
+                    const decomp = pako.inflate(data);
+                    console.assert(decomp);
+                    return decomp.buffer;
+                }*/
                 return this.decompress(offset + header.offset, extData, _depth+1);
             }
             default: throw new Error(`Unimplemented format: '${header.fmt}'`);
@@ -165,11 +181,13 @@ export default class GameFile extends BinaryFile {
                 //offset is total number of words in the header
                 //including the FACEFEED bytes themselves.
                 //subtract the 4 words we already read.
+                //this points to the compressed data, beyond the
+                //ZLB header.
                 const nWords     = result.offset;
                 result.extraData = this.readU32Array(nWords-4);
-                result.offset    = nWords * 4; //offset from magic
+                result.offset    = (nWords-3) * 4; //offset from magic
                 result.fileSize  = result.packedSize + result.offset;
-                //console.log("FACEFEED", result);
+                console.log("FACEFEED", result);
                 return result;
             }
             default: return {

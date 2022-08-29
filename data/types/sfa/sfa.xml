@@ -33,4 +33,5 @@
     <include path="objects.xml" />
     <include path="save.xml" />
     <include path="textures.xml" />
+    <include path="models.xml" />
 </types>

@@ -1,4 +1,4 @@
-import { assertType } from "../Util.js";
+import { assertType, hexdump } from "../Util.js";
 import Game from "./Game.js";
 
 let DisplayListPtr = null;
@@ -18,6 +18,7 @@ export default class DisplayList {
             game.app.types.getType('sfa.maps.DisplayListPtr');
 
         const ptr = DisplayListPtr.fromBytes(view, offset);
+        this.ptr  = ptr; //debug
         this.bbox = ptr.bbox;
         this.shaderId = ptr.shaderId;
         this.specialBitAddr = ptr.specialBitAddr;
@@ -26,5 +27,6 @@ export default class DisplayList {
         this.unk18 = ptr._18;
         this.data  = view.buffer.slice(view.byteOffset+ptr.list,
             view.byteOffset+ptr.list+ptr.size);
+        console.log("Dlist:", hexdump(this.data));
     }
 }

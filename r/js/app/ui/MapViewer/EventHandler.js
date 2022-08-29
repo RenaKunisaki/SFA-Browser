@@ -122,8 +122,8 @@ export default class EventHandler {
         if(rotX !== null) angleXZ = rotX;
         const startXZ = CLAMP_RADIANS(DEG2RAD(view.rot.y));
         let   diffXZ  = CLAMP_RADIANS(angleXZ - startXZ);
-        console.log("rotX=", RAD2DEG(rotX), "angle", RAD2DEG(angleXZ),
-            "diff", RAD2DEG(diffXZ));
+        //console.log("rotX=", RAD2DEG(rotX), "angle", RAD2DEG(angleXZ),
+        //    "diff", RAD2DEG(diffXZ));
 
         let startYZ = DEG2RAD(view.rot.x);
         let diffYZ  = -startYZ;

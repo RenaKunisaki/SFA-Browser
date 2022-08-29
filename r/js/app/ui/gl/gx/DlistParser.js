@@ -1,6 +1,7 @@
 import BinaryFile from '../../../../lib/BinaryFile.js';
 import { VAT_FIELD_ORDER } from './GX.js';
 import RenderBatch from './RenderBatch.js';
+import { hex } from '../../../../Util.js';
 
 export default class DlistParser {
     constructor(gx) {
@@ -20,11 +21,14 @@ export default class DlistParser {
             console.assert(buf instanceof ArrayBuffer);
             this.buffers[name] = new BinaryFile(buf);
         }
+        console.log("parsing dlist", list, "buffers", buffers,
+            "CP state", this.gx.cp.getState());
 
         this._pickerId = id;
         this.result = new RenderBatch(this.gx);
         while(!list.isEof()) {
             const op = list.readU8();
+            //console.log(`Dlist op 0x${hex(op)} at 0x${hex(list.tell()-1)}`);
             if(op >= 0x80 && op <= 0xC0) {
                 this._parseDrawOp(op, list);
             }
@@ -68,6 +72,7 @@ export default class DlistParser {
                 }
                 default:
                     throw new Error(`Unknown display list opcode 0x${hex(op,2)} at offset 0x${hex(list.tell(),4)}`);
+                    //return this.result;
             }
         }
         return this.result;
@@ -118,6 +123,7 @@ export default class DlistParser {
         for(let i=0; i<nVtxs; i++) {
             vtxs.push(this._readVertex(vat, list));
         }
+        //console.log("draw vtxs", vtxs);
         this.result.addVertices(mode, ...vtxs);
     }
     _readVertex(vat, list) {
@@ -126,43 +132,63 @@ export default class DlistParser {
          *  @param {BinaryFile} list List to read from.
          *  @returns {object} The vertex attributes.
          */
-        const vtx = {id:this._pickerId};
+        const vtx = {
+            id: this._pickerId,
+            //debug
+            offset: list.tell(),
+            vat:    vat,
+            dlist:  list,
+        };
         const vcd = this.gx.cp.vcd[vat];
         for(const field of VAT_FIELD_ORDER) {
             const fmt = vcd[field];
             let val = null;
-            switch(fmt) {
-                case 0: break; //no data
-                case 1: //direct
-                    val = this._readAttr(field, list, vcd);
-                    break;
-                case 2:   //8-bit index
-                case 3: { //16-bit index
-                    const idx = (fmt == 2 ? list.readU8() : list.readU16());
-                    const src = this.buffers[field];
-                    if(src != null) {
-                        let stride = this.gx.cp.arrayStride[field];
-                        if(stride == undefined) {
-                            console.error("No array stride for field", field);
-                            stride = 1;
+            try {
+                switch(fmt) {
+                    case 0: break; //no data
+                    case 1: //direct
+                        val = this._readAttr(field, list, vcd);
+                        break;
+                    case 2:   //8-bit index
+                    case 3: { //16-bit index
+                        let   idx = (fmt == 2 ? list.readU8() : list.readU16());
+                        const src = this.buffers[field];
+                        if(src != null) {
+                            let stride = this.gx.cp.arrayStride[field];
+                            if(stride == undefined) {
+                                console.error("No array stride for field", field);
+                                stride = 1;
+                            }
+                            else if(stride == 0) {
+                                console.warn("Array stride is zero for field", field);
+                            }
+                            else if(stride < 0) {
+                                console.error("Negative array stride for field", field);
+                                stride = 1;
+                            }
+                            if(idx * stride >= src.byteLength) {
+                                console.error(`Index ${idx} (0x${hex(idx)} => offs 0x${hex(idx*stride)}) is outside of ${field} buffer (size 0x${hex(src.byteLength)} stride ${stride})`);
+                                idx = 0;
+                            }
+                            src.seek(idx * stride);
+                            val = this._readAttr(field, src, vcd);
                         }
-                        else if(stride == 0) {
-                            console.warn("Array stride is zero for field", field);
-                        }
-                        else if(stride < 0) {
-                            console.error("Negative array stride for field", field);
-                            stride = 1;
-                        }
-                        src.seek(idx * stride);
-                        val = this._readAttr(field, src, vcd);
                     }
+                } //switch
+            } //try
+            catch(ex) {
+                //debugger;
+                if(ex instanceof RangeError) {
+                    val = 0xEEEE;
                 }
+                else throw ex;
             }
             vtx[field] = val;
         }
         //vtx.COL0[0] = (vtx.id >> 16) & 0xFF;
         //vtx.COL0[1] = (vtx.id >>  8) & 0xFF;
         //vtx.COL0[2] = (vtx.id >>  0) & 0xFF;
+        //console.log("READVTX", vtx);
         return vtx;
     }
     _readAttr(field, src, vcd) {
@@ -172,9 +198,22 @@ export default class DlistParser {
          *  @param {object} vcd The VCD to use.
          *  @returns {Array} Attribute value.
          */
-        if(field.startsWith('COL')) return this._readColor(field, src, vcd);
+        //maybe speed this up with a lookup table
+        //instead of string checks?
+        if(field.endsWith('IDX')) return this._readIndex(field, src, vcd);
+        else if(field.startsWith('COL')) return this._readColor(field, src, vcd);
         else if(field.startsWith('NRM')) return this._readNormal(field, src, vcd);
         else return this._readCoord(field, src, vcd);
+    }
+    _readIndex(field, src, vcd) {
+        /** Read an index value from the given source.
+         *  @param {string} field Attribute name to read.
+         *  @param {BinaryFile} src Source to read from.
+         *  @param {object} vcd The VCD to use.
+         *  @returns {integer} The index value.
+         */
+        //XXX verify the SHFT/FMT/CNT don't apply here
+        return src.readU8();
     }
     _readCoord(field, src, vcd) {
         /** Read a coordinate value from the given source.

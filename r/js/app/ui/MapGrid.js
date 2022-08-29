@@ -177,7 +177,9 @@ export default class MapGrid {
                 let cell = this._getCell(layer, x, z);
                 let td;
                 if(cell != undefined) td = this._makeCellForBlock(cell);
-                else td = E.td('empty', ' ');
+                else td = E.td('empty', E.div({style:
+                    'width: 25px; height: 25px; '
+                }));
                 if(x == 0) td.classList.add('xZero');
                 if(z == 0) td.classList.add('zZero');
                 tr.append(td);

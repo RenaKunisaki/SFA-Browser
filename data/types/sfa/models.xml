@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<?xml-model href="../types.xsd"?>
+<types namespace="models">
+    <enum name="ModelDataFlags2" type="u16">
+        <note>Names made up</note>
+        <item value="0x2" name="NoAnimations" />
+        <item value="0x10" name="CopyVtxsOnLoad" />
+        <item value="0x20" name="BoneRelated" />
+        <item value="0x40" name="UseLocalModAnimTab" />
+        <item value="0x100" name="FogRelated" />
+        <item value="0x400" name="NoDepthTest" />
+        <item value="0x800" name="NoScaleVtxPositions">
+            <note>do not scale vertexPositions by 1/256</note>
+        </item>
+        <item value="0x1000" name="ModelField14Valid" />
+        <item value="0x2000" name="AlphaZUpdateEnable" />
+        <item value="0x8000" name="AltRenderInstrs" />
+    </enum>
+
+    <enum name="ModelDataFlags24" type="u8">
+        <item value="0x2" name="VeryBright" />
+        <item value="0x8" name="Use9NormalsInsteadOf3" />
+    </enum>
+
+    <enum name="ModelHeaderFlagsE2" type="u16">
+        <item value="0x2" name="UsePlayerColorOverride" />
+        <item value="0x4" name="MatFlag4" />
+        <item value="0x8" name="MatFlag8" />
+        <item value="0x200" name="MatFlag200" />
+        <item value="0x400" name="MatFlag400" />
+        <item value="0x800" name="MatFlag800" />
+    </enum>
+
+    <struct name="Header">
+        <field type="u8" name="usage">
+            <description>Ref count; always 0 (or 1?) in file</description>
+        </field>
+        <field type="u8" />
+        <field type="ModelDataFlags2" name="flags" />
+        <field type="u16" name="cacheModNo">
+            <description>Model ID</description>
+        </field>
+        <field type="u16" />
+        <field type="u32" name="headerCksum" />
+        <field type="u32" name="dataSize">
+            <description>size of this file</description>
+        </field>
+        <field type="u32" />
+        <field type="u32" />
+        <field type="float" name="radi">
+            <note>or float*? maybe a scale</note>
+        </field>
+        <field type="float" name="exT">
+            <description>extraAmapSize (dlInfoSize?)</description>
+        </field>
+        <field type="u32" name="textures">
+            <description>ptr to tex IDs (u32, changed to ptrs on load)</description>
+        </field>
+        <field type="ModelDataFlags24" name="flags24" />
+        <field type="u8">
+            <note>relates to lighting</note>
+        </field>
+        <field type="u16" />
+        <field type="pointer" name="vertexPositions">
+            <note>vec3s*</note>
+        </field>
+        <field type="pointer" name="vertexNormals">
+            <note>vec3s*</note>
+        </field>
+        <field type="pointer" name="vertexColours">
+            <note>u16* (probably RGBA4444 since maps use that)</note>
+        </field>
+        <field type="pointer" name="vertexTexCoords">
+            <note>vec2s*</note>
+        </field>
+        <field type="pointer" name="shaders">
+            <note>Shader*</note>
+        </field>
+        <field type="pointer" name="joints">
+            <note>Bone*</note>
+        </field>
+        <field type="pointer" name="boneQuats">
+            <note>Quaternion*</note>
+        </field>
+        <field type="u32" count="3" />
+        <field type="u32" />
+        <field type="pointer" name="vtxGroups">
+            <note>ModelVtxGroup* aka weights</note>
+        </field>
+        <field type="pointer" name="hitSpheres">
+            <note>HitSphere*</note>
+        </field>
+        <field type="pointer" name="GCpolygons">
+            <note>GCpolygon* (hit detection)</note>
+        </field>
+        <field type="pointer" name="polygonGroups">
+            <note>PolygonGroup*</note>
+        </field>
+        <field type="pointer" name="pAltIndBuf" />
+        <field type="pointer" name="amapBin">
+            <note>u16*? from AMAP.BIN</note>
+        </field>
+        <field type="pointer" name="animIds">
+            <note>s16* (XXX is this zero in file or is the data it points to?)</note>
+        </field>
+        <field type="u16" name="animIdxs" count="8" />
+        <field type="u32" name="amapTab" />
+        <field type="u16" name="animCacheSize" />
+        <field type="u16" />
+        <field type="pointer" name="posFineSkinningConfig">
+            <note>FineSkinningConfig*</note>
+        </field>
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="pointer" name="posFineSkinningPieces">
+            <note>FineSkinningPiece* related to animBuf/vtxs; field_88.nVtxs = how many</note>
+        </field>
+        <field type="pointer" name="posFineSkinningWeights" />
+        <field type="pointer" name="nrmFineSkinningConfig">
+            <note>FineSkinningConfig*</note>
+        </field>
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="u32" />
+        <field type="pointer">
+            <note>ptr to sth 0x4 bytes; related to normals/textures; field AE = how many</note>
+        </field>
+        <field type="pointer" />
+        <field type="pointer" name="dlists">
+            <note>DisplayListPtr*</note>
+        </field>
+        <field type="pointer" name="renderInstrs">
+            <note>bit-packed render ops</note>
+        </field>
+        <field type="u16" name="nRenderInstrs">
+            <note>Number of bytes</note>
+        </field>
+        <field type="u16" />
+        <field type="pointer" name="animations">
+            <note>s16**</note>
+        </field>
+        <field type="s16" name="cullDistance" />
+        <field type="ModelHeaderFlagsE2" name="flagsE2" />
+        <field type="u16" name="nVtxs" />
+        <field type="u16" name="nNormals" />
+        <field type="u16" name="nColors" />
+        <field type="u16" name="nTexCoords" />
+        <field type="u16" name="nAnimations" />
+        <field type="u16" />
+        <field type="u16" name="nPolyGroups" />
+        <field type="u8" name="nTextures" />
+        <field type="u8" name="nBones">
+            <note>#mtxs at Model.mtxs</note>
+        </field>
+        <field type="u8" name="nVtxGroups" />
+        <field type="u8" name="nDlists" />
+        <field type="u8" />
+        <field type="u8" name="nHitSpheres" />
+        <field type="u8" name="nShaders" />
+        <field type="u8" name="nPtrsDC">
+            <note>nAnimations? (#ptrs at field 0xDC)</note>
+        </field>
+        <field type="u8" name="nTexMtxs" />
+        <field type="u8" />
+    </struct>
+</types>
