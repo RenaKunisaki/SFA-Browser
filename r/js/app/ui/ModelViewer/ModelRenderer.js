@@ -167,6 +167,30 @@ export default class ModelRenderer {
         this.curModel     = model;
         this.params       = params;
 
+        //temp
+        /*let shaders = {};
+        for(let shader of model.shaders) {
+            for(let name of Object.keys(shader)) {
+                let val = shader[name];
+                if(name == 'layer') {
+                    for(let i=0; i<shader.layer.length; i++) {
+                        let layer = shader.layer[i];
+                        for(let n2 of Object.keys(layer)) {
+                            let v2 = layer[n2];
+                            let n = `layer${i}.${n2}`;
+                            if(shaders[n] == undefined) shaders[n] = [];
+                            shaders[n].push(v2);
+                        }
+                    }
+                }
+                else {
+                    if(shaders[name] == undefined) shaders[name] = [];
+                    shaders[name].push(val);
+                }
+            }
+        }
+        console.log(shaders);*/
+
         const ops = new BitStreamReader(model.renderInstrs);
         this.curOps = ops;
 
@@ -188,7 +212,7 @@ export default class ModelRenderer {
                     console.error("Premature end of stream at bit 0x%s",
                         ops.offset.toString(16));
                 case 5: //end
-                    //console.log("Done rendering", whichStream);
+                    console.log("Done render stream");
                     done = true;
                     break;
 
@@ -210,6 +234,7 @@ export default class ModelRenderer {
             true, //alphaTest
         )});
 
+        console.log("Loaded model", model);
         return this._batches[key];
     }
 
@@ -257,6 +282,7 @@ export default class ModelRenderer {
         this.params       = params;
         const batch       = this.parse(model, params);
         if(batch) {
+            //console.log("execute render batch", batch);
             this.gx.executeBatch(batch);
             //this.gx.gl.flush();
         }
@@ -391,7 +417,7 @@ export default class ModelRenderer {
         const gl = this.gl;
         return () => {
             for(let [slot, tex] of params) {
-                //console.log("using texture", slot, tex);
+                console.log("using texture", slot, tex);
                 gl.activeTexture(gl.TEXTURE0 + slot);
                 if(tex) tex.bind();
                 gl.uniform1i(this.gx.programInfo.uniforms.uSampler[slot], slot);
@@ -464,10 +490,10 @@ export default class ModelRenderer {
                 let tex = gx.blankTexture;
                 if(i < nLayers) {
                     const idx = this.curShader.layer[i].texture;
-                    //console.log("select texture", idx, this.textures[idx]);
                     if(idx >= 0 && this.curModel.textures[idx]) {
                         tex = this.curModel.textures[idx];
                     }
+                    console.log("select texture", idx, tex);
                 }
                 params.push([i, tex]);
             }
@@ -495,7 +521,7 @@ export default class ModelRenderer {
             if(this.curShader
             && (this.curShader.flags & ShaderFlags.Hidden)) return;
         }
-        if(idx > 23) return; //HACK
+        //if(idx > 23) return; //HACK
 
         const dlistData = {
             POS:  this.curModel.vtxPositions,
@@ -529,12 +555,14 @@ export default class ModelRenderer {
         }
         const list = this.dlistParser.parse(
             this.curModel.dlists[idx].data, dlistData, id);
-        if(this.params.dlist < 0 || this.params.dlist == idx) {
+        if(this.params.dlist < 0 || this.params.dlist == idx
+        || this.params.dlist == undefined) {
             this.curBatch.addFunction(list);
+            if(LogRenderOps) {
+                console.log("executed list", this.curModel.dlists[idx].data);
+            }
         }
-        if(LogRenderOps) {
-            console.log("executed list", this.curModel.dlists[idx].data);
-        }
+        else if(LogRenderOps) console.log("Skipping dlist", idx, list);
     }
 
     _renderOpSetVtxFmt() {
@@ -543,17 +571,13 @@ export default class ModelRenderer {
         const VAT=6; //5 for maps, 6 for characters
         const NONE=0, DIRECT=1, INDEX8=2, INDEX16=3;
         const ops    = this.curOps;
-        const vcd    = this.gx.cp.vcd[VAT];
-        let sizes = { //default to cuirrent
-            PMTX: vcd.PNMTXIDX,
-            TMTX: [vcd.T0MIDX, vcd.T1MIDX, vcd.T2MIDX,
-                vcd.T3MIDX, vcd.T4MIDX, vcd.T5MIDX,
-                vcd.T6MIDX, vcd.T7MIDX],
-            POS:  vcd.POS,
-            NRM:  vcd.NRM,
-            COL:  [vcd.COL0, vcd.COL1],
-            TEX:  [vcd.TEX0, vcd.TEX1, vcd.TEX2, vcd.TEX3,
-                vcd.TEX4, vcd.TEX5, vcd.TEX6, vcd.TEX7],
+        let sizes = {
+            PMTX: 0,
+            TMTX: [0,0,0,0,0,0,0,0],
+            POS:  0,
+            NRM:  0,
+            COL:  [0,0],
+            TEX:  [0,0,0,0,0,0,0,0],
         }
         let triNrm = false;
         const aFlags = this.curShader ? this.curShader.attrFlags : 0;
@@ -567,10 +591,10 @@ export default class ModelRenderer {
             sizes.PMTX = DIRECT;
             let which = 0; //T0MIDX;
             if(this.curShader && (
-                //texture, lighting => auxTex0, auxTex1
-                //Shader vs ShaderDef, it's confusing...
-                (this.curShader.auxTex0 < 0x80000000) ||
-                (this.curShader.auxTex1 < 0x80000000))) {
+            //texture, lighting => auxTex0, auxTex1
+            //Shader vs ShaderDef, it's confusing...
+            (this.curShader.auxTex0 < 0x80000000) ||
+            (this.curShader.auxTex1 < 0x80000000))) {
                 let which_00 = which;
                 if(this.curShader.auxTex2 < 0x80000000) {
                     //If the material has textures, we have
@@ -587,6 +611,8 @@ export default class ModelRenderer {
             let texN2 = 7; //T7MIDX;
             let enable, next;
             let flags = 0;
+            /* flags:
+            1:NoFog, 2:EXTRA_FUZZY, 4:DrawFuzz, 8:ForceFuzz */
             for(let idx = 0; idx < this.curModel.header.nTexMtxs; idx++) {
                 if (((flags & 0xff) == 4) && (idx == 0)) {
                     /*if((nTextureMtxs_803dcc5c == 0) ||
@@ -604,7 +630,7 @@ export default class ModelRenderer {
                 else {
                     enable = false;
                 }
-                if (enable) {
+                if(enable) {
                     sizes.TMTX[which] = DIRECT;
                     next = texN2;
                     which = which + 1;
@@ -624,10 +650,12 @@ export default class ModelRenderer {
         if(aFlags & 2) {
             sizes.COL[0] = ops.read(1) ? INDEX16 : INDEX8;
         }
+        else sizes.COL[0] = 0;
         let texSize = ops.read(1) ? INDEX16 : INDEX8;
         if(this.params.isGrass) return;
 
-        if(this.curShader && !(this.curShader.flags & ShaderFlags.Water)) {
+        //XXX copied from map block. models always have shaders.
+        if(this.curShader) {
             for(let i=0; i<this.curShader.nLayers; i++) {
                 sizes.TEX[i] = texSize;
             }
@@ -650,7 +678,7 @@ export default class ModelRenderer {
             ((sizes.TMTX[5] ? 1 : 0) << 6) |
             ((sizes.TMTX[6] ? 1 : 0) << 7) |
             ((sizes.TMTX[7] ? 1 : 0) << 8) |
-            (sizes.NRM << 11) | (sizes.POS <<  9) |
+            (sizes.POS <<  9) | (sizes.NRM << 11) |
             (sizes.COL[0] << 13) | (sizes.COL[1] << 15));
         this.gx.cp.setReg(0x60 | VAT, //VCD FMT HI
              sizes.TEX[0]        | (sizes.TEX[1] <<  2) |

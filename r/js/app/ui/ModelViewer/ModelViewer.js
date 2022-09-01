@@ -6,6 +6,7 @@ import Context from "../gl/Context.js";
 import GX from "../gl/gx/GX.js";
 import ModelRenderer from './ModelRenderer.js';
 import ViewController from "../gl/ui/ViewController.js";
+import TextureViewer from "../MapViewer/TextureViewer.js";
 
 export default class ModelViewer {
     /** Renders object models. */
@@ -18,7 +19,11 @@ export default class ModelViewer {
         this.eLeftSidebar  = E.div('sidebar sidebar-left');
         this.eRightSidebar = E.div('sidebar sidebar-right');
         this._reset();
+
+        //disable model viewer for now because lol canvas shit
         this.app.onIsoLoaded(iso => this._onIsoLoaded());
+
+        this.textureViewer = new TextureViewer(this);
     }
 
     _onIsoLoaded() {
@@ -51,12 +56,12 @@ export default class ModelViewer {
             //this.infoWidget.element,
             //this.stats.element,
         );
-        //this.eRightSidebar.append(
-        //    this.helpBox.element,
-        //    this.grid.element,
-        //    this.objectList.element,
-        //    this.textureViewer.element,
-        //);
+        this.eRightSidebar.append(
+            //this.helpBox.element,
+            //this.grid.element,
+            //this.objectList.element,
+            this.textureViewer.element,
+        );
 
         this._modelRenderer = new ModelRenderer(this, this.gx);
         this.context.canvas.focus();
@@ -87,8 +92,8 @@ export default class ModelViewer {
 
         //const model = this.game.maps[this.eMapList.value];
         //negative 0x4E8 is Krystal, positive is placeholder cube
-        //const model = this.game.loadModel(this.gx, -0x4E8, '/warlock');
-        const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
+        const model = this.game.loadModel(this.gx, -0x4E8, '/warlock');
+        //const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
         if(!model) {
             //console.error("Invalid model selected", this.eMapList.value);
             return;
@@ -97,6 +102,7 @@ export default class ModelViewer {
         this._modelRenderer.parse(this.model);
 
         this.gx.resetPicker();
+        this.textureViewer.refresh();
         this.redraw();
         this._updatedStats = false;
     }
@@ -143,7 +149,9 @@ export default class ModelViewer {
         //const tStart = performance.now();
         //const LC = this.layerChooser;
         this._beginRender();
-        this._modelRenderer.render(this.model);
+        this._modelRenderer.render(this.model, {
+            dlist: -1,
+        });
         //if(LC.getLayer('origin')) this._drawOrigin();
         //this._drawBlocks(blockStats, blockStreams);
         //if(LC.getLayer('blockHits')) this._drawBlockHits();
@@ -175,6 +183,6 @@ export default class ModelViewer {
 
     _finishRender() {
         /** Finish rendering and record stats. */
-        console.log("finished render");
+        console.log("finished render", this.gx.context.stats);
     }
 }

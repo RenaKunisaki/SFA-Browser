@@ -183,12 +183,17 @@ export default class DlistParser {
                 }
                 else throw ex;
             }
+            //if we didn't get any vertex colors, fall back to
+            //full opaque white, not invisible
+            if(val == null && field.startsWith('COL')) {
+                val = [0xFF, 0xFF, 0xFF, 0xFF];
+            }
             vtx[field] = val;
         }
+        //console.log("READVTX", vtx);
         //vtx.COL0[0] = (vtx.id >> 16) & 0xFF;
         //vtx.COL0[1] = (vtx.id >>  8) & 0xFF;
         //vtx.COL0[2] = (vtx.id >>  0) & 0xFF;
-        //console.log("READVTX", vtx);
         return vtx;
     }
     _readAttr(field, src, vcd) {
@@ -283,7 +288,7 @@ export default class DlistParser {
         const format = vcd[field+'FMT']  || 0; //undefined => 0
         const count  = vcd[field+'CNT']  || 0; //XXX how does this work for color?
 
-        let r=0, g=0, b=0, a=255;
+        let r=255, g=255, b=255, a=255;
         switch(format) {
             case 0: { //RGB565
                 let v = src.readU16();

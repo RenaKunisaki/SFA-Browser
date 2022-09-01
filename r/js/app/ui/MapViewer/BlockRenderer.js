@@ -757,12 +757,14 @@ export default class BlockRenderer {
         }
         const list = this.dlistParser.parse(
             this.curBlock.dlists[idx].data, dlistData, id);
-        if(this.params.dlist < 0 || this.params.dlist == idx) {
+        if(this.params.dlist < 0 || this.params.dlist == idx
+        || this.params.dlist == undefined) {
             this.curBatch.addFunction(list);
+            if(LogRenderOps) {
+                console.log("executed list", this.curBlock.dlists[idx].data);
+            }
         }
-        if(LogRenderOps) {
-            console.log("executed list", this.curBlock.dlists[idx].data);
-        }
+        else if(LogRenderOps) console.log("Skipping dlist", idx, list);
     }
 
     _renderOpSetVtxFmt() {

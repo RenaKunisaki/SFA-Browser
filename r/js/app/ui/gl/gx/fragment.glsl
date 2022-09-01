@@ -42,6 +42,8 @@ void main() {
             float( int(vtx_Id)        & 0xFF) / 255.0);
     }
     else if(!u_useAlphaTest) out_Color = col.rgba;
+    //else if(!u_useAlphaTest) out_Color = vec4(col.rgb, 1.0);
+    //else if(!u_useAlphaTest) out_Color = vec4(vtx_TexCoord.xy, 1.0, 1.0);
     else {
         int a0, a1, cond;
         switch(u_alphaComp0) {
@@ -72,6 +74,7 @@ void main() {
         }
         if(cond == 0) discard;
         else out_Color = col.rgba;
+        //else out_Color = vec4(col.rgb, 1.0);
         /*out_Color = vec4(
             col.a, 1.0, 1.0, 1.0
         );*/

@@ -1068,6 +1068,7 @@ export default class GX {
     setZCompLoc(loc) {
         //Z compare location = loc ? before tex : after tex
         //XXX
+        console.warn("Not implemented: GX.setZCompLoc");
     }
 
     setChanCtrl(chan, enable, amb_src, mat_src, light_mask, diff_fn, attn_fn) {
@@ -1082,6 +1083,7 @@ export default class GX {
         */
        //XXX
        //this is about lights, don't care right now
+       console.warn("Not implemented: GX.setChanCtrl");
     }
 
     setCullMode(mode) {
