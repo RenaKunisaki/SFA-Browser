@@ -1,3 +1,4 @@
+import {MAP_CELL_SIZE} from "../../../game/Game.js";
 import { clearElement, E } from "../../../lib/Element.js";
 import { bin, hex } from "../../../Util.js";
 
@@ -233,6 +234,9 @@ export default class InfoWidget {
         if(acts.length == 0) acts.push('none');
         else if(acts.length == 15) acts = ['all'];
 
+        const wx = entry.position.x - (info.obj.map.worldX*MAP_CELL_SIZE);
+        const wz = entry.position.z - (info.obj.map.worldZ*MAP_CELL_SIZE);
+
         const rows = [
             E.tr(E.th(null, `Object ID 0x${hex(entry.id, 8)}`,
                 {colspan:2, title:`${entry.id}`})),
@@ -251,6 +255,10 @@ export default class InfoWidget {
             E.tr(
                 E.th(null, "Position"),
                 E.td('vec3f objPos', `${entry.position.x.toFixed(2)}, ${entry.position.y.toFixed(2)}, ${entry.position.z.toFixed(2)}`),
+            ),
+            E.tr(
+                E.th(null, "Global Pos"),
+                E.td('vec3f objPos', `${wx.toFixed(2)}, ${entry.position.y.toFixed(2)}, ${wz.toFixed(2)}`),
             ),
             E.tr(
                 E.th(null, "DLL"),
