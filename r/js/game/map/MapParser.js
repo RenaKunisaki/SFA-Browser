@@ -202,6 +202,10 @@ export class MapParser {
                     if(relX < map.minX) map.minX = relX;
                     if(relZ < map.minZ) map.minZ = relZ;
                 }
+                else if(map.blocks[iBlock] != null && layer[cx][cz]) {
+                    console.warn(`Map block overlap at ${cx},${cz} L${entry.layer}`,
+                        entry, map.blocks[iBlock]);
+                }
             }
         }
         //console.log("parsed GlobalMap entry", map);
