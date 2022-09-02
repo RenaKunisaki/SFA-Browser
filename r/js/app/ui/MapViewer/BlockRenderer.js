@@ -731,7 +731,7 @@ export default class BlockRenderer {
 
         const dlistData = {
             POS:  this.curBlock.vtxPositions,
-            //NRM:  this.curBlock.normals, //map blocks don't have normals
+            //NRM:  this.curBlock.vtxNormals, //map blocks don't have normals
             COL0: this.curBlock.vtxColors,
             TEX0: this.curBlock.texCoords,
             TEX1: this.curBlock.texCoords,
@@ -816,10 +816,11 @@ export default class BlockRenderer {
         const count = ops.read(4);
         const mtxs  = [];
         for(let i=0; i<count; i++) {
-            //can't read more than 24 bits at once
             mtxs.push(ops.read(8)); //idxs into mtxs (XXX where are they?)
         }
         //XXX which XF reg do we write to?
+        //it looks like the game just reads this opcode and
+        //doesn't actually do anything with it.
         if(LogRenderOps) console.log("init %d mtxs", count, mtxs);
     }
 }

@@ -990,7 +990,7 @@ export default class GX {
         const gl = this.gl;
         this.program.use();
         const unif = this.programInfo.uniforms;
-        console.log(" *** SYNC XF");
+        //console.log(" *** SYNC XF");
 
         /*let mData = [];
         for(let n=0; n<256; n += 16) {

@@ -92,8 +92,8 @@ export default class ModelViewer {
 
         //const model = this.game.maps[this.eMapList.value];
         //negative 0x4E8 is Krystal, positive is placeholder cube
-        const model = this.game.loadModel(this.gx, -0x4E8, '/warlock');
-        //const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
+        //const model = this.game.loadModel(this.gx, -0x4E8, '/warlock');
+        const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
         if(!model) {
             //console.error("Invalid model selected", this.eMapList.value);
             return;

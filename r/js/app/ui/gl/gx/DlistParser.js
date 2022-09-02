@@ -21,8 +21,8 @@ export default class DlistParser {
             console.assert(buf instanceof ArrayBuffer);
             this.buffers[name] = new BinaryFile(buf);
         }
-        console.log("parsing dlist", list, "buffers", buffers,
-            "CP state", this.gx.cp.getState());
+        //console.log("parsing dlist", list, "buffers", buffers,
+        //    "CP state", this.gx.cp.getState());
 
         this._pickerId = id;
         this.result = new RenderBatch(this.gx);
@@ -163,9 +163,13 @@ export default class DlistParser {
                 else throw ex;
             }
             //if we didn't get any vertex colors, fall back to
-            //full opaque white, not invisible
-            if(val == null && field.startsWith('COL')) {
-                val = [0xFF, 0xFF, 0xFF, 0xFF];
+            //full opaque white, not invisible.
+            //for matrix idx, fall back to 0.
+            if(val == null) {
+                if(field == 'PNMTXIDX') val = 0;
+                if(field.startsWith('COL')) {
+                    val = [0xFF, 0xFF, 0xFF, 0xFF];
+                }
             }
             vtx[field] = val;
         }

@@ -345,7 +345,7 @@ export default class RenderBatch {
                 continue; //no such attribute in shader
             }
             const data = this.data[field];
-            console.log("uploading buffer", field, data);
+            //console.log("uploading buffer", field, data);
             gl.bindBuffer(gl.ARRAY_BUFFER, buf);
             gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
             CHECK_ERROR(gl);
@@ -422,10 +422,10 @@ export default class RenderBatch {
         //debug
         console.assert(_curBufs == this);
 
-        if(index == 0) {
-            console.log(`drawElements(mode=${mode} cnt=${count} idx=${index}*4)`);
-            console.log("vtx data:", this.buffers);
-        }
+        //if(index == 0) {
+        //    console.log(`drawElements(mode=${mode} cnt=${count} idx=${index}*4)`);
+        //    console.log("vtx data:", this.buffers);
+        //}
         //index * sizeof(unsigned int)
         gl.drawElements(mode, count, gl.UNSIGNED_INT, index*4);
         //gl.drawArrays(cmd[0], cmd[1], cmd[2]);

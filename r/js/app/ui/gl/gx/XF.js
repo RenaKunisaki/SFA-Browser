@@ -18,27 +18,13 @@ export default class XF {
             'NRM': {}, //0x0400 - 0x045F
             'DUALTEX': {}, //0x0500 - 0x05FF
         };
-        //XXX there's definitely a more efficient way
-        for(let i=0; i<0x100; i += 16) {
-            for(let r=0; r<3; r++) {
-                for(let c=0; c<4; c++) {
-                    this._reg[i+(c*4)+r] = (r==c) ? 1 : 0;
-                }
-            }
-        }
-        for(let i=0x400; i<0x460; i += 12) {
-            for(let r=0; r<3; r++) {
-                for(let c=0; c<3; c++) {
-                    this._reg[i+(c*3)+r] = (r==c) ? 1 : 0;
-                }
-            }
-        }
-        for(let i=0x500; i<0x600; i += 16) {
-            for(let r=0; r<3; r++) {
-                for(let c=0; c<4; c++) {
-                    this._reg[i+(c*4)+r] = (r==c) ? 1 : 0;
-                }
-            }
+        //initialize to pattern of 4x4 identity matrices
+        //except only the first 3 rows of each.
+        for(let i=0; i<0x600; i++) {
+            let v = 0;
+            let n = i % 12;
+            if(n == 0 || n == 5 || n == 10) v = 1;
+            this._reg[i] = v;
         }
         this._updateMtxs();
     }
