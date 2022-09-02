@@ -727,6 +727,7 @@ export default class ModelRenderer {
             console.assert(iMtx < nMax);
             idxs.push(iMtx);
             let xl = model.xlates[iMtx];
+            if(xl == undefined) xl = [0,0,0];
             mtxs[tbl[i]*3] = mat4.fromValues(
                 1, 0, 0, 0,  0, 1, 0, 0,  0, 0, 1, 0,
                 xl[0], xl[1], xl[2], 1);
