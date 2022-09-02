@@ -4,7 +4,7 @@ import DisplayList from '../DisplayList.js';
 import Texture from '../../app/ui/gl/Texture.js'
 
 //struct types
-let Header, DisplayListPtr, Shader;
+let Header, DisplayListPtr, Shader, Bone, VertexGroup;
 
 export default class SfaModel {
     /** A model file in SFA. */
@@ -15,6 +15,8 @@ export default class SfaModel {
         //XXX move some of these
         DisplayListPtr = this.app.types.getType('sfa.maps.DisplayListPtr');
         Shader = this.app.types.getType('sfa.maps.Shader');
+        Bone = this.app.types.getType('sfa.models.Bone');
+        VertexGroup = this.app.types.getType('sfa.models.VertexGroup');
     }
 
     static fromData(game, gx, data, dir) {
@@ -25,13 +27,6 @@ export default class SfaModel {
         self.gx           = gx;
         self.id           = header.cacheModNo;
         self.radi         = header.radi;
-        //self.bones        = [];
-        //self.boneQuats    = [];
-        //self.vtxGroups    = [];
-        //self.hitSpheres   = [];
-        //self.GCpolygons   = [];
-        //self.polyGroups   = [];
-        //self.dlists       = [];
         console.log("Loading model", self);
         self._loadTextures(data);
         self._loadVtxData(data);
@@ -39,10 +34,15 @@ export default class SfaModel {
         self._loadDlists(data);
         self._loadRenderInstrs(data);
         self._loadShaders(data);
+        self._loadBones(data);
+        self._loadVtxGroups(data);
         return self;
     }
 
     _loadTextures(view) {
+        /** Load the model's textures.
+         *  @param {DataView} view The view to read from.
+         */
         this.textures = [];
         for(let i=0; i<this.header.nTextures; i++) {
             let tId = view.getUint32(this.header.textures + (i*4));
@@ -61,7 +61,9 @@ export default class SfaModel {
     }
 
     _loadVtxData(view) {
-        //read vertex data
+        /** Load the model's vertex data.
+         *  @param {DataView} view The view to read from.
+         */
         const offs = view.byteOffset;
         this.vtxPositions = view.buffer.slice( //vec3s[]
             offs + this.header.vertexPositions,
@@ -82,11 +84,14 @@ export default class SfaModel {
     }
 
     _loadPolygons(view) {
-        //read polygon data
+        /** Load the model's polygon data.
+         *  @param {DataView} view The view to read from.
+         */
         const offs = view.byteOffset;
         this.polygons   = [];
         this.polyGroups = [];
         for(let i=0; i<this.header.nPolygons; i++) {
+            //GCpolygons are hit detection mesh (XXX do models have these?)
             const offset = offs + this.header.GCpolygons + (i * GCPolygon.size);
             const poly   = GCPolygon.fromBytes(view, offset);
             poly.offset  = offset;
@@ -94,6 +99,7 @@ export default class SfaModel {
             this.polygons.push(poly);
         }
         for(let i=0; i<this.header.nPolyGroups; i++) {
+            //poly groups are used for bone animation
             const offset = offs + this.header.polygonGroups + (i * PolygonGroup.size);
             const group  = PolygonGroup.fromBytes(view, offset);
             group.offset = offset;
@@ -101,6 +107,7 @@ export default class SfaModel {
             this.polyGroups.push(group);
         }
         for(let i=0; i<this.header.nPolyGroups; i++) {
+            //assign groups to polygons
             const group    = this.polyGroups[i];
             const lastPoly = this.polyGroups[i+1] ?
                 this.polyGroups[i+1].firstPolygon : this.header.nPolyGons;
@@ -112,7 +119,9 @@ export default class SfaModel {
     }
 
     _loadDlists(view) {
-        //read display lists
+        /** Load the model's display lists.
+         *  @param {DataView} view The view to read from.
+         */
         const offs = view.byteOffset;
         this.dlists = [];
         for(let i=0; i<this.header.nDlists; i++) {
@@ -124,7 +133,10 @@ export default class SfaModel {
     }
 
     _loadRenderInstrs(view) {
-        //read render instructions (bit-packed stream)
+        /** Load the model's render operations.
+         *  @param {DataView} view The view to read from.
+         */
+        //these are a bit-packed instruction code
         const offs = view.byteOffset;
         this.renderInstrs = view.buffer.slice(
             offs + this.header.renderInstrs,
@@ -133,7 +145,9 @@ export default class SfaModel {
     }
 
     _loadShaders(view) {
-        //read shader data
+        /** Load the model's shaders.
+         *  @param {DataView} view The view to read from.
+         */
         const offs = view.byteOffset;
         this.shaders = [];
         //console.assert(Shader.size == 0x44);
@@ -141,5 +155,86 @@ export default class SfaModel {
             this.shaders.push(Shader.fromBytes(view,
                 offs + this.header.shaders + (i * Shader.size)));
         }
+    }
+
+    _loadBones(view) {
+        /** Load the model's bones.
+         *  @param {DataView} view The view to read from.
+         */
+        const offs = view.byteOffset;
+        this.bones = [];
+        for(let i=0; i<this.header.nBones; i++) {
+            this.bones.push(Bone.fromBytes(view,
+                offs + this.header.joints + (i * Bone.size)));
+        }
+
+        //compute the bone translations.
+        //in the game code these are matrices that combine
+        //a camera matrix and a translation. we don't need
+        //a camera matrix here, so we store just a translation
+        //vector instead of a matrix.
+        //NOTE: _readVtxGroups() adds more to this.xlates.
+        this.xlates = [];
+        for(let i=0; i<this.header.nBones; i++) {
+            let [_, tail] = this.calcBonePos(this.bones[i], false);
+            this.xlates.push(tail);
+        }
+        console.log("Model bone data", this.bones, "xlates", this.xlates);
+    }
+
+    _loadVtxGroups(view) {
+        /** Load the model's vertex groups.
+         *  @param {DataView} view The view to read from.
+         */
+        const offs = view.byteOffset;
+        this.vtxGroups = [];
+        for(let i=0; i<this.header.nVtxGroups; i++) {
+            this.vtxGroups.push(VertexGroup.fromBytes(view,
+                offs + this.header.vtxGroups + (i * VertexGroup.size)));
+        }
+
+        //scale the bone translations by the bone weights.
+        for(let i=0; i<this.header.nVtxGroups; i++) {
+            let grp   = this.vtxGroups[i];
+            let bone0 = this.bones[grp.bone0];
+            let bone1 = this.bones[grp.bone1];
+            //the weight isn't scaled by 255 like you might expect.
+            let wgt0 = grp.weight / 4;
+            let wgt1 = 1.0 - wgt0;
+            let [head0, tail0] = this.calcBonePos(bone0, true);
+            let [head1, tail1] = this.calcBonePos(bone1, true);
+            this.xlates.push(vec3.fromValues(
+                (((tail0[0] * wgt0) + (tail1[0] * wgt1))) / 256,
+                (((tail0[1] * wgt0) + (tail1[1] * wgt1))) / 256,
+                (((tail0[2] * wgt0) + (tail1[2] * wgt1))) / 256,
+            ));
+        }
+    }
+
+    calcBonePos(bone, relative, _depth=0) {
+        /** Calculate bone head/tail position relative to ancestors.
+         *  @param {Bone} bone The bone to calculate.
+         *  @param {boolean} relative Whether to treat the tail as
+         *    an offset from the head. This is used when scaling
+         *    the vertex groups.
+         */
+        if(_depth >= 10) throw new Error("Recursion limit exceeded");
+        let head = vec3.fromValues(bone.translation.x,
+            bone.translation.y, bone.translation.z);
+        let tail = vec3.fromValues(bone.bindTranslation.x,
+            bone.bindTranslation.y, bone.bindTranslation.z);
+        if(bone.parent != 0xFF) {
+            if(relative) {
+                tail[0] -= head[0];
+                tail[1] -= head[1];
+                tail[2] -= head[2];
+            }
+            let parent = this.bones[bone.parent];
+            let [pHead, _] = this.calcBonePos(parent, relative, _depth+1);
+            head[0] += pHead[0];
+            head[1] += pHead[1];
+            head[2] += pHead[2];
+        }
+        return [head, tail];
     }
 }

@@ -147,33 +147,12 @@ export default class DlistParser {
                 switch(fmt) {
                     case 0: break; //no data
                     case 1: //direct
-                        val = this._readAttr(field, list, vcd);
+                        val = this._readAttrDirect(field, list, vcd);
                         break;
-                    case 2:   //8-bit index
-                    case 3: { //16-bit index
-                        let   idx = (fmt == 2 ? list.readU8() : list.readU16());
-                        const src = this.buffers[field];
-                        if(src != null) {
-                            let stride = this.gx.cp.arrayStride[field];
-                            if(stride == undefined) {
-                                console.error("No array stride for field", field);
-                                stride = 1;
-                            }
-                            else if(stride == 0) {
-                                console.warn("Array stride is zero for field", field);
-                            }
-                            else if(stride < 0) {
-                                console.error("Negative array stride for field", field);
-                                stride = 1;
-                            }
-                            if(idx * stride >= src.byteLength) {
-                                console.error(`Index ${idx} (0x${hex(idx)} => offs 0x${hex(idx*stride)}) is outside of ${field} buffer (size 0x${hex(src.byteLength)} stride ${stride})`);
-                                idx = 0;
-                            }
-                            src.seek(idx * stride);
-                            val = this._readAttr(field, src, vcd);
-                        }
-                    }
+                    case 2: //8-bit index
+                    case 3: //16-bit index
+                        val = this._readAttrIndexed(field, list, vcd, fmt);
+                        break;
                 } //switch
             } //try
             catch(ex) {
@@ -190,13 +169,40 @@ export default class DlistParser {
             }
             vtx[field] = val;
         }
-        //console.log("READVTX", vtx);
+        //console.log("READVTX", vtx); //EXTREMELY SLOW
         //vtx.COL0[0] = (vtx.id >> 16) & 0xFF;
         //vtx.COL0[1] = (vtx.id >>  8) & 0xFF;
         //vtx.COL0[2] = (vtx.id >>  0) & 0xFF;
+        //vtx.PNMTXIDX = 0;
         return vtx;
     }
-    _readAttr(field, src, vcd) {
+    _readAttrIndexed(field, list, vcd, fmt) {
+        let   idx = (fmt == 2 ? list.readU8() : list.readU16());
+        const src = this.buffers[field];
+        let   val = null;
+        if(src != null) {
+            let stride = this.gx.cp.arrayStride[field];
+            if(stride == undefined) {
+                console.error("No array stride for field", field);
+                stride = 1;
+            }
+            else if(stride == 0) {
+                console.warn("Array stride is zero for field", field);
+            }
+            else if(stride < 0) {
+                console.error("Negative array stride for field", field);
+                stride = 1;
+            }
+            if(idx * stride >= src.byteLength) {
+                console.error(`Index ${idx} (0x${hex(idx)} => offs 0x${hex(idx*stride)}) is outside of ${field} buffer (size 0x${hex(src.byteLength)} stride ${stride})`);
+                idx = 0;
+            }
+            src.seek(idx * stride);
+            val = this._readAttrDirect(field, src, vcd);
+        }
+        return val;
+    }
+    _readAttrDirect(field, src, vcd) {
         /** Read an attribute value from the given source.
          *  @param {string} field Attribute name to read.
          *  @param {BinaryFile} src Source to read from.
@@ -205,12 +211,12 @@ export default class DlistParser {
          */
         //maybe speed this up with a lookup table
         //instead of string checks?
-        if(field.endsWith('IDX')) return this._readIndex(field, src, vcd);
+        if(field.endsWith('IDX')) return this._readIndexAttr(field, src, vcd);
         else if(field.startsWith('COL')) return this._readColor(field, src, vcd);
         else if(field.startsWith('NRM')) return this._readNormal(field, src, vcd);
         else return this._readCoord(field, src, vcd);
     }
-    _readIndex(field, src, vcd) {
+    _readIndexAttr(field, src, vcd) {
         /** Read an index value from the given source.
          *  @param {string} field Attribute name to read.
          *  @param {BinaryFile} src Source to read from.

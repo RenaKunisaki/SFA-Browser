@@ -31,6 +31,28 @@
         <item value="0x800" name="MatFlag800" />
     </enum>
 
+    <struct name="Bone">
+        <field type="u8" name="parent">
+            <note>high bit is a flag?</note>
+        </field>
+        <field type="u8" name="idx" count="3">
+            <note>idx to write to?</note>
+        </field>
+        <field type="vec3f" name="translation" />
+        <field type="vec3f" name="bindTranslation" />
+    </struct>
+
+    <struct name="VertexGroup">
+        <field type="u8" name="bone0" />
+        <field type="u8" name="bone1" />
+        <field type="u8" name="weight">
+            <note>used as low byte of a float? bone1 weight is 1 - this</note>
+        </field>
+        <field type="u8">
+            <note>probably padding</note>
+        </field>
+    </struct>
+
     <struct name="Header">
         <field type="u8" name="usage">
             <description>Ref count; always 0 (or 1?) in file</description>

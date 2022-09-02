@@ -902,11 +902,13 @@ export default class GX {
         this.programInfo = {
             program: this.program,
             attribs: {
-                POS:  getAttr('in_POS'),
-                COL0: getAttr('in_COL0'),
-                NRM:  getAttr('in_NRM'),
-                TEX0: getAttr('in_TEX0'),
-                id:   getAttr('in_ID'),
+                POS:      getAttr('in_POS'),
+                NRM:      getAttr('in_NRM'),
+                COL0:     getAttr('in_COL0'),
+                TEX0:     getAttr('in_TEX0'),
+                PNMTXIDX: getAttr('in_PNMTXIDX'),
+                //T0MIDX:   getAttr('in_T0MIDX'),
+                id:       getAttr('in_ID'),
             },
             uniforms: {
                 matProjection: getUni('u_matProjection'),
@@ -918,6 +920,9 @@ export default class GX {
                 ambLightColor: getUni('u_ambLightColor'),
                 dirLightColor: getUni('u_dirLightColor'),
                 dirLightVector:getUni('u_dirLightVector'),
+                matPos:        getUni('u_matPos'),
+                matNrm:        getUni('u_matNrm'),
+                matTex:        getUni('u_matTex'),
                 uSampler: [
                     getUni('u_texture0'),
                     getUni('u_texture1'),
@@ -941,33 +946,70 @@ export default class GX {
         const gl = this.gl;
         this._isDrawingForPicker = isPicker;
 
+        //this.program.use();
+        //const unif = this.programInfo.uniforms;
+        //console.log("PROGRAM INFO", this.programInfo);
+        this.syncSettings(mtxs);
+        this.syncXF();
+    }
+
+    syncSettings(mtxs) {
+        /** Upload various render settings to the GPU. */
+        const gl = this.gl;
         this.program.use();
+        const unif = this.programInfo.uniforms;
+
         //reset lights to whatever the user set.
-        gl.uniform3iv(this.programInfo.uniforms.ambLightColor,
+        gl.uniform3iv(unif.ambLightColor,
             this.context.lights.ambient.color);
-        gl.uniform3iv(this.programInfo.uniforms.dirLightColor,
+        gl.uniform3iv(unif.dirLightColor,
             this.context.lights.directional.color);
-        gl.uniform3fv(this.programInfo.uniforms.dirLightVector,
+        gl.uniform3fv(unif.dirLightVector,
             this.context.lights.directional.vector);
 
-        gl.uniform1i(this.programInfo.uniforms.useId,
-            isPicker ? 1 : 0);
-        gl.uniform1i(this.programInfo.uniforms.useLights,
+        gl.uniform1i(unif.useId, this._isDrawingForPicker ? 1 : 0);
+        gl.uniform1i(unif.useLights,
             this.context.lights.enabled ? 1 : 0);
-        gl.uniform1i(this.programInfo.uniforms.useTexture,
+        gl.uniform1i(unif.useTexture,
             this.context.enableTextures ? 1 : 0);
 
-        gl.uniform1i(this.programInfo.uniforms.alphaComp0, this.alphaComp0);
-        gl.uniform1f(this.programInfo.uniforms.alphaRef0,  this.alphaRef0);
-        gl.uniform1i(this.programInfo.uniforms.alphaOp,    this.alphaOp);
-        gl.uniform1i(this.programInfo.uniforms.alphaComp1, this.alphaComp1);
-        gl.uniform1f(this.programInfo.uniforms.alphaRef1,  this.alphaRef1);
+        gl.uniform1i(unif.alphaComp0, this.alphaComp0);
+        gl.uniform1f(unif.alphaRef0,  this.alphaRef0);
+        gl.uniform1i(unif.alphaOp,    this.alphaOp);
+        gl.uniform1i(unif.alphaComp1, this.alphaComp1);
+        gl.uniform1f(unif.alphaRef1,  this.alphaRef1);
 
-        const unif = this.programInfo.uniforms;
         gl.uniformMatrix4fv(unif.matProjection, false, mtxs.projection);
         gl.uniformMatrix4fv(unif.matModelView,  false, mtxs.modelView);
         gl.uniformMatrix4fv(unif.matNormal,     false, mtxs.normal);
-        //console.log("PROGRAM INFO", this.programInfo);
+    }
+
+    syncXF() {
+        /** Upload the XF matrix data to the GPU. */
+        //XXX optimize by not uploading it all every time
+        const gl = this.gl;
+        this.program.use();
+        const unif = this.programInfo.uniforms;
+        console.log(" *** SYNC XF");
+
+        /*let mData = [];
+        for(let n=0; n<256; n += 16) {
+            let lines = [];
+            for(let r=0; r<3; r++) {
+                let line = [];
+                for(let c=0; c<4; c++) {
+                    line.push(this.xf._reg[(r*4)+c+n].toFixed(5)
+                        .padStart(9));
+                }
+                lines.push(line.join(', '));
+            }
+            mData.push(lines.join(',\n'));
+        }
+        console.log("Upload matrix data", this.xf, mData);*/
+        gl.uniform4fv(unif.matPos, this.xf._reg.slice(0, 256));
+        //gl.uniform4fv(unif.matPos, this.xf._reg, 0x000, 0x100);
+        //gl.uniform3fv(unif.matNrm, this.xf._reg, 0x400, 0x060);
+        //gl.uniform4fv(unif.matTex, this.xf._reg, 0x500, 0x100);
     }
 
     setModelViewMtx(mtx) {

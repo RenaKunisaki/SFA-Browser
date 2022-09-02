@@ -443,9 +443,11 @@ export default class ModelRenderer {
 
         this.curShaderIdx = idx;
         if(LogRenderOps) {
-            console.log("Select shader %d", idx, this.curShader);
-            //console.log("Select texture %d: shader flags=%s", idx,
-            //    this.curShader.attrFlags);
+            this.curBatch.addFunction(() => {
+                console.log("Select shader %d", idx, this.curShader);
+                //console.log("Select texture %d: shader flags=%s", idx,
+                //    this.curShader.attrFlags);
+            });
         }
 
         /*if(this._isDrawingForPicker) {
@@ -536,11 +538,11 @@ export default class ModelRenderer {
             TEX6: this.curModel.texCoords,
             TEX7: this.curModel.texCoords,
         };
-        if(LogRenderOps) {
+        /*if(LogRenderOps) {
             console.log("Execute list", idx,
                 "GX STATE", this.gx.cp.getState(),
                 "BUFFERS",  dlistData);
-        }
+        }*/
 
         let id = -1;
         if(this._isDrawingForPicker) {
@@ -557,12 +559,26 @@ export default class ModelRenderer {
             this.curModel.dlists[idx].data, dlistData, id);
         if(this.params.dlist < 0 || this.params.dlist == idx
         || this.params.dlist == undefined) {
-            this.curBatch.addFunction(list);
             if(LogRenderOps) {
-                console.log("executed list", this.curModel.dlists[idx].data);
+                this.curBatch.addFunction(() => {
+                    console.log("Exec dlist", idx,
+                        this.curModel.dlists[idx].data);
+                });
+            }
+
+            this.curBatch.addFunction(list);
+
+            if(LogRenderOps) {
+                this.curBatch.addFunction(() => {
+                    console.log("Finished list");
+                });
             }
         }
-        else if(LogRenderOps) console.log("Skipping dlist", idx, list);
+        else if(LogRenderOps) {
+            this.curBatch.addFunction(() => {
+                console.log("Skipping dlist", idx, list);
+            });
+        }
     }
 
     _renderOpSetVtxFmt() {
@@ -587,16 +603,15 @@ export default class ModelRenderer {
             //GXSetCurrentMtx(0);
         }
         else {
-            //debugger;
             sizes.PMTX = DIRECT;
             let which = 0; //T0MIDX;
-            if(this.curShader && (
             //texture, lighting => auxTex0, auxTex1
             //Shader vs ShaderDef, it's confusing...
-            (this.curShader.auxTex0 < 0x80000000) ||
-            (this.curShader.auxTex1 < 0x80000000))) {
+            if(this.curShader && (
+            (this.curShader.auxTex0 >= 0) ||
+            (this.curShader.auxTex1 >= 0))) {
                 let which_00 = which;
-                if(this.curShader.auxTex2 < 0x80000000) {
+                if(this.curShader.auxTex2 >= 0) {
                     //If the material has textures, we have
                     //texcoord matrices 0,1
                     sizes.TMTX[0] = DIRECT;
@@ -663,9 +678,11 @@ export default class ModelRenderer {
         else sizes.TEX[0] = texSize;
 
         if(LogRenderOps) {
-            console.log("Set vfmt: pos=%d nrm=%d col=%d tex=%d",
-                sizes.POS, sizes.NRM, sizes.COL[0], sizes.TEX[0],
-                    sizes, this.curShader);
+            this.curBatch.addFunction(() => {
+                console.log("Set vfmt: pos=%d nrm=%d col=%d tex=%d",
+                    sizes.POS, sizes.NRM, sizes.COL[0], sizes.TEX[0],
+                        sizes, this.curShader);
+            });
         }
 
         this.gx.cp.setReg(0x50 | VAT, //VCD FMT LO
@@ -695,14 +712,35 @@ export default class ModelRenderer {
     _renderOpMatrix() {
         /** Load one of the block's matrices into GX XF registers.
          */
+        const model = this.curModel;
+        const tbl = [ //not sure why the game does this
+             0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 0, 0,
+            10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 0];
         const ops   = this.curOps;
         const count = ops.read(4);
-        const mtxs  = [];
+        const nMax  = model.header.nVtxGroups + model.header.nBones;
+        let mtxs = {};
+        let idxs = []; //for debug
+
         for(let i=0; i<count; i++) {
-            //can't read more than 24 bits at once
-            mtxs.push(ops.read(8)); //idxs into mtxs (XXX where are they?)
+            let iMtx = ops.read(8);
+            console.assert(iMtx < nMax);
+            idxs.push(iMtx);
+            let xl = model.xlates[iMtx];
+            mtxs[tbl[i]*3] = mat4.fromValues(
+                1, 0, 0, 0,  0, 1, 0, 0,  0, 0, 1, 0,
+                xl[0], xl[1], xl[2], 1);
         }
-        //XXX which XF reg do we write to?
-        if(LogRenderOps) console.log("init %d mtxs", count, mtxs);
+        this.curBatch.addFunction(() => {
+            for(let [r,v] of Object.entries(mtxs)) {
+                this.gx.xf.setMtx(r, v);
+            }
+            this.gx.syncXF();
+        });
+        if(LogRenderOps) {
+            this.curBatch.addFunction(() => {
+                console.log("init %d mtxs", count, idxs, mtxs);
+            });
+        }
     }
 }

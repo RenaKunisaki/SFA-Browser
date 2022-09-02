@@ -544,6 +544,9 @@
     </struct>
 
     <struct name="Shader">
+        <!-- texture fields are int index into model's texture
+        list, which are changed to pointers in memory. -1 means
+        no texture. -->
         <field type="undefined" /><!-- 00 -->
         <field type="undefined" />
         <field type="undefined" />
@@ -552,7 +555,7 @@
         <field type="u8" name="g" />
         <field type="u8" name="b" />
         <field type="undefined" />
-        <field type="pointer" name="auxTex0" /><!-- 08 -->
+        <field type="s32" name="auxTex0" /><!-- 08 -->
         <field type="u8" name="alpha" /><!-- 0C -->
         <field type="undefined" />
         <field type="undefined" />
@@ -561,15 +564,15 @@
         <field type="undefined" />
         <field type="undefined" />
         <field type="undefined" />
-        <field type="pointer" name="auxTex1" /><!-- 14 -->
-        <field type="pointer" name="texture18" /><!-- 18 -->
+        <field type="s32" name="auxTex1" /><!-- 14 -->
+        <field type="s32" name="texture18" /><!-- 18 -->
         <field type="int"><!-- 1C -->
             <note>-1 -&gt; 0, -2 -&gt; 0, else -&gt; 1</note>
         </field>
         <field type="pointer" /><!-- 20 -->
         <field type="ShaderLayer" count="2" name="layer" /><!-- 24 -->
-        <field type="pointer" name="auxTex2" /><!-- 34 -->
-        <field type="pointer" name="furTexture" /><!-- 38 -->
+        <field type="s32" name="auxTex2" /><!-- 34 -->
+        <field type="s32" name="furTexture" /><!-- 38 -->
         <field type="u32" name="flags"><!-- 3C ShaderFlags -->
             <note>may be from beta</note>
             <!--

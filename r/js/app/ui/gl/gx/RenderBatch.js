@@ -345,7 +345,7 @@ export default class RenderBatch {
                 continue; //no such attribute in shader
             }
             const data = this.data[field];
-            //console.log("uploading buffer", field, data);
+            console.log("uploading buffer", field, data);
             gl.bindBuffer(gl.ARRAY_BUFFER, buf);
             gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
             CHECK_ERROR(gl);
@@ -422,6 +422,10 @@ export default class RenderBatch {
         //debug
         console.assert(_curBufs == this);
 
+        if(index == 0) {
+            console.log(`drawElements(mode=${mode} cnt=${count} idx=${index}*4)`);
+            console.log("vtx data:", this.buffers);
+        }
         //index * sizeof(unsigned int)
         gl.drawElements(mode, count, gl.UNSIGNED_INT, index*4);
         //gl.drawArrays(cmd[0], cmd[1], cmd[2]);
@@ -440,7 +444,9 @@ export default class RenderBatch {
         and blending is enabled (everything is invisible), or that your
         viewport's size is zero because you didn't wait for the canvas
         to be actually laid out and given a size before reading its size,
-        or that culling and/or depth testing are hiding everything.
+        or that culling and/or depth testing are hiding everything,
+        or that the browser decided to resize the canvas back to zero
+        because lol. (can happen when canvas is hidden)
         */
         stats.timeDraw += (performance.now() - tStart);
     }

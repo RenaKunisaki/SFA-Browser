@@ -221,9 +221,9 @@ export default class Context {
         this.matModelView  = mat4.create();
         this.matNormal     = null; //generated when redrawing
         this.view = {
-            pos:      {x:0,   y:0,   z:-1},
+            pos:      {x:0,   y:0,   z:-50},
             scale:    {x:1,   y:1,   z:1},
-            rotation: {x:20,  y:120, z:0}, //degrees
+            rotation: {x:0,   y:180, z:0}, //degrees
         };
     }
 

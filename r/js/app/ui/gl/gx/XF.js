@@ -12,13 +12,34 @@ export default class XF {
     reset() {
         /** Reset all state to default.
          */
-        this._reg = [];
+        this._reg = new Float32Array(0x1058);
         this._mtx = {
             'POS': {}, //0x0000 - 0x00FF
             'NRM': {}, //0x0400 - 0x045F
             'DUALTEX': {}, //0x0500 - 0x05FF
         };
-        for(let i=0; i<0x1058; i++) this._reg.push(null);
+        //XXX there's definitely a more efficient way
+        for(let i=0; i<0x100; i += 16) {
+            for(let r=0; r<3; r++) {
+                for(let c=0; c<4; c++) {
+                    this._reg[i+(c*4)+r] = (r==c) ? 1 : 0;
+                }
+            }
+        }
+        for(let i=0x400; i<0x460; i += 12) {
+            for(let r=0; r<3; r++) {
+                for(let c=0; c<3; c++) {
+                    this._reg[i+(c*3)+r] = (r==c) ? 1 : 0;
+                }
+            }
+        }
+        for(let i=0x500; i<0x600; i += 16) {
+            for(let r=0; r<3; r++) {
+                for(let c=0; c<4; c++) {
+                    this._reg[i+(c*4)+r] = (r==c) ? 1 : 0;
+                }
+            }
+        }
         this._updateMtxs();
     }
 
@@ -37,10 +58,7 @@ export default class XF {
     getReg(reg) {
         /** Read a register.
          *  @param {int} reg Register ID.
-         *  @returns the value, or null if the register hasn't been set, or
-         *    undefined if the register doesn't exist. (This is a bit backward,
-         *    but JS uses undefined for nonexistent entries, so it's
-         *    consistent at least.)
+         *  @returns {float} the value.
          */
         return this._reg[reg];
     }
@@ -77,7 +95,7 @@ export default class XF {
             console.error("Normal matrix "+String(idx)+" is undefined");
             return mat3.create();
             //debugger;
-            throw new Error("Normal matrix "+String(idx)+" is undefined");
+            //throw new Error("Normal matrix "+String(idx)+" is undefined");
         }
         return this._mtx.NRM[idx];
     }
@@ -100,6 +118,7 @@ export default class XF {
         const m = mat4.create();
         mat4.transpose(m, mtx);
         for(let i=0; i<12; i++) this._reg[(idx*4)+i] = m[i];
+        console.log("XF.setMtx(%d):", idx, mtx);
         this._updateMtxs();
     }
 
