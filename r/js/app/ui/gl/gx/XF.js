@@ -104,7 +104,7 @@ export default class XF {
         const m = mat4.create();
         mat4.transpose(m, mtx);
         for(let i=0; i<12; i++) this._reg[(idx*4)+i] = m[i];
-        console.log("XF.setMtx(%d):", idx, mtx);
+        //console.log("XF.setMtx(%d):", idx, mtx);
         this._updateMtxs();
     }
 

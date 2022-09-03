@@ -7,7 +7,7 @@ import Box from '../gl/Model/Box.js';
 
 //XXX ton of duplication with BlockRenderer...
 
-const LogRenderOps = true;
+const LogRenderOps = false;
 const DefaultCull = GX.CullMode.BACK;
 
 const ShaderFlags = {
@@ -167,30 +167,6 @@ export default class ModelRenderer {
         this.curModel     = model;
         this.params       = params;
 
-        //temp
-        /*let shaders = {};
-        for(let shader of model.shaders) {
-            for(let name of Object.keys(shader)) {
-                let val = shader[name];
-                if(name == 'layer') {
-                    for(let i=0; i<shader.layer.length; i++) {
-                        let layer = shader.layer[i];
-                        for(let n2 of Object.keys(layer)) {
-                            let v2 = layer[n2];
-                            let n = `layer${i}.${n2}`;
-                            if(shaders[n] == undefined) shaders[n] = [];
-                            shaders[n].push(v2);
-                        }
-                    }
-                }
-                else {
-                    if(shaders[name] == undefined) shaders[name] = [];
-                    shaders[name].push(val);
-                }
-            }
-        }
-        console.log(shaders);*/
-
         const ops = new BitStreamReader(model.renderInstrs);
         this.curOps = ops;
 
@@ -212,7 +188,7 @@ export default class ModelRenderer {
                     console.error("Premature end of stream at bit 0x%s",
                         ops.offset.toString(16));
                 case 5: //end
-                    console.log("Done render stream");
+                    //console.log("Done render stream");
                     done = true;
                     break;
 
@@ -417,7 +393,7 @@ export default class ModelRenderer {
         const gl = this.gl;
         return () => {
             for(let [slot, tex] of params) {
-                console.log("using texture", slot, tex);
+                //console.log("using texture", slot, tex);
                 gl.activeTexture(gl.TEXTURE0 + slot);
                 if(tex) tex.bind();
                 gl.uniform1i(this.gx.programInfo.uniforms.uSampler[slot], slot);
@@ -444,7 +420,7 @@ export default class ModelRenderer {
         this.curShaderIdx = idx;
         if(LogRenderOps) {
             this.curBatch.addFunction(() => {
-                console.log("Select shader %d", idx, this.curShader);
+                //console.log("Select shader %d", idx, this.curShader);
                 //console.log("Select texture %d: shader flags=%s", idx,
                 //    this.curShader.attrFlags);
             });
@@ -495,7 +471,7 @@ export default class ModelRenderer {
                     if(idx >= 0 && this.curModel.textures[idx]) {
                         tex = this.curModel.textures[idx];
                     }
-                    console.log("select texture", idx, tex);
+                    //console.log("select texture", idx, tex);
                 }
                 params.push([i, tex]);
             }
@@ -523,7 +499,6 @@ export default class ModelRenderer {
             if(this.curShader
             && (this.curShader.flags & ShaderFlags.Hidden)) return;
         }
-        //if(idx > 23) return; //HACK
 
         const dlistData = {
             POS:  this.curModel.vtxPositions,

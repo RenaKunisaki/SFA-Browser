@@ -991,25 +991,9 @@ export default class GX {
         this.program.use();
         const unif = this.programInfo.uniforms;
         //console.log(" *** SYNC XF");
-
-        /*let mData = [];
-        for(let n=0; n<256; n += 16) {
-            let lines = [];
-            for(let r=0; r<3; r++) {
-                let line = [];
-                for(let c=0; c<4; c++) {
-                    line.push(this.xf._reg[(r*4)+c+n].toFixed(5)
-                        .padStart(9));
-                }
-                lines.push(line.join(', '));
-            }
-            mData.push(lines.join(',\n'));
-        }
-        console.log("Upload matrix data", this.xf, mData);*/
-        gl.uniform4fv(unif.matPos, this.xf._reg.slice(0, 256));
-        //gl.uniform4fv(unif.matPos, this.xf._reg, 0x000, 0x100);
-        //gl.uniform3fv(unif.matNrm, this.xf._reg, 0x400, 0x060);
-        //gl.uniform4fv(unif.matTex, this.xf._reg, 0x500, 0x100);
+        gl.uniform4fv(unif.matPos, this.xf._reg, 0x000, 0x100);
+        gl.uniform3fv(unif.matNrm, this.xf._reg, 0x400, 0x060);
+        gl.uniform4fv(unif.matTex, this.xf._reg, 0x500, 0x100);
     }
 
     setModelViewMtx(mtx) {
