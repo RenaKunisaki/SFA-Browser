@@ -5,6 +5,8 @@ import { Reg as CPReg } from "../../app/ui/gl/gx/CP.js";
 import RenderBatch from "../../app/ui/gl/gx/RenderBatch.js";
 import DlistParser from "../../app/ui/gl/gx/DlistParser.js";
 
+//TODO: make BlockRenderer use this.
+
 const LogRenderOps = false;
 const DefaultCull  = GX.CullMode.BACK;
 const ShaderFlags  = {
