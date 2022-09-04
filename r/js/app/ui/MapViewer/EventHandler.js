@@ -71,15 +71,6 @@ export default class EventHandler {
         }
     }
 
-    moveToObject(obj) {
-        /** Move the camera to an object.
-         *  @param {RomListEntry} obj Object to move to.
-         */
-        const view = this.mapViewer.viewController.get();
-        view.moveToPoint(obj.position.x, obj.position.y, obj.position.z,
-            Math.max(obj.object.scale, 10) * 10);
-    }
-
     async _onMouseDown(event) {
         if (event.buttons == 1) {
             const obj = await this.mapViewer._getObjAt(

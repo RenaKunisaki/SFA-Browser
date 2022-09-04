@@ -6,6 +6,7 @@ import Context from "../gl/Context.js";
 import GX from "../gl/gx/GX.js";
 import BlockRenderer from "./BlockRenderer.js";
 import ViewController from "../gl/ui/ViewController.js";
+import InputHandler from "../gl/ui/InputHandler.js";
 import Grid from "./Grid.js";
 import Stats from "./Stats.js";
 import LayerChooser from "./LayerChooser.js";
@@ -14,7 +15,6 @@ import ObjectList from "./ObjectList.js";
 import HelpBox from "./HelpBox.js";
 import TextureViewer from "./TextureViewer.js";
 import RenderBatch from "../gl/gx/RenderBatch.js";
-import EventHandler from "./EventHandler.js";
 import ObjectRenderer from "./ObjectRenderer.js";
 import { makeCube, makeBox } from "../gl/GlUtil.js";
 import Arrow from "../gl/Model/Arrow.js";
@@ -42,9 +42,36 @@ export default class MapViewer {
         this.textureViewer = new TextureViewer(this);
         this.eLeftSidebar  = E.div('sidebar sidebar-left');
         this.eRightSidebar = E.div('sidebar sidebar-right');
-        this._eventHandler = new EventHandler(this);
+        this._inputHandler = new InputHandler(this);
+        this._setupKeyEvents();
         this._reset();
         this.app.onIsoLoaded(iso => this._onIsoLoaded());
+    }
+
+    _setupKeyEvents() {
+        const H = this._inputHandler;
+        const C = this.layerChooser;
+        this._inputHandler.onKeyEvent('KP_8_Press', (code, event) => {
+            //put camera at top looking down or something
+        });
+        this._inputHandler.onKeyEvent('g_Press', (code, event) => {
+            C.toggleLayer('waterGeometry');
+        });
+        this._inputHandler.onKeyEvent('b_Press', (code, event) => {
+            C.toggleLayer('blockBounds');
+        });
+        this._inputHandler.onKeyEvent('h_Press', (code, event) => {
+            C.toggleLayer('hiddenGeometry');
+        });
+        this._inputHandler.onKeyEvent('m_Press', (code, event) => {
+            C.toggleLayer('mainGeometry');
+        });
+        this._inputHandler.onKeyEvent('t_Press', (code, event) => {
+            C.toggleLayer('reflectiveGeometry');
+        });
+        this._inputHandler.onKeyEvent('p_Press', (code, event) => {
+            C.toggleLayer('warps');
+        });
     }
 
     showObject(entry) {
@@ -320,6 +347,19 @@ export default class MapViewer {
         if(isNaN(y) || y == null) y = 0;
         if(isNaN(z) || z == null) z = 0;
         this.viewController.moveToPoint(x, y, z, radius, 0, rx);
+    }
+
+    moveToObject(obj) {
+        /** Move the camera to an object.
+         *  @param {RomListEntry} obj Object to move to.
+         */
+        this.viewController.moveToPoint(
+            obj.position.x, obj.position.y, obj.position.z,
+            Math.max(obj.object.scale, 10) * 10);
+    }
+
+    clearTarget() {
+        this._targetObj = null;
     }
 
     async _draw(isPicker) {

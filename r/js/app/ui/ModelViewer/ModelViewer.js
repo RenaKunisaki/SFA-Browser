@@ -140,6 +140,10 @@ export default class ModelViewer {
         //this._eventHandler.moveToPoint(x, y, z, radius, 0, rx);
     }
 
+    clearTarget() {
+        //nothing to do here for now
+    }
+
     async _draw(isPicker) {
         /** Draw the model. Called by Context. */
         if(!this.model) return;
