@@ -5,110 +5,11 @@ import RenderBatch from '../gl/gx/RenderBatch.js';
 import GX from '../gl/gx/GX.js';
 import { MAP_CELL_SIZE } from '../../../game/Game.js';
 import Box from '../gl/Model/Box.js';
+import Block from '../../../game/map/Block.js';
+import RenderStreamParser from '../../../game/model/RenderStreamParser.js'
 
 //struct types
 let HitsBinEntry, SurfaceType;
-
-const LogRenderOps = false;
-const ShaderFlags = {
-    Hidden:             (1<< 1), //invisible, exploded walls, etc
-    Fog:                (1<< 2), //enable fog
-    CullBackface:       (1<< 3),
-    ReflectSkyscape:    (1<< 5),
-    Caustic:            (1<< 6),
-    Lava:               (1<< 7),
-    Reflective:         (1<< 8), //Occurs on Krazoa Palace reflective floors
-    FuzzRelated:        (1<< 9),
-    AlphaCompare:       (1<<10),
-    TranspRelated2000:  (1<<13),
-    ShortFur:           (1<<14), //4 layers
-    MediumFur:          (1<<15), //8 layers
-    LongFur:            (1<<16), //16 layers
-    StreamingVideo:     (1<<17), //Occurs on video panels in Great Fox. Used to display preview video.
-    IndoorOutdoorBlend: (1<<18), //Occurs near cave entrances and windows. Requires special handling for lighting.
-    BlendFlag29:        (1<<29),
-    ForceBlend:         (1<<30),
-    Water:              (1<<31),
-};
-
-//from noclip
-/* export enum ShaderAttrFlags {
-    NRM = 0x1,
-    CLR = 0x2,
-}
-export const enum NormalFlags {
-    HasVertexColor = 0x2,
-    NBT = 0x8,
-    HasVertexAlpha = 0x10,
-}
-export const enum LightFlags {
-    OverrideLighting = 0x2,
-} */
-
-const DefaultCull = GX.CullMode.BACK;
-
-const vatDefaults = [
-    //these are set in videoInit() and almost never change
-    { //VAT 0
-        POSCNT:  1, POSFMT:  3, POSSHFT:   0, //s16
-        COL0CNT: 1, COL0FMT: 5, COL0SHFT:  0, //rgba8888
-        TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT:  7, //s16
-    },
-    { //VAT 1
-        POSCNT:  1, POSFMT:  3, POSSHFT:   2, //s16
-        COL0CNT: 1, COL0FMT: 5, COL0SHFT:  0, //rgba8888
-        TEX0CNT: 1, TEX0FMT: 4, TEX0SHFT:  0, //float
-    },
-    { //VAT 2
-        POSCNT:  1, POSFMT:  4, POSSHFT:   0, //float
-        NRMCNT:  0, NRMFMT:  4, NRMSHFT:   0, //float
-        COL0CNT: 1, COL0FMT: 5, COL0SHFT:  0, //rgba8888
-        TEX0CNT: 1, TEX0FMT: 4, TEX0SHFT:  0, //float
-        TEX1CNT: 1, TEX1FMT: 4, TEX1SHFT:  0, //float
-    },
-    { //VAT 3
-        POSCNT:  1, POSFMT:  3, POSSHFT:   8, // s16
-        NRM3CNT: 1, NRM3FMT: 1, NRM3SHFT:  0, // s8
-        COL0CNT: 1, COL0FMT: 3, COL0SHFT:  0, // rgba4444
-        TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT: 10, // s16
-        TEX1CNT: 1, TEX1FMT: 3, TEX1SHFT: 10, // s16
-        TEX2CNT: 1, TEX2FMT: 3, TEX2SHFT: 10, // s16
-        TEX3CNT: 1, TEX3FMT: 3, TEX3SHFT: 10, // s16
-    },
-    { //VAT 4
-        POSCNT:  1, POSFMT:  4, POSSHFT:   0, //float
-        COL0CNT: 1, COL0FMT: 5, COL0SHFT:  0, //rgba8888
-        TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT:  7, //s16
-        NRMCNT:  0, NRMFMT:  4, NRMSHFT:   0, //float
-    },
-    { //VAT 5
-        POSCNT:  1, POSFMT:  3, POSSHFT:   3, //s16
-        NRMCNT:  0, NRMFMT:  1, NRMSHFT:   0, //s8
-        COL0CNT: 1, COL0FMT: 3, COL0SHFT:  0, //rgba4444
-        TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT:  8, //s16
-        TEX1CNT: 1, TEX1FMT: 3, TEX1SHFT:  8, //s16
-        TEX2CNT: 1, TEX2FMT: 3, TEX2SHFT:  8, //s16
-        TEX3CNT: 1, TEX3FMT: 3, TEX3SHFT:  8, //s16
-    },
-    { //VAT 6
-        POSCNT:  1, POSFMT:  3, POSSHFT:   8, //s16
-        NRMCNT:  0, NRMFMT:  1, NRMSHFT:   0, //s8
-        COL0CNT: 1, COL0FMT: 3, COL0SHFT:  0, //rgba4444
-        TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT: 10, //s16
-        TEX1CNT: 1, TEX1FMT: 3, TEX1SHFT: 10, //s16
-        TEX2CNT: 1, TEX2FMT: 3, TEX2SHFT: 10, //s16
-        TEX3CNT: 1, TEX3FMT: 3, TEX3SHFT: 10, //s16
-    },
-    { //VAT 7
-        POSCNT:  1, POSFMT:  3, POSSHFT:   0, //s16
-        NRMCNT:  0, NRMFMT:  1, NRMSHFT:   0, //s8
-        COL0CNT: 1, COL0FMT: 3, COL0SHFT:  0, //rgba4444
-        TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT: 10, //s16
-        TEX1CNT: 1, TEX1FMT: 3, TEX1SHFT: 10, //s16
-        TEX2CNT: 1, TEX2FMT: 3, TEX2SHFT: 10, //s16
-        TEX3CNT: 1, TEX3FMT: 3, TEX3SHFT: 10, //s16
-    },
-];
 
 const SurfaceTypeColors = {
     generic:     [0x20, 0x20, 0x20],
@@ -130,28 +31,6 @@ const SurfaceTypeColors = {
     metal:       [0xC0, 0xC0, 0xC0],
 };
 
-function _setShaderParams(gl, gx, cullMode, blendMode, sFactor, dFactor,
-logicOp, compareEnable, compareFunc, updateEnable, alphaTest) {
-    switch(cullMode) {
-        case GX.CullMode.NONE: gl.disable(gl.CULL_FACE); break;
-        case GX.CullMode.FRONT:
-            gl.enable(gl.CULL_FACE);
-            gl.cullFace(gl.FRONT);
-            break;
-        case GX.CullMode.BACK:
-            gl.enable(gl.CULL_FACE);
-            gl.cullFace(gl.BACK);
-            break;
-        case GX.CullMode.ALL:
-            gl.enable(gl.CULL_FACE);
-            gl.cullFace(gl.FRONT_AND_BACK);
-            break;
-    }
-    gx.setBlendMode(blendMode, sFactor, dFactor, logicOp);
-    gx.setZMode(compareEnable, compareFunc, updateEnable);
-    gx.setUseAlphaTest(alphaTest);
-}
-
 export default class BlockRenderer {
     /** Renders map blocks. */
     constructor(mapViewer, gx) {
@@ -161,6 +40,7 @@ export default class BlockRenderer {
         SurfaceType  = this.game.app.types.getType('sfa.maps.SurfaceType');
         this.gx = gx;
         this.gl = gx.gl;
+        this.stream = new RenderStreamParser(gx);
         this.dlistParser = new DlistParser(gx);
         this.reset();
     }
@@ -203,6 +83,9 @@ export default class BlockRenderer {
         ]).join(',');
         if(this._batches[key]) return this._batches[key];
 
+        params = Object.assign({}, params); //shallow copy
+        params.isMap = true;
+
         //console.log("parsing", block, whichStream);
         this.curBatch = new RenderBatch(this.gx);
         this._batches[key] = this.curBatch;
@@ -213,48 +96,8 @@ export default class BlockRenderer {
         this.params       = params;
 
         const ops = new BitStreamReader(block.renderInstrs[whichStream]);
-        this.curOps = ops;
-
-        let done = false;
-        this._setInitialGxParams(whichStream);
-        this.curBatch.addFunction(() => { this.setMtxForBlock(block) });
-        while(!done && !ops.isEof) {
-            //this is similar but not identical to the render instructions
-            //used for character models.
-            const op = ops.read(4);
-            switch(op) {
-                case 1: this._renderOpTexture();   break;
-                case 2: this._renderOpCallList();  break;
-                case 3: this._renderOpSetVtxFmt(); break;
-                case 0: //unused, but should be same as 4
-                case 4: this._renderOpMatrix();    break;
-
-                case null: //reached end of stream
-                    console.error("Premature end of stream at bit 0x%s",
-                        ops.offset.toString(16));
-                case 5: //end
-                    //console.log("Done rendering", whichStream);
-                    done = true;
-                    break;
-
-                default:
-                    console.error("Unknown render op %d at bit 0x%s", op,
-                        (ops.offset-4).toString(16));
-            }
-        }
-
-        this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
-            DefaultCull, //cull mode
-            GX.BlendMode.NONE, //blend mode
-            GX.BlendFactor.ONE, //sFactor
-            GX.BlendFactor.ZERO, //dFactor
-            GX.LogicOp.NOOP, //logicOp
-            true, //compareEnable
-            GX.Compare.LEQUAL, //compareFunc
-            true, //updateEnable
-            true, //alphaTest
-        )});
-
+        this._batches[key] = this.stream.execute(
+            block, ops, params);
         return this._batches[key];
     }
 
@@ -276,7 +119,7 @@ export default class BlockRenderer {
     render(block, whichStream, params={}) {
         /** Render the block.
          *  @param {Block} block The block to render.
-         *  @param {string} whichStr{eam One of 'main', 'water', 'reflective'
+         *  @param {string} whichStream One of 'main', 'water', 'reflective'
          *   specifying which bitstream to use.
          *  @param {object} params Render parameters.
          *  @returns {RenderBatch} The render batch.

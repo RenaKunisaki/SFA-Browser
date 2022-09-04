@@ -18,8 +18,10 @@ export default class DlistParser {
         list = new BinaryFile(list);
         this.buffers = {};
         for(const [name, buf] of Object.entries(buffers)) {
-            console.assert(buf instanceof ArrayBuffer);
-            this.buffers[name] = new BinaryFile(buf);
+            if(buf != null) {
+                console.assert(buf instanceof ArrayBuffer);
+                this.buffers[name] = new BinaryFile(buf);
+            }
         }
         //console.log("parsing dlist", list, "buffers", buffers,
         //    "CP state", this.gx.cp.getState());

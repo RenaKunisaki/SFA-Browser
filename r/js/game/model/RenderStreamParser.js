@@ -5,8 +5,6 @@ import { Reg as CPReg } from "../../app/ui/gl/gx/CP.js";
 import RenderBatch from "../../app/ui/gl/gx/RenderBatch.js";
 import DlistParser from "../../app/ui/gl/gx/DlistParser.js";
 
-//TODO: make BlockRenderer use this.
-
 const LogRenderOps = false;
 const DefaultCull  = GX.CullMode.BACK;
 const ShaderFlags  = {
@@ -29,6 +27,19 @@ const ShaderFlags  = {
     ForceBlend:         (1<<30),
     Water:              (1<<31),
 };
+//from noclip
+/* export enum ShaderAttrFlags {
+    NRM = 0x1,
+    CLR = 0x2,
+}
+export const enum NormalFlags {
+    HasVertexColor = 0x2,
+    NBT = 0x8,
+    HasVertexAlpha = 0x10,
+}
+export const enum LightFlags {
+    OverrideLighting = 0x2,
+} */
 const vatDefaults = [
     //these are set in videoInit() and almost never change
     { //VAT 0
@@ -125,7 +136,12 @@ export default class RenderStreamParser {
         this._setInitialGxParams();
 
         let done = false;
-        while(!done && !this.reader.isEoF) {
+        while((!done) && (!this.reader.isEof)) {
+            if(this.reader.isEof == undefined) {
+                //what the FUCK
+                debugger;
+                return;
+            }
             const op = this.reader.read(4);
             switch(op) {
                 case 1: this._renderOpTexture();   break;
@@ -647,6 +663,8 @@ export default class RenderStreamParser {
         const idxs  = [];
 
         const count = this.reader.read(4);
+        console.log("Load %d mtxs", count);
+        if(count == 0) debugger;
         //following data is indices into the model's matrix list.
         for(let i=0; i<count; i++) {
             idxs.push(this.reader.read(8));
