@@ -47,6 +47,7 @@ export default class ViewController {
         }
         if(params.zNear != undefined) this.txtZNear.value = params.zNear;
         if(params.zFar  != undefined) this.txtZFar .value = params.zFar;
+        if(params.fov   != undefined) this.txtFov  .value = params.fov;
         if(params.enableTextures != undefined) {
             this.chkEnableTex.checked = params.enableTextures;
         }
@@ -96,7 +97,8 @@ export default class ViewController {
                 z:F(this.txtScaleZ.value),
             },
             zNear: F(this.txtZNear.value),
-            zFar:  F(this.txtZFar.value),
+            zFar:  F(this.txtZFar .value),
+            fov:   F(this.txtFov  .value),
             enableTextures: this.chkEnableTex.checked,
             useWireframe: this.chkWireframe.checked,
             enableBackfaceCulling: this.chkEnableBackface.checked,
@@ -168,6 +170,7 @@ export default class ViewController {
         }
         if(params.zNear != undefined) this.txtZNear.value = F(this.txtZNear.value) + params.zNear;
         if(params.zFar  != undefined) this.txtZFar .value = F(this.txtZFar .value) + params.zFar;
+        if(params.fov   != undefined) this.txtFov  .value = F(this.txtFov  .value) + params.fov;
         if(params.enableTextures != undefined) {
             this.chkEnableTex.checked = params.enableTextures;
         }
@@ -208,8 +211,8 @@ export default class ViewController {
         this.txtRotY.value   =     0;
         this.txtRotZ.value   =     0;
         this.txtFov.value    =    60;
-        this.txtZNear.value  =     1;
-        this.txtZFar.value   = 50000;
+        this.txtZNear.value  =   2.5;
+        this.txtZFar.value   = 10000;
         this.txtMoveSpeed.value = 1.0;
         this.chkEnableTex.checked      = true;
         this.chkWireframe.checked      = false;

@@ -6,6 +6,7 @@ import Context from "../gl/Context.js";
 import GX from "../gl/gx/GX.js";
 import ModelRenderer from './ModelRenderer.js';
 import ViewController from "../gl/ui/ViewController.js";
+import InputHandler from "../gl/ui/InputHandler.js";
 import TextureViewer from "../MapViewer/TextureViewer.js";
 
 const PI_OVER_180 = Math.PI / 180.0; //rad = deg * PI_OVER_180
@@ -22,12 +23,10 @@ export default class ModelViewer {
         this.context       = null;
         this.eLeftSidebar  = E.div('sidebar sidebar-left');
         this.eRightSidebar = E.div('sidebar sidebar-right');
-        this._reset();
-
-        //disable model viewer for now because lol canvas shit
-        this.app.onIsoLoaded(iso => this._onIsoLoaded());
-
+        this._inputHandler = new InputHandler(this);
         this.textureViewer = new TextureViewer(this);
+        this._reset();
+        this.app.onIsoLoaded(iso => this._onIsoLoaded());
     }
 
     _onIsoLoaded() {
@@ -113,6 +112,8 @@ export default class ModelViewer {
             useOrtho: false,
             frontFaceCW: true,
             useSRT: false,
+            zNear:2.5, zFar:10000, fov:60,
+            scale: {x:1, y:1, z:1},
         });
         this.gx.resetPicker();
         this.textureViewer.refresh();
@@ -145,9 +146,6 @@ export default class ModelViewer {
 
     resetCamera() {
         /** Move the camera to an appropriate starting position. */
-        //this.viewController.set({
-        //    pos: {x:10000, y:10000, z:10000},
-        //});
         let x = 0;
         let y = 0;
         let z = 0;

@@ -226,6 +226,8 @@ export default class MapViewer {
             useOrtho: false,
             frontFaceCW: true,
             useSRT: true,
+            zNear:2.5, zFar:10000, fov:60,
+            scale: {x:1, y:1, z:1},
         });
         this.gx.resetPicker();
         this._objectRenderer.reset();
