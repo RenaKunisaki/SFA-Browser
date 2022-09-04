@@ -394,7 +394,7 @@ export default class RenderStreamParser {
                 GX.BlendFactor.ZERO, //dFactor
                 GX.LogicOp.NOOP, //logicOp
                 true, //compareEnable
-                GX.CompareMode.LEQUAL, //compareFunc
+                GX.Compare.LEQUAL, //compareFunc
                 true, //updateEnable
                 true, //alphaTest
             )});
@@ -663,8 +663,8 @@ export default class RenderStreamParser {
         const idxs  = [];
 
         const count = this.reader.read(4);
-        console.log("Load %d mtxs", count);
-        if(count == 0) debugger;
+        //console.log("Load %d mtxs", count);
+        //if(count == 0) debugger;
         //following data is indices into the model's matrix list.
         for(let i=0; i<count; i++) {
             idxs.push(this.reader.read(8));
