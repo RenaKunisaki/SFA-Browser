@@ -8,6 +8,10 @@ import ModelRenderer from './ModelRenderer.js';
 import ViewController from "../gl/ui/ViewController.js";
 import TextureViewer from "../MapViewer/TextureViewer.js";
 
+const PI_OVER_180 = Math.PI / 180.0; //rad = deg * PI_OVER_180
+const DEG2RAD = (x) => (x*PI_OVER_180);
+const RAD2DEG = (x) => (x/PI_OVER_180);
+
 export default class ModelViewer {
     /** Renders object models. */
     constructor(game) {
@@ -101,6 +105,15 @@ export default class ModelViewer {
         this.model = model;
         this._modelRenderer.parse(this.model);
 
+        this.viewController.set({
+            enableTextures: true,
+            useWireframe: false,
+            enableBackfaceCulling: true,
+            showPickBuffer: false,
+            useOrtho: false,
+            frontFaceCW: true,
+            useSRT: false,
+        });
         this.gx.resetPicker();
         this.textureViewer.refresh();
         this.redraw();
@@ -132,12 +145,15 @@ export default class ModelViewer {
 
     resetCamera() {
         /** Move the camera to an appropriate starting position. */
+        //this.viewController.set({
+        //    pos: {x:10000, y:10000, z:10000},
+        //});
         let x = 0;
         let y = 0;
         let z = 0;
-        let rx = 0;
-        let radius = this.model.radi;
-        //this._eventHandler.moveToPoint(x, y, z, radius, 0, rx);
+        let rx = DEG2RAD(180);
+        let radius = Math.max(50, this.model.radi);
+        this.viewController.moveToPoint(x, y, z, radius, 0, rx);
     }
 
     clearTarget() {

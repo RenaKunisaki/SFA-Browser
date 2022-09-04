@@ -13,6 +13,8 @@ const CLAMP_RADIANS = (x) => {
     return x;
 };
 
+let _nextId=0;
+
 export default class ViewController {
     /** Controls the "camera" of a GL context. */
     constructor(context) {
@@ -231,9 +233,9 @@ export default class ViewController {
          *  @param {float} radius How close to the point the camera should get.
          *  @param {float} time How many seconds the camera should take to
          *      reach the target point. (Can be zero)
-         *  @param {float} rotX X rotation for camera to have when done.
-         *  @param {float} rotY Y rotation for camera to have when done.
-         *  @param {float} rotZ Z rotation for camera to have when done.
+         *  @param {float} rotX X rotation (radians) for camera to have when done.
+         *  @param {float} rotY Y rotation (radians) for camera to have when done.
+         *  @param {float} rotZ Z rotation (radians) for camera to have when done.
          *  @description Moves the camera toward the target point, and rotates
          *      it to look at that point. The movement is animated over the
          *      given amount of time, and the camera is placed within the
@@ -281,6 +283,7 @@ export default class ViewController {
         //have it do the minimal Y movement too instead of forcing to
         //the same height as the object...
 
+        const isRotCam = this.btnRotateCam.checked;
         const tStart = performance.now();
         const tick = () => {
             const tNow = performance.now();
@@ -298,6 +301,13 @@ export default class ViewController {
                 vec3.lerp(pos, curPos, dstPos, s);
                 rx = startYZ + (diffYZ * s);
                 ry = startXZ + (diffXZ * s);
+            }
+            if(!isRotCam) {
+                //if rotating around object we need to
+                //invert the coordinates
+                pos[0] = -pos[0];
+                pos[1] = -pos[1];
+                pos[2] = -pos[2];
             }
             this.set({
                 pos: {x:pos[0], y:pos[1], z:pos[2]},
@@ -390,35 +400,43 @@ export default class ViewController {
         this.txtMoveSpeed=F('speed float', 0.25,   C.moveSpeed, 0.25, 5);
 
         //checkbox to enable textures
-        this.chkEnableTex = E.input(null, {type:'checkbox', id:'chkEnableTex'});
-        this.lblEnableTex = E.label(null, {'for':'chkEnableTex'}, "Textures");
+        this.chkEnableTex = E.input(null, {type:'checkbox',
+            id:`chkEnableTex${_nextId}`});
+        this.lblEnableTex = E.label(null, {
+            'for':`chkEnableTex${_nextId}`}, "Textures");
         this.chkEnableTex.checked = C.enableTextures;
         this.chkEnableTex.addEventListener('change', e => this._onChange(e));
 
         //checkbox to enable wireframe
-        this.chkWireframe = E.input(null, {type:'checkbox', id:'chkWireframe'});
-        this.lblWireframe = E.label(null, {'for':'chkWireframe'}, "Wireframe");
+        this.chkWireframe = E.input(null, {type:'checkbox',
+            id:`chkWireframe${_nextId}`});
+        this.lblWireframe = E.label(null, {
+            'for':`chkWireframe${_nextId}`}, "Wireframe");
         this.chkWireframe.checked = C.useWireframe;
         this.chkWireframe.addEventListener('change', e => this._onChange(e));
 
         //checkbox to enable backface culling
         this.chkEnableBackface = E.input(null,
-            {type:'checkbox', id:'chkEnableBcakface'});
+            {type:'checkbox', id:`chkEnableBcakface${_nextId}`});
         this.lblEnableBackface = E.label(null,
-            {'for':'chkEnableBackface'}, "Cull Backfaces");
+            {'for':`chkEnableBackface${_nextId}`}, "Cull Backfaces");
         this.chkEnableBackface.checked = C.enableBackfaceCulling;
         this.chkEnableBackface.addEventListener('change', e => this._onChange(e));
 
         //checkbox to display pick buffer
-        this.chkShowPickBuffer = E.input(null, {type:'checkbox', id:'chkShowPickBuffer'});
-        this.lblShowPickBuffer = E.label(null, {'for':'chkShowPickBuffer'}, "Show Pick Buffer");
+        this.chkShowPickBuffer = E.input(null, {type:'checkbox',
+            id:`chkShowPickBuffer${_nextId}`});
+        this.lblShowPickBuffer = E.label(null, {
+            'for':`chkShowPickBuffer${_nextId}`}, "Show Pick Buffer");
         this.chkShowPickBuffer.checked = C.showPickBuffer;
         this.chkShowPickBuffer.addEventListener('change', e => this._onChange(e));
 
         //checkbox to use orthographic projection
-        this.chkOrtho = E.input(null, {type:'checkbox', id:'chkOrtho'});
+        this.chkOrtho = E.input(null, {type:'checkbox',
+            id:`chkOrtho${_nextId}`});
         this.lblOrtho = E.label(null,
-            {'for':'chkOrtho', title:"Use orthographic projection"}, "Ortho");
+            {'for':`chkOrtho${_nextId}`,
+            title:"Use orthographic projection"}, "Ortho");
         this.chkOrtho.checked = C.useOrtho;
         this.chkOrtho.addEventListener('change', e => this._onChange(e));
 
@@ -428,29 +446,35 @@ export default class ViewController {
 
         //radio buttons to select front face order
         this.btnFrontFaceCW = E.input({type:'radio', name:'frontFace',
-            id:'frontFaceCW'});
-        this.lblFrontFaceCW = E.label(null, {'for':'frontFaceCW'}, "CW");
+            id:`frontFaceCW${_nextId}`});
+        this.lblFrontFaceCW = E.label(null, {
+            'for':`frontFaceCW${_nextId}`}, "CW");
         this.btnFrontFaceCW.checked = C.frontFaceCW;
         this.btnFrontFaceCW.addEventListener('change', e => this._onChange(e));
 
         this.btnFrontFaceCCW = E.input({type:'radio', name:'frontFace',
-            id:'frontFaceCCW'});
-        this.lblFrontFaceCCW = E.label(null, {'for':'frontFaceCCW'}, "CCW");
+            id:`frontFaceCCW${_nextId}`});
+        this.lblFrontFaceCCW = E.label(null, {
+            'for':`frontFaceCCW${_nextId}`}, "CCW");
         this.btnFrontFaceCCW.checked = !C.frontFaceCW;
         this.btnFrontFaceCCW.addEventListener('change', e => this._onChange(e));
 
         //radio buttons to select rotation point
         this.btnRotateCam = E.input({type:'radio', name:'rotPoint',
-            id:'rotPointCam'});
-        this.lblRotateCam = E.label(null, {'for':'rotPointCam'}, "Camera");
+            id:`rotPointCam${_nextId}`});
+        this.lblRotateCam = E.label(null, {
+            'for':`rotPointCam${_nextId}`}, "Camera");
         this.btnRotateCam.checked = C.useSRT;
         this.btnRotateCam.addEventListener('change', e => this._onChange(e));
 
         this.btnRotateOrg = E.input({type:'radio', name:'rotPoint',
-            id:'rotPointOrg'});
-        this.lblRotateOrg = E.label(null, {'for':'rotPointOrg'}, "Origin");
+            id:`rotPointOrg${_nextId}`});
+        this.lblRotateOrg = E.label(null, {
+            'for':`rotPointOrg${_nextId}`}, "Origin");
         this.btnRotateOrg.checked = !C.useSRT;
         this.btnRotateOrg.addEventListener('change', e => this._onChange(e));
+
+        _nextId++;
     }
 
     _createMainElement() {

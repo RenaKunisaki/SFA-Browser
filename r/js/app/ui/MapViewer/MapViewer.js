@@ -218,6 +218,15 @@ export default class MapViewer {
             //don't have any corresponding geometry.
         }
 
+        this.viewController.set({
+            enableTextures: true,
+            useWireframe: false,
+            enableBackfaceCulling: true,
+            showPickBuffer: false,
+            useOrtho: false,
+            frontFaceCW: true,
+            useSRT: true,
+        });
         this.gx.resetPicker();
         this._objectRenderer.reset();
         this._blockRenderer.reset();

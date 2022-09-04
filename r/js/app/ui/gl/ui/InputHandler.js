@@ -1,3 +1,5 @@
+const PI_OVER_180 = Math.PI / 180.0; //rad = deg * PI_OVER_180
+
 export default class InputHandler {
     /** Handles keyboard/mouse events on a GL context. */
     constructor(viewer) {
