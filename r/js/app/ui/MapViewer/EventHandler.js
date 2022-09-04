@@ -42,12 +42,13 @@ export default class EventHandler {
             return;
         }
 
+        const view = this.mapViewer.viewController;
         let deltaTime = this._deltaTick / 1000.0
         let baseSpeed = 350.0;
         let speed = baseSpeed * this.mapViewer.context.moveSpeed;
 
         if(this._keyPressMap[' ']) {
-            this.mapViewer.viewController.adjust({pos: {y: speed * deltaTime } });
+            view.adjust({pos: {y: speed * deltaTime } });
         }
 
         let movement = { x: 0.0, y: 0.0 };
@@ -65,7 +66,7 @@ export default class EventHandler {
         }
 
         if(movement.x != 0.0 || movement.y != 0.0) {
-            this._moveByVector(movement);
+            view.moveByVector(movement);
             this.mapViewer._targetObj = null;
         }
     }
@@ -74,114 +75,9 @@ export default class EventHandler {
         /** Move the camera to an object.
          *  @param {RomListEntry} obj Object to move to.
          */
-        this.moveToPoint(obj.position.x, obj.position.y, obj.position.z,
+        const view = this.mapViewer.viewController.get();
+        view.moveToPoint(obj.position.x, obj.position.y, obj.position.z,
             Math.max(obj.object.scale, 10) * 10);
-    }
-
-    moveToPoint(x, y, z, radius=1, time=1.0, rotX=null, rotY=null, rotZ=null) {
-        /** Move the camera to a point.
-         *  @param {float} x X coordinate to move to.
-         *  @param {float} y Y coordinate to move to.
-         *  @param {float} z Z coordinate to move to.
-         *  @param {float} radius How close to the point the camera should get.
-         *  @param {float} time How many seconds the camera should take to
-         *      reach the target point. (Can be zero)
-         *  @param {float} rotX X rotation for camera to have when done.
-         *  @param {float} rotY Y rotation for camera to have when done.
-         *  @param {float} rotZ Z rotation for camera to have when done.
-         *  @description Moves the camera toward the target point, and rotates
-         *      it to look at that point. The movement is animated over the
-         *      given amount of time, and the camera is placed within the
-         *      given radius of the target point, pointed toward the target.
-         *      If rotation values are given, uses them instead of pointing
-         *      at the target point.
-         */
-        const view = this.mapViewer.viewController.get();
-
-        //get starting and ending positions
-        let curPos = vec3.fromValues(view.pos.x, view.pos.y, view.pos.z);
-        let tgtPos = vec3.fromValues(x, y, z);
-
-        //adjust destination so that it's within some distance of the point.
-        //here we're imagining the point is a sphere, and calculating
-        //the nearest point on its surface.
-        //this means we zoom *to* an object, not *into* it.
-        let dstPos = tgtPos;
-        if(radius > 0) {
-            const dist = vec3.distance(curPos, tgtPos);
-            dstPos = vec3.fromValues(
-                tgtPos[0] + ((radius * (curPos[0]-tgtPos[0])) / dist),
-                tgtPos[1], //+ ((radius * (curPos[1]-objPos[1])) / dist),
-                tgtPos[2] + ((radius * (curPos[2]-tgtPos[2])) / dist),
-            );
-        }
-
-        //calculate angle we need to be at to point to target
-        let angleXZ  = Math.atan2(dstPos[2] - tgtPos[2], dstPos[0] - tgtPos[0]);
-        angleXZ = CLAMP_RADIANS(angleXZ - (Math.PI / 2)); //no idea
-        if(rotX !== null) angleXZ = rotX;
-        const startXZ = CLAMP_RADIANS(DEG2RAD(view.rot.y));
-        let   diffXZ  = CLAMP_RADIANS(angleXZ - startXZ);
-        //console.log("rotX=", RAD2DEG(rotX), "angle", RAD2DEG(angleXZ),
-        //    "diff", RAD2DEG(diffXZ));
-
-        let startYZ = DEG2RAD(view.rot.x);
-        let diffYZ  = -startYZ;
-        if(rotY !== null) diffYZ += rotY;
-        //XXX rotZ
-
-        //don't do a full rotation if we don't have to.
-        if(diffXZ  >= Math.PI) diffXZ = -((Math.PI * 2) - diffXZ);
-        if(startYZ >= Math.PI) diffYZ =   (Math.PI * 2) + diffYZ;
-
-        //maybe sometime when I'm not up too late already, I'll try to
-        //have it do the minimal Y movement too instead of forcing to
-        //the same height as the object...
-
-        const tStart = performance.now();
-        const tick = () => {
-            const tNow = performance.now();
-            const tDiff = Math.min(1, (tNow - tStart) / 1000); //msec -> sec
-
-            let pos = vec3.create();
-            let rx, ry;
-            if(time <= 0) { //no lerping
-                pos = dstPos;
-                rx = startYZ + diffYZ;
-                ry = startXZ + diffXZ;
-            }
-            else {
-                const s = tDiff / time;
-                vec3.lerp(pos, curPos, dstPos, s);
-                rx = startYZ + (diffYZ * s);
-                ry = startXZ + (diffXZ * s);
-            }
-            this.mapViewer.viewController.set({
-                pos: {x:pos[0], y:pos[1], z:pos[2]},
-                rot: {x:RAD2DEG(rx), y:RAD2DEG(ry), z:0},
-            });
-
-            if(tDiff < time) requestAnimationFrame(tick);
-        };
-        tick();
-    }
-
-    _moveByVector(vec) {
-        const view = this.mapViewer.viewController.get();
-        const rx = ((view.rot.x % 360) - 180) * PI_OVER_180;
-        const ry = ((view.rot.y % 360) - 180) * PI_OVER_180;
-
-        const sinRX = Math.sin(rx);
-        const cosRX = Math.cos(rx);
-        const sinRY = Math.sin(ry);
-        const cosRY = Math.cos(ry);
-
-        const deltaX = ((vec.x * cosRY) - (vec.y * sinRY));
-        const deltaY = vec.y * sinRX;
-        const deltaZ = ((vec.x * sinRY) + (vec.y * cosRY));
-
-        this.mapViewer.viewController.adjust({ pos: {
-            x: deltaX, y: deltaY, z: deltaZ } });
     }
 
     async _onMouseDown(event) {
@@ -256,7 +152,8 @@ export default class EventHandler {
         //this.mapViewer.viewController.adjust({moveSpeed: deltaSpeed});
         if(event.shiftKey) this.mapViewer.viewController.adjust({
             pos:{x:0, y:event.deltaY, z:0}});
-        else this._moveByVector({x:0, y:-event.deltaY});
+        else this.mapViewer.viewController.moveByVector(
+            {x:0, y:-event.deltaY});
     }
 
     _onKey(event, isDown) {

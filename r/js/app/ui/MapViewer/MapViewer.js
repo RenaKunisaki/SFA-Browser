@@ -319,7 +319,7 @@ export default class MapViewer {
         if(isNaN(x) || x == null) x = 0;
         if(isNaN(y) || y == null) y = 0;
         if(isNaN(z) || z == null) z = 0;
-        this._eventHandler.moveToPoint(x, y, z, radius, 0, rx);
+        this.viewController.moveToPoint(x, y, z, radius, 0, rx);
     }
 
     async _draw(isPicker) {
