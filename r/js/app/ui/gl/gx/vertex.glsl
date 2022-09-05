@@ -8,7 +8,7 @@ in vec3 in_POS;  //vertex position
 in vec3 in_NRM;  //vertex normal
 in vec4 in_COL0; //vertex color
 in vec2 in_TEX0; //texture coord
-in uint in_PNMTXIDX; //position/normal matrix idx
+in int in_PNMTXIDX; //position/normal matrix idx
 //in uint in_T0MIDX; //texture matrix idx
 in uint in_ID;   //ID for picker
 
@@ -39,13 +39,17 @@ flat out uint  vtx_Id;         //ID for picker
 void main() {
     //position gets fed through matrices
     mat4 pnmtx;
-    for(uint i=0u; i<3u; i++) {
-        //assign an entire vec4 per iteration
-        pnmtx[i] = u_matPos[in_PNMTXIDX+i];
+    if(in_PNMTXIDX < 0) {
+        pnmtx[0] = vec4(1.0, 0.0, 0.0, 0.0);
+        pnmtx[1] = vec4(0.0, 1.0, 0.0, 0.0);
+        pnmtx[2] = vec4(0.0, 0.0, 1.0, 0.0);
     }
-    //pnmtx[0] = vec4(1.0, 0.0, 0.0, 0.0);
-    //pnmtx[1] = vec4(0.0, 1.0, 0.0, 0.0);
-    //pnmtx[2] = vec4(0.0, 0.0, 1.0, 0.0);
+    else {
+        for(int i=0; i<3; i++) {
+            //assign an entire vec4 per iteration
+            pnmtx[i] = u_matPos[in_PNMTXIDX+i];
+        }
+    }
     pnmtx[3] = vec4(0.0, 0.0, 0.0, 1.0);
     //pnmtx = transpose(pnmtx);
 

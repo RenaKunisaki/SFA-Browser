@@ -74,6 +74,7 @@ export default class BlockHit {
         const color = [r*255, g*255, b*255, 0xA0 ];
         for(let idx of idxs) {
             vtxs.push({
+                PNMTXIDX: -1,
                 POS: vPos[idx],
                 COL0: color, COL1: color,
                 id: id,
