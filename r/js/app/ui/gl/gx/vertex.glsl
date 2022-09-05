@@ -34,7 +34,7 @@ uniform vec4 u_matTex[64]; //texture matrix
 out vec4 vtx_Color;      //vertex color
 out vec3 vtx_LightColor; //light color output
 out vec2 vtx_TexCoord;   //texture coord
-flat out uint  vtx_Id;         //ID for picker
+flat out uint  vtx_Id;   //ID for picker
 
 void main() {
     //position gets fed through matrices
