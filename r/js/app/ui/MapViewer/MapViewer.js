@@ -437,6 +437,7 @@ export default class MapViewer {
 
     _finishRender(blockStats, blockStreams) {
         /** Finish rendering and record stats. */
+        this.gx.finishRender();
         blockStats.streamTimes = {};
         const tEnd = performance.now();
         for(const [name, stream] of blockStreams) {

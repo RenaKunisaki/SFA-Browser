@@ -209,6 +209,7 @@ export default class ModelViewer {
 
     _finishRender() {
         /** Finish rendering and record stats. */
+        this.gx.finishRender();
         //console.log("finished render", this.gx.context.stats);
     }
 }

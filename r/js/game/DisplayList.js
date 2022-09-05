@@ -27,6 +27,6 @@ export default class DisplayList {
         this.unk18 = ptr._18;
         this.data  = view.buffer.slice(view.byteOffset+ptr.list,
             view.byteOffset+ptr.list+ptr.size);
-        console.log("Dlist:", hexdump(this.data));
+        //console.log("Dlist:", hexdump(this.data));
     }
 }

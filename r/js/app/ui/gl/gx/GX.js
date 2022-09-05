@@ -953,6 +953,16 @@ export default class GX {
         this.syncXF();
     }
 
+    finishRender() {
+        /** Finish rendering the scene. */
+        //clear backbuffer's alpha so that it doesn't incorrectly
+        //blend with the canvas itself.
+        const gl = this.gl;
+        gl.colorMask(false, false, false, true);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.colorMask(true, true, true, true);
+    }
+
     syncSettings(mtxs) {
         /** Upload various render settings to the GPU. */
         const gl = this.gl;
@@ -979,9 +989,11 @@ export default class GX {
         gl.uniform1i(unif.alphaComp1, this.alphaComp1);
         gl.uniform1f(unif.alphaRef1,  this.alphaRef1);
 
-        gl.uniformMatrix4fv(unif.matProjection, false, mtxs.projection);
-        gl.uniformMatrix4fv(unif.matModelView,  false, mtxs.modelView);
-        gl.uniformMatrix4fv(unif.matNormal,     false, mtxs.normal);
+        if(mtxs) {
+            gl.uniformMatrix4fv(unif.matProjection, false, mtxs.projection);
+            gl.uniformMatrix4fv(unif.matModelView,  false, mtxs.modelView);
+            gl.uniformMatrix4fv(unif.matNormal,     false, mtxs.normal);
+        }
     }
 
     syncXF() {
@@ -994,6 +1006,11 @@ export default class GX {
         gl.uniform4fv(unif.matPos, this.xf._reg, 0x000, 0x100);
         gl.uniform3fv(unif.matNrm, this.xf._reg, 0x400, 0x060);
         gl.uniform4fv(unif.matTex, this.xf._reg, 0x500, 0x100);
+    }
+
+    sync() {
+        this.syncSettings();
+        this.syncXF();
     }
 
     setModelViewMtx(mtx) {
@@ -1032,6 +1049,33 @@ export default class GX {
         return this.pickerObjs[idx];
     }
 
+    //XXX document this or something
+    setShaderParams(cullMode, blendMode, sFactor, dFactor,
+    logicOp, compareEnable, compareFunc, updateEnable, alphaTest) {
+        const gl = this.gl;
+        switch(cullMode) {
+            case GX.CullMode.NONE:
+                gl.disable(gl.CULL_FACE);
+                break;
+            case GX.CullMode.FRONT:
+                gl.enable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT);
+                break;
+            case GX.CullMode.BACK:
+                gl.enable(gl.CULL_FACE);
+                gl.cullFace(gl.BACK);
+                break;
+            case GX.CullMode.ALL:
+                gl.enable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT_AND_BACK);
+                break;
+        }
+        this.setBlendMode(blendMode, sFactor, dFactor, logicOp);
+        this.setZMode(compareEnable, compareFunc, updateEnable);
+        this.setUseAlphaTest(alphaTest);
+        this.syncSettings();
+    }
+
     setBlendMode(blendMode, srcFactor, destFactor, logicOp) {
         /** Implement GC SDK's gxSetBlendMode().
          *  @param {BlendMode} blendMode blend mode.
@@ -1066,6 +1110,7 @@ export default class GX {
                 break;
             default: throw new Error("Invalid blend mode");
         }
+        this.syncSettings();
     }
 
     setZMode(compareEnable, compareFunc, updateEnable) {
@@ -1089,6 +1134,7 @@ export default class GX {
         this.alphaOp    = op;
         this.alphaComp1 = comp1;
         this.alphaRef1  = ref1 / 255.0;
+        this.syncSettings();
     }
 
     setZCompLoc(loc) {

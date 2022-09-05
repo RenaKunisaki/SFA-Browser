@@ -66,7 +66,10 @@ export default class Context {
             throw new Error("Invalid or missing canvas");
         }
         this.canvas = canvas;
-        this.gl = canvas.getContext("webgl2", {preserveDrawingBuffer: true});
+        this.gl = canvas.getContext("webgl2", {
+            preserveDrawingBuffer: true,
+            alpha: false, //backbuffer doesn't need alpha
+        });
 
         if(this.gl === null) {
             alert("Unable to initialize WebGL");

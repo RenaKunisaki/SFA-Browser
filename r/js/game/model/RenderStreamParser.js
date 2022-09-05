@@ -162,18 +162,21 @@ export default class RenderStreamParser {
             }
         }
 
-        //XXX why do this?
-        this.batch.addFunction(() => {this._setShaderParams(
-            DefaultCull, //cull mode
-            GX.BlendMode.NONE, //blend mode
-            GX.BlendFactor.ONE, //sFactor
-            GX.BlendFactor.ZERO, //dFactor
-            GX.LogicOp.NOOP, //logicOp
-            true, //compareEnable
-            GX.Compare.LEQUAL, //compareFunc
-            true, //updateEnable
-            true, //alphaTest
-        )});
+        //do this or else everything breaks for some reason
+        this.batch.addFunction(() => {
+            this.gx.setShaderParams(
+                DefaultCull, //cull mode
+                GX.BlendMode.NONE, //blend mode
+                GX.BlendFactor.ONE, //sFactor
+                GX.BlendFactor.ZERO, //dFactor
+                GX.LogicOp.NOOP, //logicOp
+                true, //compareEnable
+                GX.Compare.LEQUAL, //compareFunc
+                true, //updateEnable
+                true, //alphaTest
+            );
+            this.gx.sync();
+        });
 
         return this.batch;
     }
@@ -193,7 +196,7 @@ export default class RenderStreamParser {
 
         //set initial render modes (XXX verify)
         if(this.params.isPicker) {
-            this.batch.addFunction(() => {this._setShaderParams(
+            this.batch.addFunction(() => {this.gx.setShaderParams(
                 DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
@@ -203,7 +206,7 @@ export default class RenderStreamParser {
                     GX.AlphaOp.AND, GX.Compare.GREATER, 0);
             });
         }
-        else this.batch.addFunction(() => {this._setShaderParams(
+        else this.batch.addFunction(() => {this.gx.setShaderParams(
             DefaultCull, //cull backfaces
             GX.BlendMode.BLEND, GX.BlendFactor.SRCALPHA,
             GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
@@ -214,31 +217,7 @@ export default class RenderStreamParser {
         });
     }
 
-    _setShaderParams(cullMode, blendMode, sFactor, dFactor,
-    logicOp, compareEnable, compareFunc, updateEnable, alphaTest) {
-        const gx = this.gx;
-        const gl = this.gl;
-        switch(cullMode) {
-            case GX.CullMode.NONE:
-                gl.disable(gl.CULL_FACE);
-                break;
-            case GX.CullMode.FRONT:
-                gl.enable(gl.CULL_FACE);
-                gl.cullFace(gl.FRONT);
-                break;
-            case GX.CullMode.BACK:
-                gl.enable(gl.CULL_FACE);
-                gl.cullFace(gl.BACK);
-                break;
-            case GX.CullMode.ALL:
-                gl.enable(gl.CULL_FACE);
-                gl.cullFace(gl.FRONT_AND_BACK);
-                break;
-        }
-        gx.setBlendMode(blendMode, sFactor, dFactor, logicOp);
-        gx.setZMode(compareEnable, compareFunc, updateEnable);
-        gx.setUseAlphaTest(alphaTest);
-    }
+
 
     _handleShaderFlags() {
         const gx    = this.gx;
@@ -353,7 +332,7 @@ export default class RenderStreamParser {
         //condense these into one function for hopefully better speed
         if(!this.params.isPicker) {
             this.batch.addFunction(() => {
-                this._setShaderParams(cull, blendMode, sFactor, dFactor,
+                this.gx.setShaderParams(cull, blendMode, sFactor, dFactor,
                     logicOp, compareEnable, compareFunc, updateEnable,
                     alphaCompareOP0 != GX.Compare.ALWAYS);
                     //this seems unnecessary. we should be able to
@@ -390,7 +369,7 @@ export default class RenderStreamParser {
         }
 
         if(this.params.isPicker) {
-            this.batch.addFunction(() => {this._setShaderParams(
+            this.batch.addFunction(() => {this.gx.setShaderParams(
                 DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, //blend mode
                 GX.BlendFactor.ONE, //sFactor
@@ -407,7 +386,7 @@ export default class RenderStreamParser {
         }
         else {
             this.batch.addFunction(() => {
-                this._setShaderParams(
+                this.gx.setShaderParams(
                     DefaultCull, //cull backfaces
                     GX.BlendMode.NONE, //blend mode
                     GX.BlendFactor.ONE, //sFactor

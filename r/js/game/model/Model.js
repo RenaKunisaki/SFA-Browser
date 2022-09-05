@@ -127,7 +127,7 @@ export default class SfaModel {
         for(let i=0; i<this.header.nDlists; i++) {
             let list = new DisplayList(this.game, view,
                 this.header.dlists + (i * DisplayListPtr.size));
-            console.log("Read dlist", list);
+            //console.log("Read dlist", list);
             this.dlists.push(list);
         }
     }
@@ -179,7 +179,7 @@ export default class SfaModel {
             let [_, tail] = this.calcBonePos(this.bones[i], false);
             this.xlates.push(tail);
         }
-        console.log("Model bone data", this.bones, "xlates", this.xlates);
+        //console.log("Model bone data", this.bones, "xlates", this.xlates);
     }
 
     _loadVtxGroups(view) {

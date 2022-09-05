@@ -151,8 +151,8 @@ export default class BlockRenderer {
         const offsZ = (block.z-map.originZ)*MAP_CELL_SIZE;
 
         if(params.isPicker) batch.addFunction(() => {
-            _setShaderParams(
-                this.gx.gl, this.gx, GX.CullMode.NONE,
+            this.gx.setShaderParams(
+                GX.CullMode.NONE,
                 GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
                 true, GX.Compare.LEQUAL, true, //depth test+update enabled
@@ -295,8 +295,8 @@ export default class BlockRenderer {
 
         //set initial render modes (XXX verify)
         if(this._isDrawingForPicker) {
-            this.curBatch.addFunction(() => {_setShaderParams(
-                this.gx.gl, this.gx, DefaultCull, //cull backfaces
+            this.curBatch.addFunction(() => {this.gx.setShaderParams(
+                DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
                 true, GX.Compare.LEQUAL, true, //depth test+update enabled
@@ -306,8 +306,8 @@ export default class BlockRenderer {
             });
         }
         else if(whichStream == 'reflective') {
-            this.curBatch.addFunction(() => {_setShaderParams(
-                this.gx.gl, this.gx, DefaultCull, //cull backfaces
+            this.curBatch.addFunction(() => {this.gx.setShaderParams(
+                DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, GX.BlendFactor.SRCALPHA,
                 GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
                 true, GX.Compare.LEQUAL, true, //depth test+update enabled
@@ -316,8 +316,8 @@ export default class BlockRenderer {
                     GX.AlphaOp.AND, GX.Compare.ALWAYS, 0);
             });
         }
-        else this.curBatch.addFunction(() => {_setShaderParams(
-            this.gx.gl, this.gx, DefaultCull, //cull backfaces
+        else this.curBatch.addFunction(() => {this.gx.setShaderParams(
+            DefaultCull, //cull backfaces
             GX.BlendMode.BLEND, GX.BlendFactor.SRCALPHA,
             GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP,
             true, GX.Compare.LEQUAL, true, //depth test+update enabled
@@ -440,7 +440,7 @@ export default class BlockRenderer {
         //condense these into one function for hopefully better speed
         if(!this._isDrawingForPicker) {
             this.curBatch.addFunction(() => {
-                _setShaderParams(gl, gx, cull, blendMode, sFactor, dFactor,
+                this.gx.setShaderParams(cull, blendMode, sFactor, dFactor,
                     logicOp, compareEnable, compareFunc, updateEnable,
                     alphaCompareOP0 != GX.Compare.ALWAYS);
                     //this seems unnecessary. we should be able to
@@ -482,8 +482,8 @@ export default class BlockRenderer {
             //    this.curShader.attrFlags);
         }
 
-        /*if(this._isDrawingForPicker) {
-            this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
+        if(this._isDrawingForPicker) {
+            this.curBatch.addFunction(() => {this.gx.setShaderParams(
                 DefaultCull, //cull backfaces
                 GX.BlendMode.NONE, //blend mode
                 GX.BlendFactor.ONE, //sFactor
@@ -495,12 +495,12 @@ export default class BlockRenderer {
                 true, //alphaTest
             )});
         }
-        else*/ if(this.curShader) {
+        else if(this.curShader) {
             this._handleShaderFlags();
         }
         else if(this.curStream == 'water'
         || this.curStream == 'reflective') { //XXX verify these
-            this.curBatch.addFunction(() => {_setShaderParams(gl, gx,
+            this.curBatch.addFunction(() => {this.gx.setShaderParams(
                 DefaultCull, //cull backfaces
                 GX.BlendMode.BLEND, //blend mode
                 GX.BlendFactor.SRCALPHA, //sFactor
@@ -516,7 +516,7 @@ export default class BlockRenderer {
         }
         else {
             this.curBatch.addFunction(() => {
-                _setShaderParams(gl, gx,
+                this.gx.setShaderParams(
                     DefaultCull, //cull backfaces
                     GX.BlendMode.NONE, //blend mode
                     GX.BlendFactor.ONE, //sFactor
@@ -533,7 +533,7 @@ export default class BlockRenderer {
             });
         }
 
-        //if(!this._isDrawingForPicker) { //select the textures
+        if(!this._isDrawingForPicker) { //select the textures
             const nLayers = this.curShader ? this.curShader.nLayers : 0;
             const params  = []; //batch these ops
             for(let i=0; i<gx.MAX_TEXTURES; i++) {
@@ -550,7 +550,7 @@ export default class BlockRenderer {
             if(params.length > 0) {
                 this.curBatch.addFunction(this._makeSetTextureCmd(params));
             }
-        //}
+        }
     }
 
     _renderOpCallList() {

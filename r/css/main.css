@@ -166,10 +166,13 @@ tr.notice {
 /* XXX move */
 canvas {
     /* checkerboard pattern which shows through whenever
-     * drawing something with alpha=0
+     * drawing something with alpha=0.
+     * only enable this for debug because it will also show
+     * up through transparent pixels even when they're above
+     * non-transparent pixels...
      */
-    background: repeating-conic-gradient(
+    /*background: repeating-conic-gradient(
         #808080 0% 25%,
         transparent 0% 50%)
-        50% / 20px 20px
+        50% / 20px 20px*/
 }
