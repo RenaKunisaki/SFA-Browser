@@ -127,6 +127,7 @@ export default class Texture {
         this.border    = 0;
         this.srcFormat = gl.RGBA;
         this.srcType   = gl.UNSIGNED_BYTE;
+        this.gameTexture = tex;
         this.bind();
         //console.log("load game tex", tex.image.data.data);
         gl.texImage2D(gl.TEXTURE_2D, this.level, this.internalFormat,

@@ -116,7 +116,14 @@ export default class ModelViewer {
             scale: {x:1, y:1, z:1},
         });
         this.gx.resetPicker();
-        this.textureViewer.refresh();
+
+        const textures = {};
+        for(let tex of this.model.textures) {
+            textures[tex.gameTexture.id] = tex;
+        }
+        this.textureViewer.setTextures(textures);
+        //this.textureViewer.refresh();
+
         this.redraw();
         this._updatedStats = false;
     }
@@ -140,6 +147,7 @@ export default class ModelViewer {
                 this._isFirstDrawAfterLoadingModel = false;
                 this.app.progress.hide();
                 this.resetCamera();
+                this.textureViewer.refresh();
             }
         });
     }

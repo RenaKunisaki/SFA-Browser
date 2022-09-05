@@ -275,6 +275,17 @@ export default class MapViewer {
 
         //load object data
         await this._objectRenderer.loadObjects();
+
+        //build set of all map textures for texture viewer
+        const textures = {};
+        for(let iBlock=0; iBlock < this.map.blocks.length; iBlock++) {
+            const block = this.map.blocks[iBlock];
+            if(!block) continue;
+            for(let tex of block.textures) {
+                textures[tex.gameTexture.id] = tex;
+            }
+        }
+        this.textureViewer.setTextures(textures);
     }
 
     _findABlock() {

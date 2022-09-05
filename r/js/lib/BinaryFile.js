@@ -44,8 +44,8 @@ export default class BinaryFile {
 
     tell() { return this._readOffs }
     seek(offs, whence=0) {
-        console.assert(!isNaN(offs));
-        console.assert(isFinite(offs));
+        console.assert(!isNaN(offs), "Offset is NaN");
+        console.assert(isFinite(offs), "Offset is infinity");
         switch(whence) {
             case 0: case 'SEEK_SET': this._readOffs = offs; break;
             case 1: case 'SEEK_CUR': this._readOffs += offs; break;

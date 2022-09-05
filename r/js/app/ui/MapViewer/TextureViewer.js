@@ -1,13 +1,18 @@
 import { clearElement, E } from "../../../lib/Element.js";
 import { hex } from "../../../Util.js";
 import { ImageFormatNames } from "../../../lib/Texture/types.js";
+import SfaTexture from '../../../game/SfaTexture.js';
+import Texture from '../gl/Texture.js';
+
+let _nextId=0;
 
 export default class TextureViewer {
-    /** Widget displaying a map's textures. */
-    constructor(mapViewer) {
-        this.mapViewer = mapViewer;
-        this.game      = mapViewer.game;
-        this.app       = mapViewer.game.app;
+    /** Widget displaying a map/model's textures. */
+    constructor(viewer) {
+        this.viewer   = viewer;
+        this.game     = viewer.game;
+        this.app      = viewer.game.app;
+        this.textures = {};
         this._makeCanvas();
         this._makeControls();
         this._body     = E.div('body',
@@ -27,7 +32,8 @@ export default class TextureViewer {
     }
 
     _makeCanvas() {
-        this.canvas = E.canvas({id:'mapViewTextureCanvas'});
+        this.canvasId = `mapViewTextureCanvas${_nextId++}`;
+        this.canvas = E.canvas({id:this.canvasId});
         this.canvas.addEventListener('mousemove', e => this._onMouseMove(e));
         this.canvas.addEventListener('mousedown', e => this._onMouseDown(e));
         this.canvas.addEventListener('mouseup',   e => this._onMouseUp  (e));
@@ -37,11 +43,21 @@ export default class TextureViewer {
         this.eTexInfo = E.span('texinfo', "...");
     }
 
+    setTextures(textures) {
+        /** Set the list of textures to show.
+         *  @param {Object} textures Dict of ID => Texture.
+         */
+        this.textures = {};
+        for(let [id, tex] of Object.entries(textures)) {
+            if(tex instanceof Texture) tex = tex.gameTexture;
+            this.textures[id] = tex;
+        }
+    }
+
     refresh() {
         if(!this.element.open) return; //don't redraw when hidden
         this.texturePositions = {};
 
-        const map  = this.mapViewer.map;
         const game = this.game;
         const canvas = this.canvas;
         let cw = this._body.clientWidth, ch = this._body.clientHeight;
@@ -50,9 +66,9 @@ export default class TextureViewer {
 
         //build list of textures sorted by height and then by width,
         //to avoid huge gaps in the display.
-        //XXX this will include any object textures too once we have those...
+        console.log("textures", this.textures);
         const textures = [];
-        for(const [id, tex] of Object.entries(game.loadedTextures)) {
+        for(const [id, tex] of Object.entries(this.textures)) {
             if(tex) {
                 textures.push({id:id, tex:tex});
             }
@@ -95,7 +111,9 @@ export default class TextureViewer {
             let y = this.texturePositions[item.id].y1;
             ctx.strokeRect(x-1, y-1,
                 item.tex.width+(lw*2), item.tex.height+(lw*2));
-            ctx.putImageData(item.tex.image._data, x+lw, y+lw);
+            if(item.tex.image) {
+                ctx.putImageData(item.tex.image._data, x+lw, y+lw);
+            }
         }
     }
 
