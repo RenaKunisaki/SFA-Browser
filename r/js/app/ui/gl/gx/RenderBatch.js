@@ -385,7 +385,8 @@ export default class RenderBatch {
             stats.nBufferSwaps++;
             gl.bindBuffer(gl.ARRAY_BUFFER, buf);
             const isInt = field.endsWith('IDX') || field == 'id';
-            const type = isInt ? gl.UNSIGNED_INT : gl.FLOAT;
+            let type = isInt ? gl.UNSIGNED_INT : gl.FLOAT;
+            if(field == 'PNMTXIDX') type = gl.INT; //HACK
             if(isInt) {
                 gl.vertexAttribIPointer(attr,
                     count,    //number of values per vertex
