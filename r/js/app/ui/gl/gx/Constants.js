@@ -1,3 +1,6 @@
+const _GX_TF_CTF = 0x20; /* copy-texture-format only */
+const _GX_TF_ZTF = 0x10; /* Z-texture-format */
+
 export default class GXConstants {
     static Attr = {
         PNMTXIDX:      0x00, //position/normal matrix index

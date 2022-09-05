@@ -14,15 +14,13 @@ function CHECK_ERROR(gl) {
     console.assert(!err);
 }
 
-//the order the fields appear in in a display list. this never changes.
+//the order the fields appear in in a display list.
+//this never changes.
 export const VAT_FIELD_ORDER = [
     'PNMTXIDX', 'T0MIDX', 'T1MIDX', 'T2MIDX', 'T3MIDX', 'T4MIDX',
     'T5MIDX', 'T6MIDX', 'T7MIDX', 'POS', 'NRM', 'COL0', 'COL1',
     'TEX0', 'TEX1', 'TEX2', 'TEX3', 'TEX4', 'TEX5', 'TEX6',
     'TEX7'];
-
-const _GX_TF_CTF = 0x20; /* copy-texture-format only */
-const _GX_TF_ZTF = 0x10; /* Z-texture-format */
 
 export default class GX extends GXConstants {
     /** GameCube GPU simulator.
@@ -32,6 +30,7 @@ export default class GX extends GXConstants {
      *  telling how the data is formatted, and it renders an image.
      */
     constructor(context) {
+        super();
         this.context = context;
         this.gl      = context.gl;
         this._buildGlTables();
