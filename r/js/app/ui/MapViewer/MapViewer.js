@@ -97,7 +97,7 @@ export default class MapViewer {
 
         //XXX if the object is a trigger/curve, enable those.
 
-        this._eventHandler.moveToObject(entry);
+        this.moveToObject(entry);
         this.infoWidget.show({type:'object', entry:entry});
     }
 
@@ -467,7 +467,7 @@ export default class MapViewer {
                 (new Axes(this.gx,[
                     this.map.originX*MAP_CELL_SIZE, 0,
                     this.map.originZ*MAP_CELL_SIZE
-                ], [0,0,0], [80,80,80])).batch);
+                ], [0,0,0], [320,320,320])).batch);
         }
         this.gx.executeBatch(batch);
     }
@@ -504,9 +504,9 @@ export default class MapViewer {
         const gl = this.gx.gl;
         block.load(this.gx); //ensure block model is loaded
 
-        const offsX = block.x*MAP_CELL_SIZE;
+        const offsX = (block.x-this.map.originX)*MAP_CELL_SIZE;
         const offsY = block.header.yOffset;
-        const offsZ = block.z*MAP_CELL_SIZE;
+        const offsZ = (block.z-this.map.originZ)*MAP_CELL_SIZE;
         let mv = mat4.clone(this.gx.context.matModelView);
         mat4.translate(mv, mv, vec3.fromValues(offsX, offsY, offsZ));
         this.gx.setModelViewMtx(mv);

@@ -448,14 +448,16 @@ export default class ViewController {
         this.btnReset.addEventListener('click', e => this.reset());
 
         //radio buttons to select front face order
-        this.btnFrontFaceCW = E.input({type:'radio', name:'frontFace',
+        this.btnFrontFaceCW = E.input({type:'radio',
+            name:`frontFace${_nextId}`,
             id:`frontFaceCW${_nextId}`});
         this.lblFrontFaceCW = E.label(null, {
             'for':`frontFaceCW${_nextId}`}, "CW");
         this.btnFrontFaceCW.checked = C.frontFaceCW;
         this.btnFrontFaceCW.addEventListener('change', e => this._onChange(e));
 
-        this.btnFrontFaceCCW = E.input({type:'radio', name:'frontFace',
+        this.btnFrontFaceCCW = E.input({type:'radio',
+            name:`frontFace${_nextId}`,
             id:`frontFaceCCW${_nextId}`});
         this.lblFrontFaceCCW = E.label(null, {
             'for':`frontFaceCCW${_nextId}`}, "CCW");
@@ -463,14 +465,16 @@ export default class ViewController {
         this.btnFrontFaceCCW.addEventListener('change', e => this._onChange(e));
 
         //radio buttons to select rotation point
-        this.btnRotateCam = E.input({type:'radio', name:'rotPoint',
+        this.btnRotateCam = E.input({type:'radio',
+            name:`rotPoint${_nextId}`,
             id:`rotPointCam${_nextId}`});
         this.lblRotateCam = E.label(null, {
             'for':`rotPointCam${_nextId}`}, "Camera");
         this.btnRotateCam.checked = C.useSRT;
         this.btnRotateCam.addEventListener('change', e => this._onChange(e));
 
-        this.btnRotateOrg = E.input({type:'radio', name:'rotPoint',
+        this.btnRotateOrg = E.input({type:'radio',
+            name:`rotPoint${_nextId}`,
             id:`rotPointOrg${_nextId}`});
         this.lblRotateOrg = E.label(null, {
             'for':`rotPointOrg${_nextId}`}, "Origin");

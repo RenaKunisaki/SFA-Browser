@@ -179,6 +179,9 @@ export default class RenderStreamParser {
     }
 
     _setInitialGxParams() {
+        this.gx.xf.reset();
+        this.gx.syncXF();
+
         //set default vtx formats for rendering model geometry
         this.gx.cp.setReg(CPReg.ARRAY_STRIDE_VTXS,   6); //sizeof(vec3s)
         this.gx.cp.setReg(CPReg.ARRAY_STRIDE_NORMALS,6); //sizeof(vec3s)
