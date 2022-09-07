@@ -95,10 +95,8 @@ export default class MapExporter {
                 count: block.header.nTexCoords,
                 read: (view,idx) => view.getInt16(idx*2),
                 params: [ //XXX verify name and type
-                    {name:'R', type:'float'},
-                    {name:'G', type:'float'},
-                    {name:'B', type:'float'},
-                    {name:'A', type:'float'},
+                    {name:'U', type:'float'},
+                    {name:'V', type:'float'},
                 ],
             },
         };
