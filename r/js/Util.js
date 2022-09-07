@@ -272,7 +272,7 @@ export function downloadXml(xml, name, type='application/xml', pretty=false) {
      *  @param {string} name default file name.
      *  @param {string} type MIME type.
      */
-    if(!name.endsWith('.xml')) name += '.xml';
+    if(name.indexOf('.') < 0) name += '.xml';
     let data = new XMLSerializer().serializeToString(xml);
     if(pretty) data = prettyXml(data);
     download(data, name, type);

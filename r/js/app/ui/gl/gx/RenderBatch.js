@@ -412,12 +412,13 @@ export default class RenderBatch {
          *  @param {Array} cmd Operation to execute: [mode, index, count]
          *  @param {object} stats Dict of stats to update.
          */
-        const tStart = performance.now();
         const gl = this.gl;
+        const tStart = performance.now();
         let [mode, index, count] = cmd;
 
         //gl.polygonMode isn't a thing for webgl because lol
         //XXX use a geometry shader: https://stackoverflow.com/a/54171768
+        //except those aren't a thing either because lol
         if(this.gx.context.useWireframe) mode = gl.LINE_LOOP;
 
         //debug
@@ -433,22 +434,22 @@ export default class RenderBatch {
         CHECK_ERROR(gl);
         stats.nPolys++;
         stats.nVtxs += cmd.length - 1;
-        /* for future reference:
-        "vertex buffer not big enough for draw call" means one of the
-        indices in the buffer is beyond the number of items in the
-        attribtue buffers.
-        supposedly there's bugs in some platforms that cause this when
-        using DYNAMIC_DRAW as well?
-        "insufficient buffer size" means index and/or count exceed the
-        number of elements in the index buffer.
-        having nothing drawn might mean all zeroes were passed for colors
-        and blending is enabled (everything is invisible), or that your
-        viewport's size is zero because you didn't wait for the canvas
-        to be actually laid out and given a size before reading its size,
-        or that culling and/or depth testing are hiding everything,
-        or that the browser decided to resize the canvas back to zero
-        because lol. (can happen when canvas is hidden)
-        */
         stats.timeDraw += (performance.now() - tStart);
     }
+    /* for future reference:
+    "vertex buffer not big enough for draw call" means one of the
+    indices in the buffer is beyond the number of items in the
+    attribtue buffers.
+    supposedly there's bugs in some platforms that cause this when
+    using DYNAMIC_DRAW as well?
+    "insufficient buffer size" means index and/or count exceed the
+    number of elements in the index buffer.
+    having nothing drawn might mean all zeroes were passed for colors
+    and blending is enabled (everything is invisible), or that your
+    viewport's size is zero because you didn't wait for the canvas
+    to be actually laid out and given a size before reading its size,
+    or that culling and/or depth testing are hiding everything,
+    or that the browser decided to resize the canvas back to zero
+    because lol. (can happen when canvas is hidden)
+    */
 }

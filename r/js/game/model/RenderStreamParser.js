@@ -74,7 +74,7 @@ const vatDefaults = [
         TEX0CNT: 1, TEX0FMT: 3, TEX0SHFT:  7, //s16
         NRMCNT:  0, NRMFMT:  4, NRMSHFT:   0, //float
     },
-    { //VAT 5
+    { //VAT 5 (map blocks)
         POSCNT:  1, POSFMT:  3, POSSHFT:   3, //s16
         NRMCNT:  0, NRMFMT:  1, NRMSHFT:   0, //s8
         COL0CNT: 1, COL0FMT: 3, COL0SHFT:  0, //rgba4444
@@ -83,7 +83,7 @@ const vatDefaults = [
         TEX2CNT: 1, TEX2FMT: 3, TEX2SHFT:  8, //s16
         TEX3CNT: 1, TEX3FMT: 3, TEX3SHFT:  8, //s16
     },
-    { //VAT 6
+    { //VAT 6 (character models)
         POSCNT:  1, POSFMT:  3, POSSHFT:   8, //s16
         NRMCNT:  0, NRMFMT:  1, NRMSHFT:   0, //s8
         COL0CNT: 1, COL0FMT: 3, COL0SHFT:  0, //rgba4444
