@@ -22,26 +22,6 @@ export default class DaeWriter {
         this.visual_scenes = {}; //library_visual_scenes
     }
 
-    _drawModeToDae(mode) {
-        /** Given a GL drawing mode, return the DAE element
-         *  name for that mode.
-         *  @param {number} mode GL drawing mode.
-         *  @returns {string} DAE element name.
-         */
-        switch(mode) {
-            case GL.TRIANGLES:      return 'triangles';
-            case GL.TRIANGLE_FAN:   return 'trifans';
-            case GL.TRIANGLE_STRIP: return 'tristrips';
-            case GL.LINES:          return 'lines';
-            case GL.LINE_STRIP:     return 'linestrips';
-            //XXX line loop can be done as line strip if
-            //you manually close the loop. do we need it?
-            default:
-                debugger;
-                throw new Error("Unsupported draw mode");
-        }
-    }
-
     addBuffer(name, data, nVtxs, id, params) {
         const accessor = createElement('accessor',
             null, {

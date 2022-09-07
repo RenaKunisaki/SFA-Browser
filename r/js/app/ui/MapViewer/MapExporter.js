@@ -53,43 +53,74 @@ export default class MapExporter {
         console.assert(id != undefined);
 
         //create the buffers
+        //name them the same as the 'semantic' value
+        //for simplicity
         const buffers = {
-            positions: {
-                data: [],
+            POSITION: {
+                data: block.vtxPositions,
+                count: block.header.nVtxs,
+                //idx * sizeof(s16)
+                //this is per value in the buffer so we
+                //don't need to worry about X/Y/Z
+                read: (view,idx) => view.getInt16(idx*2),
                 params: [
                     {name:'X', type:'float'},
                     {name:'Y', type:'float'},
                     {name:'Z', type:'float'},
                 ],
             },
-            //using the Array types here doesn't work because
-            //it uses the host's byte order
-            //colors: { //XXX need to convert to some other format?
-            //    data: new Uint16Array(block.vtxColors),
-            //    stride: 1,
-            //},
-            //texCoords: {
-            //    data: new Int16Array(block.texCoords),
-            //    stride: 2,
-            //},
-        };
-        let view = new DataView(block.vtxPositions);
-        for(let i=0; i<block.header.nVtxs*3; i++) {
-            buffers.positions.data.push(view.getInt16(i*2));
-        }
 
+            COLOR: {
+                data: block.vtxColors,
+                count: block.header.nColors,
+                read: (view,idx) => {
+                    const c = view.getUint16(idx*2);
+                    return [
+                        ( (c >> 12)        / 15.0) * 255,
+                        (((c >>  8) & 0xF) / 15.0) * 255,
+                        (((c >>  4) & 0xF) / 15.0) * 255,
+                        (( c        & 0xF) / 15.0) * 255,
+                    ];
+                },
+                params: [ //XXX verify name and type
+                    {name:'R', type:'float'},
+                    {name:'G', type:'float'},
+                    {name:'B', type:'float'},
+                    {name:'A', type:'float'},
+                ],
+            },
+
+            TEXCOORD: {
+                data: block.texCoords,
+                count: block.header.nTexCoords,
+                read: (view,idx) => view.getInt16(idx*2),
+                params: [ //XXX verify name and type
+                    {name:'R', type:'float'},
+                    {name:'G', type:'float'},
+                    {name:'B', type:'float'},
+                    {name:'A', type:'float'},
+                ],
+            },
+        };
+
+        //using the Array types here doesn't work because
+        //it uses the host's byte order. so we need to
+        //manually build the array.
         for(const [name, buf] of Object.entries(buffers)) {
+            const view = new DataView(buf.data);
+            const values = [];
+            for(let i=0; i<buf.count; i++) {
+                let val = buf.read(view, i);
+                if(!Array.isArray(val)) val = [val];
+                for(let v of val) values.push(v);
+            }
             buf.elem = this.writer.addBuffer(name,
-                buf.data, block.header.nVtxs, id, buf.params);
+                values, block.header.nVtxs, id, buf.params);
         }
 
         //create the vertices array
         const eVtxs = E.vertices(null, {id:`${id}.vertices`},
-            E.input(null, {semantic:'POSITION', source:`#${id}.positions`}),
-            //these apparently need to be under each draw op, not here...
-            //E.input(null, {semantic:'TEXCOORD', source:`#${id}.texCoords`}),
-            ////XXX I don't see a COLOR semantic in DAE manual?
-            //E.input(null, {semantic:'COLOR', source:`#${id}.colors`}),
+            E.input(null, {semantic:'POSITION', source:`#${id}.POSITION`}),
         );
 
         //create the mesh
@@ -111,18 +142,15 @@ export default class MapExporter {
             const batch = stream.execute(block, reader, {
                 isMap: true,
             });
-            this._parseRenderBatch(eMesh, batch, id);
+            this._parseRenderBatch(eMesh, batch, id, buffers);
         }
         this.writer.addGeometry(id, eMesh);
     }
 
-    _parseRenderBatch(eMesh, batch, id) {
-        //this doesn't work because the batch only contains functions,
-        //presumably because they call display lists.
-        //we need to hook into GX for this...
+    _parseRenderBatch(eMesh, batch, id, buffers) {
         for(let op of batch.ops) {
             if(op instanceof RenderBatch) {
-                this._parseRenderBatch(eMesh, op);
+                this._parseRenderBatch(eMesh, op, id, buffers);
                 continue;
             }
             else if(typeof(op) == 'function') continue;
@@ -140,13 +168,36 @@ export default class MapExporter {
                     throw new Error("Unsupported draw mode");
             }
             const idxs = batch._idxs.slice(idx, idx+count);
-            const p = E.p(null, idxs.join(' '));
+            const idxBuf = [];
             const eOp = createElement(name, {count:count},
                 E.input({
                     semantic: 'VERTEX',
                     source: `#${id}.vertices`,
-                    offset: 0,
-                }), p);
+                    offset: 0, //for each vertex there are some number
+                        //of items in the index buffer; the 0th item
+                        //is the position in this case.
+                }));
+            let offset=1;
+            for(const [name, buf] of Object.entries(buffers)) {
+                if(name == 'POSITION') continue;
+                E.input({
+                    semantic: name,
+                    source: `#${id}.${name}`,
+                    offset: offset++,
+                });
+            }
+
+            //we (probably) have to have one index per attribute
+            //in the index buffer, but, in the game, they're all
+            //just the same value for every attribute.
+            for(let i=0; i<count; i++) {
+                for(let j=0; j<offset; j++) {
+                    idxBuf.push(idxs[i]);
+                }
+            }
+
+            //the index buffer itself
+            eOp.append(E.p(null, idxBuf.join(' ')));
             eMesh.append(eOp);
         }
     }
