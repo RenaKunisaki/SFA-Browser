@@ -20,9 +20,18 @@ export default class DaeWriter {
         this.materials     = {}; //library_materials
         this.geometries    = {}; //library_geometries
         this.visual_scenes = {}; //library_visual_scenes
+        this.upAxis        = 'Y_UP';
+        this.unit          = {
+            name: 'centimetre',
+            meter: 0.01, //this many metres to one unit
+        };
+        this.geomMtxs = {}; //XXX ugly hack
     }
 
     addBuffer(name, data, nVtxs, id, params) {
+        //I'm not sure what the accessor's count is, but
+        //I think it's the number of items, which should
+        //just be the nunber of vertices.
         const accessor = createElement('accessor',
             null, {
                 source: `#${id}.${name}.array`,
@@ -35,6 +44,8 @@ export default class DaeWriter {
             accessor.append(p);
         }
 
+        //the array's count is just how many items it has.
+        //it doesn't have a stride.
         return createElement('source',
             {id:`${id}.${name}`},
             createElement('float_array', null, {
@@ -49,12 +60,14 @@ export default class DaeWriter {
         );
     }
 
-    addGeometry(id, geom) {
+    addGeometry(id, geom, mtx=null) {
         /** Add a geometry mesh.
          *  @param {string} id The mesh ID.
          *  @param {Element} geom A 'mesh' XML element.
+         *  @param {mat4} mtx The transformation matrix.
          */
         this.geometries[id] = geom;
+        this.geomMtxs[id] = mtx;
     }
 
     toXml() {
@@ -62,6 +75,12 @@ export default class DaeWriter {
         this.xml.documentElement.setAttribute('version', "1.4.1");
         this.xml.documentElement.setAttributeNS(NS.xmlns, 'xmlns:xsi',
             "http://www.w3.org/2001/XMLSchema-instance");
+
+        const eAsset = E.asset(
+            E.up_axis(null, this.upAxis),
+            E.unit(null, this.unit),
+        );
+        this.xml.documentElement.append(eAsset);
 
         const scene = createElement('visual_scene',
             {id:'Scene', name:'Scene'});
@@ -78,10 +97,15 @@ export default class DaeWriter {
                 id:   id+'.geometry',
                 name: id,
             }, geom));
+
+            let mtx = this.geomMtxs[id];
+            if(mtx) mtx = mtx.join(' ');
+            else mtx = "1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1";
+
             scene.append(createElement('node',
                 {id:id, name:id, type:'NODE'},
-                createElement('matrix', null, {sid:'transform'},
-                    "1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"
+                createElement('matrix', null,
+                    {sid:'transform'}, mtx
                 ),
                 createElement('instance_geometry', null, {url:'#'+id+'.geometry'}),
                 //XXX bind_material

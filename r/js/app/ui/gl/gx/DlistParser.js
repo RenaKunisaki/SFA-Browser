@@ -7,6 +7,10 @@ export default class DlistParser {
     constructor(gx) {
         this.gx = gx;
         this.gl = gx.gl;
+        this._addVtxs = (mode, ...vtxs) => this.result.addVertices(mode, ...vtxs);
+    }
+    setVtxHandler(handler) {
+        this._addVtxs = handler;
     }
     parse(list, buffers, id=0) {
         /** Parse a display list.
@@ -126,7 +130,7 @@ export default class DlistParser {
             vtxs.push(this._readVertex(vat, list));
         }
         //console.log("draw vtxs", vtxs);
-        this.result.addVertices(mode, ...vtxs);
+        this._addVtxs(mode, ...vtxs);
     }
     _readVertex(vat, list) {
         /** Read a vertex from the display list.
@@ -144,7 +148,7 @@ export default class DlistParser {
         const vcd = this.gx.cp.vcd[vat];
         for(const field of VAT_FIELD_ORDER) {
             const fmt = vcd[field];
-            let val = null;
+            let val = null, idx = null;
             try {
                 switch(fmt) {
                     case 0: break; //no data
@@ -153,7 +157,7 @@ export default class DlistParser {
                         break;
                     case 2: //8-bit index
                     case 3: //16-bit index
-                        val = this._readAttrIndexed(field, list, vcd, fmt);
+                        [val, idx] = this._readAttrIndexed(field, list, vcd, fmt);
                         break;
                 } //switch
             } //try
@@ -174,6 +178,7 @@ export default class DlistParser {
                 }
             }
             vtx[field] = val;
+            vtx[field+'_idx'] = idx;
         }
         //console.log("READVTX", vtx); //EXTREMELY SLOW
         //vtx.COL0[0] = (vtx.id >> 16) & 0xFF;
@@ -206,7 +211,7 @@ export default class DlistParser {
             src.seek(idx * stride);
             val = this._readAttrDirect(field, src, vcd);
         }
-        return val;
+        return [val, idx];
     }
     _readAttrDirect(field, src, vcd) {
         /** Read an attribute value from the given source.

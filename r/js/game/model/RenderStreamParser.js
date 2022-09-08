@@ -132,6 +132,9 @@ export default class RenderStreamParser {
         this.shader = null;
         this.shaderIdx = null;
         this.dlistParser = new DlistParser(this.gx);
+        if(params.vtxHandler) {
+            this.dlistParser.setVtxHandler(params.vtxHandler);
+        }
 
         this._setInitialGxParams();
 

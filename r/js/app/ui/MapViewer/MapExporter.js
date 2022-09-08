@@ -5,6 +5,7 @@ import BlockRenderer from "./BlockRenderer.js";
 import RenderBatch from "../gl/gx/RenderBatch.js";
 import RenderStreamParser from "../../../game/model/RenderStreamParser.js";
 import BitStreamReader from "../../../game/BitStreamReader.js";
+import { MAP_CELL_SIZE } from "../../../game/Game.js";
 const GL = WebGL2RenderingContext;
 
 /* this seems to work (though XMLNS shit is awful) except...
@@ -47,23 +48,21 @@ export default class MapExporter {
             'model/vnd.collada+xml', false);
     }
 
-    _blockToGeometry(block) {
-        const gl = this.gx.gl;
-        const id = block.header.name;
-        console.assert(id != undefined);
-
+    _makeBuffers(block) {
         //create the buffers
         //name them the same as the 'semantic' value
         //for simplicity
         const buffers = {
             POSITION: {
+                attr: 'POS',
                 data: block.vtxPositions,
-                count: block.header.nVtxs,
+                count: block.header.nVtxs * 3,
                 //idx * sizeof(s16)
                 //this is per value in the buffer so we
                 //don't need to worry about X/Y/Z
-                read: (view,idx) => view.getInt16(idx*2),
-                params: [
+                read: (view,idx) => view.getInt16(idx*2) / 8,
+                params: [ //the names don't actually matter according to the spec
+                    //but they do need to be unique, I assume
                     {name:'X', type:'float'},
                     {name:'Y', type:'float'},
                     {name:'Z', type:'float'},
@@ -71,6 +70,7 @@ export default class MapExporter {
             },
 
             COLOR: {
+                attr: ['COL0', 'COL1'],
                 data: block.vtxColors,
                 count: block.header.nColors,
                 read: (view,idx) => {
@@ -91,6 +91,8 @@ export default class MapExporter {
             },
 
             TEXCOORD: {
+                attr: ['TEX0', 'TEX1', 'TEX2', 'TEX3',
+                    'TEX4', 'TEX5', 'TEX6', 'TEX7'],
                 data: block.texCoords,
                 count: block.header.nTexCoords,
                 read: (view,idx) => view.getInt16(idx*2),
@@ -100,7 +102,6 @@ export default class MapExporter {
                 ],
             },
         };
-
         //using the Array types here doesn't work because
         //it uses the host's byte order. so we need to
         //manually build the array.
@@ -113,8 +114,18 @@ export default class MapExporter {
                 for(let v of val) values.push(v);
             }
             buf.elem = this.writer.addBuffer(name,
-                values, block.header.nVtxs, id, buf.params);
+                values, block.header.nVtxs, block.header.name,
+                buf.params);
         }
+        return buffers;
+    }
+
+    _blockToGeometry(block) {
+        const gl = this.gx.gl;
+        const id = block.header.name;
+        console.assert(id != undefined);
+
+        const buffers = this._makeBuffers(block);
 
         //create the vertices array
         const eVtxs = E.vertices(null, {id:`${id}.vertices`},
@@ -137,66 +148,103 @@ export default class MapExporter {
             const stream = new RenderStreamParser(this.gx);
             const reader = new BitStreamReader(
                 block.renderInstrs[name]);
-            const batch = stream.execute(block, reader, {
+            stream.execute(block, reader, {
                 isMap: true,
+                vtxHandler: (mode, ...vtxs) => {
+                    this._addVtxs(eMesh, id, buffers, mode, ...vtxs);
+                },
             });
-            this._parseRenderBatch(eMesh, batch, id, buffers);
         }
-        this.writer.addGeometry(id, eMesh);
+
+        const tx  = block.x * MAP_CELL_SIZE;
+        const ty  = block.header.yOffset;
+        const tz  = block.z * MAP_CELL_SIZE;
+        let   mtx = mat4.create();
+        mat4.translate(mtx, mtx, vec3.fromValues(tx, ty, tz));
+        mat4.transpose(mtx, mtx);
+        this.writer.addGeometry(id, eMesh, mtx);
     }
 
-    _parseRenderBatch(eMesh, batch, id, buffers) {
-        for(let op of batch.ops) {
-            if(op instanceof RenderBatch) {
-                this._parseRenderBatch(eMesh, op, id, buffers);
-                continue;
-            }
-            else if(typeof(op) == 'function') continue;
+    _triangulate(mode, ...vtxs) {
+        //lol blender doesn't support any actual primitives
+        //for DAE importing
+        const result = [];
 
-            let name;
-            const [mode, idx, count] = op;
-            switch(mode) {
-                case GL.TRIANGLES:      name = 'triangles'; break;
-                case GL.TRIANGLE_FAN:   name = 'trifans'; break;
-                case GL.TRIANGLE_STRIP: name = 'tristrips'; break;
-                case GL.LINES:          name = 'lines'; break;
-                case GL.LINE_STRIP:     name = 'linestrips'; break;
-                default:
-                    debugger;
-                    throw new Error("Unsupported draw mode");
-            }
-            const idxs = batch._idxs.slice(idx, idx+count);
-            const idxBuf = [];
-            const eOp = createElement(name, {count:count},
-                E.input({
-                    semantic: 'VERTEX',
-                    source: `#${id}.vertices`,
-                    offset: 0, //for each vertex there are some number
-                        //of items in the index buffer; the 0th item
-                        //is the position in this case.
-                }));
-            let offset=1;
-            for(const [name, buf] of Object.entries(buffers)) {
-                if(name == 'POSITION') continue;
-                E.input({
-                    semantic: name,
-                    source: `#${id}.${name}`,
-                    offset: offset++,
-                });
+        switch(mode) {
+            case GL.TRIANGLES:
+                return vtxs;
+
+            case GL.TRIANGLE_FAN: {
+                for(let i=2; i<vtxs.length; i++) {
+                    result.push(vtxs[0]);
+                    result.push(vtxs[i-1]);
+                    result.push(vtxs[i]);
+                }
+                return result;
             }
 
-            //we (probably) have to have one index per attribute
-            //in the index buffer, but, in the game, they're all
-            //just the same value for every attribute.
-            for(let i=0; i<count; i++) {
-                for(let j=0; j<offset; j++) {
-                    idxBuf.push(idxs[i]);
+            case GL.TRIANGLE_STRIP: {
+                for(let i=2; i<vtxs.length; i++) {
+                    result.push(vtxs[i-2]);
+                    result.push(vtxs[i-1]);
+                    result.push(vtxs[i]);
+                }
+                return result;
+            }
+
+            case GL.LINES: //XXX
+            case GL.LINE_STRIP:
+            default:
+                console.error("Unsupported primitive type", mode);
+                throw new Error("Unsupported primitive type");
+
+        }
+    }
+
+    _addVtxs(eMesh, id, buffers, mode, ...vtxs) {
+        const tris  = this._triangulate(mode, ...vtxs);
+        if(tris.length == 0) return;
+
+        const count = tris.length / 3;
+        const eOp   = createElement('triangles', {count:count});
+
+        //build the index buffers
+        const idxNames = [];
+        let offset = 0;
+        for(const [name, buf] of Object.entries(buffers)) {
+            let sName = name;
+            if(sName == 'POSITION') sName = 'VERTEX'; //lol
+            let aNames = buf.attr;
+            if(!Array.isArray(aNames)) aNames = [aNames];
+            for(let item of aNames) {
+                //ignore attrs we don't have
+                if(tris[0][item+'_idx'] != null) {
+                    eOp.append(E.input({
+                        semantic: sName,
+                        source: `#${id}.${name}`,
+                        offset: offset++,
+                    }));
                 }
             }
-
-            //the index buffer itself
-            eOp.append(E.p(null, idxBuf.join(' ')));
-            eMesh.append(eOp);
+            idxNames.push(name);
         }
+
+        //populate the index buffers
+        const idxs = [];
+        for(const tri of tris) {
+            for(const attr of idxNames) {
+                const buf = buffers[attr];
+                let aNames = buf.attr;
+                if(!Array.isArray(aNames)) aNames = [aNames];
+                for(const aName of aNames) {
+                    let val = tri[aName+'_idx'];
+                    if(val != null) idxs.push(val);
+                }
+            }
+        }
+
+        //the actual index list
+        eOp.append(E.p(null, idxs.join(' ')));
+        eMesh.append(eOp);
     }
 }
