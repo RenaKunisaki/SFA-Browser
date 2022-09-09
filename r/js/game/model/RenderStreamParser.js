@@ -406,23 +406,28 @@ export default class RenderStreamParser {
             });
         }
 
-        if(!this.params.isPicker) { //select the textures
-            const nLayers = this.shader ? this.shader.nLayers : 0;
-            const params  = []; //batch these ops
-            for(let i=0; i<gx.MAX_TEXTURES; i++) {
-                let tex = gx.blankTexture;
-                if(i < nLayers) {
-                    const idx = this.shader.layer[i].texture;
-                    if(idx >= 0 && this.model.textures[idx]) {
-                        tex = this.model.textures[idx];
-                    }
-                    //console.log("select texture", idx, tex);
+        const nLayers = this.shader ? this.shader.nLayers : 0;
+        const textures  = []; //batch these ops
+        for(let i=0; i<gx.MAX_TEXTURES; i++) {
+            let tex = gx.blankTexture;
+            if(i < nLayers) {
+                const idx = this.shader.layer[i].texture;
+                if(idx >= 0 && this.model.textures[idx]) {
+                    tex = this.model.textures[idx];
                 }
-                params.push([i, tex]);
+                //console.log("select texture", idx, tex);
             }
-            if(params.length > 0) {
-                this.batch.addFunction(this._makeSetTextureCmd(params));
+            textures.push([i, tex]);
+        }
+        if(!this.params.isPicker) { //select the textures
+            if(textures.length > 0) {
+                this.batch.addFunction(this._makeSetTextureCmd(textures));
             }
+        }
+
+        if(this.params.shaderHandler) {
+            this.params.shaderHandler(
+                this.shader, this.shaderIdx, textures);
         }
     }
 

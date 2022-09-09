@@ -216,10 +216,12 @@ export default class Block {
         const dir = `/${this.map.dirName}`;
         this.textures = [];
         const gameTextures = []; //debug
+        const rawIds = []; //debug
         console.log("Block has %d textures", this.header.nTextures);
         for(let i=0; i<this.header.nTextures; i++) {
             try {
                 let texId = view.getInt32(this.header.textures + (i*4));
+                rawIds.push(hex(texId,4));
                 texId = -(texId|0x8000); //game's odd way to use TEX1 by default
                 const gTex = this.game.loadTexture(texId, dir);
                 gameTextures.push(gTex);
@@ -238,7 +240,8 @@ export default class Block {
                 console.error("Failed loading texture", i, ex);
             }
         }
-        console.log("Block textures", this.textures, gameTextures);
+        console.log("Block textures", this.textures, gameTextures,
+            "raw IDs", rawIds);
     }
 
     _loadHits(view) {
