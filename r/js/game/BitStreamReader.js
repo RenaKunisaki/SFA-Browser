@@ -48,7 +48,7 @@ export default class BitStreamReader {
             default: throw new Error("Invalid `whence` parameter: "+String(whence));
         }
         if(this.offset < 0) this.offset = 0;
-        if(this.offset > this.length) this.offset = this.length;
+        if(this.offset >= this.length) this.offset = this.length - 1;
         return this.offset;
     }
 
