@@ -220,8 +220,6 @@ export default class RenderStreamParser {
         });
     }
 
-
-
     _handleShaderFlags() {
         const gx    = this.gx;
         const gl    = this.gx.gl;

@@ -27,6 +27,10 @@ inefficient which might actually matter here.
 oh but guess what, blender also doesn't support importing or
 exporting anything with multiple textures because of course.
 so all of this is useless! yay
+
+so I guess the only way to make this shit actually work is
+to write a goddamn plugin for Blender to read/write the
+model/texture files directly
 */
 
 export default class MapExporter {
@@ -195,7 +199,6 @@ export default class MapExporter {
             default:
                 console.error("Unsupported primitive type", mode);
                 throw new Error("Unsupported primitive type");
-
         }
     }
 
