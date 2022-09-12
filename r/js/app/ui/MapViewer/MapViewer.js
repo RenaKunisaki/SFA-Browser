@@ -280,7 +280,7 @@ export default class MapViewer {
         const textures = {};
         for(let iBlock=0; iBlock < this.map.blocks.length; iBlock++) {
             const block = this.map.blocks[iBlock];
-            if(!block) continue;
+            if(!(block && block.textures)) continue;
             for(let tex of block.textures) {
                 textures[tex.gameTexture.id] = tex;
             }
