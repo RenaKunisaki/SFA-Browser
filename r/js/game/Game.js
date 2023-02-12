@@ -25,6 +25,7 @@ export default class Game {
         this.app         = assertType(app, App);
         this.version     = null;
         this.iso         = null;
+        this.ram         = null;
         this.addresses   = {}; //name => {address, count}
         this.bits        = null; //GameBits
         this.objects     = null;
@@ -41,6 +42,7 @@ export default class Game {
         this.texTable    = null;
         this.texPreTab   = null;
         this.texPreBin   = null;
+        this.fileNames   = null; //id => name
 
         this.charNames = ["Krystal", "Fox"];
 
@@ -121,6 +123,39 @@ export default class Game {
         return this.bits;
     }
 
+    getFileName(id) {
+        /** Get name of asset file by ID. */
+        this._loadFileNames();
+        if(this.fileNames == null) return null;
+        return this.fileNames[id];
+    }
+
+    openMapFile(mapId, fileId) {
+        /** Open an asset file by ID. */
+        this._loadFileNames();
+        if(this.fileNames == null) return null;
+        const fileName = this.fileNames[fileId];
+        let name;
+        if(mapId == -1) {
+            name = `/${fileName}`;
+        }
+        else {
+            if(fileName == 'BLOCKS.bin' || fileName == 'BLOCKS.tab') {
+                //XXX
+                return null;
+            }
+            const mapName = this.getMapDirName(mapId);
+            name = `/${mapName}/${fileName}`;
+        }
+        try {
+            return new GameFile(this.iso.getFile(name));
+        }
+        catch(ex) {
+            //debugger;
+            return null;
+        }
+    }
+
     getMapAt(layer, x, z) {
         /** Get map by coordinates.
          *  Accepts raw coords (not divided by cell size).
@@ -134,6 +169,8 @@ export default class Game {
     }
 
     getMapDirName(id) {
+        if(!this.mapDirs) return "";
+        if(id == -1) return "";
         if(this.mapDirs[id] != undefined) return this.mapDirs[id];
         return `0x${hex(id,2)}`;
     }
@@ -340,5 +377,36 @@ export default class Game {
             let text = Text.fromXml(eText);
             this.texts[text.id] = text;
         }
+    }
+
+    _loadFileNames() {
+        /** Load the asset file names from the DOL. */
+        if(this.fileNames) return;
+        let src, xlate;
+        if(this.iso) {
+            const dol    = this.iso.mainDol;
+            const file   = new GameFile(dol.getData());
+            xlate = (addr) => dol.addrToOffset(addr);
+            src   = file;
+        }
+        else if(this.ram) {
+            xlate = (addr) => (addr & 0x7FFFFFFF);
+            src   = this.ram;
+        }
+        const aNames = this.addresses.fileNames;
+        const names  = [];
+        const usedName = new Set();
+        for(let iFile=0; iFile<aNames.count; iFile++) {
+            src.seek(xlate(aNames.address + (iFile*4)));
+            const ptr = src.readU32();
+            src.seek(xlate(ptr));
+            let name = src.readStr(256);
+            if(usedName.has(name)) {
+                name = `${name}_${hex(iFile,2)}`;
+            }
+            usedName.add(name);
+            names.push(name);
+        }
+        this.fileNames = names;
     }
 }

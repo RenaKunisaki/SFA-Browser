@@ -19,7 +19,8 @@ export default class RamInfo {
     refresh() {
         ObjInstance = this.app.types.getType('sfa.objects.ObjInstance');
         ObjectData = this.app.types.getType('sfa.objects.ObjectData');
-        const elem = E.div('ramInfo', this._makeLoadedObjWidget());
+        const elem = E.div('ramInfo', this._makeLoadedObjWidget(),
+            this._makeLoadedFilesWidget());
         clearElement(this.element).append(elem);
     }
 
@@ -110,5 +111,135 @@ export default class RamInfo {
         else row.dist = null;
 
         return row;
+    }
+
+    _makeLoadedFilesWidget() {
+        /** Create the widget that will show the list of loaded files. */
+        let loaded = false;
+        let eList = E.div('loading', "Loading...");
+        const eFiles = E.details('filelist',
+            E.summary(null, "Loaded Files"),
+            eList,
+        );
+        eFiles.addEventListener('toggle', e => {
+            if(!eFiles.open) return;
+            if(loaded) return;
+            const lst = this._makeLoadedFilesList();
+            clearElement(eList).append(
+                this._makeCheckFilesButton(),
+                lst);
+            loaded = true;
+        })
+        this._fileCheckWidgets = {};
+        return eFiles;
+    }
+
+    _makeFileListTable() {
+        return new Table({title:"Files", columns: [
+            {displayName:"#", name:'idx', type:'hex', length:2,
+                title:"File ID"},
+            {displayName:"Name", name:'name',   type:'string',
+                title:"File Name"},
+            {displayName:"RAM Addr", name:'address',type:'hex', length:8,
+                title:"Loaded address"},
+            {displayName:"Size", name:'size',   type:'hex', length:6,
+                title:"Loaded size"},
+            {displayName:"M#", name:'mapId',   type:'hex', length:2,
+                title:"Loaded map ID"},
+            {displayName:"Map", name:'mapName', type:'string',
+                title:"Loaded map name"},
+            {displayName:"OK", name:'ok', type:'string',
+                title:"File integrity check"},
+        ]});
+    }
+
+    _makeFileListRow(ram, iFile, file, checkWidget) {
+        const row = {
+            idx:     iFile,
+            name:    ram.game.getFileName(iFile),
+            address: file.address,
+            size:    file.size,
+            mapId:   file.mapId,
+            mapName: ram.game.getMapDirName(file.mapId),
+            ok:      checkWidget,
+        };
+        if(row.mapId == -1) row.mapId = null;
+        return row;
+    }
+
+    _makeLoadedFilesList() {
+        /** Create the list of loaded files. */
+        const ram = this.app.ramDump;
+        const tbl = this._makeFileListTable();
+
+        //populate the table
+        const files = ram.getLoadedFiles();
+        for(let iFile=0; iFile<files.length; iFile++) {
+            const check = E.div('file-integrity');
+            this._fileCheckWidgets[iFile] = check;
+            tbl.add(this._makeFileListRow(ram, iFile, files[iFile], check));
+        }
+        return tbl.element;
+    }
+
+    _makeCheckFilesButton() {
+        /** Create the Check File Integrity button. */
+        const btn = E.button(null, "Check File Integrity", {
+            click: () => this._checkFiles(),
+        });
+        return btn;
+    }
+
+    _checkFiles() {
+        /** Check integrity of files. */
+        if(!this.game.iso) {
+            alert("No ISO loaded.");
+            return;
+        }
+        const ram = this.app.ramDump;
+        const files = ram.getLoadedFiles();
+        for(let iFile=0; iFile<files.length; iFile++) {
+            this._checkFile(files[iFile], iFile)
+        }
+    }
+
+    _checkFile(file, iFile) {
+        const ram = this.app.ramDump;
+        const ramFile = ram.openFileById(iFile);
+        if(ramFile == null) return;
+        const romFile = this.game.openMapFile(file.mapId, iFile);
+        if(romFile == null) {
+            console.error("Failed to open file", file);
+            return;
+        }
+        const check = this._fileCheckWidgets[iFile];
+
+        if(ramFile.size != romFile.size) {
+            check.classList.add('fail');
+            check.innerText = '✕';
+            check.setAttribute('title',
+                `Size mismatch (RAM:0x${hex(ramFile.size)} ROM:${hex(romFile.size)})`);
+            console.log("Size mismatch", file);
+            return;
+        }
+
+        ramFile.seek(0);
+        romFile.seek(0);
+        for(let i=0; i<ramFile.size; i += 4) {
+            let b1 = ramFile.readU32();
+            let b2 = romFile.readU32();
+            if(b1 != b2) {
+                check.classList.add('fail');
+                check.innerText = '✕';
+                check.setAttribute('title',
+                    `Data mismatch at offset 0x${hex(i)}`);
+                    console.log("Data mismatch", file);
+                return;
+            }
+        }
+
+        check.classList.add('ok');
+        check.innerText = '✔';
+        console.log("OK", file);
     }
 }

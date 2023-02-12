@@ -5,6 +5,7 @@
     <!-- list of loaded game objects and its count -->
     <address name="loadedObjs" type="ObjInstance*" address="0x803dcb88" />
     <address name="nLoadedObjs" type="int" address="0x803dcb84" />
+    <address name="fileNames" type="char*" address="0x802cb2f4" count="88" />
     <!-- translates map dir IDs to map IDs (index into MAPINFO.bin) -->
     <address name="mapIdXltnTbl" type="int" address="0x802CBCD0" count="0x4B" />
     <!-- pointers to map asset dirs -->
@@ -14,4 +15,8 @@
     <!-- array of map dir ID => parent dir ID -->
     <address name="parentMapId" type="s16" address="0x802CBDFC" count="0x4B" />
     <address name="pPlayer" type="ObjInstance*" address="0x803428f8" />
+    <address name="loadedFileSizes" type="int" count="88" address="0x8035f0a8" />
+    <address name="loadedFiles" type="void*" count="88" address="0x8035f3e8" />
+    <!-- map ID per loaded file -->
+    <address name="loadedFileMapIds" type="s16" count="88" address="0x8035f548" />
 </addresses>

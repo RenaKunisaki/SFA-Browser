@@ -31,9 +31,14 @@ export function createElement(name, ...args) {
                     //elem[k] = options[k];
                     let v = arg[k];
                     if(v === true) v = k; //foo:true => foo="foo"
-                    if(k in elem) elem[k] = v;
-                    else elem.setAttribute(k, v);
-                    if(k == 'className') haveClass = true;
+                    else if(v.call) {
+                        elem.addEventListener(k, v);
+                    }
+                    else {
+                        if(k in elem) elem[k] = v;
+                        else elem.setAttribute(k, v);
+                        if(k == 'className') haveClass = true;
+                    }
                 }
             }
         }

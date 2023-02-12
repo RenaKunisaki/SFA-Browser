@@ -3,6 +3,7 @@ import IsoFile from "../../types/iso/isofile.js";
 import Text from "./Text.js";
 import Phrase from "./Phrase.js";
 import { DataError } from "../../app/errors.js";
+import { hex } from "../../Util.js";
 
 //struct types
 let CharacterStruct, GameTextStruct, TextureStruct;
@@ -90,13 +91,15 @@ export default class BinaryReader {
         //game will only recognize 2 textures
         while(this.charTextures.length < 2) {
             let start = this._file.tell();
-            //console.log(`charTextures[${this.charTextures.length}] start=0x${hex(start)}`);
+            console.log(`charTextures[${this.charTextures.length}] start=0x${hex(start)}`);
             let texS  = this._file.read(TextureStruct);
             if(texS.width == 0 && texS.height == 0) break;
             let size = texS.width * texS.height;
             if(texS.pixFmt == 4) { size >>= 1; }
 
-            //console.log(`charTextures[${this.charTextures.length}] size=${texS.width},${texS.height}`);
+            //XXX why multiply by pixFmt!? that can't be right.
+            //actually it's copied right from the game...
+            console.log(`charTextures[${this.charTextures.length}] size=${texS.width},${texS.height}`);
             this.charTextures.push({
                 offset: start,
                 texFmt: texS.texFmt,
@@ -107,6 +110,7 @@ export default class BinaryReader {
                 length: ((texS.width * texS.height * texS.pixFmt) >> 4) * 2,
             });
             //XXX make actual images
+            this._file.seek(((texS.width * texS.height * texS.pixFmt) >> 4) * 2, 1);
         }
     }
 

@@ -1,6 +1,7 @@
 import Game from "../Game.js";
 import { assertType } from "../../Util.js";
 import BinaryFile from "../../lib/BinaryFile.js";
+import GameFile from "../GameFile.js";
 
 //struct types
 let ConsoleType, BootInfo;
@@ -39,7 +40,8 @@ export default class RamDump {
         this.view     = view;
 
         if(file.size != 24*1024*1024 //standard size
-        && file.size != 48*1024*1024) { //debug size
+        && file.size != 48*1024*1024 //debug size
+        && file.size != 88*1024*1024) { //Wii size
             throw new Error("File size is incorrect");
         }
 
@@ -98,5 +100,43 @@ export default class RamDump {
             });
         }
         return objs;
+    }
+
+    getLoadedFiles() {
+        /** Get list of loaded files. */
+        const aPtr   = this.addrToOffset(this.game.addresses.loadedFiles.address);
+        const aSize  = this.addrToOffset(this.game.addresses.loadedFileSizes.address);
+        const aMapId = this.addrToOffset(this.game.addresses.loadedFileMapIds.address);
+
+        const files = [];
+        const count = this.game.addresses.loadedFiles.count;
+        for(let i=0; i<count; i++) {
+            const file = {};
+
+            this.data.seek((i*4) + aPtr);
+            file.address = this.data.readU32();
+
+            this.data.seek((i*4) + aSize);
+            file.size = this.data.readU32();
+
+            this.data.seek((i*2) + aMapId);
+            file.mapId = this.data.readS16();
+
+            files.push(file);
+        }
+
+        return files;
+    }
+
+    openFileById(id) {
+        const aPtr  = this.addrToOffset(this.game.addresses.loadedFiles.address);
+        this.data.seek(aPtr + (id*4));
+        const addr = this.data.readU32() & 0x7FFFFFFF;
+        if(addr == 0) return null;
+
+        const aSize = this.addrToOffset(this.game.addresses.loadedFileSizes.address);
+        this.data.seek(aSize + (id*4));
+        const size = this.data.readU32();
+        return new GameFile(this.data, addr, size);
     }
 }
