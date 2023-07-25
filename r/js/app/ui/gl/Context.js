@@ -285,7 +285,7 @@ export default class Context {
 
         const lol2 = () => {
             if(gl.canvas.width < 1 || gl.canvas.height < 1) {
-                console.log("LOL", gl.canvas);
+                //console.log("LOL", gl.canvas);
                 gl.canvas.setAttribute('width', cWidth);
                 gl.canvas.setAttribute('height', cHeight);
                 this.redraw();
