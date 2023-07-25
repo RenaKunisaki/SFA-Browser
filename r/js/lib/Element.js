@@ -31,6 +31,9 @@ export function createElement(name, ...args) {
                     //elem[k] = options[k];
                     let v = arg[k];
                     if(v === true) v = k; //foo:true => foo="foo"
+                    else if(v === null) {
+                        //console.warn("Elem %s: %s = null", name, k);
+                    }
                     else if(v.call) {
                         elem.addEventListener(k, v);
                     }

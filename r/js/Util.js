@@ -71,6 +71,10 @@ export async function getXml(path) {
      *  @param {string} path file path to download.
      *  @returns {XMLDocument} file data.
      */
+    if(!path.startsWith('/')) {
+        path = window.location.pathname + path;
+    }
+    console.log("getXml", path);
     return (await get({
         path:     path,
         mimeType: 'text/xml; charset=utf-8',

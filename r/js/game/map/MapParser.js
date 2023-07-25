@@ -321,7 +321,7 @@ export class MapParser {
             subText:"Downloading maps.xml...",
             numSteps: 1, stepsDone: 0,
         });
-        const xml = await getXml(`data/${this.game.version}/maps.xml`);
+        const xml = await getXml(`./data/${this.game.version}/maps.xml`);
         if(!xml) return;
 
         for(let elem of xml.getElementsByTagName('map')) {

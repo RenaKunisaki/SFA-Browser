@@ -35,15 +35,18 @@ export default class TabBar {
     }
 
     showTab(label) {
+        let found = false;
         for(let [lbl, tab] of Object.entries(this.tabs)) {
             if(lbl == label) {
                 tab.eTab.classList.add('active');
                 tab.eBody.style.display = 'block';
+                found = true;
             }
             else {
                 tab.eTab.classList.remove('active');
                 tab.eBody.style.display = 'none';
             }
         }
+        console.assert(found, `tab not found: '${label}'`);
     }
 }

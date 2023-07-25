@@ -25,6 +25,14 @@ body {
     height: 100vh;
 }
 
+#tab-file-select .header h1 {
+    text-shadow: 3px 3px 0px #044;
+}
+
+#tab-file-select .header h2 {
+    font-size: 1em;
+}
+
 a { color: #00CCFF }
 
 input, select, button {
@@ -38,6 +46,16 @@ input:hover, select:hover, button:hover {
 }
 input:active, select:active, button:active {
     background: #444;
+}
+*:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+input:disabled:hover, select:disabled:hover, button:disabled:hover {
+    border: 1px #0FF solid;
+}
+input:disabled:active, select:disabled:active, button:disabled:active {
+    background: var(--main-bg-color);
 }
 
 table {

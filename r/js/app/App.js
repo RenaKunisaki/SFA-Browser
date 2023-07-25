@@ -18,6 +18,7 @@ import MapGrid from "./ui/MapGrid.js";
 import MapViewer from "./ui/MapViewer/MapViewer.js";
 import ModelViewer from "./ui/ModelViewer/ModelViewer.js";
 import MiscTab from "./ui/MiscTab.js";
+import PatchManagerTab from "./ui/PatchManager.js";
 import RamInfo from "./ui/RamInfo.js";
 import Warptab from "./ui/Warptab.js";
 import TextList from "./ui/TextList.js";
@@ -58,20 +59,21 @@ export default class App {
         }
         else {
             this.ui = {
-                fileList:   new FileList   (this.game),
-                fileSelect: new FileSelect (this.game),
-                saveInfo:   new SaveInfo   (this.game),
-                gameBits:   new GameBits   (this.game),
-                objList:    new ObjList    (this.game),
-                dllList:    new DllList    (this.game),
-                mapList:    new MapList    (this.game),
-                mapGrid:    new MapGrid    (this.game),
-                mapView:    new MapViewer  (this.game),
-                modelView:  new ModelViewer(this.game),
-                miscTab:    new MiscTab    (this.game),
-                ramInfo:    new RamInfo    (this.game),
-                warpTab:    new Warptab    (this.game),
-                textList:   new TextList   (this.game),
+                fileList:   new FileList       (this.game),
+                fileSelect: new FileSelect     (this.game),
+                saveInfo:   new SaveInfo       (this.game),
+                gameBits:   new GameBits       (this.game),
+                objList:    new ObjList        (this.game),
+                dllList:    new DllList        (this.game),
+                mapList:    new MapList        (this.game),
+                mapGrid:    new MapGrid        (this.game),
+                mapView:    new MapViewer      (this.game),
+                modelView:  new ModelViewer    (this.game),
+                miscTab:    new MiscTab        (this.game),
+                patches:    new PatchManagerTab(this.game),
+                ramInfo:    new RamInfo        (this.game),
+                warpTab:    new Warptab        (this.game),
+                textList:   new TextList       (this.game),
             };
 
             this.progress.update({subText: "Downloading structs..."});
@@ -145,7 +147,7 @@ export default class App {
 
     async _getXml(cls, version, name, tag) {
         try {
-            const data = await getXml(`data/${version}/${name}.xml`);
+            const data = await getXml(`./data/${version}/${name}.xml`);
             const res  = {};
             for(let elem of data.getElementsByTagName(tag)) {
                 let inst = new cls(this, elem);

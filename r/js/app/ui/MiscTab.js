@@ -57,7 +57,7 @@ export default class MiscTab {
             subText: "Downloading dlls.xml...",
             numSteps: 1, stepsDone: 0,
         });
-        const xml = await getXml(`data/${this.game.version}/dlls.xml`);
+        const xml = await getXml(`./data/${this.game.version}/dlls.xml`);
 
         const dlls = xml.getElementsByTagName('dll');
         for(let i=0; i<dlls.length; i++) {

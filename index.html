@@ -1,7 +1,7 @@
-<!doctype html5>
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Star Fox Adventures data browser</title>
+        <title>Krazoa</title>
         <link rel="stylesheet" href="r/css/main.css" />
         <link rel="stylesheet" href="r/css/filelist.css" />
         <link rel="stylesheet" href="r/css/fileselect.css" />
@@ -24,15 +24,10 @@
     </head>
     <body>
         <div id="loading">Loading...</div>
-        <div id="tab-file-select" class="tabBody fileselect" data-tab-name="Main">
+        <div id="tab-file-select" class="tabBody fileSelect" data-tab-name="Main">
             <div class="header">
-                <h1>Star Fox Adventures data browser</h1>
-                <div class="options">
-                    <div class="option">
-                        <label for="language">GameText:</label>
-                        <select id="language"></select>
-                    </div>
-                </div>
+                <h1>Krazoa</h1>
+                <h2>Star Fox Adventures patcher and browser</h2>
                 <div class="support">
                     <a href="https://ko-fi.com/renakunisaki">Buy me a coffee</a>
                 </div>
@@ -40,10 +35,16 @@
 
             <div class="main">
                 <div class="box" id="fileSelect_iso">
-                    <h1>ISO File</h1>
+                    <h1>Select ISO File</h1>
                     <div>
                         <input type="file" name="iso" id="fileIso" />
                         <span class="progress" id="fileIsoProgress"></span>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <label for="language">GameText:</label>
+                            <select id="language"></select>
+                        </div>
                     </div>
                     <div id="isoFileBeforeLoadInfo">
                         <div class="explanation">
@@ -60,8 +61,15 @@
                     <div id="selectedIsoInfo"></div>
                 </div>
 
+                <div class="box" id="fileSelect_patch">
+                    <h1>Apply Patch</h1>
+                    <div id="openPatchesContainer">
+                        <button id="openPatches" disabled>Open Patch Manager</button>
+                    </div>
+                </div>
+
                 <div class="box" id="fileSelect_save">
-                    <h1>Save File</h1>
+                    <h1>View Save File</h1>
                     <div>
                         <input type="file" name="save" id="fileSave" />
                     </div>
@@ -85,7 +93,7 @@
                 </div>
 
                 <div class="box" id="fileSelect_ram">
-                    <h1>RAM Dump File</h1>
+                    <h1>View RAM Dump</h1>
                     <div>
                         <input type="file" name="ram" id="fileRam" />
                         <span class="progress" id="fileRamProgress"></span>
@@ -140,6 +148,10 @@
             </div>
 
         </div><!-- tab-file-select -->
+
+        <div id="tab-patches" class="tabBody patchManager"
+        data-tab-name="Patches" data-needs-iso="1">
+        </div>
 
         <div id="tab-save-info" class="tabBody saveInfo"
         data-tab-name="Save Info" data-needs-savegame="1">

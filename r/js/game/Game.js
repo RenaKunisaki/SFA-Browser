@@ -80,7 +80,7 @@ export default class Game {
 
         //get addresses
         await this.app.progress.update({subText:"Downloading addresses.xml..."});
-        const addrsXml = await getXml(`data/${this.version}/addresses.xml`);
+        const addrsXml = await getXml(`./data/${this.version}/addresses.xml`);
         if(addrsXml) {
             for(let elem of addrsXml.getElementsByTagName('address')) {
                 this.addresses[elem.getAttribute('name')] = {
@@ -97,7 +97,7 @@ export default class Game {
         //get object categories
         this.objCats = {};
         await this.app.progress.update({subText:"Downloading objcats.xml..."});
-        const objCatsXml = await getXml(`data/${version}/objcats.xml`);
+        const objCatsXml = await getXml(`./data/${version}/objcats.xml`);
         if(objCatsXml) {
             for(let elem of objCatsXml.getElementsByTagName('cat')) {
                 this.objCats[parseInt(elem.getAttribute('id'))] =
@@ -303,7 +303,7 @@ export default class Game {
 
     async _loadDlls() {
         await this.app.progress.update({subText:"Downloading dlls.xml..."});
-        const xml = await getXml(`data/${this.version}/dlls.xml`);
+        const xml = await getXml(`./data/${this.version}/dlls.xml`);
         if(!xml) return;
         this.dllTableAddr = int(xml.getElementsByTagName('dlls')[0].
             getAttribute('tableAddress'));
@@ -363,7 +363,7 @@ export default class Game {
             subText:"Downloading gametext...",
             numSteps: 1, stepsDone: 0,
         });
-        const xml = await getXml(`data/${this.version}/gametext/${lang}.xml`);
+        const xml = await getXml(`./data/${this.version}/gametext/${lang}.xml`);
         if(!xml) return;
         this.texts = {};
         let iText = 0;

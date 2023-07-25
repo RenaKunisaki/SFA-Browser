@@ -17,6 +17,9 @@ export default class FileSelect {
         this.app.onSaveLoaded(save => this._onSaveLoaded(save));
         //this.app.onSaveSlotChanged(slot => this._onSaveSlotChanged(slot));
         this.app.onIsoLoaded(iso => this._showIsoInfo(iso));
+        this.app.onIsoLoaded(iso => {
+            document.getElementById('openPatches').removeAttribute('disabled');
+        });
         this.app.onRamLoaded(ram => this._showRamInfo(ram));
     } //constructor
 

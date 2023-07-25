@@ -60,6 +60,30 @@
     display: none; /* hide until file is selected */
 }
 
+#fileSelect_patch .option {
+    margin-right: 1em;
+    display: flex;
+    flex-direction: row;
+}
+
+#fileSelect_patch .option input {
+    flex-basis: 1em;
+}
+
+#fileSelect_patch .option label {
+    flex-grow: 2;
+    border-bottom: 1px var(--border-color) dotted;
+}
+
+#openPatchesContainer {
+    margin-top: 2em;
+    text-align: center;
+}
+
+#openPatches {
+    font-size: 1.5em;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0%;

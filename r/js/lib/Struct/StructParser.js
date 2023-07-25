@@ -337,7 +337,7 @@ export default class StructParser {
 
     async selfTest() {
         console.log("struct self test begin");
-        const structs = await this.parseFile('/data/types/common.xml');
+        const structs = await this.parseFile('./data/types/common.xml');
         console.log("structs:", structs);
         const testBuffer = new ArrayBuffer(64);
         const testView = new DataView(testBuffer);

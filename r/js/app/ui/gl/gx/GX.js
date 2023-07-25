@@ -5,7 +5,7 @@ import XF from './XF.js';
 import DlistParser from './DlistParser.js';
 import Program from '../Program.js';
 import Texture from '../Texture.js';
-import {get} from '/r/js/Util.js';
+import {get} from '../../../../Util.js';
 import RenderBatch from './RenderBatch.js';
 import GXConstants from './Constants.js';
 
@@ -44,7 +44,8 @@ export default class GX extends GXConstants {
         this.whiteTexture.makeSolidColor(255, 255, 255, 255);
         //used for when a texture can't be loaded.
         this.missingTexture = new Texture(context);
-        this.missingTexture.loadFromImage('/r/missing-texture.png');
+        this.missingTexture.loadFromImage(
+            window.location.pathname + '/r/missing-texture.png');
         //if changing this we need to also add more samplers in the fragment
         //shader and update loadPrograms()
         this.MAX_TEXTURES = 2;
@@ -107,7 +108,7 @@ export default class GX extends GXConstants {
         const gl = this.gl;
 
         //get shader code and create program
-        const path = '/r/js/app/ui/gl/gx';
+        const path = window.location.pathname + '/r/js/app/ui/gl/gx';
         this.program = new Program(this.context, {
             [gl.VERTEX_SHADER]:   (await get(`${path}/vertex.glsl`))  .responseText,
             [gl.FRAGMENT_SHADER]: (await get(`${path}/fragment.glsl`)).responseText,
