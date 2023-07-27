@@ -140,7 +140,7 @@ export default class PatchManagerTab {
         for(const patch of Object.values(this.patches)) {
             if(first == null) first = patch;
             this.eSelect.append(
-                E.option(null, {id:patch.id}, patch.name),
+                E.option(null, {value:patch.id}, patch.name),
             );
         }
         this._onPatchSelect(first.id);

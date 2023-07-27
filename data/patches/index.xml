@@ -17,4 +17,23 @@
     <version id="3.0.0" date="XXX">
     </version><!-- 3.0.0 -->
   </patch><!-- amethyst -->
+
+  <patch id="test">
+    <name>Test Patch Please Ignore</name>
+    <description><![CDATA[
+      This patch doesn't do anything. It's just a test for the patch manager UI.
+    ]]></description>
+
+    <version id="0.0.0" date="2002-09-23T00:00:00">
+      <description><![CDATA[
+        The original game!
+      ]]></description>
+    </version>
+
+    <version id="0.0.1" date="2002-09-23T00:00:01">
+      <description><![CDATA[
+        Also the original game!
+      ]]></description>
+    </version>
+  </patch>
 </patches>
