@@ -1,0 +1,43 @@
+.patchManager {
+    padding: 0.5em;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.patchManager h1 {
+    margin: 0;
+}
+
+.patchManager input {
+    border: 1px #888 solid;
+    margin: 1em;
+}
+
+.patchManager .box {
+    flex-basis: 33%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: inline-block;
+    margin-left: 1em;
+    margin-top: 1em;
+    padding-bottom: 1em;
+    position: relative; /* for partial border */
+}
+
+.patchManager .box::after {
+    /* partial border hack */
+    content: '';
+    height: var(--border-size);
+    background: var(--border-color);
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+  }
+
+/* XXX replace not-last-child with "everything at right side" somehow? */
+.patchManager .box:not(:last-child) {
+    border-right: 1px var(--border-color) solid;
+}

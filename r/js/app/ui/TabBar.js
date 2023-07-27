@@ -20,7 +20,7 @@ export default class TabBar {
         const isFirst = Object.keys(this.tabs).length == 0;
         //elem = E.div('tabContainer', elem);
         this.element.append(elem);
-        if(!isFirst) elem.style.display = 'none';
+        if(isFirst) elem.classList.add('visible');
 
         //build a tab for the element
         let tab = E.div('tab', label);
@@ -39,12 +39,12 @@ export default class TabBar {
         for(let [lbl, tab] of Object.entries(this.tabs)) {
             if(lbl == label) {
                 tab.eTab.classList.add('active');
-                tab.eBody.style.display = 'block';
+                tab.eBody.classList.add('visible');
                 found = true;
             }
             else {
                 tab.eTab.classList.remove('active');
-                tab.eBody.style.display = 'none';
+                tab.eBody.classList.remove('visible');
             }
         }
         console.assert(found, `tab not found: '${label}'`);

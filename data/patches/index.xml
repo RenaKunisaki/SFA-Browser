@@ -1,0 +1,20 @@
+<patches>
+  <patch id="amethyst">
+    <!-- default for unsupported languages -->
+    <name>Amethyst Edition</name>
+    <!-- example, use RFC 3066 language IDs -->
+    <name lang="x-pig-latin">Thystamay Itioneday</name>
+
+    <!-- contents here are HTML -->
+    <description><![CDATA[
+      <p>Aims to improve upon the original game without making major fundamental changes.</p>
+      <p>Keeps the original maps, story, etc, while adding new features, quality-of-life
+        changes, and bug fixes.</p>
+      <p>Also features extensive debugging tools.</p>
+      <p><a href="../amethyst">Full description and changelog</a></p>
+    ]]></description>
+
+    <version id="3.0.0" date="XXX">
+    </version><!-- 3.0.0 -->
+  </patch><!-- amethyst -->
+</patches>

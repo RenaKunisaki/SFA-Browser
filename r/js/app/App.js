@@ -109,6 +109,13 @@ export default class App {
         this.ui.tabs.showTab('Main');
     }
 
+    getBrowserLanguage() {
+        let lang = window.navigator.languages ? window.navigator.languages[0] : null;
+        lang = lang || window.navigator.language ||
+            window.navigator.browserLanguage || window.navigator.userLanguage;
+        return lang;
+    }
+
     async setLanguage(lang) {
         this.language = lang;
         await this._doCallback('onLanguageChanged', lang);
