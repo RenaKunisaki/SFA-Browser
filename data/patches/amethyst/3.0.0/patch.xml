@@ -8,8 +8,7 @@
     <!-- add/replace some gametext IDs -->
     <gametext lang="en">
         <text id="123" alignh="3" alignv="0" window="0">
-            <!-- how we gonna do color/style tho
-            and for that matter how we gonna render a font
+            <!-- how we gonna render a font?
             maybe we can extract the glyphs from the existing files?
             there's opentype.js and we can use
             https://developer.chrome.com/articles/local-fonts/
@@ -17,9 +16,10 @@
             in addition to downloading them from the server
             -->
             <phrase>
-                <text>Hello </text>
-                <fmt color="009DF3" />
-                <text>World!</text>
+                <!-- control codes work the same as the generated gametext.xml -->
+                <str>Hello </str>
+                <color r="0x00" g="0x9D" b="0xF3" a="0xFF" />
+                <str>World!</str>
             </phrase>
             <phrase>This is some text.</phrase>
         </text>
