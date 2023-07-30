@@ -1,9 +1,38 @@
 import { assertType, downloadXml, getXml, hex, int } from "../../Util.js";
 import { E, clearElement } from "../../lib/Element.js";
 import Game from "../../game/Game.js";
+import Patcher from "../../game/Patcher.js";
+
+/* procedure to apply a patch.xml:
+- read the XML and build a map like:
+  files: {
+    textures: {
+        123: {
+            src: 'tex123.png',
+            force: false,
+        },
+    }
+  }
+- for each map directory:
+  - for each file:
+    - split the file into {id:data} for each asset (keep them compressed)
+    - for each entry in files.whatever:
+      - if this entry is present:
+        - replace the asset
+      - elif the 'force' flag is set:
+        - add the asset
+    - concat the assets back together and build the table
+- if the repack option is enabled:
+  - for each map directory:
+    - for each file:
+      - split the file into array of assets
+      - for each asset: unpack and repack
+      - rebuild the file and table
+- rebuild an ISO with the modified files
+*/
 
 export default class PatchManagerTab {
-    /** The game patch manager.
+    /** The game patch manager UI.
      */
     constructor(game) {
         this.game = assertType(game, Game);
@@ -24,6 +53,7 @@ export default class PatchManagerTab {
         this._makeUi();
         this._getPatches().then(() => {
             this._refreshPatchList();
+            this.eApply.removeAttribute('disabled');
         });
     }
 
@@ -37,6 +67,7 @@ export default class PatchManagerTab {
             name: 'patchVersion',
         });
         this.eDescription = E.div();
+        this.eApply = E.button(null, "Apply Patch", {disabled:true});
         clearElement(this.element).append(
             E.div('box',
                 E.h1(null, "Select Patch"),
@@ -52,11 +83,17 @@ export default class PatchManagerTab {
             E.div('box',
                 E.h1(null, "Options"),
             ),
+            E.div('box bigButton',
+                this.eApply,
+            ),
         );
 
         this.eSelect.addEventListener('change', e => {
             this._onPatchSelect(e.target.value);
-        })
+        });
+        this.eApply.addEventListener('click', async e => {
+            await this._applyPatch();
+        });
     }
 
     async _getPatches() {
@@ -167,5 +204,14 @@ export default class PatchManagerTab {
         const elem = E.span();
         elem.innerHTML = patch.description;
         clearElement(this.eDescription).append(elem);
+    }
+
+    async _applyPatch() {
+        /** Called when Apply Patch is clicked. */
+        const selPatch = this.eSelect.value;
+        const selVer   = this.eVersion.value;
+        const patcher  = new Patcher(this.game);
+        const xml = await getXml(`./data/patches/${selPatch}/${selVer}/patch.xml`);
+        patcher.loadPatch(xml);
     }
 }

@@ -1,0 +1,42 @@
+<patch>
+    <!-- apply an xdelta patch to a file -->
+    <delta file="/sys/main.dol" patch="main.dol.xdelta" />
+
+    <!-- copy a file from ./files into the disc image -->
+    <copy from="newfile.bin" to="/files/newfile.bin" />
+
+    <!-- add/replace some gametext IDs -->
+    <gametext lang="en">
+        <text id="123" alignh="3" alignv="0" window="0">
+            <!-- how we gonna do color/style tho
+            and for that matter how we gonna render a font
+            maybe we can extract the glyphs from the existing files?
+            there's opentype.js and we can use
+            https://developer.chrome.com/articles/local-fonts/
+            to check what fonts are available and load them
+            in addition to downloading them from the server
+            -->
+            <phrase>
+                <text>Hello </text>
+                <fmt color="009DF3" />
+                <text>World!</text>
+            </phrase>
+            <phrase>This is some text.</phrase>
+        </text>
+    </gametext>
+
+    <!-- add/replace some texture IDs -->
+    <textures>
+        <!-- do we want to use PNG or raw binary here?
+        we'd use binary for models and such...
+        -->
+        <texture id="123" src="tex123.png" />
+    </textures>
+
+    <models>
+        <!-- replace model 123 in any maps it's in -->
+        <model id="123" src="model123.bin" />
+        <!-- replace model 456, or add it if it's not present -->
+        <model id="456" src="model456.bin" force="1" />
+    </models>
+</patch>

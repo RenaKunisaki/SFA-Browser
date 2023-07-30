@@ -20,6 +20,7 @@
 
   <patch id="test">
     <name>Test Patch Please Ignore</name>
+    <name lang="ja-JA">テストパッチ、無視してください</name>
     <description><![CDATA[
       This patch doesn't do anything. It's just a test for the patch manager UI.
     ]]></description>
