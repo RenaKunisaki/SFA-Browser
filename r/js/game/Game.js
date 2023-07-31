@@ -18,9 +18,9 @@ export const MAP_CELL_SIZE = 640;
 export const TEXT_LANGUAGES = ['English', 'French',
     'German', 'Italian', 'Japanese', 'Spanish'];
 
+/** Info and methods relating to the game itself.
+ */
 export default class Game {
-    /** Info and methods relating to the game itself.
-     */
     constructor(app) {
         this.app         = assertType(app, App);
         this.version     = null;
@@ -123,15 +123,15 @@ export default class Game {
         return this.bits;
     }
 
+    /** Get name of asset file by ID. */
     getFileName(id) {
-        /** Get name of asset file by ID. */
         this._loadFileNames();
         if(this.fileNames == null) return null;
         return this.fileNames[id];
     }
 
+    /** Open an asset file by ID. */
     openMapFile(mapId, fileId) {
-        /** Open an asset file by ID. */
         this._loadFileNames();
         if(this.fileNames == null) return null;
         const fileName = this.fileNames[fileId];
@@ -156,10 +156,10 @@ export default class Game {
         }
     }
 
+    /** Get map by coordinates.
+     *  Accepts raw coords (not divided by cell size).
+     */
     getMapAt(layer, x, z) {
-        /** Get map by coordinates.
-         *  Accepts raw coords (not divided by cell size).
-         */
         if(!this.mapGrid) throw new Error("Maps not loaded yet");
         let res = this.mapGrid[layer];
         if(res) res = res[Math.floor(x / MAP_CELL_SIZE)];
@@ -379,8 +379,8 @@ export default class Game {
         }
     }
 
+    /** Load the asset file names from the DOL. */
     _loadFileNames() {
-        /** Load the asset file names from the DOL. */
         if(this.fileNames) return;
         let src, xlate;
         if(this.iso) {

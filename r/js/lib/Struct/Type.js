@@ -1,14 +1,14 @@
+/** A data type that a struct field can have. */
 export class Type {
-    /** A data type that a struct field can have. */
     static _size; //number of bytes
 
     get size() { return this.constructor._size; } //loljs
     get typeName() { return this.constructor.name }
+    /** Return the "real name" of a typedef.
+     *  If this isn't a typedef, the real name is identical
+     *  to the name.
+     */
     get realName() {
-        /** Return the "real name" of a typedef.
-         *  If this isn't a typedef, the real name is identical
-         *  to the name.
-         */
         if(this._realName == null) return this.constructor.name;
         return this._realName;
     }
@@ -17,24 +17,24 @@ export class Type {
         this._realName = null;
     }
 
+    /** Read this type from a data stream.
+     *  @param {DataView} view View to read from.
+     *  @param {int} offset Byte offset to read from.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @returns The value read from the view.
+     */
     fromBytes(view, offset=0, littleEndian=false) {
-        /** Read this type from a data stream.
-         *  @param {DataView} view View to read from.
-         *  @param {int} offset Byte offset to read from.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @returns The value read from the view.
-         */
         throw new Error("Class has no fromBytes method");
     }
 
+    /** Read array of this type from a data stream.
+     *  @param {DataView} view View to read from.
+     *  @param {int} count Number of items to read.
+     *  @param {int} offset Byte offset to read from.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @returns The values read from the view.
+     */
     arrayFromBytes(view, count, offset=0, littleEndian=false) {
-        /** Read array of this type from a data stream.
-         *  @param {DataView} view View to read from.
-         *  @param {int} count Number of items to read.
-         *  @param {int} offset Byte offset to read from.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @returns The values read from the view.
-         */
         const size   = this.size;
         console.assert(size > 0);
         const result = [];
@@ -45,27 +45,27 @@ export class Type {
         return result;
     }
 
+    /** Pack this type into a data stream.
+     *  @param value Value to write.
+     *  @param {DataView} view View to write into.
+     *  @param {int} offset Byte offset to write to.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @returns The data view.
+     *  @note If view is null, it creates a new buffer and view.
+     */
     toBytes(value, view=null, offset=0, littleEndian=false) {
-        /** Pack this type into a data stream.
-         *  @param value Value to write.
-         *  @param {DataView} view View to write into.
-         *  @param {int} offset Byte offset to write to.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @returns The data view.
-         *  @note If view is null, it creates a new buffer and view.
-         */
         throw new Error("Class has no toBytes method");
     }
 
+    /** Pack array of this type into a data stream.
+     *  @param {array} value Values to write.
+     *  @param {DataView} view View to write into.
+     *  @param {int} offset Byte offset to write to.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @returns The data view.
+     *  @note If view is null, it creates a new buffer and view.
+     */
     arrayToBytes(value, view=null, offset=0, littleEndian=false) {
-        /** Pack array of this type into a data stream.
-         *  @param {array} value Values to write.
-         *  @param {DataView} view View to write into.
-         *  @param {int} offset Byte offset to write to.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @returns The data view.
-         *  @note If view is null, it creates a new buffer and view.
-         */
         const size = this.size;
         view = this._getBuf(view, value.length);
         for(let i=0; i<value.length; i++) {
@@ -75,18 +75,18 @@ export class Type {
         return view;
     }
 
+    /** Convert this object to a string, for debugging.
+     *  @returns {string} String representation.
+     */
     toString() {
-        /** Convert this object to a string, for debugging.
-         *  @returns {string} String representation.
-         */
         return `[Struct.Type.${this.type}]`
     }
 
+    /** Convert a value of this type to a string.
+     *  @param value Value to convert.
+     *  @returns {string} String representation.
+     */
     valueToString(value) {
-        /** Convert a value of this type to a string.
-         *  @param value Value to convert.
-         *  @returns {string} String representation.
-         */
         return String(value);
     }
 
@@ -208,10 +208,10 @@ export class double extends Type {
         return view;
     }
 }
+/** @note Using an array of char will give you, literally, an
+ *  array of characters. For strings, use a string type instead.
+ */
 export class char extends Type {
-    /** @note Using an array of char will give you, literally, an
-     *  array of characters. For strings, use a string type instead.
-     */
     static _size = 1;
     fromBytes(view, offset=0, littleEndian=false) {
         let res = view.getInt8(offset);
@@ -229,16 +229,16 @@ export class char extends Type {
         return view;
     }
 }
+/** String type that assumes one byte per character. */
 export class ascii extends char {
-    /** String type that assumes one byte per character. */
     arrayFromBytes(view, count, offset=0, littleEndian=false) {
         return super.arrayFromBytes(view, count, offset, littleEndian).join('');
     }
 }
+/** String type that uses UTF-8 encoding and
+ *  allows embedded NUL characters.
+ */
 export class stringWithNulls extends u8 {
-    /** String type that uses UTF-8 encoding and
-     *  allows embedded NUL characters.
-     */
     arrayFromBytes(view, count, offset=0, littleEndian=false) {
         const result = [];
         for(let i=0; i<count; i++) {
@@ -299,10 +299,10 @@ export class stringWithNulls extends u8 {
         return view;
     }
 }
+/** String type that uses UTF-8 encoding and
+ *  removes embedded NUL characters.
+ */
 export class string extends stringWithNulls {
-    /** String type that uses UTF-8 encoding and
-     *  removes embedded NUL characters.
-     */
     arrayFromBytes(view, count, offset=0, littleEndian=false) {
         const result = super.arrayFromBytes(view, count, offset, littleEndian);
         return result.replaceAll('\x00', '');
@@ -322,8 +322,8 @@ export class bool extends Type {
         return view;
     }
 }
+/** bool padded to 4 bytes, seen often in 32-bit systems */
 export class widebool extends Type {
-    /** bool padded to 4 bytes, seen often in 32-bit systems */
     static _size = 4;
     fromBytes(view, offset=0, littleEndian=false) {
         let res = view.getInt32(offset, littleEndian);

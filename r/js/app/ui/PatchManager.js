@@ -122,6 +122,7 @@ export default class PatchManagerTab {
                 name: this._getPatchName(ePatch, lang),
                 description: description,
                 versions: this._getPatchVersions(ePatch),
+                path: `./data/patches/${id}`,
             };
             this.patches[id] = patch;
         }
@@ -210,8 +211,9 @@ export default class PatchManagerTab {
         /** Called when Apply Patch is clicked. */
         const selPatch = this.eSelect.value;
         const selVer   = this.eVersion.value;
+        const patch    = this.patches[selPatch];
         const patcher  = new Patcher(this.game);
-        const xml = await getXml(`./data/patches/${selPatch}/${selVer}/patch.xml`);
-        patcher.loadPatch(xml);
+        const xml = await getXml(`${patch.path}/${selVer}/patch.xml`);
+        patcher.loadPatch(`${patch.path}/${selVer}`, xml);
     }
 }

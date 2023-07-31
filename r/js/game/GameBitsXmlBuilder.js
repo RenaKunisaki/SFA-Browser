@@ -8,8 +8,8 @@ import Game from "./Game.js";
 
 const XML = 'http://www.w3.org/1999/xhtml';
 
+/** Generates gamebits.xml. */
 export default class GameBitsXmlBuilder {
-    /** Generates gamebits.xml. */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;

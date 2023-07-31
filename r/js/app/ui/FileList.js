@@ -3,9 +3,9 @@ import { E, clearElement } from "../../lib/Element.js";
 import { assertType, download, fileSize, hex } from "../../Util.js";
 import FileViewer from "./FileViewer/FileViewer.js";
 
+/** Displays list of files in ISO.
+ */
 export default class FileList {
-    /** Displays list of files in ISO.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

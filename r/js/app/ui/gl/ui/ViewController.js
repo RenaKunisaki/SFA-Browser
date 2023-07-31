@@ -15,16 +15,16 @@ const CLAMP_RADIANS = (x) => {
 
 let _nextId=0;
 
+/** Controls the "camera" of a GL context. */
 export default class ViewController {
-    /** Controls the "camera" of a GL context. */
     constructor(context) {
         this.context = context;
         this._createElements();
     }
 
+    /** Manually change parameters.
+     */
     set(params) {
-        /** Manually change parameters.
-         */
         //XXX this doesn't always reflect the actual values. eg if we rotate
         //enough the actual rotation value can be -1 but we'll be displaying
         //it as 359. not a huge problem but could become one if something
@@ -77,8 +77,8 @@ export default class ViewController {
         this._onChange(null); //trigger an update
     }
 
+    /** Read parameters. */
     get() {
-        /** Read parameters. */
         const F = parseFloat;
         return {
             pos: {
@@ -150,8 +150,8 @@ export default class ViewController {
         this._onChange(null); //trigger an update
     }
 
+    /** Add to parameters. */
     adjust(params) {
-        /** Add to parameters. */
         const F = parseFloat;
         if(params.pos) {
             if(params.pos.x != undefined) this.txtPosX.value = F(this.txtPosX.value)+params.pos.x;
@@ -227,25 +227,25 @@ export default class ViewController {
         else this._onChange(null);
     }
 
+    /** Move the camera to a point.
+     *  @param {float} x X coordinate to move to.
+     *  @param {float} y Y coordinate to move to.
+     *  @param {float} z Z coordinate to move to.
+     *  @param {float} radius How close to the point the camera should get.
+     *  @param {float} time How many seconds the camera should take to
+     *      reach the target point. (Can be zero)
+     *  @param {float} rotX X rotation (radians) for camera to have when done.
+     *  @param {float} rotY Y rotation (radians) for camera to have when done.
+     *  @param {float} rotZ Z rotation (radians) for camera to have when done.
+     *  @description Moves the camera toward the target point, and rotates
+     *      it to look at that point. The movement is animated over the
+     *      given amount of time, and the camera is placed within the
+     *      given radius of the target point, pointed toward the target.
+     *      If rotation values are given, uses them instead of pointing
+     *      at the target point.
+     */
     moveToPoint(x, y, z, radius=1, time=1.0,
-    rotX=null, rotY=null, rotZ=null) {
-        /** Move the camera to a point.
-         *  @param {float} x X coordinate to move to.
-         *  @param {float} y Y coordinate to move to.
-         *  @param {float} z Z coordinate to move to.
-         *  @param {float} radius How close to the point the camera should get.
-         *  @param {float} time How many seconds the camera should take to
-         *      reach the target point. (Can be zero)
-         *  @param {float} rotX X rotation (radians) for camera to have when done.
-         *  @param {float} rotY Y rotation (radians) for camera to have when done.
-         *  @param {float} rotZ Z rotation (radians) for camera to have when done.
-         *  @description Moves the camera toward the target point, and rotates
-         *      it to look at that point. The movement is animated over the
-         *      given amount of time, and the camera is placed within the
-         *      given radius of the target point, pointed toward the target.
-         *      If rotation values are given, uses them instead of pointing
-         *      at the target point.
-         */
+        rotX=null, rotY=null, rotZ=null) {
         //get starting and ending positions
         let curPos = vec3.fromValues(this.pos.x, this.pos.y, this.pos.z);
         let tgtPos = vec3.fromValues(x, y, z);
@@ -322,11 +322,11 @@ export default class ViewController {
         tick();
     }
 
+    /** Move the camera relative to its current
+     *  position and rotation.
+     *  @param {Object} vec Camera-relative movement vector.
+     */
     moveByVector(vec) {
-        /** Move the camera relative to its current
-         *  position and rotation.
-         *  @param {Object} vec Camera-relative movement vector.
-         */
         const rx = ((this.rot.x % 360) - 180) * PI_OVER_180;
         const ry = ((this.rot.y % 360) - 180) * PI_OVER_180;
 
@@ -368,8 +368,8 @@ export default class ViewController {
         this.context.redraw();
     }
 
+    /** Create elements for manual view parameter entry. */
     _createElements() {
-        /** Create elements for manual view parameter entry. */
         this._createInputFields();
         this._createMainElement();
     }

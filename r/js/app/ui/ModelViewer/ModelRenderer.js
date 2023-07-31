@@ -3,8 +3,8 @@ import DlistParser from '../gl/gx/DlistParser.js';
 import RenderBatch from '../gl/gx/RenderBatch.js';
 import RenderStreamParser from '../../../game/model/RenderStreamParser.js';
 
+/** Renders character models. */
 export default class ModelRenderer {
-    /** Renders character models. */
     constructor(modelViewer, gx) {
         this.modelViewer = modelViewer;
         this.game = modelViewer.game;
@@ -30,12 +30,12 @@ export default class ModelRenderer {
         return batch;
     }
 
+    /** Parse the display lists.
+     *  @param {SfaModel} model The model to render.
+     *  @param {object} params Render parameters.
+     *  @returns {RenderBatch} Parsed render batch.
+     */
     parse(model, params={}) {
-        /** Parse the display lists.
-         *  @param {SfaModel} model The model to render.
-         *  @param {object} params Render parameters.
-         *  @returns {RenderBatch} Parsed render batch.
-         */
         //check if we already parsed this
         const key = ([
             model.id,
@@ -56,12 +56,12 @@ export default class ModelRenderer {
         return this._batches[key];
     }
 
+    /** Render the model.
+     *  @param {SfaModel} model The model to render.
+     *  @param {object} params Render parameters.
+     *  @returns {RenderBatch} The render batch.
+     */
     render(model, params={}) {
-        /** Render the model.
-         *  @param {SfaModel} model The model to render.
-         *  @param {object} params Render parameters.
-         *  @returns {RenderBatch} The render batch.
-         */
         this.curShaderIdx = null;
         this.curModel     = model;
         this.params       = params;

@@ -24,8 +24,8 @@ const fieldTypes = {
         String.fromCharCode(view.getUint8(offs)), },
 };
 
+/** A wrapper for reading binary data. */
 export default class BinaryFile {
-    /** A wrapper for reading binary data. */
     constructor(buffer, byteOffset=0, byteLength=null, order='>') {
         if(buffer.buffer) {
             //if given a typed array, get the underlying buffer.
@@ -47,9 +47,9 @@ export default class BinaryFile {
         console.assert(!isNaN(offs), "Offset is NaN");
         console.assert(isFinite(offs), "Offset is infinity");
         switch(whence) {
-            case 0: case 'SEEK_SET': this._readOffs = offs; break;
-            case 1: case 'SEEK_CUR': this._readOffs += offs; break;
-            case 2: case 'SEEK_END': this._readOffs = this.byteLength - offs; break;
+            case 0: case 'set': case 'SEEK_SET': this._readOffs = offs; break;
+            case 1: case 'cur': case 'SEEK_CUR': this._readOffs += offs; break;
+            case 2: case 'end': case 'SEEK_END': this._readOffs = this.byteLength - offs; break;
             default: throw new RangeError("Invalid value for 'whence'");
         }
     }
@@ -72,8 +72,8 @@ export default class BinaryFile {
             offset+this.byteOffset+length);
     }
 
+    /** Read some data from the file. */
     read(fmt, count=1) {
-        /** Read some data from the file. */
         switch(typeof(fmt)) {
             case 'number': return this._readBytesMulti(count, fmt);
             case 'string': return this._readFmtStr    (count, fmt);
@@ -81,19 +81,19 @@ export default class BinaryFile {
         }
     }
 
+    /** Read the given number of bytes.
+     *  @param count Number of bytes.
+     *  @returns {ArrayBuffer} Binary data.
+     */
     readBytes(count) {
-        /** Read the given number of bytes.
-         *  @param count Number of bytes.
-         *  @returns {ArrayBuffer} Binary data.
-         */
         const offs = this.byteOffset + this._readOffs;
         const res  = this.buffer.slice(offs, offs+count);
         this._readOffs += count;
         return res;
     }
 
+    /** Read multiple sets of `len` bytes. */
     _readBytesMulti(count, len) {
-        /** Read multiple sets of `len` bytes. */
         if(count == 1) return this.readBytes(len);
         const res = [];
         for(let i=0; i<count; i++) {
@@ -102,10 +102,10 @@ export default class BinaryFile {
         return res;
     }
 
+    /** Read a Python-struct-style format string.
+     *  XXX only one field is supported. eg "3H" not "3H2I"
+     */
     _readFmtStr(count, fmt) {
-        /** Read a Python-struct-style format string.
-         *  XXX only one field is supported. eg "3H" not "3H2I"
-         */
         let len = fmt.match(/\d+/);
         len = (len == null) ? 1 : parseInt(len);
         fmt = fmt.match(/\d*(.+)/)[1];
@@ -115,8 +115,8 @@ export default class BinaryFile {
         else return this._readTypeMulti(count, len, fmt);
     }
 
+    /** Read a class defined using Struct */
     _readCls(count, cls) {
-        /** Read a class defined using Struct */
         if(!(cls instanceof Type)) {
             throw new TypeError(`Don't know how to read type: ${cls}`);
         }
@@ -127,8 +127,8 @@ export default class BinaryFile {
         return result;
     }
 
+    /** Read specified number of ASCII characters */
     _readChars(count) {
-        /** Read specified number of ASCII characters */
         const res = [];
         for(let i=0; i<count; i++) {
             res.push(String.fromCharCode(this.readU8()));
@@ -143,8 +143,8 @@ export default class BinaryFile {
         return res;
     }
 
+    /** Read one UTF-8 code point. */
     readUtf8Char() {
-        /** Read one UTF-8 code point. */
         let n = 0;
         let c = this.readU8();
         if     (c >= 0xF0) { n = 3; c &= 0x07 }
@@ -166,8 +166,8 @@ export default class BinaryFile {
         return c;
     }
 
+    /** Read UTF-8 string up to `maxLen` bytes */
     readStr(maxLen, join=true, nulls=false) {
-        /** Read UTF-8 string up to `maxLen` bytes */
         const res = [];
         let   end = this._readOffs + maxLen;
         if(end >= this.byteLength) end = this.byteLength - 1;
@@ -182,16 +182,16 @@ export default class BinaryFile {
         return join ? res.join('') : res;
     }
 
+    /** Read multiple UTF-8 strings */
     readStrs(count, maxLen) {
-        /** Read multiple UTF-8 strings */
         if(count == 1) return this.readStr(maxLen);
         const res = [];
         for(let i=0; i<count; i++) res.push(this.readStr(maxLen));
         return res;
     }
 
+    /** Read a primitive Struct type */
     _readType(len, fmt, forceArray=false) {
-        /** Read a primitive Struct type */
         const type = (typeof(fmt) == 'string') ? fieldTypes[fmt] : fmt;
         if(!type) throw new Error(`Unrecognized type "${fmt}"`);
         if(len < 0) throw new RangeError(`len must be >= 0 (was ${len})`);

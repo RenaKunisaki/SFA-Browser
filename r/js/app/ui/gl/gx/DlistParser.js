@@ -12,13 +12,13 @@ export default class DlistParser {
     setVtxHandler(handler) {
         this._addVtxs = handler;
     }
+    /** Parse a display list.
+     *  @param {ArrayBuffer} list Display list to parse.
+     *  @param {object} buffers Dict of vertex attribute buffers.
+     *  @param {number} id ID to assign to vertices for picker.
+     *  @returns {RenderBatch} Generated render batch object.
+     */
     parse(list, buffers, id=0) {
-        /** Parse a display list.
-         *  @param {ArrayBuffer} list Display list to parse.
-         *  @param {object} buffers Dict of vertex attribute buffers.
-         *  @param {integer} id ID to assign to vertices for picker.
-         *  @returns {RenderBatch} Generated render batch object.
-         */
         list = new BinaryFile(list);
         this.buffers = {};
         for(const [name, buf] of Object.entries(buffers)) {
@@ -83,11 +83,11 @@ export default class DlistParser {
         }
         return this.result;
     }
+    /** Parse a draw operation and add the vertices to this.result.
+     *  @param {number} op Opcode to parse.
+     *  @param {BinaryFile} list List to read from.
+     */
     _parseDrawOp(op, list) {
-        /** Parse a draw operation and add the vertices to this.result.
-         *  @param {integer} op Opcode to parse.
-         *  @param {BinaryFile} list List to read from.
-         */
         const vat   = op & 7;
         const nVtxs = list.readU16();
         const gl    = this.gl;
@@ -101,13 +101,13 @@ export default class DlistParser {
             case 0xB8: this._drawPolys(vat,list,nVtxs,gl.POINTS);         break;
         }
     }
+    /** Parse a QUADS draw operation.
+     *  @param {number} vat Which VAT to use.
+     *  @param {BinaryFile} list List to read from.
+     *  @param {number} nVtxs Number of vertices to read.
+     *  @note Reads vertices and converts to triangles.
+     */
     _drawQuads(vat, list, nVtxs) {
-        /** Parse a QUADS draw operation.
-         *  @param {integer} vat Which VAT to use.
-         *  @param {BinaryFile} list List to read from.
-         *  @param {integer} nVtxs Number of vertices to read.
-         *  @note Reads vertices and converts to triangles.
-         */
         const vtxs = [];
         for(let i=0; i<nVtxs; i += 4) {
             const v0 = this._readVertex(vat, list);
@@ -118,13 +118,13 @@ export default class DlistParser {
         }
         this._drawPoly(this.gl.TRIANGLES, ...vtxs);
     }
+    /** Parse a draw operation other than QUADS.
+     *  @param {number} vat Which VAT to use.
+     *  @param {BinaryFile} list List to read from.
+     *  @param {number} nVtxs Number of vertices to read.
+     *  @param {number} mode Which GL drawing mode to use.
+     */
     _drawPolys(vat, list, nVtxs, mode) {
-        /** Parse a draw operation other than QUADS.
-         *  @param {integer} vat Which VAT to use.
-         *  @param {BinaryFile} list List to read from.
-         *  @param {integer} nVtxs Number of vertices to read.
-         *  @param {integer} mode Which GL drawing mode to use.
-         */
         const vtxs = [];
         for(let i=0; i<nVtxs; i++) {
             vtxs.push(this._readVertex(vat, list));
@@ -132,12 +132,12 @@ export default class DlistParser {
         //console.log("draw vtxs", vtxs);
         this._addVtxs(mode, ...vtxs);
     }
+    /** Read a vertex from the display list.
+     *  @param {number} vat Which VAT to use.
+     *  @param {BinaryFile} list List to read from.
+     *  @returns {object} The vertex attributes.
+     */
     _readVertex(vat, list) {
-        /** Read a vertex from the display list.
-         *  @param {integer} vat Which VAT to use.
-         *  @param {BinaryFile} list List to read from.
-         *  @returns {object} The vertex attributes.
-         */
         const vtx = {
             id: this._pickerId,
             //debug
@@ -213,13 +213,13 @@ export default class DlistParser {
         }
         return [val, idx];
     }
+    /** Read an attribute value from the given source.
+     *  @param {string} field Attribute name to read.
+     *  @param {BinaryFile} src Source to read from.
+     *  @param {object} vcd The VCD to use.
+     *  @returns {Array} Attribute value.
+     */
     _readAttrDirect(field, src, vcd) {
-        /** Read an attribute value from the given source.
-         *  @param {string} field Attribute name to read.
-         *  @param {BinaryFile} src Source to read from.
-         *  @param {object} vcd The VCD to use.
-         *  @returns {Array} Attribute value.
-         */
         //maybe speed this up with a lookup table
         //instead of string checks?
         if(field.endsWith('IDX')) return this._readIndexAttr(field, src, vcd);
@@ -227,23 +227,23 @@ export default class DlistParser {
         else if(field.startsWith('NRM')) return this._readNormal(field, src, vcd);
         else return this._readCoord(field, src, vcd);
     }
+    /** Read an index value from the given source.
+     *  @param {string} field Attribute name to read.
+     *  @param {BinaryFile} src Source to read from.
+     *  @param {object} vcd The VCD to use.
+     *  @returns {number} The index value.
+     */
     _readIndexAttr(field, src, vcd) {
-        /** Read an index value from the given source.
-         *  @param {string} field Attribute name to read.
-         *  @param {BinaryFile} src Source to read from.
-         *  @param {object} vcd The VCD to use.
-         *  @returns {integer} The index value.
-         */
         //XXX verify the SHFT/FMT/CNT don't apply here
         return src.readU8();
     }
+    /** Read a coordinate value from the given source.
+     *  @param {string} field Attribute name to read.
+     *  @param {BinaryFile} src Source to read from.
+     *  @param {object} vcd The VCD to use.
+     *  @returns {Array} Either [X,Y] or [X,Y,Z] depending on VCD.
+     */
     _readCoord(field, src, vcd) {
-        /** Read a coordinate value from the given source.
-         *  @param {string} field Attribute name to read.
-         *  @param {BinaryFile} src Source to read from.
-         *  @param {object} vcd The VCD to use.
-         *  @returns {Array} Either [X,Y] or [X,Y,Z] depending on VCD.
-         */
         const shift  = vcd[field+'SHFT'] || 0; //undefined => 0
         const fmt    = vcd[field+'FMT']  || 0;
         const count  = vcd[field+'CNT']  || 0;
@@ -267,14 +267,14 @@ export default class DlistParser {
         }
         return vals;
     }
+    /** Read a normal-vector value from the given source.
+     *  @param {string} field Attribute name to read.
+     *  @param {BinaryFile} src Source to read from.
+     *  @param {object} vcd The VCD to use.
+     *  @returns {Array} Either [X,Y,Z] or [X,Y,Z,X,Y,Z,X,Y,Z]
+     *   depending on VCD.
+     */
     _readNormal(field, src, vcd) {
-        /** Read a normal-vector value from the given source.
-         *  @param {string} field Attribute name to read.
-         *  @param {BinaryFile} src Source to read from.
-         *  @param {object} vcd The VCD to use.
-         *  @returns {Array} Either [X,Y,Z] or [X,Y,Z,X,Y,Z,X,Y,Z]
-         *   depending on VCD.
-         */
         //const shift  = vcd[field+'SHFT'] || 0; //not used for normals
         const format = vcd[field+'FMT']  || 0; //undefined => 0
         const count  = vcd[field+'CNT']  || 0;
@@ -294,13 +294,13 @@ export default class DlistParser {
         }
         return vals;
     }
+    /** Read a color value from the given source.
+     *  @param {string} field Attribute name to read.
+     *  @param {BinaryFile} src Source to read from.
+     *  @param {object} vcd The VCD to use.
+     *  @returns {Array} [R, G, B, A].
+     */
     _readColor(field, src, vcd) {
-        /** Read a color value from the given source.
-         *  @param {string} field Attribute name to read.
-         *  @param {BinaryFile} src Source to read from.
-         *  @param {object} vcd The VCD to use.
-         *  @returns {Array} [R, G, B, A].
-         */
         //const shift  = vat[field+'SHFT'] || 0; //not used for colors
         const format = vcd[field+'FMT']  || 0; //undefined => 0
         const count  = vcd[field+'CNT']  || 0; //XXX how does this work for color?

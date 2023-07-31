@@ -5,33 +5,33 @@ import RenderBatch from "../gx/RenderBatch.js";
 const SLICES = 32;
 const two_pi = Math.PI * 2;
 
+/** A cylinder, centered at the given point, with radius 1 and height 1.
+ *  Use the `scale` property to change radius and height.
+ *  @note The X and Z scale set the diameter (NOT radius) on the axes;
+ *   the Y scale sets the height in BOTH directions from centre.
+ */
 export default class Cylinder extends Model {
-    /** A cylinder, centered at the given point, with radius 1 and height 1.
-     *  Use the `scale` property to change radius and height.
-     *  @note The X and Z scale set the diameter (NOT radius) on the axes;
-     *   the Y scale sets the height in BOTH directions from centre.
+    /** Construct Cylinder at given position.
+     *  @param {GX} gx GX instance to use.
+     *  @param {Array} pos Coords of center.
      */
     constructor(gx, pos) {
-        /** Construct Cylinder at given position.
-         *  @param {GX} gx GX instance to use.
-         *  @param {Array} pos Coords of center.
-         */
         super(gx, vec3.fromValues(...pos));
         this.color = [255, 255, 255, 255];
     }
 
+    /** Set the vertex colors.
+     *  @param {Array} color Color of the cylinder [r, g, b, a].
+     *  @returns {Cylinder} this.
+     */
     setColor(color) {
-        /** Set the vertex colors.
-         *  @param {Array} color Color of the cylinder [r, g, b, a].
-         *  @returns {Cylinder} this.
-         */
         this.color = color;
         this._needsUpdate = true;
         return this;
     }
 
+    /** Recalculate buffers. Called after geometry changes. */
     _update() {
-        /** Recalculate buffers. Called after geometry changes. */
         const gl = this.gl;
 
         const vTop = [], vBot = [];

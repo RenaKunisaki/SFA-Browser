@@ -33,8 +33,8 @@ to write a goddamn plugin for Blender to read/write the
 model/texture files directly
 */
 
+/** Exports map to 3D model file. */
 export default class MapExporter {
-    /** Exports map to 3D model file. */
 
     constructor(game, gx, map) {
         this.game = game;
@@ -253,10 +253,10 @@ export default class MapExporter {
         eMesh.append(eOp);
     }
 
+    /** Add the block's texture graphics to the DAE.
+     *  @param {MapBlock} block The block to add.
+     */
     _addBlockTextures(block) {
-        /** Add the block's texture graphics to the DAE.
-         *  @param {MapBlock} block The block to add.
-         */
         let iShader=0;
         for(const shader of block.shaders) {
             const images = [];

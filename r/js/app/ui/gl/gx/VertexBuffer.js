@@ -1,8 +1,8 @@
 import {validNumber, validVector, validMatrix} from '../GlUtil.js';
 
+/** Vertex data buffer used by GX.
+ */
 export default class VertexBuffer {
-    /** Vertex data buffer used by GX.
-     */
     constructor(gx) {
         this.gx          = gx;
         this.gl          = gx.gl;
@@ -14,9 +14,9 @@ export default class VertexBuffer {
         this.clear();
     }
 
+    /** Clear all buffers.
+     */
     clear() {
-        /** Clear all buffers.
-         */
         this.datPos      = []; //arrays of vtx data
         this.datNrm      = [];
         this.datTexCoord = [];
@@ -69,10 +69,10 @@ export default class VertexBuffer {
         this.datTexCoord.push(v[0]); this.datTexCoord.push(v[1]);
     }
 
+    /** Add a vertex to the buffer.
+     *  @param {object} vtx Vertex to add.
+     */
     addVtx(vtx) {
-        /** Add a vertex to the buffer.
-         *  @param {object} vtx Vertex to add.
-         */
         this._addPos(vtx.POS);
         this._addNormal(vtx.NRM);
         if(vtx.debugColor) this._addColor(vtx.debugColor);
@@ -98,11 +98,11 @@ export default class VertexBuffer {
         for(let v of vtx) this.addVtx(v);
     }
 
+    /** Push the data into the GL buffers.
+     *  Returns a dict of buffer name => GL buffer object.
+     *  Mainly only used by bind().
+     */
     build() {
-        /** Push the data into the GL buffers.
-         *  Returns a dict of buffer name => GL buffer object.
-         *  Mainly only used by bind().
-         */
         const gl = this.gl;
 
         //build the vertex buffer objects GL-side
@@ -136,10 +136,10 @@ export default class VertexBuffer {
         };
     }
 
+    /** Build the buffers and bind them to the vertex attributes
+     *  in the GX program.
+     */
     bind() {
-        /** Build the buffers and bind them to the vertex attributes
-         *  in the GX program.
-         */
         const gl = this.gl;
         const programInfo = this.gx.programInfo;
 

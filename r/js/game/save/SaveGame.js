@@ -5,9 +5,9 @@ import SaveSlot from './SaveSlot.js';
 //struct types
 let Header, ActualSaveData, CardFileStruct, SaveGameStruct;
 
+/** Reads the entire CardFileStruct from a File or Blob.
+ */
 export class SaveGame {
-    /** Reads the entire CardFileStruct from a File or Blob.
-     */
     constructor(game) {
         this.game      = assertType(game, Game);
         this.app       = game.app;
@@ -19,11 +19,11 @@ export class SaveGame {
         SaveGameStruct = this.app.types.getType('sfa.save.SaveGameStruct');
     }
 
+    /** Load a save file.
+     *  @param {BinaryFile} file The file to load.
+     *  @param {String} version The game version this file belongs to.
+     */
     async load(file, version='U0') {
-        /** Load a save file.
-         *  @param {BinaryFile} file The file to load.
-         *  @param {String} version The game version this file belongs to.
-         */
         this._file    = file;
         this._version = version; //game version
         const buffer  = await this._file.arrayBuffer();
@@ -55,10 +55,10 @@ export class SaveGame {
         for(let slot of this.saves) slot.getGameBits();
     }
 
+    /** Parse GCI image (raw memory card sectors of only this game).
+     *  @param {DataView} view The view to read from.
+     */
     async _parseGci(view) {
-        /** Parse GCI image (raw memory card sectors of only this game).
-         *  @param {DataView} view The view to read from.
-         */
         let header     = Header.fromBytes(view);
         this.gciHeader = header;
         console.log("GCI Header:", header);
@@ -78,11 +78,11 @@ export class SaveGame {
         this._parseSave(new DataView(view.buffer.slice(0x40)), true);
     }
 
+    /** Parse the actual save data.
+     *  @param {DataView} view The view to read from.
+     *  @param {bool} withIcons Whether the view includes the icon data.
+     */
     _parseSave(view, withIcons) {
-        /** Parse the actual save data.
-         *  @param {DataView} view The view to read from.
-         *  @param {bool} withIcons Whether the view includes the icon data.
-         */
         if(withIcons) this.data = CardFileStruct.fromBytes(view).data;
         else this.data = ActualSaveData.fromBytes(view);
         //console.log("this.data=", this.data);
@@ -97,10 +97,10 @@ export class SaveGame {
         ];
     }
 
+    /** Parse a single save slot, from debug savegame/saveN.bin.
+     *  @param {DataView} view The view to read from.
+     */
     _parseOneSlot(view) {
-        /** Parse a single save slot, from debug savegame/saveN.bin.
-         *  @param {DataView} view The view to read from.
-         */
         this.data   = null;
         this.global = null;
         this.saves  = [

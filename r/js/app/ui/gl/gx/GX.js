@@ -22,13 +22,13 @@ export const VAT_FIELD_ORDER = [
     'TEX0', 'TEX1', 'TEX2', 'TEX3', 'TEX4', 'TEX5', 'TEX6',
     'TEX7'];
 
+/** GameCube GPU simulator.
+ *  While nowhere near precise enough to be considered an emulator, this
+ *  class functions roughly the same as the real GX chip - give it arrays
+ *  containing display list and vertex attribute data, set up the registers
+ *  telling how the data is formatted, and it renders an image.
+ */
 export default class GX extends GXConstants {
-    /** GameCube GPU simulator.
-     *  While nowhere near precise enough to be considered an emulator, this
-     *  class functions roughly the same as the real GX chip - give it arrays
-     *  containing display list and vertex attribute data, set up the registers
-     *  telling how the data is formatted, and it renders an image.
-     */
     constructor(context) {
         super();
         this.context = context;
@@ -81,9 +81,9 @@ export default class GX extends GXConstants {
         };
     }
 
+    /** Reset all state to default.
+     */
     reset() {
-        /** Reset all state to default.
-         */
         const gl = this.gl;
         //this.bp.reset();
         this.cp.reset();
@@ -103,8 +103,8 @@ export default class GX extends GXConstants {
         this.alphaRef1  = 0;
     }
 
+    /** Download and set up the shader programs. */
     async loadPrograms() {
-        /** Download and set up the shader programs. */
         const gl = this.gl;
 
         //get shader code and create program
@@ -165,11 +165,11 @@ export default class GX extends GXConstants {
         console.log("GX loadPrograms OK");
     }
 
+    /** Reset render state for new frame.
+     *  @param {object} mtxs A dict of matrices to set.
+     *  @param {bool} isPicker Whether we're rendering to the pick buffer.
+     */
     beginRender(mtxs, isPicker=false) {
-        /** Reset render state for new frame.
-         *  @param {object} mtxs A dict of matrices to set.
-         *  @param {bool} isPicker Whether we're rendering to the pick buffer.
-         */
         const gl = this.gl;
         this._isDrawingForPicker = isPicker;
 
@@ -180,8 +180,8 @@ export default class GX extends GXConstants {
         this.syncXF();
     }
 
+    /** Finish rendering the scene. */
     finishRender() {
-        /** Finish rendering the scene. */
         //clear backbuffer's alpha so that it doesn't incorrectly
         //blend with the canvas itself.
         const gl = this.gl;
@@ -190,8 +190,8 @@ export default class GX extends GXConstants {
         gl.colorMask(true, true, true, true);
     }
 
+    /** Upload various render settings to the GPU. */
     syncSettings(mtxs) {
-        /** Upload various render settings to the GPU. */
         const gl = this.gl;
         this.program.use();
         const unif = this.programInfo.uniforms;
@@ -223,8 +223,8 @@ export default class GX extends GXConstants {
         }
     }
 
+    /** Upload the XF matrix data to the GPU. */
     syncXF() {
-        /** Upload the XF matrix data to the GPU. */
         //XXX optimize by not uploading it all every time
         const gl = this.gl;
         this.program.use();
@@ -245,10 +245,10 @@ export default class GX extends GXConstants {
             false, mtx);
     }
 
+    /** Execute render batch.
+     *  @param {RenderBatch} batch Render batch to execute.
+     */
     executeBatch(batch) {
-        /** Execute render batch.
-         *  @param {RenderBatch} batch Render batch to execute.
-         */
         const stats = batch.execute(this.programInfo);
         for(let [k,v] of Object.entries(stats)) {
             if(this.context.stats[k] == undefined) {
@@ -303,13 +303,13 @@ export default class GX extends GXConstants {
         this.syncSettings();
     }
 
+    /** Implement GC SDK's gxSetBlendMode().
+     *  @param {BlendMode} blendMode blend mode.
+     *  @param {BlendFactor} srcFactor source blend factor.
+     *  @param {BlendFactor} destFactor destination blend factor.
+     *  @param {LogicOp} logicOp how to blend.
+     */
     setBlendMode(blendMode, srcFactor, destFactor, logicOp) {
-        /** Implement GC SDK's gxSetBlendMode().
-         *  @param {BlendMode} blendMode blend mode.
-         *  @param {BlendFactor} srcFactor source blend factor.
-         *  @param {BlendFactor} destFactor destination blend factor.
-         *  @param {LogicOp} logicOp how to blend.
-         */
         if(this._isDrawingForPicker) return;
         const gl = this.gl;
         gl.blendFunc(this.BlendFactorMap[srcFactor],
@@ -340,12 +340,12 @@ export default class GX extends GXConstants {
         this.syncSettings();
     }
 
+    /** Implement GC SDK's gxSetZMode().
+     *  @param {bool} compareEnable Whether to use depth compare.
+     *  @param {GXCompare} compareFunc Compare function to use.
+     *  @param {bool} updateEnable Whether to update Z buffer.
+     */
     setZMode(compareEnable, compareFunc, updateEnable) {
-        /** Implement GC SDK's gxSetZMode().
-         *  @param {bool} compareEnable Whether to use depth compare.
-         *  @param {GXCompare} compareFunc Compare function to use.
-         *  @param {bool} updateEnable Whether to update Z buffer.
-         */
         const gl = this.gl;
         if(compareEnable) gl.enable(gl.DEPTH_TEST);
         else gl.disable(gl.DEPTH_TEST);
@@ -370,16 +370,16 @@ export default class GX extends GXConstants {
         console.warn("Not implemented: GX.setZCompLoc");
     }
 
+    /**
+     * @param {ChannelID} chan
+     * @param {Bool}      enable
+     * @param {ColorSrc}  amb_src
+     * @param {ColorSrc}  mat_src
+     * @param {u32}       light_mask
+     * @param {DiffuseFn} diff_fn
+     * @param {AttnFn}    attn_fn
+     */
     setChanCtrl(chan, enable, amb_src, mat_src, light_mask, diff_fn, attn_fn) {
-        /**
-        * @param {ChannelID} chan
-        * @param {Bool}      enable
-        * @param {ColorSrc}  amb_src
-        * @param {ColorSrc}  mat_src
-        * @param {u32}       light_mask
-        * @param {DiffuseFn} diff_fn
-        * @param {AttnFn}    attn_fn
-        */
        //XXX
        //this is about lights, don't care right now
        console.warn("Not implemented: GX.setChanCtrl");
@@ -412,12 +412,12 @@ export default class GX extends GXConstants {
             enable ? 1 : 0);
     }
 
+    /** Disable textures and change blending and culling params.
+     *  Used for various non-textured rendering such as collision meshes.
+     *  @param {GX.BlendMode} blendMode Which blending mode to use.
+     *  @param {bool} cull Whether to use backface culling.
+     */
     disableTextures(blendMode=GX.BlendMode.BLEND, cull=true) {
-        /** Disable textures and change blending and culling params.
-         *  Used for various non-textured rendering such as collision meshes.
-         *  @param {GX.BlendMode} blendMode Which blending mode to use.
-         *  @param {bool} cull Whether to use backface culling.
-         */
         const gl = this.gl;
         this.setBlendMode(blendMode, GX.BlendFactor.SRCALPHA,
             GX.BlendFactor.INVSRCALPHA, GX.LogicOp.NOOP);
@@ -429,10 +429,10 @@ export default class GX extends GXConstants {
         }
     }
 
+    /** Send the current projection, modelview, and normal matrices
+     *  to the shaders.
+     */
     _setShaderMtxs() {
-        /** Send the current projection, modelview, and normal matrices
-         *  to the shaders.
-         */
         const gl = this.gl;
         gl.uniformMatrix4fv(this.programInfo.uniforms.matProjection,
             false, this.context.matProjection);

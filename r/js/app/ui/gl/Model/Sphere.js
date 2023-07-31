@@ -6,32 +6,32 @@ const STACKS = 32;
 const SLICES = 32;
 const two_pi = Math.PI * 2;
 
+/** A sphere, centered at the given point, with radius 1.
+ *  Use the `scale` property to change radius or make ellipsoids.
+ *  @note the scale property sets diameter, NOT radius.
+ */
 export default class Sphere extends Model {
-    /** A sphere, centered at the given point, with radius 1.
-     *  Use the `scale` property to change radius or make ellipsoids.
-     *  @note the scale property sets diameter, NOT radius.
+    /** Construct Sphere at given position.
+     *  @param {GX} gx GX instance to use.
+     *  @param {Array} pos Coords of center.
      */
     constructor(gx, pos) {
-        /** Construct Sphere at given position.
-         *  @param {GX} gx GX instance to use.
-         *  @param {Array} pos Coords of center.
-         */
         super(gx, vec3.fromValues(...pos));
         this.color = [255, 255, 255, 255];
     }
 
+    /** Set the vertex colors.
+     *  @param {Array} color Color of the sphere [r, g, b, a].
+     *  @returns {Sphere} this.
+     */
     setColor(color) {
-        /** Set the vertex colors.
-         *  @param {Array} color Color of the sphere [r, g, b, a].
-         *  @returns {Sphere} this.
-         */
         this.color = color;
         this._needsUpdate = true;
         return this;
     }
 
+    /** Recalculate buffers. Called after geometry changes. */
     _update() {
-        /** Recalculate buffers. Called after geometry changes. */
         const gl = this.gl;
 
         const vtxPositions = [];

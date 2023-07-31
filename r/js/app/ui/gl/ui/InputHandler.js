@@ -1,12 +1,12 @@
 const PI_OVER_180 = Math.PI / 180.0; //rad = deg * PI_OVER_180
 
+/** Handles keyboard/mouse events on a GL context. */
 export default class InputHandler {
-    /** Handles keyboard/mouse events on a GL context. */
+    /** Construct MouseHandler.
+     *  @param {MapViewer, ModelViewer} viewer The
+     *      viewer class managing the canvas.
+     */
     constructor(viewer) {
-        /** Construct MouseHandler.
-         *  @param {MapViewer, ModelViewer} viewer The
-         *      viewer class managing the canvas.
-         */
         this.viewer = viewer;
         this.canvas = viewer.canvas;
         this._prevMousePos = [0, 0];

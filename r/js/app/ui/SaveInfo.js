@@ -5,9 +5,9 @@ import { int, float, hex, Percent, Table, assertType } from "../../Util.js";
 //XXX verify
 const soundModes = ["Stereo", "Mono", "Surround", "Headphones"];
 
+/** Displays information about a save file.
+ */
 export default class SaveInfo {
-    /** Displays information about a save file.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

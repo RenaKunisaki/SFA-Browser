@@ -4,9 +4,9 @@ import Table from "./Table.js";
 import Game, { TEXT_LANGUAGES } from "../../game/Game.js";
 import GameTextRenderer from "../../game/text/Renderer.js";
 
+/** Displays all GameText definitions from XML.
+ */
 export default class TextList {
-    /** Displays all GameText definitions from XML.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

@@ -1,7 +1,7 @@
 import { E } from "../../../lib/Element.js";
 
+/** Widget displaying help/instructions for map viewer. */
 export default class HelpBox {
-    /** Widget displaying help/instructions for map viewer. */
     constructor(mapViewer) {
         this.mapViewer = mapViewer;
         this.game      = mapViewer.game;

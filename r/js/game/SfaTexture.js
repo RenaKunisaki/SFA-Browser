@@ -6,8 +6,8 @@ import { DataError } from "../app/errors.js";
 //struct types
 let Header;
 
+/** A texture file in SFA's custom wrapper format. */
 export default class SfaTexture {
-    /** A texture file in SFA's custom wrapper format. */
     constructor(game) {
         this.game       = game;
         this.width      = null;

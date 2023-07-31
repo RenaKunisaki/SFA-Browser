@@ -5,8 +5,8 @@ import GameTextRenderer from "../../../game/text/Renderer.js";
 import { assertType } from "../../../Util.js";
 import Game from "../../../game/Game.js";
 
+/** Displays GameText file contents. */
 export class GameTextViewer {
-    //displays GameText file contents
     constructor(game, dataView) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

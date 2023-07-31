@@ -1,11 +1,11 @@
 import { assertType } from "../Util.js";
 
+/** Allows data to be read in arbitrary bit-lengths from a stream. */
 export default class BitStreamReader {
-    /** Allows data to be read in arbitrary bit-lengths from a stream. */
+    /** Construct BitStreamReader.
+     *  @param {ArrayBuffer} buffer Buffer to read from.
+     */
     constructor(buffer) {
-        /** Construct BitStreamReader.
-         *  @param {ArrayBuffer} buffer Buffer to read from.
-         */
         assertType(buffer, ArrayBuffer);
         this.buffer = new Uint8Array(buffer);
         this.offset = 0;
@@ -22,9 +22,9 @@ export default class BitStreamReader {
         ) >> shift;
     }
 
+    /** Read `size` bits from the stream and return them.
+     */
     read(size) {
-        /** Read `size` bits from the stream and return them.
-         */
         console.assert(size <= 24);
         const val = this._getU24() & ((1 << size)-1);
         this.offset += size;

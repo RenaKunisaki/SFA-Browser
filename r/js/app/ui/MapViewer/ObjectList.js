@@ -5,8 +5,8 @@ import { NUM_MAP_ACTS } from "./LayerChooser.js";
 //struct types
 let ObjCatId;
 
+/** Widget listing all objects in the map. */
 export default class ObjectList {
-    /** Widget listing all objects in the map. */
     constructor(mapViewer) {
         this.mapViewer = mapViewer;
         this.game      = mapViewer.game;

@@ -2,18 +2,18 @@ import { assertType } from "../../Util.js";
 import Game, { MAP_CELL_SIZE } from "../Game.js";
 import Block from "./Block.js";
 
+/** A map in the game.
+ *  @note Map IDs can be confusing because the game refers to them by
+ *   different IDs in different contexts:
+ *   - id: index into MAPINFO.bin
+ *   - dirId: index into directory name list in DOL
+ *   Also, there are some files left on the disc from deleted maps;
+ *   we assign these negative IDs if they don't have an ID defined.
+ *   Also, not all maps have all information; for example, there are
+ *   several entries in MAPINFO.bin that have a corresponding romlist
+ *   file but no asset directory.
+ */
 export default class Map {
-    /** A map in the game.
-     *  @note Map IDs can be confusing because the game refers to them by
-     *   different IDs in different contexts:
-     *   - id: index into MAPINFO.bin
-     *   - dirId: index into directory name list in DOL
-     *   Also, there are some files left on the disc from deleted maps;
-     *   we assign these negative IDs if they don't have an ID defined.
-     *   Also, not all maps have all information; for example, there are
-     *   several entries in MAPINFO.bin that have a corresponding romlist
-     *   file but no asset directory.
-     */
     constructor(game, params={}) {
         this.game        = assertType(game, Game);
         this.id          = params.id;          //the map ID

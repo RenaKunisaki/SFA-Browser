@@ -8,12 +8,12 @@ for(let [name, cls] of Object.entries(Command)) {
     cmdByChr[cls.chr] = {name:name, cls:cls};
 }
 
+/** One "phrase" in a GameText file.
+ *  In the files, this is simply a string, but containing control codes
+ *  that can have embedded null bytes.
+ *  It's represented here as an array of strings and commands.
+ */
 export default class Phrase {
-    /** One "phrase" in a GameText file.
-     *  In the files, this is simply a string, but containing control codes
-     *  that can have embedded null bytes.
-     *  It's represented here as an array of strings and commands.
-     */
     constructor(str=null, lang=Language.English) {
         this._lang = lang;
         this._str  = [];
@@ -25,14 +25,14 @@ export default class Phrase {
         else if(str != null) this._str = str;
     }
 
+    /** Read Phrase from binary file.
+     *  @param {BinaryFile} file file to read from.
+     *  @param {Language} lang which language this phrase is in.
+     *  @returns {Phrase} the Phrase object.
+     *  @note Expects the file to be seeked to the beginning of
+     *     this phrase's string data.
+     */
     static fromFile(file, lang=Language.English) {
-        /** Read Phrase from binary file.
-         *  @param {BinaryFile} file file to read from.
-         *  @param {Language} lang which language this phrase is in.
-         *  @returns {Phrase} the Phrase object.
-         *  @note Expects the file to be seeked to the beginning of
-         *     this phrase's string data.
-         */
         const str = [];
         let   buf = '';
         while(true) {
@@ -52,8 +52,8 @@ export default class Phrase {
         return new Phrase(str, lang);
     }
 
+    /** Read Phrase from XML <phrase> element. */
     static fromXml(elem, lang=Language.English) {
-        /** Read Phrase from XML <phrase> element. */
         const str = [];
         for(let ch of elem.childNodes) {
             if(ch.tagName == 'str') str.push(ch.textContent);
@@ -72,11 +72,11 @@ export default class Phrase {
         return new Phrase(str, lang);
     }
 
+    /** Convert to plain text.
+     *  @param {boolean} commands Whether to include control codes.
+     *  @returns {string} String representation.
+     */
     toString(commands=true) {
-        /** Convert to plain text.
-         *  @param {boolean} commands Whether to include control codes.
-         *  @returns {string} String representation.
-         */
         const res = [];
         for(let str of this._str) {
             if(typeof(str) == 'string') res.push(str);
@@ -89,10 +89,10 @@ export default class Phrase {
         return res.join('');
     }
 
+    /** Convert to XML.
+     *  @returns {Element} XML element.
+     */
     toXml() {
-        /** Convert to XML.
-         *  @returns {Element} XML element.
-         */
         const ePhrase = E.phrase();
         for(let str of this._str) {
             if(typeof(str) == 'string') {
@@ -114,12 +114,12 @@ export default class Phrase {
         return ePhrase;
     }
 
+    /** Convert to HTML.
+     *  @param {Object} params Parameters which may be changed by
+     *     control codes.
+     *  @returns {HTMLSpanElement} HTML representation.
+     */
     toHtml(params) {
-        /** Convert to HTML.
-         *  @param {Object} params Parameters which may be changed by
-         *     control codes.
-         *  @returns {HTMLSpanElement} HTML representation.
-         */
         if(params.font == undefined) params.font = 1;
         if(params.justify == undefined) params.justify = 'Left';
         if(params.color == undefined) params.color = [255,255,255,255];

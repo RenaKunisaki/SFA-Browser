@@ -6,8 +6,8 @@ import Game from "../Game.js";
 
 const XML = 'http://www.w3.org/1999/xhtml';
 
+/** Builds gametext.xml file */
 export default class GameTextXmlBuilder {
-    /** Builds gametext.xml file */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;

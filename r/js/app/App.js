@@ -121,13 +121,13 @@ export default class App {
         await this._doCallback('onLanguageChanged', lang);
     }
 
+    /** Open a child window and wait for it to load.
+     *  @param url The URL to open to.
+     *  @return The new window object, or null on failure.
+     *  @note The URL must point to another instance of this app;
+     *     otherwise, the promise will never resolve.
+     */
     openChildWindow(url=null) {
-        /** Open a child window and wait for it to load.
-         *  @param url The URL to open to.
-         *  @return The new window object, or null on failure.
-         *  @note The URL must point to another instance of this app;
-         *     otherwise, the promise will never resolve.
-         */
         if(url == null) url = window.location;
         const win = window.open(url);
         if(!win) {
@@ -139,8 +139,8 @@ export default class App {
         });
     }
 
+    /** Called by child window once it's loaded. */
     _childWindowLoaded() {
-        /** Called by child window once it's loaded. */
         this._pWaitForChildWindow();
         this._pWaitForChildWindow = null;
     }

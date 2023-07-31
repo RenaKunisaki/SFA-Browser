@@ -10,8 +10,8 @@ export const NS = {
 };
 const GL = WebGL2RenderingContext;
 
+/** Writes DAE files. */
 export default class DaeWriter {
-    /** Writes DAE files. */
     constructor() {
         this.cameras       = {}; //library_cameras
         this.lights        = {}; //library_lights
@@ -61,14 +61,14 @@ export default class DaeWriter {
         );
     }
 
+    /** Add a geometry mesh.
+     *  @param {string} id The mesh ID.
+     *  @param {Object} buffers The attribute buffers.
+     *  @param {mat4} mtx The transformation matrix.
+     *  @param {Array} material The material IDs.
+     *  @returns {Element} The mesh element.
+     */
     addGeometry(id, buffers, mtx=null, materials=null) {
-        /** Add a geometry mesh.
-         *  @param {string} id The mesh ID.
-         *  @param {Object} buffers The attribute buffers.
-         *  @param {mat4} mtx The transformation matrix.
-         *  @param {Array} material The material IDs.
-         *  @returns {Element} The mesh element.
-         */
         //create the vertices array
         const eVtxs = createElement([NS.dae, 'vertices'], null, {id:`${id}.vertices`},
             createElement([NS.dae, 'input'], null, {
@@ -89,11 +89,11 @@ export default class DaeWriter {
         return eMesh;
     }
 
+    /** Add an Effect.
+     *  @param {string} id The effect ID.
+     *  @param {Array} images The image IDs.
+     */
     addEffect(id, images) {
-        /** Add an Effect.
-         *  @param {string} id The effect ID.
-         *  @param {Array} images The image IDs.
-         */
         const eProfile = createElement([NS.dae, 'profile_COMMON']);
         const eDiffuse = createElement([NS.dae, 'diffuse'], );
         for(const img of images) {
@@ -137,11 +137,11 @@ export default class DaeWriter {
         }, createElement([NS.dae, 'instance_effect'], {url:`#${id}.effect`}));
     }
 
+    /** Add a texture image.
+     *  @param {string} id The image ID.
+     *  @param {string} path The image URI.
+     */
     addImage(id, path) {
-        /** Add a texture image.
-         *  @param {string} id The image ID.
-         *  @param {string} path The image URI.
-         */
         this.images[id] = createElement([NS.dae, 'image'], {
             id: id,
             name: id,

@@ -23,24 +23,24 @@ export class Enum extends Type {
 
     get size() { return this.type.size; }
 
+    /** Read this enum from a DataView.
+     *  @param {DataView} view The view to read from.
+     *  @param {int} offset The byte offset to read from.
+     *  @returns {object} The values read from the view.
+     */
     fromBytes(view, offset=0, littleEndian=false) {
-        /** Read this enum from a DataView.
-         *  @param {DataView} view The view to read from.
-         *  @param {int} offset The byte offset to read from.
-         *  @returns {object} The values read from the view.
-         */
         const val = this.type.fromBytes(view, offset);
         if(this.fields[val] != undefined) return this.fields[val].value;
         return val;
     }
 
+    /** Write this enum to a DataView.
+     *  @param {object} value The values to write.
+     *  @param {DataView} view The view to write to.
+     *  @param {int} offset The byte offset to write to.
+     *  @returns {DataView} The view that was written to.
+     */
     toBytes(value, view=null, offset=0, littleEndian=false) {
-        /** Write this enum to a DataView.
-         *  @param {object} value The values to write.
-         *  @param {DataView} view The view to write to.
-         *  @param {int} offset The byte offset to write to.
-         *  @returns {DataView} The view that was written to.
-         */
         if(!this.isValidValue(value)) {
             throw new RangeError(`Invalid value '${value}' for enum '${this.name}'`);
         }
@@ -51,11 +51,11 @@ export class Enum extends Type {
         return this.fieldsByName[value] != undefined;
     }
 
+    /** Convert this enum to a string, for debugging.
+     *  @param value Value to convert.
+     *  @returns {string} String representation.
+     */
     valueToString(value) {
-        /** Convert this enum to a string, for debugging.
-         *  @param value Value to convert.
-         *  @returns {string} String representation.
-         */
         if(typeof(value) == 'number') {
             if(this.fields[value] != undefined) {
                 return this.fields[value].name;

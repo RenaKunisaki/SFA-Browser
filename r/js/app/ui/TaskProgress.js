@@ -6,8 +6,8 @@ export class TaskCancelled extends Error {
     }
 }
 
+/** A popup that shows progress of a task. */
 export default class TaskProgress {
-    /** A popup that shows progress of a task. */
     constructor() {
         this.numSteps   = 1;
         this.stepsDone  = 0;

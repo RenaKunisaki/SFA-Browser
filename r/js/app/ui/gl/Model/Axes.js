@@ -56,20 +56,20 @@ const VTX_IDXS = [
      7,  4,  8,
 ];
 
+/** A set of red, green, and blue axis arrows. */
 export default class Axes extends Model {
-    /** A set of red, green, and blue axis arrows. */
+    /** Construct axes centered at given point.
+     *  @param {GX} gx GX instance to use.
+     *  @param {Array} pos Model position in 3D environment.
+     *  @param {Array} rot Model rotation on X, Y, Z axes, in radians.
+     *  @param {Array} scale Model scale on X, Y, Z axes.
+     */
     constructor(gx, pos=[0,0,0], rot=[0,0,0], scale=[1,1,1]) {
-        /** Construct axes centered at given point.
-         *  @param {GX} gx GX instance to use.
-         *  @param {Array} pos Model position in 3D environment.
-         *  @param {Array} rot Model rotation on X, Y, Z axes, in radians.
-         *  @param {Array} scale Model scale on X, Y, Z axes.
-         */
         super(gx, pos, rot, scale);
     }
 
+    /** Recalculate buffers. Called after geometry changes. */
     _update() {
-        /** Recalculate buffers. Called after geometry changes. */
         const gl = this.gl;
         //do this now since it's faster than doing it on every render.
         let mtx = this.mtx ? mat4.clone(this.mtx) : mat4.create();

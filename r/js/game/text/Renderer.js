@@ -4,14 +4,14 @@ import Text from "./Text.js";
 import Phrase from "./Phrase.js";
 import { assertType } from "../../Util.js";
 
+/** Builds HTML representation of a Text. */
 export default class GameTextRenderer {
-    /** Builds HTML representation of a Text. */
     constructor(app) {
         this.app = app;
     }
 
+    /** Render the specified Text. */
     render(text) {
-        /** Render the specified Text. */
         assertType(text, Text);
 
         const params = {hint:null};

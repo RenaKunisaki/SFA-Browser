@@ -40,12 +40,12 @@ const objParamTypeFmt = {
     },
 };
 
+/** A DLL in the game code.
+ */
 export default class DLL {
-    /** A DLL in the game code.
+    /** Construct a DLL from a 'dll' element from dlls.xml.
      */
     constructor(game, eDll) {
-        /** Construct a DLL from a 'dll' element from dlls.xml.
-         */
         this.game      = assertType(game, Game);
         this.app       = game.app;
         this.id        = int(eDll.getAttribute('id'));
@@ -164,13 +164,13 @@ export default class DLL {
         this.objParamStruct = this.app.types.parseStruct(eParams, ns);
     }
 
+    /** Read object params from data.
+     *  @param {DataView} data view to read from.
+     *  @returns {object} parameter name => value, or null.
+     *  @note Expects data to contain only the bytes from the beginning of
+     *    the 0x18-byte common ObjDef to the end of the parameters.
+     */
     readObjParams(data) {
-        /** Read object params from data.
-         *  @param {DataView} data view to read from.
-         *  @returns {object} parameter name => value, or null.
-         *  @note Expects data to contain only the bytes from the beginning of
-         *    the 0x18-byte common ObjDef to the end of the parameters.
-         */
         if(!this.objParams) return null;
         let values;
         try {

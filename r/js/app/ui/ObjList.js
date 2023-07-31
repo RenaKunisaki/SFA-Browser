@@ -3,9 +3,9 @@ import { E, clearElement } from "../../lib/Element.js";
 import { assertType, hex } from "../../Util.js";
 import Table from "./Table.js";
 
+/** Displays all object definitions.
+ */
 export default class ObjList {
-    /** Displays all object definitions.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

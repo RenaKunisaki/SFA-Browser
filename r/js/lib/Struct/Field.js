@@ -1,19 +1,19 @@
 import { Type } from "./Type.js";
 
+/** One field of a struct. */
 export default class Field extends Type {
-    /** One field of a struct. */
+    /** Construct a Field.
+     *  @param {int} offset The byte offset within the struct.
+     *  @param {Type} type The data type.
+     *  @param {string} name The field name.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @param {int} count The array count, if applicable.
+     *  @param {string} description A description of the field.
+     *  @param {string[]} notes Some notes about the field.
+     *  @note This should be called by the parser. You shouldn't
+     *   need to call it yourself.
+     */
     constructor(params) {
-        /** Construct a Field.
-         *  @param {int} offset The byte offset within the struct.
-         *  @param {Type} type The data type.
-         *  @param {string} name The field name.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @param {int} count The array count, if applicable.
-         *  @param {string} description A description of the field.
-         *  @param {string[]} notes Some notes about the field.
-         *  @note This should be called by the parser. You shouldn't
-         *   need to call it yourself.
-         */
         super();
         console.assert(params.type instanceof Type);
         console.assert(params.type.size);
@@ -30,13 +30,13 @@ export default class Field extends Type {
     get size() { return this._size; }
     get typeName() { return this.type.typeName }
 
+    /** Read this field from a DataView.
+     *  @param {DataView} view The view to read from.
+     *  @param {int} offset The byte offset to read from.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @returns The value read from the view.
+     */
     fromBytes(view, offset=0, littleEndian=undefined) {
-        /** Read this field from a DataView.
-         *  @param {DataView} view The view to read from.
-         *  @param {int} offset The byte offset to read from.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @returns The value read from the view.
-         */
         if(littleEndian == undefined) littleEndian = this.littleEndian;
         if(this.count == 1) {
             return this.type.fromBytes(view, offset, littleEndian);
@@ -44,14 +44,14 @@ export default class Field extends Type {
         return this.type.arrayFromBytes(view, this.count, offset, littleEndian);
     }
 
+    /** Write this field to a DataView.
+     *  @param value Value to write.
+     *  @param {DataView} data View to write into.
+     *  @param {int} offset Byte offset to write to.
+     *  @param {bool} littleEndian whether to use little endian byte order.
+     *  @returns {DataView} The view that was written to.
+     */
     toBytes(value, view, offset=0, littleEndian=undefined) {
-        /** Write this field to a DataView.
-         *  @param value Value to write.
-         *  @param {DataView} data View to write into.
-         *  @param {int} offset Byte offset to write to.
-         *  @param {bool} littleEndian whether to use little endian byte order.
-         *  @returns {DataView} The view that was written to.
-         */
         if(littleEndian == undefined) littleEndian = this.littleEndian;
         if(this.count == 1) {
             return this.type.toBytes(value, view, offset, littleEndian);
@@ -59,11 +59,11 @@ export default class Field extends Type {
         return this.type.arrayToBytes(value, view, offset, littleEndian);
     }
 
+    /** Convert this field to a string, for debugging.
+     *  @param value Value to convert.
+     *  @returns {string} String representation.
+     */
     valueToString(value) {
-        /** Convert this field to a string, for debugging.
-         *  @param value Value to convert.
-         *  @returns {string} String representation.
-         */
         if(this.count == 1) return this.type.toString(value);
         console.assert(value.length == this.count);
         let result = [];

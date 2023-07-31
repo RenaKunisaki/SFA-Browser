@@ -6,8 +6,8 @@ import Texture from '../../app/ui/gl/Texture.js'
 //struct types
 let Header, DisplayListPtr, Shader, Bone, VertexGroup;
 
+/** A model file in SFA. */
 export default class SfaModel {
-    /** A model file in SFA. */
     constructor(game) {
         this.game = assertType(game, Game)
         this.app  = this.game.app;
@@ -39,10 +39,10 @@ export default class SfaModel {
         return self;
     }
 
+    /** Load the model's textures.
+     *  @param {DataView} view The view to read from.
+     */
     _loadTextures(view) {
-        /** Load the model's textures.
-         *  @param {DataView} view The view to read from.
-         */
         this.textures = [];
         for(let i=0; i<this.header.nTextures; i++) {
             let tId = view.getUint32(this.header.textures + (i*4));
@@ -60,10 +60,10 @@ export default class SfaModel {
         }
     }
 
+    /** Load the model's vertex data.
+     *  @param {DataView} view The view to read from.
+     */
     _loadVtxData(view) {
-        /** Load the model's vertex data.
-         *  @param {DataView} view The view to read from.
-         */
         const offs = view.byteOffset;
         this.vtxPositions = view.buffer.slice( //vec3s[]
             offs + this.header.vertexPositions,
@@ -83,10 +83,10 @@ export default class SfaModel {
         );
     }
 
+    /** Load the model's polygon data.
+     *  @param {DataView} view The view to read from.
+     */
     _loadPolygons(view) {
-        /** Load the model's polygon data.
-         *  @param {DataView} view The view to read from.
-         */
         const offs = view.byteOffset;
         this.polygons   = [];
         this.polyGroups = [];
@@ -118,10 +118,10 @@ export default class SfaModel {
         }
     }
 
+    /** Load the model's display lists.
+     *  @param {DataView} view The view to read from.
+     */
     _loadDlists(view) {
-        /** Load the model's display lists.
-         *  @param {DataView} view The view to read from.
-         */
         const offs = view.byteOffset;
         this.dlists = [];
         for(let i=0; i<this.header.nDlists; i++) {
@@ -132,10 +132,10 @@ export default class SfaModel {
         }
     }
 
+    /** Load the model's render operations.
+     *  @param {DataView} view The view to read from.
+     */
     _loadRenderInstrs(view) {
-        /** Load the model's render operations.
-         *  @param {DataView} view The view to read from.
-         */
         //these are a bit-packed instruction code
         const offs = view.byteOffset;
         this.renderInstrs = view.buffer.slice(
@@ -144,10 +144,10 @@ export default class SfaModel {
         );
     }
 
+    /** Load the model's shaders.
+     *  @param {DataView} view The view to read from.
+     */
     _loadShaders(view) {
-        /** Load the model's shaders.
-         *  @param {DataView} view The view to read from.
-         */
         const offs = view.byteOffset;
         this.shaders = [];
         //console.assert(Shader.size == 0x44);
@@ -157,10 +157,10 @@ export default class SfaModel {
         }
     }
 
+    /** Load the model's bones.
+     *  @param {DataView} view The view to read from.
+     */
     _loadBones(view) {
-        /** Load the model's bones.
-         *  @param {DataView} view The view to read from.
-         */
         const offs = view.byteOffset;
         this.bones = [];
         for(let i=0; i<this.header.nBones; i++) {
@@ -182,10 +182,10 @@ export default class SfaModel {
         //console.log("Model bone data", this.bones, "xlates", this.xlates);
     }
 
+    /** Load the model's vertex groups.
+     *  @param {DataView} view The view to read from.
+     */
     _loadVtxGroups(view) {
-        /** Load the model's vertex groups.
-         *  @param {DataView} view The view to read from.
-         */
         const offs = view.byteOffset;
         this.vtxGroups = [];
         for(let i=0; i<this.header.nVtxGroups; i++) {
@@ -211,13 +211,13 @@ export default class SfaModel {
         }
     }
 
+    /** Calculate bone head/tail position relative to ancestors.
+     *  @param {Bone} bone The bone to calculate.
+     *  @param {boolean} relative Whether to treat the tail as
+     *    an offset from the head. This is used when scaling
+     *    the vertex groups.
+     */
     calcBonePos(bone, relative, _depth=0) {
-        /** Calculate bone head/tail position relative to ancestors.
-         *  @param {Bone} bone The bone to calculate.
-         *  @param {boolean} relative Whether to treat the tail as
-         *    an offset from the head. This is used when scaling
-         *    the vertex groups.
-         */
         if(_depth >= 10) throw new Error("Recursion limit exceeded");
         let head = vec3.fromValues(bone.translation.x,
             bone.translation.y, bone.translation.z);

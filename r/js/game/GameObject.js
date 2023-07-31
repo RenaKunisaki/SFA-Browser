@@ -4,12 +4,12 @@ import Game from "./Game.js";
 //struct types
 let ObjectData;
 
+/** An object definition in the game.
+ */
 export default class GameObject {
-    /** An object definition in the game.
+    /** Construct object with given index into OBJECTS.tab.
      */
     constructor(game, idx) {
-        /** Construct object with given index into OBJECTS.tab.
-         */
         this.game = assertType(game, Game);
         this.app  = game.app;
         ObjectData = this.app.types.getType('sfa.objects.ObjectData');

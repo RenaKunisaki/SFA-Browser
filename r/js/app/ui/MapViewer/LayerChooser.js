@@ -3,8 +3,8 @@ import { clearElement, E } from "../../../lib/Element.js";
 export const NUM_OBJ_GROUPS = 32; //only supposed to be 20, but lots of triggers reference 31
 export const NUM_MAP_ACTS   = 16;
 
+/** Widget that lets you choose what to display. */
 export default class LayerChooser {
-    /** Widget that lets you choose what to display. */
     constructor(mapViewer) {
         this._nextId   = 0;
         this.mapViewer = mapViewer;

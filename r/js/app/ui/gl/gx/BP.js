@@ -74,18 +74,18 @@ for(let i=0; i<256; i++) {
     if(name) Reg[name] = i;
 }
 
+/** "BP" subsystem for GX.
+ */
 export default class BP {
-    /** "BP" subsystem for GX.
-     */
     constructor(gx) {
         this.gx = gx;
         this._rawVals = {};
         this.reset();
     }
 
+    /** Reset all state back to default.
+     */
     reset() {
-        /** Reset all state back to default.
-         */
         this.scissor = {x0:0, y0:0, x1:0, y1:0, xOffs:0, yOffs:0};
         for(let i=0; i<256; i++) this.setReg(i, 0);
     }
@@ -94,11 +94,11 @@ export default class BP {
         return this._rawVals[reg];
     }
 
+    /** Set BP register.
+     *  @param {int} reg Register ID.
+     *  @param {int} val Value, which should be a 24-bit integer.
+     */
     setReg(reg, val) {
-        /** Set BP register.
-         *  @param {int} reg Register ID.
-         *  @param {int} val Value, which should be a 24-bit integer.
-         */
         this._rawVals[reg] = val;
         switch(reg) { //XXX verify these...
             case Reg.GEN_MODE:

@@ -1,8 +1,8 @@
 import {isPowerOf2} from '../../../Util.js'
 
+/** A texture that can be bound to GL.
+ */
 export default class Texture {
-    /** A texture that can be bound to GL.
-     */
     constructor(context) {
         this.context = context;
         this.gl      = context.gl;
@@ -35,9 +35,9 @@ export default class Texture {
         }
     }
 
+    /** Make a 1x1 solid-color texture.
+     */
     makeSolidColor(r, g, b, a) {
-        /** Make a 1x1 solid-color texture.
-         */
         const gl            = this.gl;
         this.level          = 0;
         this.internalFormat = gl.RGBA;
@@ -53,9 +53,9 @@ export default class Texture {
             pixel);
     }
 
+    /** Load texture from image file.
+     */
     loadFromImage(url) {
-        /** Load texture from image file.
-         */
         const gl   = this.gl;
         this.image = new Image();
 
@@ -93,13 +93,13 @@ export default class Texture {
         });
     }
 
+    /** Construct from raw DDS DXT1/BC1 data.
+     *  @param {ArrayBuffer} data image data.
+     *  @param {integer} width image width.
+     *  @param {integer} height image height.
+     *  @returns {Texture} this.
+     */
     loadDXT1(data, width, height) {
-        /** Construct from raw DDS DXT1/BC1 data.
-         *  @param {ArrayBuffer} data image data.
-         *  @param {integer} width image width.
-         *  @param {integer} height image height.
-         *  @returns {Texture} this.
-         */
         //XXX does this work? is it used?
         const gl    = this.gl;
         const fmt   = this.context._gl_extensions.compressed_texture_s3tc;
@@ -115,11 +115,11 @@ export default class Texture {
         return this;
     }
 
+    /** Construct from game's texture asset.
+     *  @param {SfaTexture} tex Texture asset to load.
+     *  @returns {Texture} this.
+     */
     loadGameTexture(tex) {
-        /** Construct from game's texture asset.
-         *  @param {SfaTexture} tex Texture asset to load.
-         *  @returns {Texture} this.
-         */
         const gl    = this.gl;
         this.width  = tex.width;
         this.height = tex.height;

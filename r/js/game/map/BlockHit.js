@@ -3,15 +3,15 @@ import { hsv2rgb } from '../../Util.js';
 //struct types
 let HitsBinEntry;
 
+/** An entry from HITS.bin. */
 export default class BlockHit {
-    /** An entry from HITS.bin. */
+    /** Construct from HitsBinEntry.
+     *  @param {Block} block Map block this entry belongs to.
+     *  @param {HitsBinEntry} entry Entry to construct from.
+     *  @param {integer} idx Which index this entry is in the block's array.
+     *  @param {integer} offset Where this entry is in HITS.bin.
+     */
     constructor(block, entry, idx, offset) {
-        /** Construct from HitsBinEntry.
-         *  @param {Block} block Map block this entry belongs to.
-         *  @param {HitsBinEntry} entry Entry to construct from.
-         *  @param {integer} idx Which index this entry is in the block's array.
-         *  @param {integer} offset Where this entry is in HITS.bin.
-         */
         this.game   = block.game;
         this.app    = this.game.app;
         this.block  = block;

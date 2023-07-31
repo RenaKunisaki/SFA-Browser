@@ -5,8 +5,8 @@ import { bin, hex } from "../../../Util.js";
 //struct types
 let SurfaceType, HitType, ObjCatId;
 
+/** Widget displaying info about selected object. */
 export default class InfoWidget {
-    /** Widget displaying info about selected object. */
     constructor(mapViewer) {
         this.mapViewer = mapViewer;
         this.game      = mapViewer.game;
@@ -19,10 +19,10 @@ export default class InfoWidget {
         this.show(null);
     }
 
+    /** Display info about an object.
+     *  @param {object} obj What to show. Can be null.
+     */
     show(info) {
-        /** Display info about an object.
-         *  @param {object} obj What to show. Can be null.
-         */
         clearElement(this._tbl);
         if(info == null) {
             this._tbl.append(E.tr(
@@ -52,10 +52,10 @@ export default class InfoWidget {
         }
     }
 
+    /** Display info about a map block collision triangle.
+     *  @param {object} info The block info.
+     */
     _showBlockCollision(info) {
-        /** Display info about a map block collision triangle.
-         *  @param {object} info The block info.
-         */
         const block = info.block;
         const poly  = info.poly;
         const rows = [
@@ -87,10 +87,10 @@ export default class InfoWidget {
         this._tbl.append(...rows);
     }
 
+    /** Display info about a map block display list.
+     *  @param {object} info The block info.
+     */
     _showBlockDlist(info) {
-        /** Display info about a map block display list.
-         *  @param {object} info The block info.
-         */
         const block = info.block;
         const rows = [
             E.tr(E.th(null, `Block "${block.header.name}"`, {colspan:2})),
@@ -138,10 +138,10 @@ export default class InfoWidget {
         this._tbl.append(...rows);
     }
 
+    /** Display info about a HITS.bin entry.
+     *  @param {object} info The block info.
+     */
     _showBlockHit(info) {
-        /** Display info about a HITS.bin entry.
-         *  @param {object} info The block info.
-         */
         const hit = info.hit;
         const [x1,y1,z1] = hit.coords[0];
         const [x2,y2,z2] = hit.coords[1];
@@ -169,10 +169,10 @@ export default class InfoWidget {
         this._tbl.append(...rows);
     }
 
+    /** Display info about a map block collision group.
+     *  @param {object} info The block info.
+     */
     _showBlockPolyGroup(info) {
-        /** Display info about a map block collision group.
-         *  @param {object} info The block info.
-         */
         const block = info.block;
         const group = info.group;
         const rows = [
@@ -219,11 +219,11 @@ export default class InfoWidget {
         ];
     }
 
+    /** Display info about a game object instance.
+     *  @param {object} info The object info.
+     *  @note `info.obj` should be a RomListEntry.
+     */
     _showObject(info) {
-        /** Display info about a game object instance.
-         *  @param {object} info The object info.
-         *  @note `info.obj` should be a RomListEntry.
-         */
         let   entry = info.entry;
         if(!entry) entry = info.obj.entry;
         const dll   = entry.object.dll;
@@ -300,10 +300,10 @@ export default class InfoWidget {
         }
     }
 
+    /** Display info about a WARPTAB entry.
+     *  @param {object} info The warp info.
+     */
     _showWarp(info) {
-        /** Display info about a WARPTAB entry.
-         *  @param {object} info The warp info.
-         */
         const warp = info.warp;
         const rows = [
             E.tr(E.th(null, `Warp #0x${hex(info.idx,2)}`, {colspan:2})),

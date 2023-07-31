@@ -2,8 +2,8 @@ import BinaryFile from "../lib/BinaryFile.js";
 import IsoFile from "../types/iso/isofile.js";
 import { hex } from "../Util.js";
 
+/** Wrapper around BinaryFile that adds game-specific features. */
 export default class GameFile extends BinaryFile {
-    /** Wrapper around BinaryFile that adds game-specific features. */
 
     constructor(buffer, byteOffset=0, byteLength=null) {
         if(buffer instanceof IsoFile) {
@@ -15,11 +15,11 @@ export default class GameFile extends BinaryFile {
         this._contents = [null, null]; //cache
     }
 
+    /** Decompress data at given offset and return it.
+     *  @param offset Offset to read from.
+     *  @returns {ArrayBuffer} Decompressed data.
+     */
     decompress(offset=0, extData=[], _depth=0) {
-        /** Decompress data at given offset and return it.
-         *  @param offset Offset to read from.
-         *  @returns {ArrayBuffer} Decompressed data.
-         */
         console.assert(_depth < 10);
         const header = this._readArchiveHeader(offset);
         if(header == null) return null;
@@ -76,12 +76,12 @@ export default class GameFile extends BinaryFile {
         return this.decompress(contents[idx].fileOffset, extData);
     }
 
+    /** Return a list of the file's contents.
+     *  For files that are archives, this will be one or more items.
+     *  For other files, it will be zero or one entries (depending whether
+     *  the file is empty).
+     */
     getContents(startOffs=0, includePadding=false) {
-        /** Return a list of the file's contents.
-         *  For files that are archives, this will be one or more items.
-         *  For other files, it will be zero or one entries (depending whether
-         *  the file is empty).
-         */
         const cacheKey = `${startOffs}.${includePadding}`;
         if(this._contents[cacheKey] != null) return this._contents[cacheKey];
         const result = [];
@@ -98,8 +98,8 @@ export default class GameFile extends BinaryFile {
         return result;
     }
 
+    /** Read and decode an archive header at the given offset. */
     _readArchiveHeader(offset) {
-        /** Read and decode an archive header at the given offset. */
         //XXX move this
         if((this.byteLength - offset) < 4) return null;
         this.seek(offset);

@@ -7,9 +7,9 @@ import Game from "../../game/Game.js";
 
 const type = 'application/xml';
 
+/** Misc stuff mainly for development.
+ */
 export default class MiscTab {
-    /** Misc stuff mainly for development.
-     */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;

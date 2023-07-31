@@ -9,8 +9,8 @@ let ObjInstance, ObjectData, RomListEntry;
 
 const RAM_START = 0x80000000;
 
+/** A raw RAM dump file. */
 export default class RamDump {
-    /** A raw RAM dump file. */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;
@@ -27,11 +27,11 @@ export default class RamDump {
         return addr - RAM_START;
     }
 
+    /** Load a save file.
+     *  @param {BinaryFile} file The file to load.
+     *  @param {String} version The game version this file belongs to.
+     */
     async load(file, version='U0') {
-        /** Load a save file.
-         *  @param {BinaryFile} file The file to load.
-         *  @param {String} version The game version this file belongs to.
-         */
         this._file    = file;
         this._version = version; //game version
         const buffer  = await this._file.arrayBuffer();
@@ -59,8 +59,8 @@ export default class RamDump {
         else this.player = null;
     }
 
+    /** Get list of loaded game objects. */
     getLoadedObjects() {
-        /** Get list of loaded game objects. */
         const data = this.data;
         const view = this.view;
 
@@ -102,8 +102,8 @@ export default class RamDump {
         return objs;
     }
 
+    /** Get list of loaded files. */
     getLoadedFiles() {
-        /** Get list of loaded files. */
         const aPtr   = this.addrToOffset(this.game.addresses.loadedFiles.address);
         const aSize  = this.addrToOffset(this.game.addresses.loadedFileSizes.address);
         const aMapId = this.addrToOffset(this.game.addresses.loadedFileMapIds.address);

@@ -13,8 +13,8 @@ const PI_OVER_180 = Math.PI / 180.0; //rad = deg * PI_OVER_180
 const DEG2RAD = (x) => (x*PI_OVER_180);
 const RAD2DEG = (x) => (x/PI_OVER_180);
 
+/** Renders object models. */
 export default class ModelViewer {
-    /** Renders object models. */
     constructor(game) {
         this.game          = assertType(game, Game);
         this.app           = game.app;
@@ -29,8 +29,8 @@ export default class ModelViewer {
         this.app.onIsoLoaded(iso => this._onIsoLoaded());
     }
 
+    /** Set up the model viewer. */
     _onIsoLoaded() {
-        /** Set up the model viewer. */
         this._buildControls();
         clearElement(this.element).append(
             this.eControls,
@@ -41,8 +41,8 @@ export default class ModelViewer {
         if(!this.context) this._initContext();
     }
 
+    /** Set up the GL context. */
     async _initContext() {
-        /** Set up the GL context. */
         if(this.context) return;
         this.context = new Context(this.canvas,
             (isPicker) => this._draw(isPicker));
@@ -75,16 +75,16 @@ export default class ModelViewer {
         this._reset();
     }
 
+    /** Build the controls above the context. */
     _buildControls() {
-        /** Build the controls above the context. */
         this.eControls = E.div('controls',
             //...
         );
         return this.eControls;
     }
 
+    /** Reset viewer to display another model. */
     _reset() {
-        /** Reset viewer to display another model. */
         this._batches = [];
         this._isFirstDrawAfterLoadingModel = true;
 
@@ -128,8 +128,8 @@ export default class ModelViewer {
         this._updatedStats = false;
     }
 
+    /** Signal the model viewer to redraw. */
     async redraw() {
-        /** Signal the model viewer to redraw. */
         if(this._pendingDraw) return;
         this._pendingDraw = true;
         //if(this._isFirstDrawAfterLoadingModel) await this._loadMap();
@@ -152,8 +152,8 @@ export default class ModelViewer {
         });
     }
 
+    /** Move the camera to an appropriate starting position. */
     resetCamera() {
-        /** Move the camera to an appropriate starting position. */
         let x = 0;
         let y = 0;
         let z = 0;
@@ -166,8 +166,8 @@ export default class ModelViewer {
         //nothing to do here for now
     }
 
+    /** Draw the model. Called by Context. */
     async _draw(isPicker) {
-        /** Draw the model. Called by Context. */
         if(!this.model) return;
 
         this._isDrawingForPicker = isPicker;
@@ -192,8 +192,8 @@ export default class ModelViewer {
         //if(isPicker) console.log("picker IDs", this.gx.pickerObjs);
     }
 
+    /** Set up to render a frame. */
     _beginRender() {
-        /** Set up to render a frame. */
         //const gl = this.gx.gl;
         const ctx = this.gx.context;
         const mtxs = {
@@ -207,8 +207,8 @@ export default class ModelViewer {
         this.gx.beginRender(mtxs, this._isDrawingForPicker);
     }
 
+    /** Finish rendering and record stats. */
     _finishRender() {
-        /** Finish rendering and record stats. */
         this.gx.finishRender();
         //console.log("finished render", this.gx.context.stats);
     }

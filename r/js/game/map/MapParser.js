@@ -8,8 +8,8 @@ import Game from "../Game.js";
 //struct types
 let MapsBinEntry0, MapsTabEntry, MapInfoEntry, MapGridItem;
 
+/** Parses MAPS.bin, MAPINFO.bin, romlists, etc for all maps. */
 export class MapParser {
-    /** Parses MAPS.bin, MAPINFO.bin, romlists, etc for all maps. */
     constructor(game) {
         this.game          = assertType(game, Game);
         this.app           = game.app;

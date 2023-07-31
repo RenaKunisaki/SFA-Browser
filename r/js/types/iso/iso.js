@@ -1,6 +1,7 @@
 import DOL from './dol.js';
 import { FST } from './fst.js';
 import { hex } from '../../Util.js';
+import IsoFile from './isofile.js';
 
 //boot.bin, bi2.bin, appldr, fst, main.dol, files
 
@@ -20,21 +21,23 @@ export class ISO {
         this.debugMonitor = null;
         this.mainDol      = null;
         this.files        = [];
+        this._buffer      = null; //for copying
 
         Appldr  = this.app.types.getType('iso.Appldr');
         Bi2Bin  = this.app.types.getType('iso.Bi2Bin');
         BootBin = this.app.types.getType('iso.BootBin');
     }
 
+    /** Read entire ISO file from buffer.
+     */
     readBuffer(buffer, offset=0) {
-        /** Read entire ISO file from buffer.
-         */
         if(buffer.buffer) {
             //if given a typed array, get the underlying buffer.
             offset += buffer.byteOffset;
             buffer  = buffer.buffer;
         }
         console.log("Buffer is", buffer);
+        this._buffer = buffer;
         const view = new DataView(buffer);
 
         console.log(`Read boot.bin from 0x${hex(offset)}`);
@@ -88,11 +91,40 @@ export class ISO {
         return this;
     }
 
+    /** Retrieve file from ISO. */
     getFile(path) {
-        //Retrieve file from ISO.
         for(const file of this.files) {
             if(file.path == path) return file;
         }
         return null;
+    }
+
+    /** Add a file.
+     *  @param {string} path The path.
+     *  @param {ArrayBufferLike} data The contents.
+     *  @param {boolean} replace Whether to replace any existing file.
+     *  @returns {IsoFile} The new file.
+     */
+    newFile(path, data, replace=false) {
+        let old = this.getFile(path);
+        if(old) {
+            if(replace) {
+                let idx = this.files.indexOf(old);
+                this.files.splice(idx, 1); //remove this entry
+            }
+            else {
+                throw new Error(`File already exists: "${path}"`);
+            }
+        }
+        let splitPath = path.split('/');
+        const name = splitPath.pop();
+        const parent = this.getFile(splitPath.join('/'));
+        if(!parent) {
+            throw new Error(`Directory not found for file "${path}"`);
+        }
+        const file = new IsoFile(path, false, 0, data.byteLength,
+            data, 0, parent, false);
+        this.files.push(file);
+        return file;
     }
 }

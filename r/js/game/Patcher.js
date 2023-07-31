@@ -4,9 +4,6 @@ import { Command } from "./text/Command.js";
 import { ISO } from "../types/iso/iso.js";
 import { TaskCancelled } from "../app/ui/TaskProgress.js";
 
-//need to correct doc comments elsewhere in the app;
-//they go before the thing they're documenting, not in it.
-
 /* maybe better way to handle patching is to just iterate all files
  * in the ISO and patch them according to their name/path/format,
  * building the new ISO file by file.
@@ -87,9 +84,12 @@ export default class Patcher {
         try {
             this._mapDirs = [...new Set(Object.values(this.game.mapDirs))];
             let iso = new ISO(this.app);
-            iso.readBuffer(structuredClone(this.game.iso._buffer)); //copy
             this.iso = iso;
-            this._doFileOps();
+            for(let file of this.game.iso.files) {
+                await this.app.progress.update({
+                    subText: `Add: ${fileOp.to}`,
+                });
+            }
         }
         catch(ex) {
             if(!(ex instanceof TaskCancelled)) throw ex;

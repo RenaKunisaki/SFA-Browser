@@ -4,8 +4,8 @@ import Table from "../Table.js";
 import RomList from "../../../game/map/RomList.js";
 import Game from "../../../game/Game.js";
 
+/** Displays romlist data. */
 export class RomListViewer {
-    //displays romlist data
     constructor(game, dataView) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

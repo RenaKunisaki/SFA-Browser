@@ -103,26 +103,26 @@ const vatDefaults = [
     },
 ];
 
+/** Parses and executes the bit-packed render
+ *  opcode streams from map blocks and character
+ *  models.
+ */
 export default class RenderStreamParser {
-    /** Parses and executes the bit-packed render
-     *  opcode streams from map blocks and character
-     *  models.
+    /** Construct RenderStream.
+     *  @param {GX} gx The GX instance to use.
      */
     constructor(gx) {
-        /** Construct RenderStream.
-         *  @param {GX} gx The GX instance to use.
-         */
         this.gx = gx;
         this.gl = gx.gl;
     }
 
+    /** Execute the instructions in the stream.
+     *  @param {SfaModel, MapBlock} model The model to render.
+     *  @param {BitStreamReader} reader Stream to read from.
+     *  @param {Object} params Additional render parameters.
+     *  @returns {RenderBatch} The resulting render batch.
+     */
     execute(model, reader, params={}) {
-        /** Execute the instructions in the stream.
-         *  @param {SfaModel, MapBlock} model The model to render.
-         *  @param {BitStreamReader} reader Stream to read from.
-         *  @param {Object} params Additional render parameters.
-         *  @returns {RenderBatch} The resulting render batch.
-         */
         this.model  = model;
         this.reader = reader;
         this.params = params;
@@ -344,10 +344,10 @@ export default class RenderStreamParser {
         }
     }
 
+    /** Select a texture and shader.
+     *  This can affect how later commands are interpreted.
+     */
     _renderOpTexture() {
-        /** Select a texture and shader.
-         *  This can affect how later commands are interpreted.
-         */
         const gx  = this.gx;
         const gl  = this.gx.gl;
         const ops = this.reader;
@@ -441,9 +441,9 @@ export default class RenderStreamParser {
         };
     }
 
+    /** Call one of the model's display lists.
+     */
     _renderOpCallList() {
-        /** Call one of the model's display lists.
-         */
         const ops = this.reader;
         const idx = ops.read(8);
         if(this.model.dlists[idx] == undefined) {
@@ -516,9 +516,9 @@ export default class RenderStreamParser {
         }
     }
 
+    /** Change the vertex data format.
+     */
     _renderOpSetVtxFmt() {
-        /** Change the vertex data format.
-         */
         const ops = this.reader;
         let sizes = {
             PMTX: 0,
@@ -644,9 +644,9 @@ export default class RenderStreamParser {
         this.gx.cp.setReg(0x70 | this.VAT, r70); //VCD FMT A
     }
 
+    /** Load one of the model's matrices into GX XF registers.
+     */
     _renderOpMatrix() {
-        /** Load one of the model's matrices into GX XF registers.
-         */
         const mtxs  = {};
         const idxs  = [];
 

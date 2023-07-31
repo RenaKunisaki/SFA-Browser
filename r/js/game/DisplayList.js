@@ -3,14 +3,14 @@ import Game from "./Game.js";
 
 let DisplayListPtr = null;
 
+/** Display list pointed to by DisplayListPtr */
 export default class DisplayList {
-    /** Display list pointed to by DisplayListPtr */
+    /** Construct DisplayList.
+     *  @param {Game} game The game this belongs to.
+     *  @param {DataView} view The view to read from.
+     *  @param {int} offset Offset to read the DisplayListPtr from.
+     */
     constructor(game, view, offset) {
-        /** Construct DisplayList.
-         *  @param {Game} game The game this belongs to.
-         *  @param {DataView} view The view to read from.
-         *  @param {int} offset Offset to read the DisplayListPtr from.
-         */
         assertType(game, Game);
         assertType(view, DataView);
         this.game = game;

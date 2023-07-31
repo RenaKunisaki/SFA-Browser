@@ -5,8 +5,8 @@ import { MapParser } from "./MapParser.js";
 
 const XML = 'http://www.w3.org/1999/xhtml';
 
+/** Generates maps.xml. */
 export default class MapsXmlBuilder {
-    /** Generates maps.xml. */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;

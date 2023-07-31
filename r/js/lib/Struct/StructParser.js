@@ -30,23 +30,23 @@ export default class StructParser {
         return ns;
     }
 
+    /** Parse a 'description' element. */
     _parseDescription(obj, elem) {
-        /** Parse a 'description' element. */
         if(obj.description != null && obj.description != undefined) {
             throw new Error("Multiple 'description' elements");
         }
         obj.description = elem.textContent;
     }
 
+    /** Parse a 'note' element. */
     _parseNote(obj, elem) {
-        /** Parse a 'note' element. */
         obj.notes.push(elem.textContent);
     }
 
+    /** Parse a child node that can appear under many
+     *  different parents.
+     */
     _parseGenericTag(obj, elem) {
-        /** Parse a child node that can appear under many
-         *  different parents.
-         */
         if(elem.tagName == undefined) return; //text (whitespace, etc)
         else if(this._defaultTagHandlers[elem.tagName]) {
             this._defaultTagHandlers[elem.tagName](obj, elem);
@@ -54,13 +54,13 @@ export default class StructParser {
         else throw new TypeError(`Unexpected element: ${elem.tagName}`);
     }
 
+    /** Parse the 'order' attribute of the given element,
+     *  if it exists.
+     *  @param {Element} elem The element to parse.
+     *  @returns {bool} true if the byte order is little endian;
+     *   false if big endian.
+     */
     _getByteOrder(elem) {
-        /** Parse the 'order' attribute of the given element,
-         *  if it exists.
-         *  @param {Element} elem The element to parse.
-         *  @returns {bool} true if the byte order is little endian;
-         *   false if big endian.
-         */
         const order = elem.getAttribute('order');
         switch(order) {
             //default is same as JS' DataView methods (big endian)
@@ -72,8 +72,8 @@ export default class StructParser {
         }
     }
 
+    /** Parse one 'item' element in an enum. */
     _parseEnumItem(eItem, namespace=null) {
-        /** Parse one 'item' element in an enum. */
         if(namespace == null) namespace = this.types;
         const result = {
             name:         eItem.getAttribute('name'),
@@ -87,8 +87,8 @@ export default class StructParser {
         return new EnumItem(result);
     }
 
+    /** Parse one 'enum' element. */
     parseEnum(eEnum, namespace=null) {
-        /** Parse one 'enum' element. */
         if(namespace == null) namespace = this.types;
         const result = {
             name:         eEnum.getAttribute('name'),
@@ -137,8 +137,8 @@ export default class StructParser {
         return new Enum(result);
     }
 
+    /** Parse one 'field' element for a struct. */
     _parseStructField(eField, offset, namespace=null, littleEndian=false) {
-        /** Parse one 'field' element for a struct. */
         if(namespace == null) namespace = this.types;
 
         //get offset
@@ -171,8 +171,8 @@ export default class StructParser {
         return new Field(field);
     }
 
+    /** Parse one 'padding' element for a struct. */
     _parsePaddingField(ePadding, offset) {
-        /** Parse one 'padding' element for a struct. */
         //get offset
         let offs = ePadding.getAttribute('offset');
         if(offs == undefined) offs = offset;
@@ -193,8 +193,8 @@ export default class StructParser {
         return new Padding(padding);
     }
 
+    /** Parse one 'struct' element. */
     parseStruct(eStruct, namespace) {
-        /** Parse one 'struct' element. */
         if(namespace == null) namespace = this.types;
         const result = {
             name:         eStruct.getAttribute('name'),
@@ -241,8 +241,8 @@ export default class StructParser {
         return new Struct(result);
     }
 
+    /** Parse one 'typedef' element. */
     parseTypedef(eDef, namespace) {
-        /** Parse one 'typedef' element. */
         if(namespace == null) namespace = this.types;
         const name  = eDef.getAttribute('name');
         const tName = eDef.getAttribute('type');
@@ -255,8 +255,8 @@ export default class StructParser {
         return null;
     }
 
+    /** Parse an XML structs document. */
     async parseFile(path, namespace=null) {
-        /** Parse an XML structs document. */
         const parsers = {
             struct:  elem => this.parseStruct (elem, namespace),
             enum:    elem => this.parseEnum   (elem, namespace),
@@ -308,17 +308,17 @@ export default class StructParser {
         return namespace;
     }
 
+    /** Get the specified type from the given namespace or its ancestors.
+     *  @param {string} name The type name.
+     *  @param {object} namespace The namespace to look in.
+     *  @returns {Type} The type.
+     *  @note Type name can specify a namespace using periods,
+     *   eg "foo.bar.baz".
+     *  @note If name isn't found in the given namespace, it will then
+     *   check the namespace's parent, and so on. If the type isn't found
+     *   in any namespace, an error is thrown.
+     */
     getType(name, namespace=null) {
-        /** Get the specified type from the given namespace or its ancestors.
-         *  @param {string} name The type name.
-         *  @param {object} namespace The namespace to look in.
-         *  @returns {Type} The type.
-         *  @note Type name can specify a namespace using periods,
-         *   eg "foo.bar.baz".
-         *  @note If name isn't found in the given namespace, it will then
-         *   check the namespace's parent, and so on. If the type isn't found
-         *   in any namespace, an error is thrown.
-         */
         if(namespace == null) namespace = this.types;
         while(namespace != undefined && namespace != null) {
             let result = namespace;

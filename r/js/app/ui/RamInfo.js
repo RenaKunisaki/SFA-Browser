@@ -6,9 +6,9 @@ import Table from "./Table.js";
 //struct types
 let ObjInstance, ObjectData;
 
+/** Displays info from RAM dump.
+ */
 export default class RamInfo {
-    /** Displays info from RAM dump.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;
@@ -24,8 +24,8 @@ export default class RamInfo {
         clearElement(this.element).append(elem);
     }
 
+    /** Create the widget that will show the list of loaded objects. */
     _makeLoadedObjWidget() {
-        /** Create the widget that will show the list of loaded objects. */
         const ram = this.app.ramDump;
 
         const aNObjs = ram.addrToOffset(this.game.addresses.nLoadedObjs.address);
@@ -48,8 +48,8 @@ export default class RamInfo {
         return eObjs;
     }
 
+    /** Create the list of loaded objects. */
     _makeLoadedObjList() {
-        /** Create the list of loaded objects. */
         const ram = this.app.ramDump;
         const tbl = this._makeObjListTable();
 
@@ -113,8 +113,8 @@ export default class RamInfo {
         return row;
     }
 
+    /** Create the widget that will show the list of loaded files. */
     _makeLoadedFilesWidget() {
-        /** Create the widget that will show the list of loaded files. */
         let loaded = false;
         let eList = E.div('loading', "Loading...");
         const eFiles = E.details('filelist',
@@ -167,8 +167,8 @@ export default class RamInfo {
         return row;
     }
 
+    /** Create the list of loaded files. */
     _makeLoadedFilesList() {
-        /** Create the list of loaded files. */
         const ram = this.app.ramDump;
         const tbl = this._makeFileListTable();
 
@@ -182,16 +182,16 @@ export default class RamInfo {
         return tbl.element;
     }
 
+    /** Create the Check File Integrity button. */
     _makeCheckFilesButton() {
-        /** Create the Check File Integrity button. */
         const btn = E.button(null, "Check File Integrity", {
             click: () => this._checkFiles(),
         });
         return btn;
     }
 
+    /** Check integrity of files. */
     _checkFiles() {
-        /** Check integrity of files. */
         if(!this.game.iso) {
             alert("No ISO loaded.");
             return;

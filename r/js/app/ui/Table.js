@@ -1,9 +1,9 @@
 import { E, clearElement } from "../../lib/Element.js";
 
 let _nextId = 0;
+/** A table widget that the user can sort and filter.
+ */
 export default class Table {
-    /** A table widget that the user can sort and filter.
-     */
     constructor(params) {
         let cls = params.cls;
         if(cls == undefined || cls == null) cls = '';

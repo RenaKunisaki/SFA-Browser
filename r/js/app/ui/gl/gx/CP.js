@@ -71,18 +71,18 @@ const VAT_MASK = { //[mask, shift]
     TEX7SHFT:      [0x1F, 27],
 };
 
+/** Command Processor subsystem for GX.
+ */
 export default class CP {
-    /** Command Processor subsystem for GX.
-     */
     constructor(gx) {
         this.gx = gx;
         this._rawVals = {};
         this.reset();
     }
 
+    /** Reset all state back to default.
+     */
     reset() {
-        /** Reset all state back to default.
-         */
         this.vcd  = [];
         this.arrayBase = {
             POS: 0, NRM: 0, COL0:0, COL1:0, TEX0:0, TEX1:0, TEX2:0, TEX3:0,
@@ -107,11 +107,11 @@ export default class CP {
         return this._rawVals[reg];
     }
 
+    /** Set CP register.
+     *  @param {number} reg Register ID.
+     *  @param {number} val Value, which should be a 32-bit integer.
+     */
     setReg(reg, val) {
-        /** Set CP register.
-         *  @param {int} reg Register ID.
-         *  @param {int} val Value, which should be a 32-bit integer.
-         */
         validNumber(reg, val);
         //console.log(`CP SET REG 0x${hex(reg,2)} = 0x${hex(val,8)}`);
         this._rawVals[reg] = val;
@@ -285,8 +285,8 @@ export default class CP {
         this.arrayStride[field] = val;
     }
 
+    /** Convenience wrapper for setting up VAT */
     setVatFormat(vat, params) {
-        /** Convenience wrapper for setting up VAT */
         const fields = {
             A: ['POSCNT','POSFMT','POSSHFT','NRMCNT','NRMFMT','COL0CNT',
                 'COL0FMT','COL1CNT','COL1FMT','TEX0CNT','TEX0FMT','TEX0SHFT',
@@ -317,8 +317,8 @@ export default class CP {
         this.setReg(vat+0x90, regs.C);
     }
 
+    /** Return dict of state info for debug. */
     getState() {
-        /** Return dict of state info for debug. */
         const r_MATINDEX_A = this.getReg(Reg.MATINDEX_A);
         const r_MATINDEX_B = this.getReg(Reg.MATINDEX_B);
         const descrNames = ['-', 'DIR', 'i8', 'i16'];

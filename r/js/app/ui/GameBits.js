@@ -5,9 +5,9 @@ import Game from "../../game/Game.js";
 
 const XML = 'http://www.w3.org/1999/xhtml';
 
+/** Displays table of GameBits.
+ */
 export default class GameBits {
-    /** Displays table of GameBits.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;
@@ -127,8 +127,8 @@ export default class GameBits {
         return E.td('string', CollapseList(...items));
     }
 
+    /** Called when Save button is clicked. */
     async _save() {
-        /** Called when Save button is clicked. */
         this.app.progress.show({
             taskText: "Generating XML",
             subText:  "",

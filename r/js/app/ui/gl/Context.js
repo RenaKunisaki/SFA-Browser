@@ -5,9 +5,9 @@ function CHECK_ERROR(gl) {
     console.assert(!err);
 }
 
+/** GL context wrapper.
+ */
 export default class Context {
-    /** GL context wrapper.
-     */
     constructor(canvas, drawFunc=null) {
         /** Construct GL context.
          *  @param {HTMLCanvasElement} canvas The canvas to render to.
@@ -124,9 +124,9 @@ export default class Context {
         CHECK_ERROR(this.gl);
     }
 
+    /** Set up depth-render-to-texture for picking.
+     */
     _setupDepthTexture() {
-        /** Set up depth-render-to-texture for picking.
-         */
         const gl = this.gl;
 
         this._gl_extensions.depth_texture = gl.getExtension('WEBGL_depth_texture');
@@ -165,10 +165,10 @@ export default class Context {
         console.log("Created depth texture", this._depthBuffer);
     }
 
+    /** Set up framebuffer after window is resized.
+     *  Required for depth buffer picker.
+     */
     _setFramebufferAttachmentSizes() {
-        /** Set up framebuffer after window is resized.
-         *  Required for depth buffer picker.
-         */
         const gl = this.gl;
         const width=gl.drawingBufferWidth, height=gl.drawingBufferHeight;
         if(width < 1 || height < 1) return;
@@ -190,12 +190,12 @@ export default class Context {
         console.log("Setup pick buffer, size", width, height);
     }
 
+    /** Read pick buffer.
+     *  @param {integer} x X coordinate to read.
+     *  @param {integer} y Y coordinate to read.
+     *  @returns {integer} Value from pick buffer.
+     */
     async readPickBuffer(x, y) {
-        /** Read pick buffer.
-         *  @param {integer} x X coordinate to read.
-         *  @param {integer} y Y coordinate to read.
-         *  @returns {integer} Value from pick buffer.
-         */
         const gl     = this.gl;
         const data   = new Uint8Array(4);
         const rect   = gl.canvas.getBoundingClientRect();
@@ -217,9 +217,9 @@ export default class Context {
         //return data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
     }
 
+    /** Create modelview and projection matrices.
+     */
     _initMatrices() {
-        /** Create modelview and projection matrices.
-         */
         this.matProjection = mat4.create();
         this.matModelView  = mat4.create();
         this.matNormal     = null; //generated when redrawing
@@ -230,10 +230,10 @@ export default class Context {
         };
     }
 
+    /** Set up viewport.
+     *  Called at startup and on resize.
+     */
     _setupViewport() {
-        /** Set up viewport.
-         *  Called at startup and on resize.
-         */
         const gl = this.gl;
 
         //we need to set the size through HTML attributes, not CSS,
@@ -329,9 +329,9 @@ export default class Context {
         };
     }
 
+    /** Redraw the scene.
+     */
     redraw() {
-        /** Redraw the scene.
-         */
         if(this._pendingDraw) return;
         this._pendingDraw = true;
         window.requestAnimationFrame(() => {
@@ -346,8 +346,8 @@ export default class Context {
         this.stats.renderTime = performance.now() - this.stats.renderStartTime;
     }
 
+    /** Draw the visible scene. */
     async _drawScreen() {
-        /** Draw the visible scene. */
         const gl = this.gl;
         this._setupFrame();
         gl.enable(gl.BLEND);
@@ -368,8 +368,8 @@ export default class Context {
         gl.flush();
     }
 
+    /** Draw the picker buffer. */
     async _drawPicker() {
-        /** Draw the picker buffer. */
         const gl = this.gl;
         this._setupFrame();
         gl.disable(gl.BLEND);
@@ -389,8 +389,8 @@ export default class Context {
         gl.flush();
     }
 
+    /** Prepare to render a frame. */
     _setupFrame() {
-        /** Prepare to render a frame. */
         const gl = this.gl;
         const P  = this.view.pos;
         const S  = this.view.scale;

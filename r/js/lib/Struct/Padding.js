@@ -2,18 +2,18 @@ import Field from "./Field.js";
 import { u8 } from "./Type.js";
 import { hex } from "../../Util.js";
 
+/** A field that isn't used. */
 export default class Padding extends Field {
-    /** A field that isn't used. */
+    /** Construct a Field.
+     *  @param {int} offset The byte offset within the struct.
+     *  @param {int} count The number of padding bytes.
+     *  @param {int} value The expected value.
+     *  @param {string} description A description of the field.
+     *  @param {string[]} notes Some notes about the field.
+     *  @note This should be called by the parser. You shouldn't
+     *   need to call it yourself.
+     */
     constructor(params) {
-        /** Construct a Field.
-         *  @param {int} offset The byte offset within the struct.
-         *  @param {int} count The number of padding bytes.
-         *  @param {int} value The expected value.
-         *  @param {string} description A description of the field.
-         *  @param {string[]} notes Some notes about the field.
-         *  @note This should be called by the parser. You shouldn't
-         *   need to call it yourself.
-         */
         super({
             offset:      params.offset,
             count:       params.count,

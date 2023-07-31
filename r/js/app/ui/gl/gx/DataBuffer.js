@@ -1,28 +1,28 @@
 //XXX replace with BinaryFile?
+/** Generic data buffer.
+ *  Contains binary data which is read sequentially or randomly.
+ */
 export default class DataBuffer {
-    /** Generic data buffer.
-     *  Contains binary data which is read sequentially or randomly.
+    /** Construct DataBuffer.
+     *  @param {ArrayBuffer} src ArrayBuffer to wrap.
+     *  @param {string} order '>' for big endian or '<' for little endian.
      */
     constructor(src, order='>') {
-        /** Construct DataBuffer.
-         *  @param {ArrayBuffer} src ArrayBuffer to wrap.
-         *  @param {string} order '>' for big endian or '<' for little endian.
-         */
         this.data   = new DataView(src);
         this.offset = 0;  //current offset to read from
         this.length = this.data.byteLength;
         this.order  = order;
     }
 
+    /** Set read position.
+     *  @param {number} offset What to set position to or adjust position by.
+     *  @param whence How to adjust position:
+     *    0 or 'set': position = offset
+     *    1 or 'cur': position += offset
+     *    2 or 'end': position = EOF - offset
+     *  @returns {number} new offset.
+     */
     seek(offset, whence=0) {
-        /** Set read position.
-         *  @param {int} offset What to set position to or adjust position by.
-         *  @param whence How to adjust position:
-         *    0 or 'set': position = offset
-         *    1 or 'cur': position += offset
-         *    2 or 'end': position = EOF - offset
-         *  @returns {int} new offset.
-         */
         switch(whence) {
             case 0: //SEEK_SET
             case 'set':
@@ -43,18 +43,18 @@ export default class DataBuffer {
         return this.offset;
     }
 
+    /** Check if read position is at end of stream.
+     *  @returns {boolean} true if at end of stream.
+     */
     get isEof() {
-        /** Check if read position is at end of stream.
-         *  @returns {bool} true if at end of stream.
-         */
         return this.offset >= this.length;
     }
 
+    /** Read next byte from data, increment offset,
+     *  and return the byte.
+     *  @return {number} the byte, or null if at end of data.
+     */
     nextS8() {
-        /** Read next byte from data, increment offset,
-         *  and return the byte.
-         *  @return {int} the byte, or null if at end of data.
-         */
         if(this.offset >= this.length) return null;
         return this.data.getInt8(this.offset++);
     }

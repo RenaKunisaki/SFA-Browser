@@ -1,18 +1,18 @@
 import { hex, int } from "../../Util.js";
 
+/** A control code in a GameText string.
+ *  In the game's files, these are represented as a particular
+ *  Unicode character (in the Private Use range) followed by some
+ *  number of u16 parameter values.
+ *  Since the number of parameters depends on the control code, and
+ *  the parameter bytes can be zeroes, it's necessary to parse them
+ *  while reading the string.
+ *  In a Phrase object, instances of the classes that extend this
+ *  class are used to represent the control codes.
+ *  In XML, a tag named for the class is used, with each parameter
+ *  being an attribute.
+ */
 export class CommandBase {
-    /** A control code in a GameText string.
-     *  In the game's files, these are represented as a particular
-     *  Unicode character (in the Private Use range) followed by some
-     *  number of u16 parameter values.
-     *  Since the number of parameters depends on the control code, and
-     *  the parameter bytes can be zeroes, it's necessary to parse them
-     *  while reading the string.
-     *  In a Phrase object, instances of the classes that extend this
-     *  class are used to represent the control codes.
-     *  In XML, a tag named for the class is used, with each parameter
-     *  being an attribute.
-     */
     constructor(...params) {
         //"this.params" doesn't work here but "this.constructor.params" does...
         console.assert(params.length == this.constructor.params.length);

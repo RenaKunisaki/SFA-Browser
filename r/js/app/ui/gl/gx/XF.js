@@ -1,17 +1,17 @@
 import {validNumber, validVector, validMatrix} from '../GlUtil.js';
 const MAX_REG = 0x1058;
 
+/** Transform Processor subsystem for GX.
+ */
 export default class XF {
-    /** Transform Processor subsystem for GX.
-     */
     constructor(gx) {
         this.gx = gx;
         this.reset();
     }
 
+    /** Reset all state to default.
+     */
     reset() {
-        /** Reset all state to default.
-         */
         this._reg = new Float32Array(0x1058);
         this._mtx = {
             'POS': {}, //0x0000 - 0x00FF
@@ -29,39 +29,39 @@ export default class XF {
         this._updateMtxs();
     }
 
+    /** Set a register.
+     *  @param {int} reg: Register ID.
+     *  @param {int, float} val: Value, which should be an integer or float,
+     *   depending on the target register.
+     */
     setReg(reg, val) {
-        /** Set a register.
-         *  @param {int} reg: Register ID.
-         *  @param {int, float} val: Value, which should be an integer or float,
-         *   depending on the target register.
-         */
         //while it is allowed to store Inf/NaN on the real GX, there's no reason
         //we should be doing so in this program.
         this._reg[reg] = validNumber(val);
         this._updateMtxs();
     }
 
+    /** Read a register.
+     *  @param {int} reg Register ID.
+     *  @returns {float} the value.
+     */
     getReg(reg) {
-        /** Read a register.
-         *  @param {int} reg Register ID.
-         *  @returns {float} the value.
-         */
         return this._reg[reg];
     }
 
+    /** Get a position matrix.
+     *  @param {int} idx Matrix index.
+     *  @returns {mat4} The Matrix. (not the movie, though)
+     *  @note XF Position Matrix Memory is an array of floats, and a matrix
+     *  can begin at any index that's a multiple of 4. So the index is just
+     *  the register ID divided by 4. That means that if matrix index 0 is
+     *  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] then matrix index 1 is
+     *  [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].
+     *  Note also that these are only 12 entries. GX position matrices are
+     *  only 4x3, but since GLmatrix.js doesn't deal with those, we convert
+     *  to 4x4 when populating tihs array.
+     */
     getPosMtx(idx) {
-        /** Get a position matrix.
-         *  @param {int} idx Matrix index.
-         *  @returns {mat4} The Matrix. (not the movie, though)
-         *  @note XF Position Matrix Memory is an array of floats, and a matrix
-         *  can begin at any index that's a multiple of 4. So the index is just
-         *  the register ID divided by 4. That means that if matrix index 0 is
-         *  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] then matrix index 1 is
-         *  [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].
-         *  Note also that these are only 12 entries. GX position matrices are
-         *  only 4x3, but since GLmatrix.js doesn't deal with those, we convert
-         *  to 4x4 when populating tihs array.
-         */
         if(this._mtx.POS[idx] == undefined) {
             console.error("Position matrix "+String(idx)+" is undefined");
             //debugger;
@@ -71,12 +71,12 @@ export default class XF {
         return this._mtx.POS[idx];
     }
 
+    /** Get a normal matrix.
+     *  @param {int} idx Matrix index.
+     *  @returns {mat3} The Matrix.
+     *  @note This is similar to position matrices, but these are 3x3.
+     */
     getNrmMtx(idx) {
-        /** Get a normal matrix.
-         *  @param {int} idx Matrix index.
-         *  @returns {mat3} The Matrix.
-         *  @note This is similar to position matrices, but these are 3x3.
-         */
         if(this._mtx.NRM[idx] == undefined) {
             console.error("Normal matrix "+String(idx)+" is undefined");
             return mat3.create();
@@ -86,11 +86,11 @@ export default class XF {
         return this._mtx.NRM[idx];
     }
 
+    /** Set a matrix.
+     *  @param {int} idx Matrix index. (Register ID divided by 4)
+     *  @param {mat4} mtx Matrix to set.
+     */
     setMtx(idx, mtx) {
-        /** Set a matrix.
-         *  @param {int} idx Matrix index. (Register ID divided by 4)
-         *  @param {mat4} mtx Matrix to set.
-         */
         //XXX this only works for 4x4 matrices. what about normals?
         /* mat4 gives us a matrix like:
          * [ 1  0  0  0]
@@ -137,10 +137,10 @@ export default class XF {
             R[reg+ 3], R[reg+ 7], R[reg+11], 1);
     }
 
+    /** Recompute the matrices.
+     *  Called when some matrix memory has changed.
+     */
     _updateMtxs() {
-        /** Recompute the matrices.
-         *  Called when some matrix memory has changed.
-         */
         //XXX we could save a lot of time by only computing each matrix when
         //it's requested, caching the result, and invalidating that cache when
         //the registers behind it change.

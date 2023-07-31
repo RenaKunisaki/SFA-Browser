@@ -6,14 +6,14 @@ import Game from "../Game.js";
 let Vec3f, RomListEntryStruct, RomlistObjLoadFlags;
 
 class RomListEntry {
+    /** Construct RomListEntry.
+     *  @param {Game} game Game instance this belongs to.
+     *  @param {DataView} data Data to construct from.
+     *  @param {number} offset Offset to read from.
+     *  @param {number} idx Which index in the list this is.
+     *    Only used to display in the UI.
+     */
     constructor(game, data, offset, idx) {
-        /** Construct RomListEntry.
-         *  @param {Game} game Game instance this belongs to.
-         *  @param {DataView} data Data to construct from.
-         *  @param {integer} offset Offset to read from.
-         *  @param {integer} idx Which index in the list this is.
-         *    Only used to display in the UI.
-         */
         this.game       = assertType(game, Game);
         this.app        = game.app;
         this.idx        = idx;
@@ -92,13 +92,13 @@ class RomListEntry {
     }
 }
 
+/** romlist file, defines objects on a map. */
 export default class RomList {
-    /** romlist file, defines objects on a map. */
+    /** Construct RomList.
+     *  @param {Game} game the game this is from.
+     *  @param {DataView} view the data to read.
+     */
     constructor(game, view) {
-        /** Construct RomList.
-         *  @param {Game} game the game this is from.
-         *  @param {DataView} view the data to read.
-         */
         this.game    = assertType(game, Game);
         this.entries = [];
         this.objsByUniqueId = {};

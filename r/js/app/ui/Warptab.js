@@ -3,9 +3,9 @@ import { E, clearElement } from "../../lib/Element.js";
 import { assertType, hex } from "../../Util.js";
 import Table from "./Table.js";
 
+/** Displays all warp definitions.
+ */
 export default class Warptab {
-    /** Displays all warp definitions.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

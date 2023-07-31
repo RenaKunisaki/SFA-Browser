@@ -3,12 +3,12 @@ import { E } from "../lib/Element.js";
 import Game from "./Game.js";
 import App from "../app/App.js";
 
+/** A "Bit" (as the game calls them) in the game's GameBit tables.
+ */
 export default class GameBit {
-    /** A "Bit" (as the game calls them) in the game's GameBit tables.
+    /** Construct a GameBit from a 'bit' element from gamebits.xml.
      */
     constructor(game, eBit=null) {
-        /** Construct a GameBit from a 'bit' element from gamebits.xml.
-         */
         //we don't use fromXml() because we want to instantiate directly
         //using app._getXml()
         //XXX _getXml() passes App, not Game
@@ -55,10 +55,10 @@ export default class GameBit {
         }
     }
 
+    /** Construct XML element representing this Bit.
+     *  @returns {Element} XML element.
+     */
     toXml() {
-        /** Construct XML element representing this Bit.
-         *  @returns {Element} XML element.
-         */
         const elem = E.bit({
             id:     `0x${hex(this.id,4)}`,
             table:  this.table,

@@ -21,8 +21,8 @@ import Arrow from "../gl/Model/Arrow.js";
 import Axes from "../gl/Model/Axes.js";
 import MapExporter from "./MapExporter.js";
 
+/** Renders map geometry. */
 export default class MapViewer {
-    /** Renders map geometry. */
     constructor(game) {
         this.game          = assertType(game, Game);
         this.app           = game.app;
@@ -74,10 +74,10 @@ export default class MapViewer {
         });
     }
 
+    /** Move the camera to show the given object.
+     *  @param {RomListEntry} entry Object to show.
+     */
     showObject(entry) {
-        /** Move the camera to show the given object.
-         *  @param {RomListEntry} entry Object to show.
-         */
         //ensure at least one act containing this object is visible.
         let visible = false, actNo = null;
         for(let [i,act] of Object.entries(entry.acts)) {
@@ -101,8 +101,8 @@ export default class MapViewer {
         this.infoWidget.show({type:'object', entry:entry});
     }
 
+    /** Set up the map viewer. */
     _onIsoLoaded() {
-        /** Set up the map viewer. */
         this._buildControls();
         clearElement(this.element).append(
             this.eControls,
@@ -113,8 +113,8 @@ export default class MapViewer {
         if(!this.context) this._initContext();
     }
 
+    /** Set up the GL context. */
     async _initContext() {
-        /** Set up the GL context. */
         if(this.context) return;
         this.context = new Context(this.canvas,
             (isPicker) => this._draw(isPicker));
@@ -148,8 +148,8 @@ export default class MapViewer {
         this._reset();
     }
 
+    /** Build the map list widget. */
     _buildMapList() {
-        /** Build the map list widget. */
         this.eMapList = E.select({id:'mapview-map-list'});
         const maps = [];
         for(let [id, map] of Object.entries(this.game.maps)) {
@@ -176,15 +176,15 @@ export default class MapViewer {
         this.eMapList.addEventListener('change', e => this._reset());
     }
 
+    /** Build the Export button. */
     _buildExportButton() {
-        /** Build the Export button. */
         const btn = E.button('export-file', 'Export');
         btn.addEventListener('click', e => this._exportMap());
         return btn;
     }
 
+    /** Build the controls above the context. */
     _buildControls() {
-        /** Build the controls above the context. */
         this._buildMapList();
         this.eControls = E.div('controls',
             E.label(null, {For:'mapview-map-list'}, "Map:"),
@@ -194,8 +194,8 @@ export default class MapViewer {
         return this.eControls;
     }
 
+    /** Reset viewer to display another map. */
     _reset() {
-        /** Reset viewer to display another map. */
         this._batches = [];
         this._isFirstDrawAfterLoadingMap = true;
 
@@ -255,8 +255,8 @@ export default class MapViewer {
         return batch;
     }
 
+    /** Load the map data. */
     async _loadMap() {
-        /** Load the map data. */
         this.app.progress.show({
             taskText:  "Loading Map",
             subText:   "Loading block textures...",
@@ -288,8 +288,8 @@ export default class MapViewer {
         this.textureViewer.setTextures(textures);
     }
 
+    /** Find a block to start at. */
     _findABlock() {
-        /** Find a block to start at. */
         if(!this.map.blocks) {
             console.error("Map has no blocks", this.map);
             return null;
@@ -316,8 +316,8 @@ export default class MapViewer {
         return block;
     }
 
+    /** Signal the map viewer to redraw. */
     async redraw() {
-        /** Signal the map viewer to redraw. */
         if(this._pendingDraw) return;
         this._pendingDraw = true;
         if(this._isFirstDrawAfterLoadingMap) await this._loadMap();
@@ -339,8 +339,8 @@ export default class MapViewer {
         });
     }
 
+    /** Move the camera to an appropriate starting position. */
     resetCamera() {
-        /** Move the camera to an appropriate starting position. */
         let x = this.map.originX * MAP_CELL_SIZE;
         let y = 0;
         let z = this.map.originZ * MAP_CELL_SIZE;
@@ -371,10 +371,10 @@ export default class MapViewer {
         this.viewController.moveToPoint(x, y, z, radius, 0, rx);
     }
 
+    /** Move the camera to an object.
+     *  @param {RomListEntry} obj Object to move to.
+     */
     moveToObject(obj) {
-        /** Move the camera to an object.
-         *  @param {RomListEntry} obj Object to move to.
-         */
         this.viewController.moveToPoint(
             obj.position.x, obj.position.y, obj.position.z,
             Math.max(obj.object.scale, 10) * 10);
@@ -384,8 +384,8 @@ export default class MapViewer {
         this._targetObj = null;
     }
 
+    /** Draw the map. Called by Context. */
     async _draw(isPicker) {
-        /** Draw the map. Called by Context. */
         if(!this.map) return;
 
         this._isDrawingForPicker = isPicker;
@@ -414,8 +414,8 @@ export default class MapViewer {
         //if(isPicker) console.log("picker IDs", this.gx.pickerObjs);
     }
 
+    /** Set up to render a frame. */
     _beginRender() {
-        /** Set up to render a frame. */
         //const gl = this.gx.gl;
         if(!this.curBlock) {
             this.curBlock = this._findABlock();
@@ -435,8 +435,8 @@ export default class MapViewer {
         this.gx.beginRender(mtxs, this._isDrawingForPicker);
     }
 
+    /** Finish rendering and record stats. */
     _finishRender(blockStats, blockStreams) {
-        /** Finish rendering and record stats. */
         this.gx.finishRender();
         blockStats.streamTimes = {};
         const tEnd = performance.now();
@@ -457,8 +457,8 @@ export default class MapViewer {
         this.stats.updateDrawCounts(blockStats);
     }
 
+    /** Draw the map's origin. */
     _drawOrigin() {
-        /** Draw the map's origin. */
         const params = {
             isPicker: this._isDrawingForPicker,
         };
@@ -473,8 +473,8 @@ export default class MapViewer {
         this.gx.executeBatch(batch);
     }
 
+    /** Draw the map geometry. */
     _drawBlocks(blockStats, blockStreams) {
-        /** Draw the map geometry. */
         const params = {
             showHidden: this.layerChooser.getLayer('hiddenGeometry'),
             isGrass:    false, //draw the grass effect instead of the geometry
@@ -500,8 +500,8 @@ export default class MapViewer {
         }
     }
 
+    /** Draw one map block. */
     _drawBlock(block, params, stream) {
-        /** Draw one map block. */
         const gl = this.gx.gl;
         block.load(this.gx); //ensure block model is loaded
 
@@ -525,8 +525,8 @@ export default class MapViewer {
         return batch; //for stats
     }
 
+    /** Draw the hit lines for each block. */
     _drawBlockHits() {
-        /** Draw the hit lines for each block. */
         const gx = this.gx;
         const gl = this.gx.gl;
         const params = {
@@ -554,8 +554,8 @@ export default class MapViewer {
         this.gx.executeBatch(batch);
     }
 
+    /** Draw the bounding boxes for each block. */
     _drawBlockBounds() {
-        /** Draw the bounding boxes for each block. */
         const gx = this.gx;
         const gl = this.gx.gl;
         if(this._isDrawingForPicker) return;
@@ -594,8 +594,8 @@ export default class MapViewer {
         return batch;
     }
 
+    /** Draw WARPTAB entries. */
     _drawWarps() {
-        /** Draw WARPTAB entries. */
         const gx = this.gx;
         const gl = this.gx.gl;
 
@@ -640,8 +640,8 @@ export default class MapViewer {
         this.gx.executeBatch(batch);
     }
 
+    /** Draw object positions. */
     async _drawObjects() {
-        /** Draw object positions. */
         let mv = mat4.clone(this.gx.context.matModelView);
         /*mat4.translate(mv, mv, vec3.fromValues(
             (this.map.originX * MAP_CELL_SIZE), 0,
@@ -652,8 +652,8 @@ export default class MapViewer {
         if(batch) this.gx.executeBatch(batch);
     }
 
+    /** Draw hit detect polygons. */
     _drawHitPolys() {
-        /** Draw hit detect polygons. */
         const gx = this.gx;
 
         const params = {
@@ -678,8 +678,8 @@ export default class MapViewer {
         gx.executeBatch(batch);
     }
 
+    /** Draw poly group bounds. */
     _drawPolyGroups() {
-        /** Draw poly group bounds. */
         const gx = this.gx;
         const params = {
             isPicker: this._isDrawingForPicker,
@@ -706,13 +706,13 @@ export default class MapViewer {
         gx.executeBatch(batch);
     }
 
+    /** Get object at given screen coords.
+     *  @param {integer} x X coordinate relative to canvas.
+     *  @param {integer} y Y coordinate relative to canvas.
+     *  @returns {object} Dict explaining what's at this coordinate,
+     *   or null.
+     */
     async _getObjAt(x, y) {
-        /** Get object at given screen coords.
-         *  @param {integer} x X coordinate relative to canvas.
-         *  @param {integer} y Y coordinate relative to canvas.
-         *  @returns {object} Dict explaining what's at this coordinate,
-         *   or null.
-         */
         const id = await this.gx.context.readPickBuffer(x, y);
         let   obj = this.gx.getPickerObj(id);
         if(obj == undefined) obj = null;
@@ -720,8 +720,8 @@ export default class MapViewer {
         return obj;
     }
 
+    /** Export the map to a DAE file. */
     async _exportMap() {
-        /** Export the map to a DAE file. */
         (new MapExporter(this.game, this.gx, this.map)).export();
     }
 }

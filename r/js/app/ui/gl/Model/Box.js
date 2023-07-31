@@ -14,41 +14,41 @@ const DEFAULT_COLORS = [
     [0xFF, 0x00, 0x00, 0xCF],
 ];
 
+/** A box, or rectangular prism.
+ *  Expands from one corner point to another.
+ *  By default, the box is aligned to global axes, then the
+ *  rotation (if any) is applied.
+ *  The colors are unspecified; currently, it will use an RGB cube,
+ *  but if you need specific colors, set them yourself.
+ */
 export default class Box extends Model {
-    /** A box, or rectangular prism.
-     *  Expands from one corner point to another.
-     *  By default, the box is aligned to global axes, then the
-     *  rotation (if any) is applied.
-     *  The colors are unspecified; currently, it will use an RGB cube,
-     *  but if you need specific colors, set them yourself.
+    /** Construct Box between two corner points.
+     *  @param {GX} gx GX instance to use.
+     *  @param {Array} p1 Coords of first corner.
+     *  @param {Array} p2 Coords of second corner.
      */
     constructor(gx, p1=[-0.5,-0.5,-0.5], p2=[0.5,0.5,0.5]) {
-        /** Construct Box between two corner points.
-         *  @param {GX} gx GX instance to use.
-         *  @param {Array} p1 Coords of first corner.
-         *  @param {Array} p2 Coords of second corner.
-         */
         super(gx, vec3.fromValues(p1[0]+0.5, p1[1]+0.5, p1[2]+0.5));
         this.p1 = vec3.fromValues(...p1);
         this.p2 = vec3.fromValues(...p2);
         this.setColors(DEFAULT_COLORS);
     }
 
+    /** Construct a box which is rotated to contain the given line.
+     *  @param {GX} gx GX instance to use.
+     *  @param {Array} p1 Coords of first point.
+     *  @param {Array} p2 Coords of second point.
+     *  @param {Array} size Dimensions of box.
+     *  @returns {Box} A box that covers the line.
+     *  @note This creates a long, thin box (or thick if a different size
+     *   is used) with the line at its centre. Compare to the default
+     *   constructor which creates a large, axis-aligned box with the line
+     *   spanning between two of its corners. The X size component determines
+     *   how much extra length the box has beyond the ends of the line; the
+     *   Y and Z components determine how far the box's sides are from the
+     *   line.
+     */
     static fromLine(gx, p1, p2, size=[1,1,1]) {
-        /** Construct a box which is rotated to contain the given line.
-         *  @param {GX} gx GX instance to use.
-         *  @param {Array} p1 Coords of first point.
-         *  @param {Array} p2 Coords of second point.
-         *  @param {Array} size Dimensions of box.
-         *  @returns {Box} A box that covers the line.
-         *  @note This creates a long, thin box (or thick if a different size
-         *   is used) with the line at its centre. Compare to the default
-         *   constructor which creates a large, axis-aligned box with the line
-         *   spanning between two of its corners. The X size component determines
-         *   how much extra length the box has beyond the ends of the line; the
-         *   Y and Z components determine how far the box's sides are from the
-         *   line.
-         */
         //https://gamedev.stackexchange.com/a/149044
         //you would not belive how long it took to find this formula.
         //keywords: rotate arrow point target
@@ -92,14 +92,14 @@ export default class Box extends Model {
         return self;
     }
 
+    /** Set the vertex colors.
+     *  @param {Array} colors One or more colors: [r, g, b, [a=255]].
+     *  @note If fewer than 8 colors are supplied, the colors
+     *   are repeated for the remaining vertices. Colors beyond
+     *   the first 8 are ignored.
+     *  @returns {Box} this.
+     */
     setColors(colors) {
-        /** Set the vertex colors.
-         *  @param {Array} colors One or more colors: [r, g, b, [a=255]].
-         *  @note If fewer than 8 colors are supplied, the colors
-         *   are repeated for the remaining vertices. Colors beyond
-         *   the first 8 are ignored.
-         *  @returns {Box} this.
-         */
         if(!Array.isArray(colors[0])) colors = [colors]; //array of [r,g,b,a]
         if(colors.length < 1) throw new BugCheck("Empty color array");
         while(colors.length < 8) { //we have 8 vertices
@@ -115,8 +115,8 @@ export default class Box extends Model {
         return this;
     }
 
+    /** Recalculate buffers. Called after geometry changes. */
     _update() {
-        /** Recalculate buffers. Called after geometry changes. */
         const gl = this.gl;
         let v1 = vec3.create();
         let v2 = vec3.create();

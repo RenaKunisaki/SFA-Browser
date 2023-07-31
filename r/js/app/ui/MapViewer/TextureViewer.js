@@ -6,8 +6,8 @@ import Texture from '../gl/Texture.js';
 
 let _nextId=0;
 
+/** Widget displaying a map/model's textures. */
 export default class TextureViewer {
-    /** Widget displaying a map/model's textures. */
     constructor(viewer) {
         this.viewer   = viewer;
         this.game     = viewer.game;
@@ -43,10 +43,10 @@ export default class TextureViewer {
         this.eTexInfo = E.span('texinfo', "...");
     }
 
+    /** Set the list of textures to show.
+     *  @param {object} textures Dict of ID => Texture.
+     */
     setTextures(textures) {
-        /** Set the list of textures to show.
-         *  @param {Object} textures Dict of ID => Texture.
-         */
         this.textures = {};
         for(let [id, tex] of Object.entries(textures)) {
             if(tex instanceof Texture) tex = tex.gameTexture;

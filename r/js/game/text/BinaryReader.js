@@ -8,8 +8,8 @@ import { hex } from "../../Util.js";
 //struct types
 let CharacterStruct, GameTextStruct, TextureStruct;
 
+/** Reads a GameText binary file. */
 export default class BinaryReader {
-    /** Reads a GameText binary file. */
 
     constructor(app, data) {
         if(data instanceof IsoFile) data = data.getData();
@@ -30,11 +30,11 @@ export default class BinaryReader {
         //actual strings, such as the sequence ID. Investigate this.
     }
 
+    /** Read the CharacterStructs.
+     *  These tell where each character is in the texture,
+     *  which texture it's in, and how to align it.
+     */
     readCharStructs() {
-        /** Read the CharacterStructs.
-         *  These tell where each character is in the texture,
-         *  which texture it's in, and how to align it.
-         */
         const numCharStructs = this._file.readU32();
         //console.log(`numCharStructs = 0x${hex(numCharStructs)}`);
         //sanity check to avoid hanging
@@ -45,12 +45,12 @@ export default class BinaryReader {
         if(numCharStructs == 1) this.charStructs = [this.charStructs];
     }
 
+    /** Read the string offsets.
+     *  These are offsets into the actual string data.
+     *  The `phrases` field of GameTextStruct is an index
+     *  into this list of offsets.
+     */
     readStringTable() {
-        /** Read the string offsets.
-         *  These are offsets into the actual string data.
-         *  The `phrases` field of GameTextStruct is an index
-         *  into this list of offsets.
-         */
         const numStrs = this._file.readU32();
 
         //read the offset table
@@ -63,10 +63,10 @@ export default class BinaryReader {
         this._file.seek(this.strDataLen, 'SEEK_CUR');
     }
 
+    /** Read some padding data.
+     *  This data is always all 0xEE in every file and isn't used.
+     */
     readUnknown() {
-        /** Read some padding data.
-         *  This data is always all 0xEE in every file and isn't used.
-         */
         const numBytes = this._file.readU32();
         //console.log(`unkDataLen=0x${hex(numBytes)}`);
         //just verify in case it's different in some version...
@@ -83,9 +83,9 @@ export default class BinaryReader {
         this._file.seek(offs+numBytes);
     }
 
+    /** Read the texture graphics.
+     */
     readCharTextures() {
-        /** Read the texture graphics.
-         */
         this.charTextures  = [];
         this.textureOffset = this._file.tell();
         //game will only recognize 2 textures
@@ -114,11 +114,11 @@ export default class BinaryReader {
         }
     }
 
+    /** Read the GameText structs.
+     *  These tell which strings belong to each text,
+     *  how to display it, and which language it is.
+     */
     readTexts() {
-        /** Read the GameText structs.
-         *  These tell which strings belong to each text,
-         *  how to display it, and which language it is.
-         */
         const numTexts  = this._file.readU16();
         this.strDataLen = this._file.readU16();
         //console.log(`numTexts=0x${hex(numTexts)} strDataLen=0x${hex(this.strDataLen)}`);

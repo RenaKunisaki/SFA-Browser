@@ -30,7 +30,7 @@
         <!-- do we want to use PNG or raw binary here?
         we'd use binary for models and such...
         -->
-        <texture id="123" src="tex123.png" />
+        <texture id="123" src="tex123.bin" frames="1" />
     </textures>
 
     <models>

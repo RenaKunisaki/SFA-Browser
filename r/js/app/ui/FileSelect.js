@@ -2,9 +2,9 @@ import Game from "../../game/Game.js";
 import { E, clearElement } from "../../lib/Element.js";
 import { assertType, Table } from "../../Util.js";
 
+/** The UI for selecting an ISO and save file.
+ */
 export default class FileSelect {
-    /** The UI for selecting an ISO and save file.
-      */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;

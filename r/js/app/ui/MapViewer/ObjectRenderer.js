@@ -4,8 +4,8 @@ import createObjInstance from "./ObjInstance/createObjInstance.js";
 import { Trigger } from "./ObjInstance/Trigger.js";
 import Curve from "./ObjInstance/Curve.js";
 
+/** Handles object rendering for map viewer. */
 export default class ObjectRenderer {
-    /** Handles object rendering for map viewer. */
     constructor(mapViewer) {
         this.mapViewer = mapViewer;
         this.game = mapViewer.game;
@@ -14,8 +14,8 @@ export default class ObjectRenderer {
         this.reset();
     }
 
+    /** Reset state for new map. */
     reset() {
-        /** Reset state for new map. */
         //keep track of picker IDs assigned to objects
         //so we don't keep making up new ones
         this.pickerIds = {}; //entry idx => picker ID
@@ -24,8 +24,8 @@ export default class ObjectRenderer {
         this.batches = {}; //key => batch
     }
 
+    /** Load object models and prepare batches. */
     async loadObjects() {
-        /** Load object models and prepare batches. */
         const map = this.mapViewer.map;
         if(!map.romList) return; //nothing to render
 
@@ -51,12 +51,12 @@ export default class ObjectRenderer {
         }
     }
 
+    /** Draw all enabled objects.
+     *  @param {number} act Bitflags of act numbers to draw.
+     *  @param {boolean} isPicker Whether we're rendering for picker buffer.
+     *  @returns {RenderBatch} Batch that renders the objects.
+     */
     async drawObjects(acts, isPicker) {
-        /** Draw all enabled objects.
-         *  @param {integer} act Bitflags of act numbers to draw.
-         *  @param {bool} isPicker Whether we're rendering for picker buffer.
-         *  @returns {RenderBatch} Batch that renders the objects.
-         */
         const gx = this.gx;
         const gl = this.gx.gl;
         this._isDrawingForPicker = isPicker;
@@ -97,10 +97,10 @@ export default class ObjectRenderer {
         return batch;
     }
 
+    /** Draw an object.
+     *  @param {ObjInstance} inst Object to draw.
+     */
     drawObject(inst) {
-        /** Draw an object.
-         *  @param {ObjInstance} inst Object to draw.
-         */
         let id = this.pickerIds[inst.entry.idx];
         if(id == undefined) {
             id = this.gx.addPickerObj({
@@ -112,10 +112,10 @@ export default class ObjectRenderer {
         return inst.render(id);
     }
 
+    /** Set up the render params to render objects.
+     *  @param {RenderBatch} batch Batch to render to.
+     */
     _setupRenderParams(batch) {
-        /** Set up the render params to render objects.
-         *  @param {RenderBatch} batch Batch to render to.
-         */
         const gx = this.gx;
         const gl = this.gx.gl;
         if(this._isDrawingForPicker) {

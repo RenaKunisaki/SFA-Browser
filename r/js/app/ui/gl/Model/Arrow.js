@@ -40,30 +40,30 @@ const VTX_IDXS = [
     12, 10,  9,
 ];
 
+/** An arrow. */
 export default class Arrow extends Model {
-    /** An arrow. */
+    /** Construct arrow centered at given point.
+     *  @param {GX} gx GX instance to use.
+     *  @param {Array} pos Model position in 3D environment.
+     *  @param {Array} rot Model rotation on X, Y, Z axes, in radians.
+     *  @param {Array} scale Model scale on X, Y, Z axes.
+     */
     constructor(gx, pos=[0,0,0], rot=[0,0,0], scale=[1,1,1]) {
-        /** Construct arrow centered at given point.
-         *  @param {GX} gx GX instance to use.
-         *  @param {Array} pos Model position in 3D environment.
-         *  @param {Array} rot Model rotation on X, Y, Z axes, in radians.
-         *  @param {Array} scale Model scale on X, Y, Z axes.
-         */
         super(gx, pos, rot, scale);
         this.setColor(0xFF, 0xFF, 0xFF, 0xFF);
     }
 
+    /** Set the vertex colors.
+     *  @returns {Arrow} this.
+     */
     setColor(r, g, b, a=255) {
-        /** Set the vertex colors.
-         *  @returns {Arrow} this.
-         */
         this.color = [r,g,b,a];
         this._needsUpdate = true;
         return this;
     }
 
+    /** Recalculate buffers. Called after geometry changes. */
     _update() {
-        /** Recalculate buffers. Called after geometry changes. */
         const gl = this.gl;
         //do this now since it's faster than doing it on every render.
         let mtx = this.mtx ? mat4.clone(this.mtx) : mat4.create();

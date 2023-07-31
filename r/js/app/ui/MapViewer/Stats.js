@@ -45,8 +45,8 @@ const blockPropOrder = ['nRenderInstrsMain', 'nRenderInstrsReflective',
     'nHits',
 ];
 
+/** Widget displaying render stats. */
 export default class Stats {
-    /** Widget displaying render stats. */
     constructor(mapViewer) {
         this.mapViewer = mapViewer;
         this.game      = mapViewer.game;

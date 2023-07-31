@@ -68,14 +68,14 @@ export default class ArchiveViewer {
         return E.span(bView, bDownload);
     }
 
+    /** Called when clicking View button. */
     _viewFile(row) {
-        //called when clicking View button.
         if(this.cbView) this.cbView(row, this.file.decompress(row.fileOffset));
         else console.error("No view callback installed");
     }
 
+    /** Called when clicking Download button. */
     _downloadFile(row) {
-        //called when clicking Download button.
         download(this.file.decompress(row.fileOffset),
             `${hex(row.fileOffset,6)}.bin`);
     }

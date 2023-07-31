@@ -1,8 +1,8 @@
 import {MAP_CELL_SIZE} from "../../../game/Game.js";
 import { clearElement, E } from "../../../lib/Element.js";
 
+/** Widget displaying the grid of this map's blocks. */
 export default class Grid {
-    /** Widget displaying the grid of this map's blocks. */
     constructor(mapViewer) {
         this.mapViewer   = mapViewer;
         this.game        = mapViewer.game;

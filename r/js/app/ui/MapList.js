@@ -3,9 +3,9 @@ import Table from "./Table.js";
 import { assertType, hex } from "../../Util.js";
 import Game from "../../game/Game.js";
 
+/** Displays list of maps.
+ */
 export default class MapList {
-    /** Displays list of maps.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

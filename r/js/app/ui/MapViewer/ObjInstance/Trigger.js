@@ -14,11 +14,11 @@ import { hex } from "../../../../Util.js";
 //struct types
 let ObjSeqCmdEnum;
 
+/** Convert rotation value (0-65535) to radians.
+ *  @param {integer} n Rotation value.
+ *  @returns {float} Rotation in radians.
+ */
 function rot2rad(n) {
-    /** Convert rotation value (0-65535) to radians.
-     *  @param {integer} n Rotation value.
-     *  @returns {float} Rotation in radians.
-     */
     return (n/65535) * (Math.PI * 2);
 }
 

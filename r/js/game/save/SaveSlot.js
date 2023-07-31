@@ -1,9 +1,9 @@
 import { assertType, hex } from "../../Util.js";
 import Game from "../Game.js";
 
+/** One of the three save slots in the save file.
+ */
 export default class SaveSlot {
-    /** One of the three save slots in the save file.
-     */
     constructor(game, idx, save) {
         this.game  = assertType(game, Game);
         this.app   = game.app;

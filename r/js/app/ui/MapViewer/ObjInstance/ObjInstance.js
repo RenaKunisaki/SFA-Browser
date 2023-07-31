@@ -3,16 +3,16 @@ import Box from "../../gl/Model/Box.js";
 import { E } from "../../../../lib/Element.js";
 import { hex, hsv2rgb } from "../../../../Util.js";
 
+/** An instance of an object in a map. */
 export class ObjInstance {
-    /** An instance of an object in a map. */
+    /** Construct ObjInstance.
+     *  @param {GX} gx The GX instance to use for rendering.
+     *  @param {Game} game The game instance this belongs to.
+     *  @param {Map} map The game map this belongs to.
+     *  @param {RomListEntry} romListEntry The romlist entry that
+     *   defines this object instance.
+     */
     constructor(gx, game, map, romListEntry) {
-        /** Construct ObjInstance.
-         *  @param {GX} gx The GX instance to use for rendering.
-         *  @param {Game} game The game instance this belongs to.
-         *  @param {Map} map The game map this belongs to.
-         *  @param {RomListEntry} romListEntry The romlist entry that
-         *   defines this object instance.
-         */
         this.game  = game;
         this.map   = map;
         this.entry = romListEntry;
@@ -20,12 +20,12 @@ export class ObjInstance {
         this.gl    = gx.gl;
     }
 
+    /** Render the object.
+     *  @param {number} id The picker ID to set.
+     *  @returns {RenderBatch} A batch that renders this object at
+     *   its set position.
+     */
     render(id) {
-        /** Render the object.
-         *  @param {integer} id The picker ID to set.
-         *  @returns {RenderBatch} A batch that renders this object at
-         *   its set position.
-         */
         const x = this.entry.position.x;
         const y = this.entry.position.y;
         const z = this.entry.position.z;
@@ -41,10 +41,10 @@ export class ObjInstance {
         return batch;
     }
 
+    /** Turn romlist parameters into human-readable HTML.
+     *  @returns {object} Dict of name => element.
+     */
     decodeParams() {
-        /** Turn romlist parameters into human-readable HTML.
-         *  @returns {object} Dict of name => element.
-         */
         const result = {};
         if(!this.entry.params) return result;
         for(const [name, param] of Object.entries(this.entry.params)) {

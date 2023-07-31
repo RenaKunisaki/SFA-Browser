@@ -31,8 +31,8 @@ const SurfaceTypeColors = {
     metal:       [0xC0, 0xC0, 0xC0],
 };
 
+/** Renders map blocks. */
 export default class BlockRenderer {
-    /** Renders map blocks. */
     constructor(mapViewer, gx) {
         this.mapViewer = mapViewer;
         this.game = mapViewer.game;
@@ -60,14 +60,14 @@ export default class BlockRenderer {
         return batch;
     }
 
-    parse(block, whichStream, params={}) {
-        /** Parse the display lists.
-         *  @param {Block} block The block to render.
-         *  @param {string} whichStream One of 'main', 'water', 'reflective'
-         *   specifying which bitstream to use.
-         *  @param {object} params Render parameters.
-         *  @returns {RenderBatch} Parsed render batch.
-         */
+    /** Parse the display lists.
+     *  @param {Block} block The block to render.
+     *  @param {string} whichStream One of 'main', 'water', 'reflective'
+     *   specifying which bitstream to use.
+     *  @param {object} params Render parameters.
+     *  @returns {RenderBatch} Parsed render batch.
+     */
+   parse(block, whichStream, params={}) {
         if(!block.load(this.gx)) return null;
 
         const gx = this.gx;
@@ -101,11 +101,11 @@ export default class BlockRenderer {
         return this._batches[key];
     }
 
+    /** Set the ModelView matrix to position at a block.
+     *  @param {MapBlock} block Block to position at.
+     *  @param {boolean} yOffset Whether to include the block's Y offset.
+     */
     setMtxForBlock(block, yOffset=true) {
-        /** Set the ModelView matrix to position at a block.
-         *  @param {MapBlock} block Block to position at.
-         *  @param {boolean} yOffset Whether to include the block's Y offset.
-         */
         if(!block) return;
         let mv = mat4.clone(this.gx.context.matModelView);
         const map = this.mapViewer.map;
@@ -116,14 +116,14 @@ export default class BlockRenderer {
         this.gx.setModelViewMtx(mv);
     }
 
+    /** Render the block.
+     *  @param {Block} block The block to render.
+     *  @param {string} whichStream One of 'main', 'water', 'reflective'
+     *   specifying which bitstream to use.
+     *  @param {object} params Render parameters.
+     *  @returns {RenderBatch} The render batch.
+     */
     render(block, whichStream, params={}) {
-        /** Render the block.
-         *  @param {Block} block The block to render.
-         *  @param {string} whichStream One of 'main', 'water', 'reflective'
-         *   specifying which bitstream to use.
-         *  @param {object} params Render parameters.
-         *  @returns {RenderBatch} The render batch.
-         */
         this.curShaderIdx = null;
         this.curBlock     = block;
         this.curStream    = whichStream;
@@ -136,8 +136,8 @@ export default class BlockRenderer {
         return batch;
     }
 
+    /** Render the block's hit-lines from HITS.bin. */
     renderHits(block, params) {
-        /** Render the block's hit-lines from HITS.bin. */
         if(!block.hits) return null;
 
         const batch = this._getBatch('hits', block, params);
@@ -197,8 +197,8 @@ export default class BlockRenderer {
         return batch;
     }
 
+    /** Render the block's collision mesh. */
     renderCollisionMesh(block, params) {
-        /** Render the block's collision mesh. */
         const gx = this.gx;
         const gl = this.gx.gl;
         const batch = this._getBatch('collision', block, params);
@@ -243,8 +243,8 @@ export default class BlockRenderer {
         return batch;
     }
 
+    /** Render the block's polygon group bounding boxes. */
     renderPolyGroups(block, params) {
-        /** Render the block's polygon group bounding boxes. */
         const gx = this.gx;
         const gl = this.gx.gl;
         const batch = this._getBatch('polygroups', block, params);
@@ -463,10 +463,10 @@ export default class BlockRenderer {
         };
     }
 
+    /** Select a texture and shader.
+     *  This can affect how later commands are interpreted.
+     */
     _renderOpTexture() {
-        /** Select a texture and shader.
-         *  This can affect how later commands are interpreted.
-         */
         const gx  = this.gx;
         const gl  = this.gx.gl;
         const ops = this.curOps;
@@ -553,9 +553,9 @@ export default class BlockRenderer {
         }
     }
 
+    /** Call one of the block's display lists.
+     */
     _renderOpCallList() {
-        /** Call one of the block's display lists.
-         */
         const ops = this.curOps;
         const idx = ops.read(8);
         if(this.curBlock.dlists[idx] == undefined) {
@@ -610,9 +610,9 @@ export default class BlockRenderer {
         else if(LogRenderOps) console.log("Skipping dlist", idx, list);
     }
 
+    /** Change the vertex data format.
+     */
     _renderOpSetVtxFmt() {
-        /** Change the vertex data format.
-         */
         const INDEX8 = 2, INDEX16 = 3;
         const ops    = this.curOps;
         let posSize  = ops.read(1) ? INDEX16 : INDEX8;
@@ -652,9 +652,9 @@ export default class BlockRenderer {
             (TEX[4] <<  8) | (TEX[5] << 10) | (TEX[6] << 12) | (TEX[7] << 14));
     }
 
+    /** Load one of the block's matrices into GX XF registers.
+     */
     _renderOpMatrix() {
-        /** Load one of the block's matrices into GX XF registers.
-         */
         const ops   = this.curOps;
         const count = ops.read(4);
         const mtxs  = [];

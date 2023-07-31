@@ -21,9 +21,9 @@ function mapIdToColor(id) {
     return [r, g, b];
 }
 
+/** Displays global map grid.
+ */
 export default class MapGrid {
-    /** Displays global map grid.
-     */
     constructor(game) {
         this.game    = assertType(game, Game);
         this.app     = game.app;

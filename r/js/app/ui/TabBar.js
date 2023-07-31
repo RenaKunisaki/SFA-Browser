@@ -1,9 +1,9 @@
 import { E } from "../../lib/Element.js";
 
+/** A container for multiple elements that can be switched between
+ *  using a tab bar at the top.
+ */
 export default class TabBar {
-    /** A container for multiple elements that can be switched between
-     *  using a tab bar at the top.
-     */
     constructor(items) {
         this.tabs = {}; //label => {'eTab':tab elem, 'eBody':body elem}
         this._eTabBar = E.div('tabs');

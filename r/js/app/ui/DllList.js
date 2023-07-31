@@ -4,9 +4,9 @@ import { assertType } from "../../Util.js";
 import ErrorMessage from "./ErrorMessage.js";
 import Table from "./Table.js";
 
+/** Displays DLL info.
+ */
 export default class DllList {
-    /** Displays DLL info.
-     */
     constructor(game) {
         this.game = assertType(game, Game);
         this.app  = game.app;

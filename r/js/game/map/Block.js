@@ -11,9 +11,9 @@ import BlockHit from './BlockHit.js';
 let MapBlock = null;
 let GCPolygon, PolygonGroup, DisplayListPtr, Shader, HitsBinEntry, SurfaceType;
 
+/** One block of a map.
+ */
 export default class Block {
-    /** One block of a map.
-     */
     constructor(game, map, x, z, val) {
         this.game   =  assertType(game, Game)
         this.app    =  this.game.app;
@@ -42,14 +42,14 @@ export default class Block {
         }
     }
 
+    /** Load the block model from disc.
+     *  @param {GX} gx The GX instance to use.
+     *  @returns {boolean} Whether the block loaded successfully.
+     *  @note It's normal for some blocks to fail to load, since some
+     *   maps have blocks (eg #34) out of bounds, that don't actually
+     *   exist anywhere on the disc.
+     */
     load(gx) {
-        /** Load the block model from disc.
-         *  @param {GX} gx The GX instance to use.
-         *  @returns {boolean} Whether the block loaded successfully.
-         *  @note It's normal for some blocks to fail to load, since some
-         *   maps have blocks (eg #34) out of bounds, that don't actually
-         *   exist anywhere on the disc.
-         */
         if(this._triedLoad != undefined) return this._triedLoad;
         this.gx = gx;
         this._triedLoad = true;

@@ -1,6 +1,6 @@
+/** A GL shader program.
+ */
 export default class Program {
-    /** A GL shader program.
-     */
     constructor(context, sources=null) {
         this.ctx = context;
         this.gl  = context.gl;
@@ -8,12 +8,12 @@ export default class Program {
         if(sources) this.compile(sources);
     }
 
+    /** Compile shader source.
+     *  type: eg gl.VERTEX_SHADER
+     *  source: the code to compile
+     *  return: compiled shader object
+     */
     _compileShader(type, source) {
-        /** Compile shader source.
-         *  type: eg gl.VERTEX_SHADER
-         *  source: the code to compile
-         *  return: compiled shader object
-         */
         const gl = this.gl;
         const shader = gl.createShader(type);
         gl.shaderSource(shader, source);
@@ -27,10 +27,10 @@ export default class Program {
         return shader;
     }
 
+    /** Compile shader program.
+     *  sources: Dict of type (eg gl.VERTEX_SHADER) => code.
+     */
     compile(sources) {
-        /** Compile shader program.
-         *  sources: Dict of type (eg gl.VERTEX_SHADER) => code.
-         */
         const gl = this.gl;
         this.program = gl.createProgram();
 
