@@ -183,6 +183,30 @@ export default class Game {
         return obj;
     }
 
+    /** Translate texture ID the way the game does.
+     *  @param {number} id The texture ID.
+     *  @returns {Array[number]} The table index and which table.
+     */
+    translateTextureId(id) {
+        let tbl;
+        if(id < 0) id = -id;
+        else {
+            this.texTable.seek(id*2);
+            const newId = this.texTable.readU16();
+            id = newId + (((id < 3000) || (newId == 0)) ? 0 : 1);
+        }
+        if(id & 0x8000) {
+            id &= 0x7FFF;
+            tbl = 1; //TEX1
+        }
+        else if(id >= 3000) {
+            //you'd expect id -= 3000 here, but nope
+            tbl = 2; //TEXPRE
+        }
+        else tbl = 0; //TEX0
+        return [id, tbl];
+    }
+
     loadTexture(id, dir) {
         if(this.loadedTextures[id]) return this.loadedTextures[id];
 
@@ -211,16 +235,8 @@ export default class Game {
 
         //translate the ID
         const origId = id;
-        if(id < 0) id = -id;
-        else {
-            this.texTable.seek(id*2);
-            const newId = this.texTable.readU16();
-            console.log(`texId 0x${hex(id,4)} => 0x${hex(newId,4)}`)
-            id = newId + (((id < 3000) || (newId == 0)) ? 0 : 1);
-        }
-        let tblIdx = 0;
-        if     (id & 0x8000) { tblIdx = 1; id &= 0x7FFF; }
-        else if(id >=  3000) { tblIdx = 2; }
+        let [newId, tblIdx] = this.translateTextureId(id);
+        id = newId;
 
         //find the texture
         const fBin=bins[tblIdx], fTab=tabs[tblIdx];
@@ -229,14 +245,12 @@ export default class Game {
         //console.log(`Load texture ${id} from offs 0x${hex(texOffs,8)} tbl ${tblIdx}`);
 
         //load the texture
-        //XXX investigate high byte of tab, something to do with mipmaps
-        //and/or animation frames
-        let unkCount = ((texOffs >> 24) & 0x3F);
-        if(unkCount == 1) unkCount = 0;
-        else unkCount += 1;
+        let nFrames = ((texOffs >> 24) & 0x3F);
+        if(nFrames == 1) nFrames = 0;
+        else nFrames += 1;
         texOffs = (texOffs & 0xFFFFFF) * 2;
-        const data = fBin.decompress(texOffs + (unkCount*4));
-        console.log(`texId=0x${hex(id)} tbl=${tblIdx} texOffs=0x${hex(texOffs,6)} unkCount=${unkCount}`, data);
+        const data = fBin.decompress(texOffs + (nFrames*4));
+        console.log(`texId=0x${hex(id)} tbl=${tblIdx} texOffs=0x${hex(texOffs,6)} frames=${nFrames}`, data);
 
         const texView = new DataView(data);
         const tex = SfaTexture.fromData(this, texView);

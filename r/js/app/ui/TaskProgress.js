@@ -59,6 +59,7 @@ export default class TaskProgress {
     }
 
     _updateDisplay(params) {
+        if(params.addDone   != undefined) this.stepsDone += params.addDone;
         if(params.taskText  != undefined) this.taskText  = params.taskText;
         if(params.subText   != undefined) this.subText   = params.subText;
         if(params.stepsDone != undefined) this.stepsDone = params.stepsDone;

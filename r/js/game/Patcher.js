@@ -3,12 +3,24 @@ import { assertType, getBin } from "../Util.js";
 import { Command } from "./text/Command.js";
 import { ISO } from "../types/iso/iso.js";
 import { TaskCancelled } from "../app/ui/TaskProgress.js";
+import TextureArchive from "./map/TextureArchive.js";
 
 /* maybe better way to handle patching is to just iterate all files
  * in the ISO and patch them according to their name/path/format,
  * building the new ISO file by file.
  * that would also simplify adding files, since we can add them
  * into the FST as we go.
+ * but maybe this approach doesn't work because we need to generate
+ * a .bin and .tab at the same time.
+ * we can't guarantee which one we see first when iterating.
+ * probably we should treat the ISO as a set of map dirs + misc files/dirs.
+ * we can treat all files in the root, and all non-map dirs, as misc.
+ *
+ * what we should probably do is a hybrid approach: generate updated
+ * archives for each map, then iterate the ISO, replacing/patching
+ * files as needed including those updated files.
+ * also, feels like we should be able to do something like Map.Textures
+ * to manage the texture archives...
  */
 
 /** The game patch manager.
@@ -80,6 +92,8 @@ export default class Patcher {
     async generateIso() {
         this.app.progress.show({
             taskText: "Generating ISO",
+            stepsDone: 0,
+            numSteps: this.game.iso.files.length + 5, //5 system files
         });
         try {
             this._mapDirs = [...new Set(Object.values(this.game.mapDirs))];
@@ -87,8 +101,10 @@ export default class Patcher {
             this.iso = iso;
             for(let file of this.game.iso.files) {
                 await this.app.progress.update({
-                    subText: `Add: ${fileOp.to}`,
+                    subText: file.path,
+                    addDone: 1,
                 });
+                await this._copyFile(file);
             }
         }
         catch(ex) {
@@ -96,6 +112,19 @@ export default class Patcher {
         }
         finally {
             this.app.progress.hide();
+        }
+    }
+
+    /** Copy this file to the new ISO, applying patches as needed.
+     *  @param {IsoFile} file The file.
+     */
+    async _copyFile(file) {
+        switch(file.name) {
+            //inconsistent upper/lowercase is correct here
+            case 'ANIM.BIN':
+            case 'ANIM.TAB':
+            case 'ANIMCURV.bin':
+            case 'ANIMCURV.tab':
         }
     }
 
@@ -116,6 +145,10 @@ export default class Patcher {
                         subText: `Patch: ${fileOp.file}`,
                     });
                     //XXX
+                    //if we're doing per-file patches do we even
+                    //need xdelta? can we not just write a dead
+                    //simple format similar to IPS, or implement
+                    //UPS or BPS or whatever?
                     break;
                 }
                 default:
@@ -124,15 +157,9 @@ export default class Patcher {
         }
     }
 
-    /** Apply texture replacements. */
-    async _doTextures() {
-        //get common files
-        this.TEXTABLE = this.iso.getFile('/TEXTABLE.bin').getTypedArray(Int16Array);
-        const fTexPbin = this.iso.getFile('/TEXPRE.bin').getTypedArray(Uint32Array);
-        const fTexPtab = this.iso.getFile('/TEXPRE.tab');
-        const TEXPRETAB = fTexPtab.getTypedArray(Uint32Array);
-
-        //download the replacements
+    /** Download new assets for this patch */
+    async _downloadPatchAssets() {
+        //XXX add other asset types
         let n=0;
         const count = this.patch.assets.textures.length;
         for(let [_id, patch] of Object.entries(this.patch.assets.textures)) {
@@ -142,29 +169,52 @@ export default class Patcher {
                 numSteps: count,
             });
             n++;
-            patch.data = await getBin(`${this.path}/${patch.src}`);
+            patch.data = getBin(`${this.path}/${patch.src}`);
         }
+    }
 
+    /** Get the texture archives for this map, as well as the common files.
+     *  @param {string} dir The map directory name.
+     *  @returns {object} The tables and binaries.
+     */
+    async _getMapTextureFiles(dir) {
+        if(!this.TEXPRETAB) {
+                //get common files
+            this.TEXTABLE  = this.iso.getFile('/TEXTABLE.bin').getTypedArray(Int16Array);
+            this.fTexPbin  = this.iso.getFile('/TEXPRE.bin').getTypedArray(Uint32Array);
+            this.fTexPtab  = this.iso.getFile('/TEXPRE.tab');
+            this.TEXPRETAB = fTexPtab.getTypedArray(Uint32Array);
+        }
+        const fTex0bin  = this.iso.getFile(`/${dir}/TEX0.bin`).getTypedArray(Uint32Array);
+        const fTex0tab  = this.iso.getFile(`/${dir}/TEX0.tab`).getTypedArray(Uint32Array);
+        const fTex1bin  = this.iso.getFile(`/${dir}/TEX1.bin`).getTypedArray(Uint32Array);
+        const fTex1tab  = this.iso.getFile(`/${dir}/TEX1.tab`).getTypedArray(Uint32Array);
+        return {
+            tables: [fTex0tab, fTex1tab, this.TEXPRETAB],
+            bins:   [fTex0bin, fTex1bin, this.fTexPbin],
+        };
+    }
+
+    /** Apply texture replacements. */
+    async _doTextures() {
         //process each map
         n = 0;
-        for(let dir of this._mapDirs) {
+        for(let [dirId, dir] of Object.entries(this.game.mapDirs)) {
+            const files = this._getMapTextureFiles(dir);
             await this.app.progress.update({
                 subText: `Update map textures: ${dir}`,
                 stepsDone: n,
                 numSteps: this._mapDirs.length,
             });
-            const fTex0bin  = this.iso.getFile(`/${dir}/TEX0.bin`).getTypedArray(Uint32Array);
-            const fTex0tab  = this.iso.getFile(`/${dir}/TEX0.tab`).getTypedArray(Uint32Array);
-            const fTex1bin  = this.iso.getFile(`/${dir}/TEX1.bin`).getTypedArray(Uint32Array);
-            const fTex1tab  = this.iso.getFile(`/${dir}/TEX1.tab`).getTypedArray(Uint32Array);
-            const tables    = [fTex0tab, fTex1tab, TEXPRETAB];
+
             const additions = [];
             for(let [_id, patch] of Object.entries(this.patch.assets.textures)) {
                 //duplicate the game's logic
-                let [id, tbl] = this._translateTextureId(_id);
-                id = tables[tbl][id];
+                let [id, tbl] = this.game.translateTextureId(_id);
+                id = files.tables[tbl][id];
                 if((id & 0xFF000000) == 0x01000000) {
-                    //texture is not present
+                    //texture is not present (this entry points to the
+                    //placeholder texture)
                     if(!patch.force) continue; //do not add it
                     additions.push({
                         patch: patch,
@@ -180,40 +230,16 @@ export default class Patcher {
             }
 
             if(!additions) continue; //nothing to do for this map
-            this._applyTexturePatchesToMap(additions, {
-                tables: tables,
-                bins:   [fTex0bin, fTex1bin, fTexPbin],
-            });
+            this._applyTexturePatchesToMap(additions, dirId, files);
         }
-    }
-
-    /** Translate texture ID the way the game does.
-     *  @param {number} id The texture ID.
-     *  @returns {Array[number]} The table index and which table.
-     */
-    _translateTextureId(id) {
-        let tbl;
-        const origId = id;
-        if(id < 0) id = -id;
-        else id = this.TEXTABLE[id];
-        if(origId < 3000 || id == 0) id += 1;
-        if(id & 0x8000) {
-            id &= 0x7FFF;
-            tbl = 1; //TEX1
-        }
-        else if(id >= 3000) {
-            //you'd expect id -= 3000 here, but nope
-            tbl = 2; //TEXPRE
-        }
-        else tbl = 0; //TEX0
-        return [id, tbl];
     }
 
     /** Apply the texture changes to this map.
      *  @param {Array} additions The textures to add/replace.
+     *  @param {number} dirId The map directory ID.
      *  @param {object} files The table/archive files to use.
      */
-    _applyTexturePatchesToMap(additions, files) {
+    _applyTexturePatchesToMap(additions, dirId, files) {
         //here we need to separate the archives into arrays of
         //binary blobs based on the tables,
         //shove the additions into the arrays at the right spots,
@@ -221,113 +247,125 @@ export default class Patcher {
         //pack the arrays back into one big blob, and
         //rebuild the table.
         for(let iTbl=0; iTbl<3; iTbl++) {
-            let table   = files.tables[iTbl];
-            let archive = files.bins[iTbl];
-            const blobs = this._splitTextureFile(table, archive);
-            //for textures, it shouldn't matter what order they're in...
+            const table   = files.tables[iTbl];
+            const bin     = files.bins[iTbl];
+            const arc     = new TextureArchive(this.game, dirId, iTbl);
+            const regions = arc.getRegions();
+            const newData = [];
+            const newTab  = [];
+            const addIdxs = {};
             for(let add of additions) {
-                if(add.tbl != iTbl) continue;
-                blobs[add.idx].data   = add.patch.data;
-                blobs[add.idx].length = add.patch.data.byteLength;
-                blobs[add.idx].count  = add.patch.frames;
+                if(add.tbl == iTbl) addIdxs[add.idx] = add;
+            }
+
+            let offset = 0;
+            for(let idx=0; idx<regions.length; idx++) {
+                const add = addIdxs[idx];
+                if(add) {
+                    //insert the new data, replacing any that was there.
+                    newTab.push((offset >> 1) | ((add.patch.frames + 1) << 24));
+                    newData.push(add.patch.data);
+                    offset += add.patch.data.byteLength;
+                }
+                else if(regions[idx]) {
+                    //copy the data out of the original file.
+                    const bufStart = bin.buffer.byteOffset;
+                    const [offs, size] = regions[idx]
+                    newData.push(bin.buffer.slice(bufStart+offs,
+                        bufStart+offs+size));
+
+                    //copy the frame count from the original table.
+                    const frames = (table[idx] >> 24) - 1;
+                    newTab.push((offset >> 1) | ((frames + 1) << 24));
+                    offset += size;
+                }
+                else {
+                    //1 frame at offset 0 (the placeholder texture)
+                    newTab.push(0x01000000);
+                }
             }
 
             //rebuild the table and archive
             const result = this._buildTexTable(blobs);
 
-            //XXX replace the files in the ISO with result.bin and result.tab
+            //replace files in ISO
+            this.iso.newFile(arc.pathBin, result.bin, true);
+            this.iso.newFile(arc.pathTab, result.tab, true);
         }
-    }
-
-    /** Split a texture file into individual binary blobs.
-     *  @param {Uint32Array} table The table file data.
-     *  @param {Uint32Array} archive The binary file.
-     *  @returns {Array} A list of each entry's offset and length
-     *      within the binary, its flags, and the number of frames.
-     */
-    _splitTextureFile(table, archive) {
-        let blobs = [];
-        for(let iEntry=0; iEntry<table.length; iEntry++) {
-            let offset = table[iEntry];
-            if(offset == 0xFFFFFFFF) break;
-            const blob = {
-                offset: (offset & 0xFFFFFF) * 2,
-                flags:  (offset >> 30),
-                count:  (offset >> 24) & 0x3F,
-                length: 0,
-                data:   null,
-            };
-            blobs.append(blob);
-            if(!blob.flags) continue; //texture isn't present
-            if(blob.count == 1) {
-                //at this offset is one ZLB archive
-                blob.length = archive[(blob.offset >> 2)+3];
-            }
-            else {
-                //at this offset is (count+1) u32 values
-                //each value (plus this offset) is the offset of
-                //one ZLB archive.
-                //they're in order, so get the last one.
-                const offs = (blob.offset >> 2);
-                let last = archive[offs+(blob.count-1)];
-                blob.length = (count*4) + archive[(offs+(last>>2))+3];
-            }
-            blob.data = archive.buffer.slice(
-                blob.offset + archive.offset,
-                blob.offset + archive.offset + blob.length,
-            );
-        }
-        return blobs;
     }
 
     /** Build a texture offset table and binary archive.
-     *  @param {Array} blobs The texture binary blobs.
+     *  @param {Array} newData The textures themselves as raw binary.
+     *  @param {Array} newTab The table entry for each texture.
      *  @returns {object} The TEXn.bin and TEXn.tab file contents.
-     *  @note Expects the blobs to be padded to a multiple of 32 bytes.
+     *  @note Expects the textures to be padded to a multiple of 32 bytes.
+     *     Expects the table to NOT be padded.
      */
-    _buildTexTable(blobs) {
+    _buildTexTable(newData, newTab) {
         //calculate table length (number of 32-bit words)
         //padding is to 32 bytes, so 8 words
-        let len = blobs.length;
+        let len = newTab.length;
         let pad = len & 7;
         if(pad) len += 8 - pad;
         len += 1; //checksum
         pad = len & 7;
         if(pad) len += 8 - pad;
+
+        //create the table
         let newTbl = new Uint32Array(len);
-        let offset = 0;
-        let cksum  = 0;
-        let idx    = 0;
-        for(let blob of blobs) {
-            let entry = 0x01000000;
-            if(blob.length > 0) {
-                entry = (blob.count << 24) | 0x80000000 | (offset >> 2);
-            }
-            newTbl[idx++] = entry;
-            blob.offset = offset;
-            offset += blob.length;
-            cksum  +=  entry >> 24;
-            cksum  += (entry >> 16) & 0xFF;
-            cksum  += (entry >>  8) & 0xFF;
-            cksum  +=  entry        & 0xFF;
+        let idx = 0;
+        while(idx < newTab.length) {
+            newTbl[idx] = newTab[idx];
+            idx++;
         }
         newTbl[idx++] = 0xFFFFFFFF; //end of file
         while(idx & 7) newTbl[idx++] = 0; //padding
-        newTbl[idx++] = (cksum & 0xFFFFFFFF);
+        newTbl[idx++] = this._calcTableChecksum(newTbl);
         while(idx & 7) newTbl[idx++] = 0; //padding
 
         //create the archive
-        let bin = new Uint8Array(offset);
-        for(let blob of blobs) {
-            if(blob.data != null) {
-                bin.set(blob.data, blob.offset);
-            }
+        const arcLen = newData.map(it => it.byteLength).reduce(
+            (accum, curVal) => accum + curVal); //get length sum
+        const arcBuf = new ArrayBuffer(arcLen);
+        const arcArr = new Uint8Array(arcBuf);
+
+        let offset = 0;
+        for(let data of newData) { //copy data into archive
+            arcArr.set(data, offset);
+            offset += data.byteLength;
         }
 
         return {
             tab: newTbl,
-            bin: bin,
+            bin: arcBuf,
         };
+    }
+
+    /** Calculate the checksum for a table file.
+     *  @param {TypedArray} table The table data.
+     *  @returns {number} The checksum.
+     *  @note Checksums are ignored by the final game version.
+     */
+    _calcTableChecksum(table) {
+        let result = 0;
+        if(table instanceof Uint32Array) {
+            for(let entry of table) {
+                result  +=  entry >> 24;
+                result  += (entry >> 16) & 0xFF;
+                result  += (entry >>  8) & 0xFF;
+                result  +=  entry        & 0xFF;
+            }
+        }
+        else if(table instanceof Uint16Array) { //XXX do these have checksums?
+            for(let entry of table) {
+                result  += entry >> 8;
+                result  += entry & 0xFF;
+            }
+        }
+        else {
+            throw new TypeError(`Unexpected table type: ${table}`);
+        }
+        return result & 0xFFFFFFFF;
     }
 
     /** Parse gametext element.

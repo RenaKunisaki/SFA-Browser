@@ -215,5 +215,6 @@ export default class PatchManagerTab {
         const patcher  = new Patcher(this.game);
         const xml = await getXml(`${patch.path}/${selVer}/patch.xml`);
         patcher.loadPatch(`${patch.path}/${selVer}`, xml);
+        await patcher.generateIso();
     }
 }
