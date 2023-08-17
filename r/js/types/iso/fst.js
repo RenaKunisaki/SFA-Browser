@@ -3,6 +3,8 @@ import IsoFile from './isofile.js';
 //ISO directory structure
 let FstEntry;
 
+/** The filesystem table.
+ */
 export class FST {
     constructor(app) {
         this.app       = app;
@@ -13,6 +15,11 @@ export class FST {
         FstEntry = this.app.types.getType('iso.FstEntry');
     }
 
+    /** Read the table from a buffer.
+     *  @param {ArrayBufferLike} buffer The buffer to read from.
+     *  @param {number} offset Where to start reading from.
+     *  @returns {FST} this.
+     */
     read(buffer, offset=0) {
         const view = new DataView(buffer);
         let   root = this._readEntry(view, offset);
@@ -64,9 +71,16 @@ export class FST {
         return this;
     }
 
+    /** Read a directory.
+     *  @param {number} idx The entry index at which the directory begins.
+     *  @param {string} path The absolute path of the directory.
+     *  @param {number} _depth The current recursion depth.
+     *  @returns The next index that does NOT belong to this directory.
+     *  @note Reads subdirectories recursively.
+     */
     _readFstDir(idx, path, _depth=0) {
-        if(_depth >= 10) {
-            throw new Error("Maximum depth exceeded");
+        if(_depth >= 50) {
+            throw new Error("Maximum ISO directory depth exceeded");
         }
         const entry = this._entries[idx];
         idx++;
@@ -80,6 +94,12 @@ export class FST {
         return idx;
     }
 
+    /** Read a null-terminated ASCII string.
+     *  @param {DataView} view The view to read from.
+     *  @param {number} offset The offset to read from.
+     *  @param {number} maxLen The maximum length to read.
+     *  @returns {string} The string.
+     */
     _readString(view, offset, maxLen=1000000) {
         let res = '';
         while(res.length < maxLen) {
@@ -90,6 +110,11 @@ export class FST {
         return res;
     }
 
+    /** Read one entry from the ISO.
+     *  @param {DataView} view The view to read from.
+     *  @param {number} offset The offset to read from.
+     *  @returns {object} The entry.
+     */
     _readEntry(view, offset) {
         const data = FstEntry.fromBytes(view, offset);
         const type = (data.nameOffs >> 24) & 0xFF;
@@ -99,10 +124,14 @@ export class FST {
         //    "offset", hex(data.fileOffs), "size", hex(data.size));
 
         const entry = {
-            nameOffs: data.nameOffs & 0xFFFFFF,
-            isDir:    type != 0,
-            idx:      this._entries.length,
-            parent:   null,
+            nameOffs:  data.nameOffs & 0xFFFFFF,
+            isDir:     type != 0,
+            idx:       this._entries.length,
+            parent:    null,
+            parentIdx: null,
+            nextIdx:   null,
+            fileOffs:  null,
+            fileSize:  null,
         };
         if(entry.isDir) {
             entry.parentIdx = data.fileOffs; //parent directory idx
