@@ -51,13 +51,14 @@ export default class SaveInfo {
         }
         return E.div('scores',
             E.h2(null, "High Scores (Arwing)"),
+            E.div('note', "These scores are shared by all save slots."),
             this._makeScoreTable(save, 'scoresToPlanet',    "Dinosaur Planet"),
             this._makeScoreTable(save, 'scoresDarkIce',     "DarkIce Mines"),
             this._makeScoreTable(save, 'scoresCloudRunner', "CloudRunner Fortress"),
             this._makeScoreTable(save, 'scoresWallCity',    "Walled City"),
             this._makeScoreTable(save, 'scoresDragonRock',  "Dragon Rock"),
-            E.div('note', "These scores are shared by all save slots."),
             E.h2(null, "Best Times (LightFoot Village)"),
+            E.div('note', "These times are specific to this save slot."),
             E.table('bestTimes',
                 E.tr('title', E.th(null, "Test of Strength", {colspan:2})),
                 E.tr(null, E.td(null, "1st"), E.td(null, testStrength[0])),
@@ -70,7 +71,6 @@ export default class SaveInfo {
                 E.tr(null, E.td(null, "2nd"), E.td(null, testTracking[1])),
                 E.tr(null, E.td(null, "3rd"), E.td(null, testTracking[2])),
             ),
-            E.div('note', "These times are specific to this save slot."),
         );
     }
 
@@ -194,6 +194,44 @@ export default class SaveInfo {
         );
     }
 
+    _makeSavedObjsTable(slot) {
+        const eTable = E.table('savedObjs',
+            E.tr('title', E.th(null, "Saved Objects", {colspan:6})),
+            E.tr(null, E.th(null, "ID"), E.th(null, "X"), E.th(null, "Y"),
+                E.th(null, "Z"), E.th(null, "Map"), E.th(null, "Object"),
+            ),
+        );
+        console.log("slot", slot);
+        for(let obj of slot.objs) {
+            let map = null;
+            if(this.game.mapGrid) {
+                //layer info isn't saved
+                for(let i=-2; i<=2; i++) {
+                    map = this.game.getMapAt(i, obj.pos.x, obj.pos.z);
+                    if(map) break;
+                }
+            }
+            let objName = "unknown";
+            if(map) {
+                let entry = map.romList.objsByUniqueId[obj.id];
+                if(entry && entry.object) {
+                    objName = entry.object.name;
+                }
+            }
+            eTable.append(
+                E.tr('obj',
+                    E.td('id hex', hex(obj.id, 8)),
+                    E.td('x coord float', obj.pos.x),
+                    E.td('y coord float', obj.pos.y),
+                    E.td('z coord float', obj.pos.z),
+                    E.td('name map', map ? map.name : "unknown"),
+                    E.td('name object', objName),
+                ),
+            );
+        }
+        return eTable;
+    }
+
     refresh() {
         const save = this.app.saveGame;
         const slot = this.app.saveSlot;
@@ -204,7 +242,8 @@ export default class SaveInfo {
             this._makeSettingsTable(save),
             this._makeSlotTable(slot),
             this._makeCharsTable(slot),
-            this._makeScoresTable(save, slot)
+            this._makeScoresTable(save, slot),
+            this._makeSavedObjsTable(slot),
         );
         clearElement(this.element).append(elem);
     }

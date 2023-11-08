@@ -14,9 +14,23 @@ export default class SaveSlot {
         this.gameBits = null;
 
         //get other fields (HACK)
-        const fields = ['trickyEnergy', 'maxTrickyEnergy', 'trickyPlayCount',
-            'unk1B', 'character', 'flags21', 'flags22', 'unk23', 'texts',
-            'numTexts', 'unk55F', 'unk6A4', 'unk6A6', 'charState', 'charPos'];
+        const fields = [
+            'trickyEnergy',
+            'maxTrickyEnergy',
+            'trickyPlayCount',
+            'unk1B',
+            'character',
+            'flags21',
+            'flags22',
+            'unk23',
+            'texts',
+            'numTexts',
+            'unk55F',
+            'unk6A4',
+            'unk6A6',
+            'charState',
+            'charPos',
+            'objs'];
         for(let f of fields) {
             this[f] = this._save[f];
         }

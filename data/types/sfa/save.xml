@@ -93,9 +93,14 @@
     </struct>
 
     <struct name="SaveGameObjectPos">
-        <note>rarely used</note>
         <field name="id" type="ObjUniqueId" />
         <field name="pos" type="vec3f" />
+    </struct>
+
+    <struct name="SaveGameTimeLog">
+        <note>rarely used</note>
+        <field name="id" type="ObjUniqueId" />
+        <field name="time" type="float" />
     </struct>
 
     <struct name="SaveGameStruct">
@@ -131,6 +136,7 @@
         </field>
         <field name="unk6A6" type="s16" />
         <field name="env" type="SaveGameEnvState" />
+        <field name="times" type="SaveGameTimeLog" count="256" />
     </struct>
 
     <struct name="CardIconsAndText">
@@ -164,6 +170,12 @@
     <struct name="ActualSaveData">
         <field name="saves" type="SaveGameStruct" count="3" />
         <field name="global" type="SaveSettingsAndScores" />
+    </struct>
+
+    <struct name="RamSaveData">
+        <description>The save data in memory; also what Amethyst Wii writes for .sav files</description>
+        <field name="global" type="SaveSettingsAndScores" />
+        <field name="save" type="SaveGameStruct" />
     </struct>
 
     <struct name="CardFileStruct">

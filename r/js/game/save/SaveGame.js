@@ -3,7 +3,7 @@ import Game from '../Game.js';
 import SaveSlot from './SaveSlot.js';
 
 //struct types
-let Header, ActualSaveData, CardFileStruct, SaveGameStruct;
+let Header, ActualSaveData, CardFileStruct, SaveGameStruct, RamSaveData;
 
 /** Reads the entire CardFileStruct from a File or Blob.
  */
@@ -17,6 +17,7 @@ export class SaveGame {
         ActualSaveData = this.app.types.getType('sfa.save.ActualSaveData');
         CardFileStruct = this.app.types.getType('sfa.save.CardFileStruct');
         SaveGameStruct = this.app.types.getType('sfa.save.SaveGameStruct');
+        RamSaveData    = this.app.types.getType('sfa.save.RamSaveData');
     }
 
     /** Load a save file.
@@ -39,6 +40,9 @@ export class SaveGame {
         }
         else if(file.size >= 0x6040) {
             await this._parseGci(view);
+        }
+        else if(file.size == 2000) {
+            this._parseRamSave(view);
         }
         else if(file.size == 1772 || file.size == 3952 || file.size == 6144) {
             //3952: save1.bin, a single save slot + a bunch of zeros
@@ -105,6 +109,18 @@ export class SaveGame {
         this.global = null;
         this.saves  = [
             new SaveSlot(this.game, 0, SaveGameStruct.fromBytes(view)),
+        ];
+    }
+
+    _parseRamSave(view) {
+        /** Parse save data from RAM dump.
+         *  This is also the format for Amethyst Wii save files.
+         *  @param {DataView} view The view to read from.
+         */
+        this.data = RamSaveData.fromBytes(view);
+        this.global = this.data.global;
+        this.saves = [
+            new SaveSlot(this.game, 0, this.data.save),
         ];
     }
 }
