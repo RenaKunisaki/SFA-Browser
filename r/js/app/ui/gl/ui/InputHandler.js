@@ -69,13 +69,18 @@ export default class InputHandler {
         else this.viewer.viewController.moveByVector(
             {x:0, y:-event.deltaY});
     }
-    _onMouseDown(event) {
+    async _onMouseDown(event) {
         this._doCallback('onMouseDown', event);
+        if(event.buttons == 1) {
+            if(!this.viewer) return;
+            const obj = await this.viewer._getObjAt(event.clientX, event.clientY);
+            this.viewer.infoWidget.show(obj);
+        }
     }
     _onMouseUp(event) {
         this._doCallback('onMouseUp', event);
     }
-    _onMouseMove(event) {
+    async _onMouseMove(event) {
         this._doCallback('onMouseMove', event);
 
         if(!this.viewer || !this.viewer.viewController) return;
@@ -108,8 +113,8 @@ export default class InputHandler {
         }
         else {
             this._mouseStartView = null;
-            const obj = this.viewer._getObjAt(event.clientX, event.clientY);
-            this.viewer.infoWidget.show(obj);
+            //const obj = await this.viewer._getObjAt(event.clientX, event.clientY);
+            //this.viewer.infoWidget.show(obj);
         }
         this._prevMousePos = [event.x, event.y];
     }
