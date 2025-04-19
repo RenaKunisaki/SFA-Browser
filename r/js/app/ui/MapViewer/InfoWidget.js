@@ -37,7 +37,7 @@ export default class InfoWidget {
             ObjCatId = this.app.types.getType('sfa.objects.ObjCatId');
         }
 
-        console.log("show", info);
+        //console.log("show", info);
         switch(info.type) {
             case 'blockHit':      this._showBlockHit(info);       break;
             case 'collisionMesh': this._showBlockCollision(info); break;

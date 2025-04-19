@@ -108,8 +108,8 @@ export default class InputHandler {
         }
         else {
             this._mouseStartView = null;
-            //const obj = view._getObjAt(event.clientX, event.clientY);
-            //view.infoWidget.show(obj);
+            const obj = this.viewer._getObjAt(event.clientX, event.clientY);
+            this.viewer.infoWidget.show(obj);
         }
         this._prevMousePos = [event.x, event.y];
     }

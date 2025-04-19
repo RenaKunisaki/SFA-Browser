@@ -549,13 +549,13 @@ export default class ViewController {
                             title:"Enable backface culling",
                         }),
                     ), */
-                    //currently doesn't work
-                    /* E.tr(
+                    //currently doesn't work (but did just one time?)
+                    E.tr(
                         E.td({colspan:2},
                             this.chkShowPickBuffer, this.lblShowPickBuffer, {
                             title:"Render the pick buffer for debug",
                         }),
-                    ), */
+                    ),
                 ),
             ),
         );

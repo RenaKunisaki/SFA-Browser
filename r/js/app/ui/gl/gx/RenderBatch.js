@@ -24,6 +24,7 @@ function CHECK_ERROR(gl) {
     if(enableErrorChecking) {
         let err = gl.getError();
         console.assert(!err);
+        if(err) debugger;
     }
 }
 
@@ -442,8 +443,10 @@ export default class RenderBatch {
     attribtue buffers.
     supposedly there's bugs in some platforms that cause this when
     using DYNAMIC_DRAW as well?
+
     "insufficient buffer size" means index and/or count exceed the
     number of elements in the index buffer.
+
     having nothing drawn might mean all zeroes were passed for colors
     and blending is enabled (everything is invisible), or that your
     viewport's size is zero because you didn't wait for the canvas

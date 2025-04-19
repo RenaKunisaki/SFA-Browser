@@ -269,11 +269,15 @@ export default class GX extends GXConstants {
         this.pickerObjs = [];
     }
     addPickerObj(obj) {
+        //add object to picker buffer and return ID
         this.pickerObjs.push(obj);
-        return this.pickerObjs.length - 1;
+        //we don't use the low byte because it's treated as an alpha
+        //channel and gets forced to 0xFF. (XXX this didn't happen before?)
+        return (this.pickerObjs.length - 1) << 8;
     }
     getPickerObj(idx) {
-        return this.pickerObjs[idx];
+        //given ID, return picker buffer object
+        return this.pickerObjs[idx >> 8];
     }
 
     //XXX document this or something

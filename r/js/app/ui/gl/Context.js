@@ -170,8 +170,18 @@ export default class Context {
      */
     _setFramebufferAttachmentSizes() {
         const gl = this.gl;
-        const width=gl.drawingBufferWidth, height=gl.drawingBufferHeight;
+        let width=gl.drawingBufferWidth, height=gl.drawingBufferHeight;
         if(width < 1 || height < 1) return;
+
+        const maxSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+        if(width > maxSize || height > maxSize) {
+            console.warn("GL draw buffer size %dx%d > max texture size %d",
+                width, height, maxSize);
+            if(width  > maxSize) width  = maxSize;
+            if(height > maxSize) height = maxSize;
+        }
+        this.pickBufferWidth  = width;
+        this.pickBufferHeight = height;
 
         gl.bindTexture(gl.TEXTURE_2D, this._targetTexture);
         // define size and format of level 0
@@ -196,13 +206,14 @@ export default class Context {
      *  @returns {integer} Value from pick buffer.
      */
     async readPickBuffer(x, y) {
+        if(this.showPickBuffer) return 0xFFFFFFFF; //can't read from buffer while showing it
         const gl     = this.gl;
         const data   = new Uint8Array(4);
         const rect   = gl.canvas.getBoundingClientRect();
-        const mouseX = Math.round(x - rect.left);
-        const mouseY = Math.round(y - rect.top);
-        const pixelX = Math.trunc(mouseX * (gl.canvas.width / gl.canvas.clientWidth));
-        const pixelY = Math.trunc((gl.canvas.height - mouseY) * (gl.canvas.height / gl.canvas.clientHeight));
+        const mouseX = ((x - rect.left) / (rect.right - rect.left));
+        const mouseY = ((y - rect.top)  / (rect.bottom - rect.top));
+        const pixelX = Math.trunc(mouseX * this.pickBufferWidth);
+        const pixelY = Math.trunc((1 - mouseY) * this.pickBufferHeight);
         await this._drawPicker();
         gl.readBuffer(gl.COLOR_ATTACHMENT0);
         gl.readPixels(
@@ -210,9 +221,10 @@ export default class Context {
             gl.RGBA,              // format
             gl.UNSIGNED_BYTE,     // type
             data);                // typed array to hold result
-        console.log("Read picker", x, y, "=>", pixelX, pixelY, "data", data,
-            "rect", rect, "client", gl.canvas.clientWidth, gl.canvas.clientHeight,
-            "wh", gl.canvas.width, gl.canvas.height);
+
+        //console.log("Read picker", x, y, "=>", pixelX, pixelY, "data", data,
+        //    "rect", rect, "client", gl.canvas.clientWidth, gl.canvas.clientHeight,
+        //    "wh", gl.canvas.width, gl.canvas.height);
         return data[3] | (data[2] << 8) | (data[1] << 16) | (data[0] << 24);
         //return data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
     }
@@ -273,6 +285,8 @@ export default class Context {
                 else window.requestAnimationFrame(lol);
             }
             else {
+                this.viewportWidth  = width;
+                this.viewportHeight = height;
                 console.log("GL: setting viewport size:", width, height,
                     "canvas", gl.canvas);
                 gl.viewport(0, 0, width, height);
@@ -374,6 +388,8 @@ export default class Context {
         this._setupFrame();
         gl.disable(gl.BLEND);
         gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        gl.viewport(0, 0, this.pickBufferWidth, this.pickBufferHeight);
+
         if(!this.showPickBuffer) {
             gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);
         }

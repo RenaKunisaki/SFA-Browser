@@ -387,7 +387,6 @@ export default class MapViewer {
     /** Draw the map. Called by Context. */
     async _draw(isPicker) {
         if(!this.map) return;
-
         this._isDrawingForPicker = isPicker;
 
         //const tStart = performance.now();
@@ -716,7 +715,7 @@ export default class MapViewer {
         const id = await this.gx.context.readPickBuffer(x, y);
         let   obj = this.gx.getPickerObj(id);
         if(obj == undefined) obj = null;
-        console.log("pick", x, y, hex(id,8), id, obj);
+        if(obj) console.log("pick", x, y, hex(id,8), id, obj);
         return obj;
     }
 
