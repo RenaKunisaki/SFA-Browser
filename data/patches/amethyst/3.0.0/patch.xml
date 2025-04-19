@@ -14,6 +14,7 @@
             https://developer.chrome.com/articles/local-fonts/
             to check what fonts are available and load them
             in addition to downloading them from the server
+            or, just limit selection to some prerendered items
             -->
             <phrase>
                 <!-- control codes work the same as the generated gametext.xml -->
