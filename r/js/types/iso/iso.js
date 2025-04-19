@@ -127,4 +127,72 @@ export class ISO {
         this.files.push(file);
         return file;
     }
+
+    /** Build a new ISO.
+     *  @returns {ISO} The new ISO.
+     *  @note For performance, adding/replacing/removing files does not
+     *    change the underlying buffer, so those changes won't be
+     *    reflected when reading it back. Use this method to construct
+     *    a new buffer containing the updated files.
+     */
+    build() {
+        //huge buffer to hold an entire GC ISO
+        const buffer = new ArrayBuffer(1.5 * 1024 * 1024 * 1024);
+        const result = new ISO(this.app);
+        result._buffer = buffer;
+        let offset = 0;
+
+        const align = (amount) => {
+            const cnt = offset % amount;
+            if(cnt) offset += cnt;
+        };
+        const write = (data) => {
+            buffer.set(data, offset);
+            offset += data.byteLength;
+        };
+
+        //build FST
+        this.files.sort(file => {
+            file.path.toLowerCase().replaceAll('/', '\x01')
+        });
+        const fst = new FST(this.app);
+
+        //right now, boot.bin and fst.bin contain outdated
+        //offsets, but we'll fix that later.
+
+        write(this.bootBin);
+        write(this.bi2bin);
+        write(this.appldr);
+        align(2048);
+        write(this.mainDol);
+        align(256); //XXX fishy
+        write(fst);
+        align(0x8000);
+
+        //write files
+        for(let iFile=0; iFile<this.files.length; iFile++) {
+            const file = this.files[iFile];
+            const newFile = new IsoFile(file.path, file.isDir,
+                offset, file.size, buffer, offset, file.parent,
+                file.isSystem);
+            //XXX will need to correct newFile.parent to reference
+            //the same file in this ISO instead of the original ISO
+            write(file.getData());
+
+            //stream files must be aligned to 32K.
+            //may as well pad everything to 32K.
+            //it's a little wasteful, but the ISOs are usually heavily
+            //padded anyway.
+            align(32768);
+        }
+
+
+        //now go back and update the FST
+        //now that we know the file offsets.
+
+        //and update the file offset in boot.bin
+        //now that we know what it is.
+
+        return result;
+    }
 }
