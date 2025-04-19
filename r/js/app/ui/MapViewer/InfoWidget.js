@@ -41,7 +41,8 @@ export default class InfoWidget {
         switch(info.type) {
             case 'blockHit':      this._showBlockHit(info);       break;
             case 'collisionMesh': this._showBlockCollision(info); break;
-            case 'mapBlockDlist': this._showBlockDlist(info);     break;
+            case 'mapBlockDlist': this._showBlockDlist(info);     break; //XXX not used anymore?
+            case 'dlist':         this._showBlockDlist(info);     break;
             case 'object':        this._showObject(info);         break;
             case 'polyGroup':     this._showBlockPolyGroup(info); break;
             case 'warp':          this._showWarp(info);           break;
@@ -91,7 +92,7 @@ export default class InfoWidget {
      *  @param {object} info The block info.
      */
     _showBlockDlist(info) {
-        const block = info.block;
+        const block = info.block ? info.block : info.model;
         const rows = [
             E.tr(E.th(null, `Block "${block.header.name}"`, {colspan:2})),
             E.tr(
