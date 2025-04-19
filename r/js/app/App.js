@@ -18,7 +18,7 @@ import MapGrid from "./ui/MapGrid.js";
 import MapViewer from "./ui/MapViewer/MapViewer.js";
 import ModelViewer from "./ui/ModelViewer/ModelViewer.js";
 import MiscTab from "./ui/MiscTab.js";
-import PatchManagerTab from "./ui/PatchManager.js";
+//import PatchManagerTab from "./ui/PatchManager.js";
 import RamInfo from "./ui/RamInfo.js";
 import Warptab from "./ui/Warptab.js";
 import TextList from "./ui/TextList.js";
@@ -70,7 +70,7 @@ export default class App {
                 mapView:    new MapViewer      (this.game),
                 modelView:  new ModelViewer    (this.game),
                 miscTab:    new MiscTab        (this.game),
-                patches:    new PatchManagerTab(this.game),
+                //patches:    new PatchManagerTab(this.game),
                 ramInfo:    new RamInfo        (this.game),
                 warpTab:    new Warptab        (this.game),
                 textList:   new TextList       (this.game),
