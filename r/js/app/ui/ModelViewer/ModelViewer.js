@@ -193,7 +193,7 @@ export default class ModelViewer {
             showPickBuffer: false,
             useOrtho: false,
             frontFaceCW: true,
-            useSRT: true,
+            useSRT: false,
             zNear:2.5, zFar:10000, fov:60,
             scale: {x:1, y:1, z:1},
             rot: {x:0, y:0, z:0},
