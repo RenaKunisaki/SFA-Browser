@@ -433,6 +433,18 @@ export default class GX extends GXConstants {
         }
     }
 
+    /** Reset all texture slots. Used when about to display
+     *  a new model, to prevent textures from the previous
+     *  model leaking into it.
+     */
+    resetTextures() {
+        const gl = this.gl;
+        for(let i=0; i<this.MAX_TEXTURES; i++) {
+            gl.activeTexture(gl.TEXTURE0 + i);
+            this.missingTexture.bind();
+        }
+    }
+
     /** Send the current projection, modelview, and normal matrices
      *  to the shaders.
      */

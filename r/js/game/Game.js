@@ -266,6 +266,44 @@ export default class Game {
         this.loadedTextures = {};
     }
 
+    getModelsInMap(dir) {
+        //MODELIND is apparently not reliable?
+        //the game seems to bypass it for objects
+        /*let mInd = this.iso.getFile(`${dir}/MODELIND.bin`);
+        if(!mInd) {
+            console.error("Model files not found in", dir);
+            return null;
+        }
+        mInd = new GameFile(mInd);
+
+        const modelIds = [];
+        mInd.seek(0);
+        for(let i=0; i<mInd.byteLength/2; i++) {
+            const idx = mInd.readU16(); //get index of this model ID
+            if(idx != 0) {
+                modelIds.push(i);
+            }
+        }*/
+
+        const modelIds = [];
+        let mTab = this.iso.getFile(`${dir}/MODELS.tab`);
+        if(!mTab) {
+            console.error("Model files not found in", dir);
+            return modelIds;
+        }
+        mTab = new GameFile(mTab);
+        mTab.seek(0);
+        for(let i=0; i<mTab.byteLength/4; i++) {
+            const idx = mTab.readU32();
+            if(idx == 0xFFFFFFFF) break;
+            if((idx & 0xFF000000) != 0) {
+                modelIds.push(i);
+            }
+        }
+        console.log(`Found ${modelIds.length} models in ${dir}`);
+        return modelIds;
+    }
+
     loadModel(gx, id, dir) {
         if(this.loadedModels[id]) return this.loadedModels[id];
         let mTab = this.iso.getFile(`${dir}/MODELS.tab`);
@@ -280,12 +318,17 @@ export default class Game {
         mInd = new GameFile(mInd);
 
         //translate the ID
+        //original game logic is < 0, but using <=
+        //means we can load the placeholder cube
         const origId = id;
-        if(id < 0) id = -id;
+        if(id <= 0) id = -id;
         else {
+            if(id * 2 >= mInd.byteLength) {
+                console.error(`Model index 0x${hex(id)} (${id}) > max index ${hex(mInd.byteLength/2)}`)
+            }
             mInd.seek(id*2);
             const newId = mInd.readU16();
-            console.log(`modelId 0x${hex(id,4)} => 0x${hex(newId,4)}`)
+            console.log(`modelId 0x${hex(id,4)} (${id}) => 0x${hex(newId,4)} (${newId})`)
             id = newId;
         }
 
@@ -295,13 +338,18 @@ export default class Game {
         console.log(`Load model ${id} from offs 0x${hex(mdlOffs,8)}`);
 
         //load the model
-        if((mdlOffs & 0x30000000) == 0) {
+        /*if((mdlOffs & 0x30000000) == 0
+        && id != 0) { //allow loading the placeholder cube
             console.error(`Model 0x${hex(id)} not found in ${dir}`);
             return null;
-        }
+        }*/
         mdlOffs &= 0x0FFFFFFF;
         const data = mBin.decompress(mdlOffs);
         console.log(`modelId=0x${hex(id)} mdlOffs=0x${hex(mdlOffs,6)}`, data);
+        if(!data) {
+            console.error("Failed decompressing model", id);
+            return null;
+        }
 
         const mdlView = new DataView(data);
         const model = Model.fromData(this, gx, mdlView, dir);

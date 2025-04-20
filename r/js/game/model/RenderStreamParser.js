@@ -413,7 +413,7 @@ export default class RenderStreamParser {
                 if(idx >= 0 && this.model.textures[idx]) {
                     tex = this.model.textures[idx];
                 }
-                //console.log("select texture", idx, tex);
+                console.log("select texture", idx, tex);
             }
             textures.push([i, tex]);
         }
@@ -436,6 +436,7 @@ export default class RenderStreamParser {
                 //console.log("using texture", slot, tex);
                 gl.activeTexture(gl.TEXTURE0 + slot);
                 if(tex) tex.bind();
+                else this.gx.missingTexture.bind();
                 gl.uniform1i(this.gx.programInfo.uniforms.uSampler[slot], slot);
             }
         };

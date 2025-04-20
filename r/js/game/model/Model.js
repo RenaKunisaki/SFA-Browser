@@ -51,6 +51,7 @@ export default class SfaModel {
             if(gTex) {
                 const tex = new Texture(this.gx.context);
                 tex.loadGameTexture(gTex);
+                tex.id = tId; //for debug
                 this.textures.push(tex);
             }
             else {

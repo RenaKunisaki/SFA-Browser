@@ -53,6 +53,7 @@ export default class ModelViewer {
         await this.gx.loadPrograms();
 
         this.viewController = new ViewController(this.context);
+        this.viewController._resetHandler = () => {this._resetView()};
         this.eLeftSidebar.append(
             this.viewController.element,
             //this.layerChooser.element,
@@ -68,19 +69,74 @@ export default class ModelViewer {
 
         this._modelRenderer = new ModelRenderer(this, this.gx);
         this.context.canvas.focus();
-        this.context.camResetFunc = () => {
-            this.resetCamera();
-            return true; //redraw
-        };
         this._reset();
     }
 
     /** Build the controls above the context. */
     _buildControls() {
+        this._buildMapList();
+        this._buildModelList();
         this.eControls = E.div('controls',
-            //...
+            E.label(null, {For:'modelview-map-list'}, "Map:"),
+            this.eMapList,
+            E.label(null, {For:'modelview-model-list'}, "Model:"),
+            this.eModelList,
         );
         return this.eControls;
+    }
+
+    /** Build the map list widget. */
+    _buildMapList() {
+        //XXX mostly copied from map viewer
+        this.eMapList = E.select({id:'modelview-map-list'});
+        const maps = [];
+        for(let [id, map] of Object.entries(this.game.maps)) {
+            maps.push({id:id, map:map});
+        }
+        maps.sort((a, b) => { //sort by name, falling back to ID
+            let nA = a.map.name;
+            let nB = b.map.name;
+            if(!nA) nA = `\x7F${a.id}`;
+            if(!nB) nB = `\x7F${b.id}`;
+            if(nA == nB) return 0;
+            return (nA < nB) ? -1 : 1;
+        });
+        this.eMapList.append(E.option(null, "(no map selected)", {value:'null'}));
+        for(let map of maps) { //build list with placeholder names as needed
+            let name = map.map.name;
+            if(!name) name = "(no name)";
+            let id = map.id;
+            if(isNaN(id)) id = '??';
+            else id = hex(id,2);
+            this.eMapList.append(E.option(null, `${id} ${name}`,
+                {value:map.id}));
+        }
+        this.eMapList.addEventListener('change', e => this._changeMap());
+    }
+
+    /** Build the map list widget. */
+    _buildModelList() {
+        this.eModelList = E.select({id:'modelview-model-list'});
+        this.eModelList.addEventListener('change', e => this._reset());
+    }
+
+    /** Load a different map. */
+    _changeMap() {
+        if(this.eMapList.value == 'null') return;
+        const map = this.game.maps[this.eMapList.value];
+        if(!map) {
+            console.error("Invalid map selected", this.eMapList.value);
+            return;
+        }
+
+        clearElement(this.eModelList);
+        const ids = this.game.getModelsInMap(`/${map.dirName}`);
+        if(ids == null) return;
+        for(const id of ids) {
+            const dispId = isNaN(id) ? '????' : hex(id,4);
+            this.eModelList.append(E.option(null, `${dispId}`, {value:id}));
+        }
+        this._reset();
     }
 
     /** Reset viewer to display another model. */
@@ -90,31 +146,32 @@ export default class ModelViewer {
 
         if(!this.context) return; //don't start if not initialized
         //don't start until user actually picks a model
-        //if(this.eMapList.value == 'null') return;
+        if(this.eMapList.value == 'null') return;
         this.game.unloadModels();
+        this.game.unloadTextures();
+        this.gx.resetTextures();
+
+        const map = this.game.maps[this.eMapList.value];
+        if(!map) {
+            console.error("Invalid map selected", this.eMapList.value);
+            return;
+        }
+        const modelNo = this.eModelList.value;
 
         //const model = this.game.maps[this.eMapList.value];
         //negative 0x4E8 is Krystal, positive is placeholder cube
-        const model = this.game.loadModel(this.gx, -0x4E8, '/warlock');
+        //the game always negates the model numbers from the object
+        //file, but apparently sometimes they're negative already?
+        const model = this.game.loadModel(this.gx, -modelNo, `/${map.dirName}`);
         //const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
         if(!model) {
-            //console.error("Invalid model selected", this.eMapList.value);
+            console.error("Invalid model selected", modelNo);
             return;
         }
         this.model = model;
+        this._modelRenderer.reset();
         this._modelRenderer.parse(this.model);
-
-        this.viewController.set({
-            enableTextures: true,
-            useWireframe: false,
-            enableBackfaceCulling: true,
-            showPickBuffer: false,
-            useOrtho: false,
-            frontFaceCW: true,
-            useSRT: false,
-            zNear:2.5, zFar:10000, fov:60,
-            scale: {x:1, y:1, z:1},
-        });
+        this._resetView();
         this.gx.resetPicker();
 
         const textures = {};
@@ -126,6 +183,22 @@ export default class ModelViewer {
 
         this.redraw();
         this._updatedStats = false;
+    }
+
+    _resetView() {
+        this.viewController.set({
+            enableTextures: true,
+            useWireframe: false,
+            enableBackfaceCulling: true,
+            showPickBuffer: false,
+            useOrtho: false,
+            frontFaceCW: true,
+            useSRT: true,
+            zNear:2.5, zFar:10000, fov:60,
+            scale: {x:1, y:1, z:1},
+            rot: {x:0, y:0, z:0},
+            pos: {x:0, y:0, z:-100},
+        });
     }
 
     /** Signal the model viewer to redraw. */
@@ -146,20 +219,10 @@ export default class ModelViewer {
             if(this._isFirstDrawAfterLoadingModel) {
                 this._isFirstDrawAfterLoadingModel = false;
                 this.app.progress.hide();
-                this.resetCamera();
+                this._resetView();
                 this.textureViewer.refresh();
             }
         });
-    }
-
-    /** Move the camera to an appropriate starting position. */
-    resetCamera() {
-        let x = 0;
-        let y = 0;
-        let z = 0;
-        let rx = DEG2RAD(180);
-        let radius = Math.max(50, this.model.radi);
-        this.viewController.moveToPoint(x, y, z, radius, 0, rx);
     }
 
     clearTarget() {

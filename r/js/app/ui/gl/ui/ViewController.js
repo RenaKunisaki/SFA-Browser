@@ -201,6 +201,10 @@ export default class ViewController {
     }
 
     reset() {
+        if(this._resetHandler) {
+            this._resetHandler();
+            return;
+        }
         this.txtPosX.value   =     0;
         this.txtPosY.value   =     0;
         this.txtPosZ.value   =    -1;
