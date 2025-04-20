@@ -31,6 +31,12 @@ export default class GameObject {
         this.index    = null; //from OBJINDEX.bin
         this.dll      = this.game.dlls ? this.game.dlls[this.header.dll_id] : null;
 
+        this.modelIds = [];
+        for(let i=0; i<header.nModels; i++) {
+            this.modelIds.push(objsBinData.getUint32(
+                offset + header.modelList + (i*4)));
+        }
+
         return new Proxy(this, {
             get: function(instance, key) {
                 if(key in instance) return instance[key];

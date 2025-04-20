@@ -59,6 +59,15 @@ export default class ObjList {
                     return td;
                 },
             },
+            {displayName:"Models", name:'models', type:'string', title:"Model IDs",
+                makeElem: (val, td, row) => {
+                    for(let id of row.modelIds) {
+                        td.append(`${hex(id,4)} `);
+                    }
+                    if(val < 0) td.classList.add('null');
+                    return td;
+                },
+            },
         ]});
     }
 
@@ -82,6 +91,7 @@ export default class ObjList {
             nPlayerObjs: obj.nPlayerObjs,
             nSeqs:       obj.nSeqs,
             map:         obj.map,
+            modelIds:    obj.modelIds,
             //XXX more
         };
         return row;
