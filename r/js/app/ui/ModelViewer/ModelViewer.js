@@ -130,7 +130,7 @@ export default class ModelViewer {
         }
 
         clearElement(this.eModelList);
-        const ids = this.game.getModelsInMap(`/${map.dirName}`);
+        const ids = map.getModels();
         if(ids == null) return;
         for(const id of ids) {
             const dispId = isNaN(id) ? '????' : hex(id,4);

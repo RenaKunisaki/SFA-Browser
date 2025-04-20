@@ -1,6 +1,7 @@
 import { assertType } from "../../Util.js";
 import Game, { MAP_CELL_SIZE } from "../Game.js";
 import Block from "./Block.js";
+import GameFile from "../GameFile.js";
 
 /** A map in the game.
  *  @note Map IDs can be confusing because the game refers to them by
@@ -178,6 +179,7 @@ export default class Map {
 
         //these are only populated when needed
         this.textures    = null;
+        this._modelIds   = null;
     }
 
     /** The global coordinates of this map's origin block.
@@ -209,5 +211,49 @@ export default class Map {
         assertType(block, Block);
         if(this.blocks == undefined) this.blocks = [];
         this.blocks.push(block);
+    }
+
+    /** Get the list of model IDs present in this map.
+     * @returns List of model IDs found in this map.
+     */
+    getModels() {
+        if(this._modelIds != null) return this._modelIds;
+        const dir = this.dirName;
+
+        //MODELIND is apparently not reliable?
+        //the game seems to bypass it for objects
+        /*let mInd = this.iso.getFile(`${dir}/MODELIND.bin`);
+        if(!mInd) {
+            console.error("Model files not found in", dir);
+            return null;
+        }
+        mInd = new GameFile(mInd);
+
+        const modelIds = [];
+        mInd.seek(0);
+        for(let i=0; i<mInd.byteLength/2; i++) {
+            const idx = mInd.readU16(); //get index of this model ID
+            if(idx != 0) {
+                modelIds.push(i);
+            }
+        }*/
+
+        this._modelIds = [];
+        let mTab = this.game.iso.getFile(`/${dir}/MODELS.tab`);
+        if(!mTab) {
+            console.error("Model files not found in", dir);
+            return this._modelIds;
+        }
+        mTab = new GameFile(mTab);
+        mTab.seek(0);
+        for(let i=0; i<mTab.byteLength/4; i++) {
+            const idx = mTab.readU32();
+            if(idx == 0xFFFFFFFF) break; //end of file
+            if((idx & 0xFF000000) != 0) { //valid entry
+                this._modelIds.push(i);
+            }
+        }
+        console.log(`Found ${this._modelIds.length} models in ${dir}`);
+        return this._modelIds;
     }
 }
