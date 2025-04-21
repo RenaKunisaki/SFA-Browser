@@ -112,8 +112,8 @@
     animation-iteration-count: infinite;
     animation-direction: alternate;
     position: fixed;
-    top: 40vh;
-    bottom: 40vh;
+    top: calc(50vh - 2em);
+    height: 4em;
     left: 20vh;
     right: 20vh;
     border: 3px #F00 ridge;

@@ -196,6 +196,7 @@ export default class ModelViewer {
             this._updatedStats = false;
         }
         catch(ex) {
+            console.error(ex);
             const title = this.eError.firstElementChild;
             title.nextElementSibling.innerText = String(ex);
             this.eError.style.display = 'block';
