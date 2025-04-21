@@ -25,6 +25,8 @@
 .tabMapView .sidebar-left {
     left: 0.5em;
     max-width: 25em;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .tabMapView .sidebar-right {
