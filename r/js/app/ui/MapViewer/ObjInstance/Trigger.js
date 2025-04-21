@@ -68,6 +68,7 @@ export class Trigger extends ObjInstance {
                         case 0x08: params = "Respawn"; break;
                         case 0x09: params = "DangerousWater"; break;
                         case 0x0A: params = "SafeWater"; break;
+                        case 0x0B: params = "CanPlaceBarrel"; break;
                         default: params = `Unk${hex(cmd.param1,2)}${hex(cmd.param2,2)}`;
                     }
                     break;
