@@ -28,7 +28,9 @@ export default class ModelViewer {
         this.context       = null;
         this.eLeftSidebar  = E.div('sidebar sidebar-left');
         this.eRightSidebar = E.div('sidebar sidebar-right');
-        this._inputHandler = new InputHandler(this);
+        this._inputHandler = new InputHandler(this, {
+            scrollScale: 0.1,
+        });
         this.textureViewer = new TextureViewer(this);
         this._reset();
         this.app.onIsoLoaded(iso => this._onIsoLoaded());

@@ -6,7 +6,7 @@ export default class InputHandler {
      *  @param {MapViewer, ModelViewer} viewer The
      *      viewer class managing the canvas.
      */
-    constructor(viewer) {
+    constructor(viewer, options={}) {
         this.viewer = viewer;
         this.canvas = viewer.canvas;
         this._prevMousePos = [0, 0];
@@ -14,6 +14,8 @@ export default class InputHandler {
         this._deltaTick = 1000.0 / 30.0; // 30 fps
         this._keysDown  = {};
         this._callbacks = {};
+        this._options   = options;
+        if(this._options.scrollScale == undefined) this._options.scrollScale = 1;
 
         const canvas = this.canvas;
         canvas.addEventListener('mousemove', e => this._onMouseMove(e));
@@ -68,13 +70,14 @@ export default class InputHandler {
         if(event.shiftKey) { //up/down
             vc.adjust({ pos:{
                 x:0,
-                //slower for model viewer
-                y:event.deltaY * (vc.isRotCam() ? 1 : 0.1),
+                y:event.deltaY * this._options.scrollScale,
                 z:0,
             }});
         }
         else { //forward/back
-            vc.moveByVector({x:0, y:-event.deltaY});
+            vc.moveByVector({
+                x:0,
+                y:-event.deltaY * this._options.scrollScale});
         }
     }
     async _onMouseDown(event) {

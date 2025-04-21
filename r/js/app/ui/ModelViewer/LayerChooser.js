@@ -7,7 +7,6 @@ export default class LayerChooser {
         this.game        = modelViewer.game;
         this.app         = modelViewer.game.app;
 
-        this.element = E.div('model-layer-chooser');
         this.checkboxes = {};
         this.labels = {};
 
@@ -15,6 +14,16 @@ export default class LayerChooser {
         this._addLayer('origin', "Origin");
         this._addLayer('bones', "Bones");
         this._addLayer('bonesFront', "Bones in Front");
+
+        this.element = E.div('model-layer-chooser',
+            E.div(null,
+                this.checkboxes.geometry, this.labels.geometry,
+                this.checkboxes.origin, this.labels.origin),
+            E.div(null,
+                this.checkboxes.bones, this.labels.bones,
+                this.checkboxes.bonesFront, this.labels.bonesFront,
+            ),
+        );
     }
 
     _addLayer(id, name) {
@@ -26,8 +35,8 @@ export default class LayerChooser {
         const lbl = E.label(null,
             {'for':`chkModelViewLayer_${id}`}, name);
 
-        this.element.append(check);
-        this.element.append(lbl);
+        //this.element.append(check);
+        //this.element.append(lbl);
         this.checkboxes[id] = check;
         this.labels[id] = lbl;
 
