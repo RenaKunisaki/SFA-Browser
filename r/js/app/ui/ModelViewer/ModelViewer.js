@@ -4,10 +4,13 @@ import { E, clearElement } from "../../../lib/Element.js";
 import { hex } from "../../../Util.js";
 import Context from "../gl/Context.js";
 import GX from "../gl/gx/GX.js";
+import RenderBatch from "../gl/gx/RenderBatch.js";
 import ModelRenderer from './ModelRenderer.js';
+import LayerChooser from './LayerChooser.js';
 import ViewController from "../gl/ui/ViewController.js";
 import InputHandler from "../gl/ui/InputHandler.js";
 import TextureViewer from "../MapViewer/TextureViewer.js";
+import Axes from "../gl/Model/Axes.js";
 
 const PI_OVER_180 = Math.PI / 180.0; //rad = deg * PI_OVER_180
 const DEG2RAD = (x) => (x*PI_OVER_180);
@@ -18,6 +21,7 @@ export default class ModelViewer {
     constructor(game) {
         this.game          = assertType(game, Game);
         this.app           = game.app;
+        this.layerChooser  = new LayerChooser(this);
         this.element       = document.getElementById('tab-modelView');
         this.canvas        = E.canvas('model-view-canvas');
         this.context       = null;
@@ -27,6 +31,20 @@ export default class ModelViewer {
         this.textureViewer = new TextureViewer(this);
         this._reset();
         this.app.onIsoLoaded(iso => this._onIsoLoaded());
+    }
+
+    _getBatch(name, params) {
+        let key = [name];
+        for(const [k,v] of Object.entries(params)) {
+            key.push(`${k}:${v}`);
+        }
+        key = key.join(',');
+        let batch = this._batches[key];
+        if(!batch) {
+            batch = new RenderBatch(this.gx);
+            this._batches[key] = batch;
+        }
+        return batch;
     }
 
     /** Set up the model viewer. */
@@ -57,7 +75,7 @@ export default class ModelViewer {
         this.viewController._resetHandler = () => {this._resetView()};
         this.eLeftSidebar.append(
             this.viewController.element,
-            //this.layerChooser.element,
+            this.layerChooser.element,
             //this.infoWidget.element,
             //this.stats.element,
         );
@@ -254,12 +272,15 @@ export default class ModelViewer {
         this._isDrawingForPicker = isPicker;
 
         //const tStart = performance.now();
-        //const LC = this.layerChooser;
+        const LC = this.layerChooser;
         this._beginRender();
-        this._modelRenderer.render(this.model, {
-            dlist: -1,
-        });
-        //if(LC.getLayer('origin')) this._drawOrigin();
+        if(LC.isLayerEnabled('geometry')) {
+            this._modelRenderer.render(this.model, {
+                dlist: -1,
+            });
+        }
+
+        if(LC.isLayerEnabled('origin')) this._drawOrigin();
         //this._drawBlocks(blockStats, blockStreams);
         //if(LC.getLayer('blockHits')) this._drawBlockHits();
         //await this._drawObjects();
@@ -292,5 +313,19 @@ export default class ModelViewer {
     _finishRender() {
         this.gx.finishRender();
         //console.log("finished render", this.gx.context.stats);
+    }
+
+    /** Draw the model's origin. */
+    _drawOrigin() {
+        const params = {
+            isPicker: this._isDrawingForPicker,
+        };
+        const batch = this._getBatch('origin', params);
+        if(batch.isEmpty) {
+            batch.addFunction(
+                (new Axes(this.gx,
+                    [0, 0, 0], [0,0,0], [320,320,320])).batch);
+        }
+        this.gx.executeBatch(batch);
     }
 }
