@@ -219,7 +219,7 @@ export default class SfaModel {
      *    the vertex groups.
      */
     calcBonePos(bone, relative, _depth=0) {
-        if(_depth >= 10) throw new Error("Recursion limit exceeded");
+        if(_depth >= 50) throw new Error("Recursion limit exceeded");
         let head = vec3.fromValues(bone.translation.x,
             bone.translation.y, bone.translation.z);
         let tail = vec3.fromValues(bone.bindTranslation.x,
@@ -231,6 +231,8 @@ export default class SfaModel {
                 tail[2] -= head[2];
             }
             let parent = this.bones[bone.parent];
+            //console.log("(%d) bone %d %d %d parent %d", _depth,
+            //    bone.idx[0], bone.idx[1], bone.idx[2], bone.parent);
             let [pHead, _] = this.calcBonePos(parent, relative, _depth+1);
             head[0] += pHead[0];
             head[1] += pHead[1];
