@@ -110,7 +110,7 @@ export default class TextureViewer {
             let x = this.texturePositions[item.id].x1;
             let y = this.texturePositions[item.id].y1;
             ctx.strokeRect(x-1, y-1,
-                item.tex.width+(lw*2), item.tex.height+(lw*2));
+                item.tex.width+(lw*2)+2, item.tex.height+(lw*2)+2);
             if(item.tex.image) {
                 ctx.putImageData(item.tex.image._data, x+lw, y+lw);
             }
