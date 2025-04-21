@@ -116,7 +116,7 @@ export default class DlistParser {
             const v3 = this._readVertex(vat, list);
             vtxs.push(v0, v1, v2, v2, v3, v0);
         }
-        this._drawPoly(this.gl.TRIANGLES, ...vtxs);
+        this._addVtxs(this.gl.TRIANGLES, ...vtxs);
     }
     /** Parse a draw operation other than QUADS.
      *  @param {number} vat Which VAT to use.
