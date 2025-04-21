@@ -9,9 +9,11 @@ export default class LayerChooser {
 
         this.element = E.div('model-layer-chooser');
         this.checkboxes = {};
+        this.labels = {};
 
         this._addLayer('geometry', "Geometry").checked = true;
         this._addLayer('origin', "Origin");
+        this._addLayer('bones', "Bones");
     }
 
     _addLayer(id, name) {
@@ -26,11 +28,16 @@ export default class LayerChooser {
         this.element.append(check);
         this.element.append(lbl);
         this.checkboxes[id] = check;
+        this.labels[id] = lbl;
 
         return check;
     }
 
     isLayerEnabled(id) {
         return this.checkboxes[id].checked;
+    }
+
+    setNumBones(num) {
+        this.labels.bones.innerText = `Bones (${num})`;
     }
 }

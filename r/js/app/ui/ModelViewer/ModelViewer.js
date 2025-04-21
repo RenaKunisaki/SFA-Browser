@@ -7,6 +7,7 @@ import GX from "../gl/gx/GX.js";
 import RenderBatch from "../gl/gx/RenderBatch.js";
 import ModelRenderer from './ModelRenderer.js';
 import LayerChooser from './LayerChooser.js';
+import Bone from './Bone.js';
 import ViewController from "../gl/ui/ViewController.js";
 import InputHandler from "../gl/ui/InputHandler.js";
 import TextureViewer from "../MapViewer/TextureViewer.js";
@@ -167,6 +168,7 @@ export default class ModelViewer {
     /** Reset viewer to display another model. */
     _reset() {
         this._batches = [];
+        this._bones   = [];
         this._isFirstDrawAfterLoadingModel = true;
 
         if(!this.context) return; //don't start if not initialized
@@ -212,6 +214,7 @@ export default class ModelViewer {
 
             this.redraw();
             this._updatedStats = false;
+            this.layerChooser.setNumBones(this.model.bones.length);
         }
         catch(ex) {
             console.error(ex);
@@ -279,15 +282,9 @@ export default class ModelViewer {
                 dlist: -1,
             });
         }
+        if(LC.isLayerEnabled('bones')) await this._drawBones(true);
 
         if(LC.isLayerEnabled('origin')) this._drawOrigin();
-        //this._drawBlocks(blockStats, blockStreams);
-        //if(LC.getLayer('blockHits')) this._drawBlockHits();
-        //await this._drawObjects();
-        //if(LC.getLayer('warps')) this._drawWarps();
-        //if(LC.getLayer('hitPolys')) this._drawHitPolys();
-        //if(LC.getLayer('polyGroups')) this._drawPolyGroups();
-        //if(LC.getLayer('blockBounds')) this._drawBlockBounds();
         this._finishRender();
         //console.log("block render OK", this.gx.context.stats);
         //console.log("GX logs:", this.gx.program.getLogs());
@@ -327,5 +324,19 @@ export default class ModelViewer {
                     [0, 0, 0], [0,0,0], [320,320,320])).batch);
         }
         this.gx.executeBatch(batch);
+    }
+
+    /** Draw the model's bones. */
+    async _drawBones() {
+        let mv = mat4.clone(this.gx.context.matModelView);
+        this.gx.setModelViewMtx(mv);
+        for(let i=0; i<this.model.bones.length; i++) {
+            if(!this._bones[i]) {
+                this._bones.push(new Bone(
+                    this.gx, this.model, i,
+                    this.gx.addPickerObj(this.model.bones[i])));
+            }
+            this.gx.executeBatch(this._bones[i].batch);
+        }
     }
 }
