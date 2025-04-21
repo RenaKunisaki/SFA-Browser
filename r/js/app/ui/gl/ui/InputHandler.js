@@ -64,10 +64,14 @@ export default class InputHandler {
         this._doCallback('onMouseWheel', event);
         //let deltaSpeed = -event.deltaY / 500.0;
         //this.viewer.viewController.adjust({moveSpeed: deltaSpeed});
-        if(event.shiftKey) this.viewer.viewController.adjust({
-            pos:{x:0, y:event.deltaY, z:0}});
-        else this.viewer.viewController.moveByVector(
-            {x:0, y:-event.deltaY});
+        if(event.shiftKey) { //up/down
+            this.viewer.viewController.adjust({
+                pos:{x:0, y:event.deltaY, z:0}});
+        }
+        else { //forward/back
+            this.viewer.viewController.moveByVector(
+                {x:0, y:-event.deltaY});
+        }
     }
     async _onMouseDown(event) {
         this._doCallback('onMouseDown', event);

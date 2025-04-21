@@ -331,20 +331,29 @@ export default class ViewController {
      *  @param {Object} vec Camera-relative movement vector.
      */
     moveByVector(vec) {
-        const rx = ((this.rot.x % 360) - 180) * PI_OVER_180;
-        const ry = ((this.rot.y % 360) - 180) * PI_OVER_180;
+        if(!this.btnRotateCam.checked) {
+            this.adjust({ pos: {
+                x:  vec.x,
+                y:  vec.z,
+                z: -vec.y,
+         } });
+        }
+        else {
+            const rx = ((this.rot.x % 360) - 180) * PI_OVER_180;
+            const ry = ((this.rot.y % 360) - 180) * PI_OVER_180;
 
-        const sinRX = Math.sin(rx);
-        const cosRX = Math.cos(rx);
-        const sinRY = Math.sin(ry);
-        const cosRY = Math.cos(ry);
+            const sinRX = Math.sin(rx);
+            const cosRX = Math.cos(rx);
+            const sinRY = Math.sin(ry);
+            const cosRY = Math.cos(ry);
 
-        const deltaX = ((vec.x * cosRY) - (vec.y * sinRY));
-        const deltaY = vec.y * sinRX;
-        const deltaZ = ((vec.x * sinRY) + (vec.y * cosRY));
+            const deltaX = ((vec.x * cosRY) - (vec.y * sinRY));
+            const deltaY = vec.y * sinRX;
+            const deltaZ = ((vec.x * sinRY) + (vec.y * cosRY));
 
-        this.adjust({ pos: {
-            x: deltaX, y: deltaY, z: deltaZ } });
+            this.adjust({ pos: {
+                x: deltaX, y: deltaY, z: deltaZ } });
+        }
     }
 
     _onChange(event) {

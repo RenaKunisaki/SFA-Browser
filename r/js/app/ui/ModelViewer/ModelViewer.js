@@ -197,7 +197,7 @@ export default class ModelViewer {
             zNear:2.5, zFar:10000, fov:60,
             scale: {x:1, y:1, z:1},
             rot: {x:0, y:0, z:0},
-            pos: {x:0, y:0, z:-100},
+            pos: {x:0, y:0, z:128},
         });
     }
 
