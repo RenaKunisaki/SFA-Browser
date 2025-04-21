@@ -14,6 +14,7 @@ export default class LayerChooser {
         this._addLayer('geometry', "Geometry").checked = true;
         this._addLayer('origin', "Origin");
         this._addLayer('bones', "Bones");
+        this._addLayer('bonesFront', "Bones in Front");
     }
 
     _addLayer(id, name) {

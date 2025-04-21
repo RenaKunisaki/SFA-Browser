@@ -277,14 +277,17 @@ export default class ModelViewer {
         //const tStart = performance.now();
         const LC = this.layerChooser;
         this._beginRender();
+        if(LC.isLayerEnabled('origin')) this._drawOrigin();
         if(LC.isLayerEnabled('geometry')) {
             this._modelRenderer.render(this.model, {
                 dlist: -1,
             });
         }
+        if(LC.isLayerEnabled('bonesFront')) {
+            this.gx.setZMode(false, GX.Compare.NEVER, false);
+        }
         if(LC.isLayerEnabled('bones')) await this._drawBones(true);
-
-        if(LC.isLayerEnabled('origin')) this._drawOrigin();
+        this.gx.setZMode(true, GX.Compare.LEQUAL, true);
         this._finishRender();
         //console.log("block render OK", this.gx.context.stats);
         //console.log("GX logs:", this.gx.program.getLogs());
