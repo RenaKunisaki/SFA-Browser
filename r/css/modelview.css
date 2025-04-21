@@ -96,3 +96,30 @@
 .tabModelView .textures .texinfo {
     font-family: monospace;
 }
+
+@keyframes errorBox {
+    from {
+        background-color: rgba(255, 0, 0, 0.2);
+    }
+    to {
+        background-color: rgba(255, 0, 0, 0.6);
+    }
+}
+#modelview-error {
+    animation: errorBox 2s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    position: fixed;
+    top: 40vh;
+    bottom: 40vh;
+    left: 20vh;
+    right: 20vh;
+    border: 3px #F00 ridge;
+    background-color: rgba(255, 0, 0, 0.2);
+    color: #FFF;
+    text-align: center;
+    font-size: 2em;
+    display: none;
+}

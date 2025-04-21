@@ -37,6 +37,7 @@ export default class ModelViewer {
             this.canvas,
             this.eLeftSidebar,
             this.eRightSidebar,
+            this.eError,
         )
         if(!this.context) this._initContext();
     }
@@ -76,6 +77,12 @@ export default class ModelViewer {
     _buildControls() {
         this._buildMapList();
         this._buildModelList();
+
+        this.eError = E.div('error popup', {id: 'modelview-error'},
+            E.h1(null, "Render Failed"),
+            E.span(null, "..."),
+        );
+
         this.eControls = E.div('controls',
             E.label(null, {For:'modelview-map-list'}, "Map:"),
             this.eMapList,
@@ -151,9 +158,13 @@ export default class ModelViewer {
         this.game.unloadTextures();
         this.gx.resetTextures();
 
+        this.eError.style.display = 'none';
+
         const map = this.game.maps[this.eMapList.value];
         if(!map) {
-            console.error("Invalid map selected", this.eMapList.value);
+            const title = this.eError.firstElementChild;
+            title.nextElementSibling.innerText = "Invalid map selected";
+            this.eError.style.display = 'block';
             return;
         }
         const modelNo = this.eModelList.value;
@@ -162,27 +173,33 @@ export default class ModelViewer {
         //negative 0x4E8 is Krystal, positive is placeholder cube
         //the game always negates the model numbers from the object
         //file, but apparently sometimes they're negative already?
-        const model = this.game.loadModel(this.gx, -modelNo, `/${map.dirName}`);
-        //const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
-        if(!model) {
-            console.error("Invalid model selected", modelNo);
-            return;
-        }
-        this.model = model;
-        this._modelRenderer.reset();
-        this._modelRenderer.parse(this.model);
-        this._resetView();
-        this.gx.resetPicker();
+        let model;
+        try {
+            model = this.game.loadModel(this.gx, -modelNo, `/${map.dirName}`);
+            //const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
+            if(!model) throw "Invalid model selected";
 
-        const textures = {};
-        for(let tex of this.model.textures) {
-            textures[tex.gameTexture.id] = tex;
-        }
-        this.textureViewer.setTextures(textures);
-        //this.textureViewer.refresh();
+            this.model = model;
+            this._modelRenderer.reset();
+            this._modelRenderer.parse(this.model);
+            this._resetView();
+            this.gx.resetPicker();
 
-        this.redraw();
-        this._updatedStats = false;
+            const textures = {};
+            for(let tex of this.model.textures) {
+                textures[tex.gameTexture.id] = tex;
+            }
+            this.textureViewer.setTextures(textures);
+            //this.textureViewer.refresh();
+
+            this.redraw();
+            this._updatedStats = false;
+        }
+        catch(ex) {
+            const title = this.eError.firstElementChild;
+            title.nextElementSibling.innerText = String(ex);
+            this.eError.style.display = 'block';
+        }
     }
 
     _resetView() {
@@ -196,7 +213,7 @@ export default class ModelViewer {
             useSRT: false,
             zNear:2.5, zFar:10000, fov:60,
             scale: {x:1, y:1, z:1},
-            rot: {x:0, y:0, z:0},
+            rot: {x:0, y:180, z:0},
             pos: {x:0, y:0, z:128},
         });
     }
