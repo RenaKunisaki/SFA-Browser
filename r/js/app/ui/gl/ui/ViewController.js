@@ -331,7 +331,7 @@ export default class ViewController {
      *  @param {Object} vec Camera-relative movement vector.
      */
     moveByVector(vec) {
-        if(!this.btnRotateCam.checked) {
+        if(!this.isRotCam()) {
             this.adjust({ pos: {
                 x:  vec.x,
                 y:  vec.z,
@@ -354,6 +354,14 @@ export default class ViewController {
             this.adjust({ pos: {
                 x: deltaX, y: deltaY, z: deltaZ } });
         }
+    }
+
+    /** Get the rotation mode.
+     * @returns {bool} Whether rotation axis is camera (true)
+     *  or origin (false);
+     */
+    isRotCam() {
+        return this.btnRotateCam.checked;
     }
 
     _onChange(event) {

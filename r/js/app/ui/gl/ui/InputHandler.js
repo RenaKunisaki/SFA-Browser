@@ -62,15 +62,19 @@ export default class InputHandler {
     _onMouseWheel(event) {
         event.preventDefault();
         this._doCallback('onMouseWheel', event);
+        const vc = this.viewer.viewController;
         //let deltaSpeed = -event.deltaY / 500.0;
-        //this.viewer.viewController.adjust({moveSpeed: deltaSpeed});
+        //vc.adjust({moveSpeed: deltaSpeed});
         if(event.shiftKey) { //up/down
-            this.viewer.viewController.adjust({
-                pos:{x:0, y:event.deltaY, z:0}});
+            vc.adjust({ pos:{
+                x:0,
+                //slower for model viewer
+                y:event.deltaY * (vc.isRotCam() ? 1 : 0.1),
+                z:0,
+            }});
         }
         else { //forward/back
-            this.viewer.viewController.moveByVector(
-                {x:0, y:-event.deltaY});
+            vc.moveByVector({x:0, y:-event.deltaY});
         }
     }
     async _onMouseDown(event) {
