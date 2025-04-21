@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="../types.xsd"?>
+<types>
+
+<enum name="ObjDef_SeqObject_Flags1D" type="u8">
+    <item name="UseClearedBit" value="0x1" />
+    <item name="Started" value="0x4" />
+    <item name="Cleared" value="0x8" />
+</enum>
+
+<enum name="ObjDef_RomCurve_Flags" type="u8">
+    <item name="NoPrev" value="0x1" />
+    <item name="NoNext" value="0x2" />
+    <item name="NoID24" value="0x4" />
+    <item name="NoID28" value="0x8" />
+</enum>
+
+<enum name="ObjDef_WM_ObjCreator_Action" type="u16">
+    <item name="SpawnGalleon" value="0" />
+    <item name="SpawnLfxEmitter" value="1" />
+    <item name="SpawnLfxEmitter2" value="2" />
+    <item name="SpawnLfxEmitter4" value="4" />
+    <item name="SpawnWallCrawler" value="5" />
+    <item name="SpawnRock" value="6" />
+    <item name="SpawnLfxEmitter7" value="7" />
+    <item name="SpawnHoodedZyck" value="8" />
+</enum>
+</types>

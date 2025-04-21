@@ -226,8 +226,10 @@ export default class StructParser {
                     if(result.fieldsByName[field.name]) {
                         let sName = result.name;
                         if(!sName) sName = '(anonymous)';
-                        throw new Error(
-                            `Duplicate field name: '${field.name}' in struct '${sName}'`);
+                        //debugger;
+                        //throw new Error(
+                        //    `Duplicate field name: '${field.name}' in struct '${sName}'`);
+                        console.warn(`Duplicate field name: '${field.name}' in struct '${sName}'`);
                     }
                     result.fieldsByName[field.name] = field;
                     result.fields.push(field);

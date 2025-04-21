@@ -7408,27 +7408,23 @@
   <bit id="0x0F0D" table="2" size="1" offset="0x0529"></bit>
   <bit id="0x0F0E" table="3" size="1" offset="0x0051"></bit>
   <bit id="0x0F0F" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0F10" table="2" size="1" offset="0x0923" name="MapBits">
-    <description>up to F1C?</description>
+  <bit id="0x0F10" table="2" size="1" offset="0x0923" name="WorldMap_KrazoaPalace">
+    <description>Whether location is "unlocked" on the world map in the pause menu.</description>
   </bit>
-  <bit id="0x0F11" table="2" size="1" offset="0x0924"></bit>
-  <bit id="0x0F12" table="2" size="1" offset="0x0925" name="IM_Unk0F12">
-    <description>set when first entering</description>
-  </bit>
-  <bit id="0x0F13" table="2" size="1" offset="0x0926"></bit>
-  <bit id="0x0F14" table="2" size="1" offset="0x0927"></bit>
-  <bit id="0x0F15" table="2" size="1" offset="0x0928" name="TitleScreenRelated0F15">
+  <bit id="0x0F11" table="2" size="1" offset="0x0924" name="WorldMap_DragonRock"></bit>
+  <bit id="0x0F12" table="2" size="1" offset="0x0925" name="WorldMap_IceMountain"></bit>
+  <bit id="0x0F13" table="2" size="1" offset="0x0926" name="WorldMap_WalledCity"></bit>
+  <bit id="0x0F14" table="2" size="1" offset="0x0927" name="WorldMap_LightFoot"></bit>
+  <bit id="0x0F15" table="2" size="1" offset="0x0928" name="WorldMap_SnowWastes">
     <description>set at some point on file select</description>
   </bit>
-  <bit id="0x0F16" table="2" size="1" offset="0x0929" name="ArwingRelated0F16">
-    <description>set in 1st Arwing level - if cleared, immediately sets again</description>
-  </bit>
-  <bit id="0x0F17" table="2" size="1" offset="0x092A"></bit>
-  <bit id="0x0F18" table="2" size="1" offset="0x092B"></bit>
-  <bit id="0x0F19" table="2" size="1" offset="0x092C"></bit>
-  <bit id="0x0F1A" table="2" size="1" offset="0x092D"></bit>
-  <bit id="0x0F1B" table="2" size="1" offset="0x092E"></bit>
-  <bit id="0x0F1C" table="2" size="1" offset="0x092F"></bit>
+  <bit id="0x0F16" table="2" size="1" offset="0x0929" name="WorldMap_Hollow"></bit>
+  <bit id="0x0F17" table="2" size="1" offset="0x092A" name="WorldMap_DarkIce"></bit>
+  <bit id="0x0F18" table="2" size="1" offset="0x092B" name="WorldMap_OceanForce"></bit>
+  <bit id="0x0F19" table="2" size="1" offset="0x092C" name="WorldMap_MoonMountain"></bit>
+  <bit id="0x0F1A" table="2" size="1" offset="0x092D" name="WorldMap_Volcano"></bit>
+  <bit id="0x0F1B" table="2" size="1" offset="0x092E" name="WorldMap_CloudRunner"></bit>
+  <bit id="0x0F1C" table="2" size="1" offset="0x092F" name="WorldMap_CapeClaw"></bit>
   <bit id="0x0F1D" table="0" size="1" offset="0x0026"></bit>
   <bit id="0x0F1E" table="0" size="1" offset="0x01AC" name="SB_CanShootPropeller"></bit>
   <bit id="0x0F1F" table="2" size="1" offset="0x061E">
