@@ -156,13 +156,39 @@ export default class ModelViewer {
             console.error("Invalid map selected", this.eMapList.value);
             return;
         }
+        this.curMap = map;
+        this._refreshModelList();
+    }
 
+    /** Populate the model list dropdown. */
+    _refreshModelList() {
         clearElement(this.eModelList);
-        const ids = map.getModels();
+        const ids = this.curMap.getModels();
         if(ids == null) return;
+
+        //build list of rows for model picker
+        let rows = [];
         for(const id of ids) {
             const dispId = isNaN(id) ? '????' : hex(id,4);
-            this.eModelList.append(E.option(null, `${dispId}`, {value:id}));
+            const info   = this.game.modelInfo[id];
+            const name   = (info && info.name) ? info.name : "";
+            rows.push({
+                id:   id,
+                //sort missing names to bottom
+                sort: (name=='' ? 'zzz' : name)+dispId,
+                disp: `${dispId} ${name}`,
+            });
+        }
+
+        //sort by name, falling back to ID
+        rows.sort((a, b) => {
+            return (a.sort < b.sort) ? -1 : 1;
+        });
+
+        //add rows to dropdown
+        for(const row of rows) {
+            this.eModelList.append(E.option(null,
+                row.disp, {value:row.id}));
         }
         this._reset();
     }
@@ -212,7 +238,6 @@ export default class ModelViewer {
                 textures[tex.gameTexture.id] = tex;
             }
             this.textureViewer.setTextures(textures);
-            //this.textureViewer.refresh();
 
             this.redraw();
             this._updatedStats = false;

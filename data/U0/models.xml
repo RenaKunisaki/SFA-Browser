@@ -1,0 +1,554 @@
+<models>
+    <!-- names are made up by me -->
+    <model id="0x0000" name="dummy">
+        <description>default cube</description>
+    </model>
+    <model id="0x0001" name="Fox" />
+    <model id="0x0002">
+        <description>a purple squished cylinder</description>
+    </model>
+    <model id="0x0003" name="Tricky" />
+    <model id="0x0004" name="TrickyExclamation">
+        <description>Tricky's !</description>
+    </model>
+    <model id="0x0005" name="TrickyQuestion">
+        <description>Tricky's ?</description>
+    </model>
+    <model id="0x0006" name="TrickyFood">
+        <description>Tricky's "hungry" icon</description>
+    </model>
+    <model id="0x0010">
+        <description>a sphere of some sort</description>
+    </model>
+    <model id="0x0012" name="QuakeBlue">
+        <description>quake effect (light blue)</description>
+    </model>
+    <model id="0x0013" name="QuakeBlue2">
+        <description>quake effect (dark blue)</description>
+    </model>
+    <model id="0x0014" name="QuakeYellow">
+        <description>quake effect (yellow)</description>
+    </model>
+    <model id="0x0015" name="QuakeGreen">
+        <description>quake effect (green)</description>
+    </model>
+    <model id="0x0017" name="Sharpclaw">
+        <description>Sharpclaw (enemy)</description>
+    </model>
+    <model id="0x001A" name="Sharpclaw2">
+        <description>Buff sharpclaw</description>
+    </model>
+    <model id="0x001D" name="Guardclaw">
+        <description>Guardclaw aka Bribeclaw</description>
+    </model>
+    <model id="0x0026">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0027">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0029">
+        <description>some kind of bug (loaded in Andross fight, unused?)</description>
+    </model>
+    <model id="0x002A">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x004F" name="GeneralScales" />
+    <model id="0x0054">
+        <description>? render failed (Recursion limit)</description>
+    </model>
+    <model id="0x0055">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0056">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0057">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0058">
+        <description>a green ball</description>
+    </model>
+    <model id="0x0065">
+        <description>a black square (checkerboard texture but only black part used)</description>
+    </model>
+    <model id="0x0066">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x006C" name="DrakorMine" />
+    <model id="0x006D">
+        <description>? render failed (recursion limit)</description>
+    </model>
+    <model id="0x006E">
+        <description>? render failed (recursion limit)</description>
+    </model>
+    <model id="0x006F">
+        <description>? render failed (Polygon group)</description>
+    </model>
+    <model id="0x0070">
+        <description>? render failed (Polygon group)</description>
+    </model>
+    <model id="0x0071">
+        <description>some kind of metal box</description>
+    </model>
+    <model id="0x0077" name="SharpclawClub" />
+    <model id="0x0079" name="SharpclawAxe" />
+    <model id="0x007B" name="SharpclawSpear" />
+    <model id="0x007D" name="Sword">
+        <description>maybe Sabre's?</description>
+    </model>
+    <model id="0x007E" name="Staff" />
+    <model id="0x0084" name="ShieldEffect" />
+    <model id="0x00B6">
+        <description>? render failed (recursion limit)</description>
+    </model>
+    <model id="0x0087" name="Backpack" />
+    <model id="0x0088" name="StaffBoostPad" />
+    <model id="0x0089">
+        <description>? Render failed (bad opcode)</description>
+    </model>
+    <model id="0x008C" name="StaffLeverRound">
+        <description>Staff on/off switch (round indicator)</description>
+    </model>
+    <model id="0x008D" name="StaffLeverSquare">
+        <description>Staff on/off switch (square indicator)</description>
+    </model>
+    <model id="0x0094">
+        <description>? render failed (recursion limit)</description>
+    </model>
+    <model id="0x00B5" name="TrickyBall" />
+    <model id="0x00D6">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x00D9">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x00F5" name="KrystalHead">
+        <description>floating head for cutscenes</description>
+    </model>
+    <model id="0x00F6">
+        <description>a sphere with a tripply blue texture</description>
+    </model>
+    <model id="0x0101">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x010B" name="Flowers" />
+    <model id="0x010E" name="SmallPlant" />
+    <model id="0x010F" name="PalmTree" />
+    <model id="0x0116" name="SmallRock" />
+    <model id="0x0118" name="Fish" />
+    <model id="0x012A">
+        <description>hanging vines?</description>
+    </model>
+    <model id="0x013E" name="MetalGate13E" />
+    <model id="0x013F">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x0140" name="MetalGate140" />
+    <model id="0x0141">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x014D">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x015F" name="Flashlight">
+        <description>unused?</description>
+    </model>
+    <model id="0x016E" name="CrudeWoodFence">
+        <description>haphazard wooden gate</description>
+    </model>
+    <model id="0x016F">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x0170" name="WoodPlank170">
+        <description>wooden plank</description>
+    </model>
+    <model id="0x0171" name="WoodPlank171">
+        <description>upright wooden plank</description>
+    </model>
+    <model id="0x0172" name="WoodPlank172">
+        <description>upright wooden plank</description>
+    </model>
+    <model id="0x0173" name="WoodPlank173">
+        <description>wooden plank</description>
+    </model>
+    <model id="0x0174" name="WoodPlank174">
+        <description>upright wooden plank</description>
+    </model>
+    <model id="0x0175" name="WoodPlank175">
+        <description>upright wooden plank</description>
+    </model>
+    <model id="0x0176" name="WoodPlank176">
+        <description>upright wooden plank</description>
+    </model>
+    <model id="0x0198" name="DinoPlanet">
+        <description>Dinosaur Planet on map</description>
+    </model>
+    <model id="0x0199">
+        <description>One of the islands on the map</description>
+    </model>
+    <model id="0x019A">
+        <description>One of the islands on the map</description>
+    </model>
+    <model id="0x019B">
+        <description>One of the islands on the map</description>
+    </model>
+    <model id="0x019C">
+        <description>One of the islands on the map</description>
+    </model>
+    <model id="0x019D">
+        <description>nothing? (has cloud/water texture)</description>
+    </model>
+    <model id="0x01A7" name="GreatFox" />
+    <model id="0x01BA" name="GF_SpaceOutside">
+        <description>space outside Great Fox windows</description>
+    </model>
+    <model id="0x01BE" name="Jukebox" />
+    <model id="0x01BF" name="GF_Door1" />
+    <model id="0x01C0" name="GF_Door2" />
+    <model id="0x01C1" name="Peppy" />
+    <model id="0x01C2" name="Slippy" />
+    <model id="0x01C3" name="ROB" />
+    <model id="0x01C4" name="Falco" />
+    <model id="0x01C5" name="PlanetHologram">
+        <description>From Fox opening scene</description>
+    </model>
+    <model id="0x01C6" name="Wrench">
+        <description>Slippy's wrench</description>
+    </model>
+    <model id="0x01C7" name="SaveIcon">
+        <description>memory card</description>
+    </model>
+    <model id="0x01C8" name="QuitIcon">
+        <description>eject button</description>
+    </model>
+    <model id="0x01C9" name="PepperHead">
+        <description>General Pepper's head (pause menu)</description>
+    </model>
+    <model id="0x01CA" name="RobHead">
+        <description>ROB's head (pause menu unused?)</description>
+    </model>
+    <model id="0x01CB" name="PeppyHead">
+        <description>Peppy's head (pause menu)</description>
+    </model>
+    <model id="0x01CC" name="SlippyHead">
+        <description>Slippy's head (pause menu)</description>
+    </model>
+    <model id="0x01CD" name="Communicator">
+        <description>Pause menu base</description>
+    </model>
+    <model id="0x01CE" name="PauseBG">
+        <description>Pause menu background</description>
+    </model>
+    <model id="0x01CF">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x01D0" name="KrystalShip">
+        <description>Krystal's ship (ending scene)</description>
+    </model>
+    <model id="0x01D6" name="PilotSeat">
+        <description>Fox's seat</description>
+    </model>
+    <model id="0x01D7" name="QueenCloudrunner" />
+    <model id="0x01D8" name="Lightfoot" />
+    <model id="0x01D9">
+        <description>pale green plane</description>
+    </model>
+    <model id="0x01DA">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x01DB">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x01DC">
+        <description>lava bubble?</description>
+    </model>
+    <model id="0x01DD" name="SharpclawPad">
+        <description>"Sharpclaw Only" pad</description>
+    </model>
+    <model id="0x01DE">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x01DF">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x01E0">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x01E1">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x01E2" name="CC_KrazoaStatue">
+        <description>Krazoa statue (Cape Claw)</description>
+    </model>
+    <model id="0x01E3" name="CC_krazoaStatue2">
+        <description>Krazoa statue + fire texture (Cape Claw)</description>
+    </model>
+    <model id="0x01EB">
+        <description>gray wooden pallet?</description>
+    </model>
+    <model id="0x01EC">
+        <description>wooden/metal plank</description>
+    </model>
+    <model id="0x01ED">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x01EE">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x020E">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x0210">
+        <description>a dome (lava bubble?)</description>
+    </model>
+    <model id="0x02AC" name="SmallBasket">
+        <description>small basket</description>
+    </model>
+    <model id="0x02B0" name="Scarab">
+        <description>Scarab</description>
+    </model>
+    <model id="0x02B2" name="LargeCrate">
+        <description>large crate</description>
+    </model>
+    <model id="0x02B6" name="DrakorSupplyBox" />
+    <model id="0x0289" name="DrakorLavaDroplet" />
+    <model id="0x02BA">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x02BB">
+        <description>health pickup (orange/yellow stripes) I forgor what it's called</description>
+    </model>
+    <model id="0x02C3">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x02C4">
+        <description>? render failed (bad opcode)</description>
+    </model>
+    <model id="0x02C5" name="MagicGem">
+        <description>purple magic gem</description>
+    </model>
+    <model id="0x02C6" name="Bafomdad" />
+    <model id="0x02C8" name="RedSwitch">
+        <description>Fireball target</description>
+    </model>
+    <model id="0x02C9" name="RedSwitch2">
+        <description>same as 02C8?</description>
+    </model>
+    <model id="0x02D1" name="N54Logo">
+        <description>used for some debug objects</description>
+    </model>
+    <model id="0x02D9" name="Trickywarp" />
+    <model id="0x02EF" name="OldCube">
+        <description>small cube with old (4-point) Sharpclaw emblem</description>
+    </model>
+    <model id="0x02F2" name="FireSpellstone" />
+    <model id="0x02F4" name="WaterSpellstone" />
+    <model id="0x02FA">
+        <description>nothing? (has a ring texture #7A5E)</description>
+    </model>
+    <model id="0x031B">
+        <description>orange droplet</description>
+    </model>
+    <model id="0x0324" name="CloudrunnerFlute" />
+    <model id="0x035C">
+        <description>? render failed (Polygon group)</description>
+    </model>
+    <model id="0x035D">
+        <description>? render failed (Polygon group)</description>
+    </model>
+    <model id="0x035E">
+        <description>? render failed (Polygon group)</description>
+    </model>
+    <model id="0x0362">
+        <description>Fire hole?</description>
+    </model>
+    <model id="0x0364" name="PortalDoor" />
+    <model id="0x0365">
+        <description>? render failed (Polygon group)</description>
+    </model>
+    <model id="0x0377" name="ExplodedRockChunk1" />
+    <model id="0x0378" name="ExplodedRockChunk2" />
+    <model id="0x0379" name="ExplodedRockChunk3" />
+    <model id="0x037A" name="ExplodedRockChunk4" />
+    <model id="0x037B" name="ExplodedRockChunk5" />
+    <model id="0x037C" name="ExplodedRockChunk6" />
+    <model id="0x037D">
+        <description>? not sure</description>
+    </model>
+    <model id="0x037F" name="FireflyLantern" />
+    <model id="0x03AB">
+        <description>?</description>
+    </model>
+    <model id="0x03B5">
+        <description>? render failed (polygon group)</description>
+    </model>
+    <model id="0x03B6">
+        <description>metal sphere</description>
+    </model>
+    <model id="0x03C9" name="DinosaurHorn" />
+    <model id="0x03CB">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x03CC">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x03CD">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x03CE">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x03CF">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0448" name="CheatToken" />
+    <model id="0x044B">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x044C">
+        <description>a red cylinder</description>
+    </model>
+    <model id="0x045A" name="DebugMidiFade" />
+    <model id="0x045E" name="DebugCamera" />
+    <model id="0x045F" name="DebugArrow" />
+    <model id="0x0461">
+        <description>Nothing? (blue wavy texture)</description>
+    </model>
+    <model id="0x0465" name="DebugCurve" />
+    <model id="0x0466" name="DebugClapperBoard" />
+    <model id="0x0467" name="DebugLevCtrl" />
+    <model id="0x0468" name="DebugLevName" />
+    <model id="0x046A" name="DebugFx" />
+    <model id="0x046B" name="DebugTexScrl" />
+    <model id="0x046C" name="DebugRestartPoint" />
+    <model id="0x046D" name="DebugWaveAnim" />
+    <model id="0x0471" name="DebugGroundAnim" />
+    <model id="0x0472" name="DebugTrigArea472" />
+    <model id="0x0474" name="DebugTrigArea474" />
+    <model id="0x0476" name="DebugOverride" />
+    <model id="0x0478" name="DebugHitAnim" />
+    <model id="0x0479" name="DebugLightBulb" />
+    <model id="0x047C" name="DebugLight47C">
+        <description>Pink sphere with lines sticking out (debug light)</description>
+    </model>
+    <model id="0x047D" name="DebugLight47D">
+        <description>Pink arrow (debug light)</description>
+    </model>
+    <model id="0x047E" name="DebugLightDirectional">
+        <description>Directional light (debug)</description>
+    </model>
+    <model id="0x0480">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0484" name="Fireball484" />
+    <model id="0x0485">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x0486">
+        <description>Orange laser beam? (Great Fox scene)</description>
+    </model>
+    <model id="0x0487">
+        <description>Green laser beam? (Great Fox scene)</description>
+    </model>
+    <model id="0x0488">
+        <description>Blue laser beam? (Arwing)</description>
+    </model>
+    <model id="0x0489">
+        <description>three blue fireballs? (ice blast effect?)</description>
+    </model>
+    <model id="0x048A" name="Fireball48A">
+        <description>Fireball</description>
+    </model>
+    <model id="0x048B">
+        <description>? render failed (PolygonGroup error)</description>
+    </model>
+    <model id="0x048D">
+        <description>? render failed (PolygonGroup error)</description>
+    </model>
+    <model id="0x048E">
+        <description>? render failed (PolygonGroup error)</description>
+    </model>
+    <model id="0x048F" name="ArwingBombPickup" />
+    <model id="0x0490" name="ArwingSupplyBox" />
+    <model id="0x0495" name="ArwingLaserPickup" />
+    <model id="0x0496" name="ArwingGoldRing" />
+    <model id="0x0497" name="ArwingGoldRingBLocked">
+        <description>Arwing gold ring with X in middle</description>
+    </model>
+    <model id="0x0498" name="ArwingSilverRing">
+        <description>Arwing silver ring</description>
+    </model>
+    <model id="0x0499" name="ArwingSilverRingBlocked">
+        <description>Arwing silver ring with X in middle</description>
+    </model>
+    <model id="0x049A">
+        <description>Arwing laser?</description>
+    </model>
+    <model id="0x049B">
+        <description>2D ring (Great Fox scene)</description>
+    </model>
+    <model id="0x049C">
+        <description>2D ring, flipped (Great Fox scene)</description>
+    </model>
+    <model id="0x049D">
+        <description>some kind of plasma ball? (Great Fox scene)</description>
+    </model>
+    <model id="0x049E">
+        <description>plasma ball with tail (Great Fox scene)</description>
+    </model>
+    <model id="0x049F" name="Fireball49F">
+        <description>fireball (Great Fox scene)</description>
+    </model>
+    <model id="0x04A0" name="Fireball4A0">
+        <description>same as 049F?</description>
+    </model>
+    <model id="0x04A1" name="ArwingMeteor1">
+        <description>Meteor 1 (Arwing)</description>
+    </model>
+    <model id="0x04A2" name="ArwingMeteor2">
+        <description>Meteor 2 (Arwing)</description>
+    </model>
+    <model id="0x04A3" name="ArwingCrosshair">
+        <description>Arwing targeting crosshair</description>
+    </model>
+    <model id="0x04A5">
+        <description>some kind of ray gun? (Arwing)</description>
+    </model>
+    <model id="0x04A6" name="ArwingMine">
+        <description>Mine (Arwing)</description>
+    </model>
+    <model id="0x04A7">
+        <description>? render failed</description>
+    </model>
+    <model id="0x04AA" name="ArwingEnemyShip">
+        <description>Enemy ship (Arwing) (Bad opcode)</description>
+    </model>
+    <model id="0x04C0">
+        <description>Blue circle with degree marks (viewfinder?)</description>
+    </model>
+    <model id="0x04C1" name="BlueTriangle" />
+    <model id="0x04C2" name="RedTriangle" />
+    <model id="0x04C7">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x04C8">
+        <description>? render failed (Bad opcode)</description>
+    </model>
+    <model id="0x04CC" name="WhiteSphere" />
+    <model id="0x04CD" name="WhiteSquare" />
+    <model id="0x04CE" name="WhiteSphereBlueRing">
+        <description>a white sphere with a blue ring around it</description>
+    </model>
+    <model id="0x04CF" name="MagicCaveEntrance">
+        <description>magic cave opening glow effect</description>
+    </model>
+    <model id="0x04D6">
+        <description>three brown fireballs?</description>
+    </model>
+    <model id="0x04D7" name="Fireball4D7">
+        <description>fireball</description>
+    </model>
+    <model id="0x04E8" name="Krystal" />
+    <model id="0x04E9" name="SharpclawDisguise" />
+</models>

@@ -43,6 +43,7 @@ export default class Game {
         this.texPreTab   = null;
         this.texPreBin   = null;
         this.fileNames   = null; //id => name
+        this.modelInfo   = null; //id => {name, description...}
 
         this.charNames = ["Krystal", "Fox"];
 
@@ -93,17 +94,8 @@ export default class Game {
 
         await this._loadTexts(this.app.language);
         //await this.getBits();
-
-        //get object categories
-        this.objCats = {};
-        await this.app.progress.update({subText:"Downloading objcats.xml..."});
-        const objCatsXml = await getXml(`./data/${version}/objcats.xml`);
-        if(objCatsXml) {
-            for(let elem of objCatsXml.getElementsByTagName('cat')) {
-                this.objCats[parseInt(elem.getAttribute('id'))] =
-                    elem.getAttribute('name');
-            }
-        }
+        await this._loadObjCats(version);
+        await this._loadModelInfo(version);
 
         if(this.iso) {
             await this._loadDlls();
@@ -409,6 +401,32 @@ export default class Game {
             }
             let text = Text.fromXml(eText);
             this.texts[text.id] = text;
+        }
+    }
+
+    async _loadObjCats(version) {
+        this.objCats = {};
+        await this.app.progress.update({subText:"Downloading objcats.xml..."});
+        const objCatsXml = await getXml(`./data/${version}/objcats.xml`);
+        if(!objCatsXml) return;
+        for(let elem of objCatsXml.getElementsByTagName('cat')) {
+            this.objCats[parseInt(elem.getAttribute('id'))] =
+                elem.getAttribute('name');
+        }
+    }
+
+    async _loadModelInfo(version) {
+        this.modelInfo = {};
+        await this.app.progress.update({subText:"Downloading models.xml..."});
+        const modelsXml = await getXml(`./data/${version}/models.xml`);
+        if(!modelsXml) return;
+        for(let elem of modelsXml.getElementsByTagName('model')) {
+            const info = {
+                name: elem.getAttribute('name'),
+            };
+            const eDescr = elem.getElementsByTagName('description')[0];
+            if(eDescr) info.description = eDescr.textContent;
+            this.modelInfo[parseInt(elem.getAttribute('id'))] = info;
         }
     }
 
