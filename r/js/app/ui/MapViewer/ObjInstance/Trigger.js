@@ -3,7 +3,8 @@ import RenderBatch from "../../gl/gx/RenderBatch.js";
 import Box from "../../gl/Model/Box.js";
 import Sphere from "../../gl/Model/Sphere.js";
 import Cylinder from "../../gl/Model/Cylinder.js";
-import Arrow from "../../gl/Model/Arrow.js";
+//import Arrow from "../../gl/Model/Arrow.js";
+import Texture from "../../gl/Texture.js";
 import { E } from "../../../../lib/Element.js";
 import { hex } from "../../../../Util.js";
 
@@ -75,7 +76,10 @@ export class Trigger extends ObjInstance {
             conditions = conditions.join(', ');
 
             let name = ObjSeqCmdEnum.valueToString(cmd.cmd);
-            if(name == undefined) name = `unk${hex(cmd.cmd,2)}`;
+            if(name == undefined) {
+                name = `unk${hex(cmd.cmd,2)}`;
+                this._hasActions.unknown = true;
+            }
             let params;
             switch(cmd.cmd) {
                 case 0x01: { //player subcmd
@@ -279,13 +283,15 @@ export class Trigger extends ObjInstance {
                     if(text) {
                         params += text.phrases.join('\n').substr(0,64);
                     }
-                    else params += '[unknown]';
+                    else {
+                        params += '[unknown]';
+                        this._hasActions.unknown = true;
+                    }
                     this._hasActions.showText = true;
                     break;
                 }
-                default:
+                default: //other command with no special param parsing
                     params = `${hex(cmd.param1,2)}${hex(cmd.param2,2)}`;
-                    this._hasActions.unknown = true;
             }
             seq.push(E.li('seqcmd', `[${conditions}] ${name} ${params}`));
         }
@@ -296,16 +302,16 @@ export class Trigger extends ObjInstance {
 
     chooseColor() {
         if(this._hasActions == undefined) this.decodeParams();
-        if(this._hasActions.unknown)     return [0x20, 0x00, 0x00, 0x80];
+        if(this._hasActions.unknown)     return [0xFF, 0x00, 0x00, 0x80];
         if(this._hasActions.saveCharPos) return [0x80, 0x80, 0x00, 0x80];
         if(this._hasActions.respawn)     return [0x80, 0x00, 0x00, 0x80];
         if(this._hasActions.setAct)      return [0x00, 0x80, 0xFF, 0x80];
         if(this._hasActions.startSeq)    return [0xC0, 0x60, 0xC0, 0x80];
-        if(this._hasActions.objGroup)    return [0x00, 0x00, 0x80, 0x80];
+        if(this._hasActions.objGroup)    return [0x00, 0x00, 0xC0, 0x80];
         if(this._hasActions.loadMap)     return [0x00, 0x00, 0xFF, 0x80];
         if(this._hasActions.camera)      return [0x60, 0xC0, 0x60, 0x80];
         if(this._hasActions.showText)    return [0xC0, 0x40, 0x40, 0x80];
-        if(this._hasActions.gameBit)     return [0x40, 0x00, 0x40, 0x80];
+        if(this._hasActions.gameBit)     return [0xC0, 0x00, 0xC0, 0x80];
         return [0x80, 0x80, 0x80, 0x80];
     }
 } //class Trigger
@@ -356,6 +362,19 @@ export class TrigPln extends Trigger {
         const batch  = new RenderBatch(this.gx);
         const entry  = this.entry;
 
+        let tex = null;
+        //using this dir because it's the first one I checked that
+        //contains this texture.
+        //XXX use the current map, in case the texture differs.
+        const gTex = this.game.loadTexture(-(0x8BD | 0x8000), '/capeclaw');
+        if(gTex) {
+            tex = new Texture(this.gx.context);
+            tex.loadGameTexture(gTex);
+        }
+        else {
+            console.warn("Failed to load TRIG AREA texture");
+        }
+
         //probably still wrong...
         //scale looks about right? but some are rotated wrong.
         const x  = this.entry.position.x;
@@ -367,11 +386,9 @@ export class TrigPln extends Trigger {
         batch.addFunction((new Box(this.gx,
             [-0.5, -0.5, -0.1],
             [ 0.5,  0.5,  0.1],
-        )).setScale(s,s,1).setRot(0,rx,ry).setPos(x,y,z).setId(id).setColors(
-            this.chooseColor()).batch);
-        batch.addFunction(
-            (new Arrow(this.gx, [x,y,z], [0,rx,ry], [s/10,s/10,s/10]))
-            .setColor(this.chooseColor())
+        )).setScale(s,s,1).setRot(0,rx,ry).setPos(x,y,z).setId(id)
+            .setColors(this.chooseColor())
+            .setTexture(tex)
             .batch);
         return batch;
     }

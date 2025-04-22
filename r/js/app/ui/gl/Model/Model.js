@@ -153,4 +153,22 @@ export default class Model {
         //subclass should replace this method
         return this;
     }
+
+    /** Make command to select textures.
+     *
+     * @param {Array} Array of Texture, one per slot.
+     * @returns {function} Function to select these textures.
+     */
+    _makeSetTextureCmd(params) {
+        const gl = this.gl;
+        return () => {
+            if(this.gx._isDrawingForPicker) return;
+            for(let [slot, tex] of params.entries()) {
+                //console.log("using texture", slot, tex);
+                gl.activeTexture(gl.TEXTURE0 + slot);
+                tex.bind();
+                gl.uniform1i(this.gx.programInfo.uniforms.uSampler[slot], slot);
+            }
+        };
+    }
 }

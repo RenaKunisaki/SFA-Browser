@@ -133,10 +133,17 @@ export default class TextureViewer {
         let fmt = T.format;
         if(ImageFormatNames[fmt]) fmt = ImageFormatNames[fmt];
         else fmt = `unk${hex(fmt,2)}`;
+
+        //XXX who's changing the ID such that we need to do this?
+        let id = T.id;
+        if(id < 0) id = (-id) & 0x7FFF;
+        else if(id >= 0x8000) id &= 0x7FFF;
+
         clearElement(this.eTexInfo).append(
             `Tex 0x${hex(item.id & 0xFFFF, 4)}: `+
             `${T.width}x${T.height}, ${fmt}, ${T.numMipMaps} mips; `+
-            `ID=0x${hex(T.id & 0xFFFF)} offs=0x${hex(T.offset)} T${T.tblIdx}`);
+            `ID=0x${hex(id)} offs=0x${hex(T.offset)} T${T.tblIdx}`);
+
     }
 
     _onMouseDown(e) {

@@ -47,6 +47,7 @@ export default class ObjectRenderer {
             this.objInstances.push(inst);
             this.objInstancesById[entry.id] = inst;
             const batch = this.drawObject(inst);
+            console.assert(batch, "Batch for object", entry, inst, "is", batch);
             this.batches[`obj${entry.idx}`] = batch;
         }
     }
@@ -81,7 +82,8 @@ export default class ObjectRenderer {
         for(let entry of map.romList.entries) {
             if((entry.actsMask & acts) && (entry.groupMask & groups)) {
                 const batch = this.batches[`obj${entry.idx}`];
-                console.assert(batch);
+                console.assert(batch, "Batch for object", entry, "is", batch);
+                if(!batch) debugger;
                 const inst = this.objInstancesById[entry.id];
                 const isTrig = (inst instanceof Trigger);
                 const isCurv = (inst instanceof Curve);
@@ -99,6 +101,7 @@ export default class ObjectRenderer {
 
     /** Draw an object.
      *  @param {ObjInstance} inst Object to draw.
+     *  @returns {RenderBatch} The render batch.
      */
     drawObject(inst) {
         let id = this.pickerIds[inst.entry.idx];
@@ -109,7 +112,9 @@ export default class ObjectRenderer {
             });
             this.pickerIds[inst.entry.idx] = id;
         }
-        return inst.render(id);
+        const result = inst.render(id);
+        console.assert(result, "Failed to render object", id, inst);
+        return result;
     }
 
     /** Set up the render params to render objects.

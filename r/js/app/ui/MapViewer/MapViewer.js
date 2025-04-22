@@ -46,6 +46,7 @@ export default class MapViewer {
         this._setupKeyEvents();
         this._reset();
         this.app.onIsoLoaded(iso => this._onIsoLoaded());
+        this._isLoading = false;
     }
 
     _setupKeyEvents() {
@@ -257,6 +258,7 @@ export default class MapViewer {
 
     /** Load the map data. */
     async _loadMap() {
+        this._isLoading = true; //don't draw before it's loaded
         this.app.progress.show({
             taskText:  "Loading Map",
             subText:   "Loading block textures...",
@@ -286,6 +288,7 @@ export default class MapViewer {
             }
         }
         this.textureViewer.setTextures(textures);
+        this._isLoading = false;
     }
 
     /** Find a block to start at. */
@@ -387,6 +390,7 @@ export default class MapViewer {
     /** Draw the map. Called by Context. */
     async _draw(isPicker) {
         if(!this.map) return;
+        if(this._isLoading) return;
         this._isDrawingForPicker = isPicker;
 
         //const tStart = performance.now();

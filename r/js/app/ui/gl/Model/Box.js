@@ -14,6 +14,17 @@ const DEFAULT_COLORS = [
     [0xFF, 0x00, 0x00, 0xCF],
 ];
 
+const TEXCOORDS = [
+    [1, 1],
+    [0, 1],
+    [1, 1],
+    [0, 1],
+    [1, 0],
+    [0, 0],
+    [0, 0],
+    [1, 0],
+];
+
 /** A box, or rectangular prism.
  *  Expands from one corner point to another.
  *  By default, the box is aligned to global axes, then the
@@ -32,6 +43,7 @@ export default class Box extends Model {
         this.p1 = vec3.fromValues(...p1);
         this.p2 = vec3.fromValues(...p2);
         this.setColors(DEFAULT_COLORS);
+        this.setTexture(null);
     }
 
     /** Construct a box which is rotated to contain the given line.
@@ -115,6 +127,17 @@ export default class Box extends Model {
         return this;
     }
 
+    /** Set the texture.
+     *
+     * @param {Texture} tex The texture.
+     * @returns {Box} this.
+     */
+    setTexture(tex) {
+        this._texture = tex;
+        this._needsUpdate = true;
+        return this;
+    }
+
     /** Recalculate buffers. Called after geometry changes. */
     _update() {
         const gl = this.gl;
@@ -160,11 +183,19 @@ export default class Box extends Model {
                 POS:  vtxPositions[idx],
                 COL0: this.colors[idx],
                 COL1: this.colors[idx],
+                TEX0: TEXCOORDS[idx],
                 id:   this.id,
             });
         }
 
         this._batch = new RenderBatch(this.gx);
+        if(this._texture) {
+            this._batch.addFunction(this._makeSetTextureCmd([this._texture]));
+        }
+        else {
+            //don't keep the previous texture
+            this._batch.addFunction(this._makeSetTextureCmd([this.gx.whiteTexture]));
+        }
         this._batch.addVertices(...vtxs);
         this._needsUpdate = false;
         return this;

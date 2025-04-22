@@ -46,12 +46,14 @@ export default class SfaModel {
         this.textures = [];
         for(let i=0; i<this.header.nTextures; i++) {
             let tId = view.getUint32(this.header.textures + (i*4));
+            const origId = tId;
             tId = -(tId | 0x8000); //game does this - forces IDs to be idxs into TEX1
+            //console.log("Texture", i, origId, '0x'+hex(origId), tId, '0x'+hex(tId));
             const gTex = this.game.loadTexture(tId, this.dir);
             if(gTex) {
                 const tex = new Texture(this.gx.context);
                 tex.loadGameTexture(gTex);
-                tex.id = tId; //for debug
+                tex.id = origId; //for debug
                 this.textures.push(tex);
             }
             else {

@@ -207,21 +207,30 @@ export default class Game {
         return [id, tbl];
     }
 
+    /** Load a texture asset.
+     *
+     * @param {int} id The texture ID.
+     * @param {string} dir The map directory to load from.
+     * @returns {SfaTexture} The texture asset.
+     * @note Texture ID is translated the way the game does;
+     *  this includes using a negative value to bypass translation
+     *  and the 0x8000 bit telling which table to use.
+     */
     loadTexture(id, dir) {
         if(this.loadedTextures[id]) return this.loadedTextures[id];
 
         //ensure the global texture files are loaded
         if(this.texTable == null) {
-            this.texTable    = new GameFile(this.iso.getFile('/TEXTABLE.bin'));
-            this.texPreTab   = new GameFile(this.iso.getFile('/TEXPRE.tab'));
-            this.texPreBin   = new GameFile(this.iso.getFile('/TEXPRE.bin'));
+            this.texTable  = new GameFile(this.iso.getFile('/TEXTABLE.bin'));
+            this.texPreTab = new GameFile(this.iso.getFile('/TEXPRE.tab'));
+            this.texPreBin = new GameFile(this.iso.getFile('/TEXPRE.bin'));
         }
 
         //load the texture files for the given directory
-        let   fTab0  = this.iso.getFile(`${dir}/TEX0.tab`);
-        let   fBin0  = this.iso.getFile(`${dir}/TEX0.bin`);
-        let   fTab1  = this.iso.getFile(`${dir}/TEX1.tab`);
-        let   fBin1  = this.iso.getFile(`${dir}/TEX1.bin`);
+        let fTab0  = this.iso.getFile(`${dir}/TEX0.tab`);
+        let fBin0  = this.iso.getFile(`${dir}/TEX0.bin`);
+        let fTab1  = this.iso.getFile(`${dir}/TEX1.tab`);
+        let fBin1  = this.iso.getFile(`${dir}/TEX1.bin`);
         if(!fTab0) {
             console.error("Texture files not found in", dir);
             return null;
