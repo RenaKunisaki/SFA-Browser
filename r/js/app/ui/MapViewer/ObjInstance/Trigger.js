@@ -28,6 +28,20 @@ export class Trigger extends ObjInstance {
         ObjSeqCmdEnum = this.game.app.types.getType('sfa.seq.ObjSeqCmdEnum');
         let result = super.decodeParams();
         const seq = [];
+
+        this._hasActions = { //used to determine color
+            saveCharPos: false,
+            respawn:     false,
+            objGroup:    false,
+            loadMap:     false, //also unload
+            setAct:      false,
+            gameBit:     false,
+            camera:      false,
+            startSeq:    false,
+            showText:    false,
+            unknown:     false, //also unknown activation conditions
+        };
+
         for(let iCmd=0; iCmd<8; iCmd++) {
             const cmd = this.entry.params.seq.value.value[iCmd];
             if(cmd.cmd == 0) continue;
@@ -52,9 +66,11 @@ export class Trigger extends ObjInstance {
                 if(flags & 0x04) conditions.push("?Enter");
                 else if(flags & 0x08) conditions.push("?Leave");
                 else conditions.push("Never");
+                this._hasActions.unknown = true; //Never is pretty strange too
             }
             if(flags & 0xE0) {
                 conditions.push(`Unk${hex(cmd.flags,2)}`);
+                this._hasActions.unknown = true;
             }
             conditions = conditions.join(', ');
 
@@ -65,11 +81,13 @@ export class Trigger extends ObjInstance {
                 case 0x01: { //player subcmd
                     name = "Player";
                     switch(cmd.param1) {
-                        case 0x08: params = "Respawn"; break;
+                        case 0x08: params = "Respawn"; this._hasActions.respawn = true; break;
                         case 0x09: params = "DangerousWater"; break;
                         case 0x0A: params = "SafeWater"; break;
-                        case 0x0B: params = "CanPlaceBarrel"; break;
-                        default: params = `Unk${hex(cmd.param1,2)}${hex(cmd.param2,2)}`;
+                        case 0x0B: params = "CanPutDownObj"; break;
+                        default:
+                            params = `Unk${hex(cmd.param1,2)}${hex(cmd.param2,2)}`;
+                            this._hasActions.unknown = true;
                     }
                     break;
                 }
@@ -99,7 +117,9 @@ export class Trigger extends ObjInstance {
                             params = `0x${hex(cmd.param2,2)}`;
                             break;
                         }
-                        default: name = `Unk${hex(cmd.param1,2)}`;
+                        default:
+                            name = `Unk${hex(cmd.param1,2)}`;
+                            this._hasActions.unknown = true;
                     }
                     break;
                 }
@@ -108,6 +128,7 @@ export class Trigger extends ObjInstance {
                         case 0: {
                             name = "StartSeq";
                             params = `0x${hex(cmd.param2,2)}`;
+                            this._hasActions.startSeq = true;
                             break;
                         }
                         case 1: case 2: {
@@ -138,14 +159,17 @@ export class Trigger extends ObjInstance {
                     params = `0x${hex(bitNo,4)}`;
                     const bit = this.game.bits[bitNo];
                     if(bit && bit.name) params += ' '+bit.name;
+                    this._hasActions.gameBit = true;
                     break;
                 }
                 case 0x13: case 0x14: { //show obj group, hide obj group
                     params = `${cmd.param2}`;
+                    this._hasActions.objGroup = true;
                     break;
                 }
                 case 0x1A: case 0x1B: { //show/hide in other map
                     params = `${this.game.getMapDirName(cmd.param2)} ${cmd.param1}`;
+                    this._hasActions.objGroup = true;
                     break;
                 }
                 case 0x1C: { //env cmd
@@ -167,6 +191,7 @@ export class Trigger extends ObjInstance {
                         default:
                             name   = `Env Unk${hex(cmd.param1,2)}`;
                             params = hex(cmd.param2,2);
+                            this._hasActions.unknown = true;
                     }
                     break;
                 }
@@ -176,11 +201,14 @@ export class Trigger extends ObjInstance {
                 }
                 case 0x1E: { //set map act for other map
                     params = `${this.game.getMapDirName(cmd.param2)} ${cmd.param1}`;
+                    this._hasActions.setAct = true;
                     break;
                 }
                 case 0x1F: { //save/restore player position
                     params = (cmd.param2 & 1) ? "Restore" : "Save";
                     params += `; 0x${hex(cmd.param2 & 0xFE,2)}`;
+                    if(cmd.param2 & 1) this._hasActions.respawn = true;
+                    else this._hasActions.saveCharPos = true;
                     break;
                 }
                 case 0x20: { //change map layer
@@ -198,18 +226,21 @@ export class Trigger extends ObjInstance {
                     const bit = this.game.bits[bitNo];
                     if(bit && bit.name) params += ' '+bit.name;
                     params += ` bit${idx}`;
+                    this._hasActions.gameBit = true;
                     break;
                 }
                 case 0x22: { //ToggleObjGroup
                     params = `${cmd.param2}`;
+                    this._hasActions.objGroup = true;
                     break;
                 }
                 case 0x23: { //subcmd
                     switch(cmd.param1) {
-                        case 0: name = "RespawnPos_Set"; break;
-                        case 1: name = "RespawnPos_Clear"; break;
-                        case 2: name = "RespawnPos_Goto"; break;
-                        case 3: name = "RespawnPos_SetDazed"; break;
+                        case 0: name = "RespawnPos_Set"; this._hasActions.saveCharPos = true; break;
+                        case 1: name = "RespawnPos_Clear"; this._hasActions.saveCharPos = true; break;
+                        case 2: name = "RespawnPos_Goto"; this._hasActions.respawn = true; break;
+                        case 3: name = "RespawnPos_SetDazed"; this._hasActions.saveCharPos = true; break;
+                        default: this._hasActions.unknown = true;
                     }
                     params = '';
                     break;
@@ -225,6 +256,7 @@ export class Trigger extends ObjInstance {
                         default:
                             name = `Tricky_Unk${hex(cmd.param1,2)}`;
                             params = hex(cmd.param2,2);
+                            this._hasActions.unknown = true;
                             break;
                     }
                     break;
@@ -232,10 +264,12 @@ export class Trigger extends ObjInstance {
                 case 0x27: case 0x28: { //load/free map assets
                     const id = (cmd.param1 << 8) | cmd.param2;
                     params = this.game.getMapDirName(id);
+                    this._hasActions.loadMap = true;
                     break;
                 }
                 case 0x2A: case 0x2B: { //lock/unlock bucket
                     params = `${this.game.getMapDirName(cmd.param1)} ${hex(cmd.param2,2)}`;
+                    this._hasActions.loadMap = true;
                     break;
                 }
                 case 0x2D: { //show dialogue
@@ -246,18 +280,35 @@ export class Trigger extends ObjInstance {
                         params += text.phrases.join('\n').substr(0,64);
                     }
                     else params += '[unknown]';
+                    this._hasActions.showText = true;
                     break;
                 }
                 default:
                     params = `${hex(cmd.param1,2)}${hex(cmd.param2,2)}`;
+                    this._hasActions.unknown = true;
             }
             seq.push(E.li('seqcmd', `[${conditions}] ${name} ${params}`));
         }
 
         result.seq = E.ul(...seq);
         return result;
+    } //decodeParams()
+
+    chooseColor() {
+        if(this._hasActions == undefined) this.decodeParams();
+        if(this._hasActions.unknown)     return [0x20, 0x00, 0x00, 0x80];
+        if(this._hasActions.saveCharPos) return [0x80, 0x80, 0x00, 0x80];
+        if(this._hasActions.respawn)     return [0x80, 0x00, 0x00, 0x80];
+        if(this._hasActions.setAct)      return [0x00, 0x80, 0xFF, 0x80];
+        if(this._hasActions.startSeq)    return [0xC0, 0x60, 0xC0, 0x80];
+        if(this._hasActions.objGroup)    return [0x00, 0x00, 0x80, 0x80];
+        if(this._hasActions.loadMap)     return [0x00, 0x00, 0xFF, 0x80];
+        if(this._hasActions.camera)      return [0x60, 0xC0, 0x60, 0x80];
+        if(this._hasActions.showText)    return [0xC0, 0x40, 0x40, 0x80];
+        if(this._hasActions.gameBit)     return [0x40, 0x00, 0x40, 0x80];
+        return [0x80, 0x80, 0x80, 0x80];
     }
-}
+} //class Trigger
 
 export class TrigPnt extends Trigger {
     render(id) {
@@ -274,7 +325,7 @@ export class TrigPnt extends Trigger {
         const s = entry.params.size.value.value[0];
         batch.addFunction(
             (new Sphere(this.gx, [x,y,z])).setScale(s).setId(id).setColor(
-                [0xFF, 0x40, 0x40, 0x80]).batch);
+                this.chooseColor()).batch);
         return batch;
     }
 }
@@ -294,7 +345,7 @@ export class TrigCyl extends Trigger {
         const h = entry.params.size.value.value[2];
         batch.addFunction((new Cylinder(this.gx, [x,y,z],
         )).setScale(r,h/2,r).setId(id).setColor(
-            [0x40, 0x40, 0xFF, 0x80]).setRot(
+            this.chooseColor()).setRot(
             rot2rad(entry.params.rot.value.value[0] << 8),
             rot2rad(entry.params.rot.value.value[1] << 8), 0).batch);
         return batch;
@@ -317,10 +368,10 @@ export class TrigPln extends Trigger {
             [-0.5, -0.5, -0.1],
             [ 0.5,  0.5,  0.1],
         )).setScale(s,s,1).setRot(0,rx,ry).setPos(x,y,z).setId(id).setColors(
-            [0x40, 0xFF, 0x40, 0x80]).batch);
+            this.chooseColor()).batch);
         batch.addFunction(
             (new Arrow(this.gx, [x,y,z], [0,rx,ry], [s/10,s/10,s/10]))
-            .setColor(0x40, 0xC0, 0x40, 0x80)
+            .setColor(this.chooseColor())
             .batch);
         return batch;
     }
@@ -342,7 +393,7 @@ export class TrigArea extends Trigger {
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
         )).setScale(sx,sy,sz).setPos(x,y,z).setId(id).setColors(
-            [0x40, 0x40, 0xFF, 0x80]).setRot(
+            this.chooseColor()).setRot(
             rot2rad(entry.params.rot.value.value[0] << 8),
             rot2rad(entry.params.rot.value.value[1] << 8), 0).batch);
         return batch;
@@ -359,7 +410,7 @@ export class TrigTime extends Trigger {
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
         )).setScale(s).setPos(x,y,z).setId(id).setColors(
-            [0x40, 0xFF, 0xFF, 0x80]).batch);
+            this.chooseColor()).batch);
         return batch;
     }
 }
@@ -374,7 +425,7 @@ export class TrigButt extends Trigger {
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
         )).setScale(s).setPos(x,y,z).setId(id).setColors(
-            [0xFF, 0x40, 0xFF, 0x80]).batch);
+            this.chooseColor()).batch);
         return batch;
     }
 }
@@ -389,7 +440,7 @@ export class TriggSetp extends Trigger { //this one has extra g
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
         )).setScale(s).setPos(x,y,z).setId(id).setColors(
-            [0xFF, 0xFF, 0x40, 0x80]).batch);
+            this.chooseColor()).batch);
         return batch;
     }
 }
@@ -404,7 +455,7 @@ export class TrigBits extends Trigger {
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
         )).setScale(s).setPos(x,y,z).setId(id).setColors(
-            [0xFF, 0x80, 0x40, 0x80]).batch);
+            this.chooseColor()).batch);
         return batch;
     }
 }
@@ -419,7 +470,7 @@ export class TrigCrve extends Trigger {
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
         )).setScale(s).setPos(x,y,z).setId(id).setColors(
-            [0x40, 0x80, 0xFF, 0x80]).batch);
+            this.chooseColor()).batch);
         return batch;
     }
 }

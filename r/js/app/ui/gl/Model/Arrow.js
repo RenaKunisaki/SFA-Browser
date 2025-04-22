@@ -57,7 +57,8 @@ export default class Arrow extends Model {
      *  @returns {Arrow} this.
      */
     setColor(r, g, b, a=255) {
-        this.color = [r,g,b,a];
+        if(Array.isArray(r)) this.color = r;
+        else this.color = [r,g,b,a];
         this._needsUpdate = true;
         return this;
     }
