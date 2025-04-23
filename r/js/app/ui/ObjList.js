@@ -61,10 +61,14 @@ export default class ObjList {
             },
             {displayName:"Models", name:'models', type:'string', title:"Model IDs",
                 makeElem: (val, td, row) => {
+                    let names = [];
                     for(let id of row.modelIds) {
-                        td.append(`${hex(id,4)} `);
+                        const info   = this.game.modelInfo[id];
+                        const name   = (info && info.name) ? info.name : "";
+                        names.push(`${hex(id,4)} ${name}`);
                     }
-                    if(val < 0) td.classList.add('null');
+                    td.append(names.join(', '));
+                    if(names.length <= 0) td.classList.add('null');
                     return td;
                 },
             },

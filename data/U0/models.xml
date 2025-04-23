@@ -1,5 +1,5 @@
 <models>
-    <!-- names are made up by me -->
+    <!-- names are made up by me and/or copied from object names -->
     <model id="0x0000" name="dummy">
         <description>default cube</description>
     </model>
@@ -17,6 +17,11 @@
     <model id="0x0006" name="TrickyFood">
         <description>Tricky's "hungry" icon</description>
     </model>
+    <model id="0x0009" name="Kyte" />
+    <model id="0x000A" name="CFCloudBaby" />
+    <model id="0x000C" name="EarthWalker" />
+    <model id="0x000E" name="CFPrisonUnc" />
+    <model id="0x000F" name="CFAmbientCloudrunner" />
     <model id="0x0010">
         <description>a sphere of some sort</description>
     </model>
@@ -32,76 +37,113 @@
     <model id="0x0015" name="QuakeGreen">
         <description>quake effect (green)</description>
     </model>
-    <model id="0x0017" name="Sharpclaw">
+    <model id="0x0016" name="sharpclawSn" />
+    <model id="0x0017" name="SharpclawGrunt">
         <description>Sharpclaw (enemy)</description>
     </model>
-    <model id="0x001A" name="Sharpclaw2">
+    <model id="0x0018" name="SharpclawSo" />
+    <model id="0x0019" name="SharpclawAs" />
+    <model id="0x001A" name="SharpclawCo">
         <description>Buff sharpclaw</description>
     </model>
     <model id="0x001D" name="Guardclaw">
         <description>Guardclaw aka Bribeclaw</description>
     </model>
+    <model id="0x001E" name="GCRobotPatr" />
+    <model id="0x001F" name="GCRobotLigh" />
+    <model id="0x0021" name="SnowWorm" />
+    <model id="0x0023" name="Rachnop" />
     <model id="0x0026">
         <description>? render failed (Bad opcode)</description>
     </model>
     <model id="0x0027">
         <description>? render failed (Bad opcode)</description>
     </model>
-    <model id="0x0029">
+    <model id="0x0029" name="HoodedZyck">
         <description>some kind of bug (loaded in Andross fight, unused?)</description>
     </model>
-    <model id="0x002A">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x004F" name="GeneralScales" />
-    <model id="0x0054">
-        <description>? render failed (Recursion limit)</description>
-    </model>
-    <model id="0x0055">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x0056">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x0057">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x0058">
-        <description>a green ball</description>
-    </model>
+    <model id="0x002A" name="Kooshy" />
+    <model id="0x002B" name="Grimble" />
+    <model id="0x002C" name="PinPon" />
+    <model id="0x002D" name="Hagabon" />
+    <model id="0x002E" name="HagabonMk2" />
+    <model id="0x002F" name="KaldaChom" />
+    <model id="0x0030" name="KaldaChomMe" />
+    <model id="0x0031" name="Mikaladon" />
+    <model id="0x0032" name="WB" />
+    <model id="0x0033" name="Weevil" />
+    <model id="0x0034" name="ChukChuk" />
+    <model id="0x0035" name="SpittingEba" />
+    <model id="0x0036" name="Pollen" />
+    <model id="0x0037" name="PollenFragm" />
+    <model id="0x0038" name="MutatedEba" />
+    <model id="0x0039" name="TumbleweedBush" />
+    <model id="0x003A" name="TumbleweedBush2" />
+    <model id="0x003B" name="Tumbleweed4" />
+    <model id="0x003C" name="Tumbleweed5" />
+    <model id="0x003D" name="EnemyBat" />
+    <model id="0x003E" name="RedEye" />
+    <model id="0x003F" name="FireCrawler" />
+    <model id="0x0040" name="ShadowHunte" />
+    <model id="0x0041" name="BattleDroid" />
+    <model id="0x0042" name="SwampStride" />
+    <model id="0x0044" name="IceBall" />
+    <model id="0x0045" name="SnowBall" />
+    <model id="0x0046" name="KooshyHill" />
+    <model id="0x0047" name="CFTreasWind" />
+    <model id="0x0048" name="KaldachomSp" />
+    <model id="0x0049" name="PinPonSpike" />
+    <model id="0x004A" name="Tumbleweed1" />
+    <model id="0x004B" name="Tumbleweed2" />
+    <model id="0x004C" name="Tumbleweed3" />
+    <model id="0x004D" name="GCbaddieShi" />
+    <model id="0x004E" name="KaldachomSh_or_LaserTurret" />
+    <model id="0x004F" name="GeneralScalesBoss" />
+    <model id="0x0050" name="GeneralScales50" />
+    <model id="0x0053" name="GeneralScales53" />
+    <model id="0x0054" name="DIM_Boss" />
+    <model id="0x0055" name="DIM_BossGut" />
+    <model id="0x0056" name="DIM_BossTon" />
+    <model id="0x0057" name="DIM_BossGut" />
+    <model id="0x0058" name="ChukaChuck" />
+    <model id="0x0059" name="IceSmash0" />
+    <model id="0x005A" name="IceSmash1" />
+    <model id="0x005B" name="IceSmash2" />
+    <model id="0x005C" name="IceSmash3" />
+    <model id="0x005D" name="IceSmash4" />
+    <model id="0x005E" name="IceSmash5" />
+    <model id="0x005F" name="IceSmash6" />
+    <model id="0x0060" name="IceSmash7" />
+    <model id="0x0061" name="IceSmash8" />
+    <model id="0x0062" name="IceSmash9" />
+    <model id="0x0063" name="IceSmash10" />
+    <model id="0x0064" name="IceSmash11" />
     <model id="0x0065">
         <description>a black square (checkerboard texture but only black part used)</description>
     </model>
-    <model id="0x0066">
-        <description>? render failed (Bad opcode)</description>
-    </model>
+    <model id="0x0066" name="Drakor" />
     <model id="0x006C" name="DrakorMine" />
-    <model id="0x006D">
-        <description>? render failed (recursion limit)</description>
-    </model>
-    <model id="0x006E">
-        <description>? render failed (recursion limit)</description>
-    </model>
-    <model id="0x006F">
-        <description>? render failed (Polygon group)</description>
-    </model>
-    <model id="0x0070">
-        <description>? render failed (Polygon group)</description>
-    </model>
-    <model id="0x0071">
-        <description>some kind of metal box</description>
-    </model>
+    <model id="0x006D" name="KT_Rex0" />
+    <model id="0x006E" name="KT_Rex1" />
+    <model id="0x006F" name="KT_RexFloorSwitch" />
+    <model id="0x0070" name="KT_RexDoor" />
+    <model id="0x0071" name="KT_Torch" />
+    <model id="0x0072" name="AnimSpaceCr" />
     <model id="0x0077" name="SharpclawClub" />
+    <model id="0x0078" name="SharpclawWeaponT2" />
     <model id="0x0079" name="SharpclawAxe" />
+    <model id="0x007A" name="SharpclawWeaponT4" />
     <model id="0x007B" name="SharpclawSpear" />
-    <model id="0x007D" name="Sword">
-        <description>maybe Sabre's?</description>
-    </model>
+    <model id="0x007D" name="ScalesSword" />
     <model id="0x007E" name="Staff" />
-    <model id="0x0084" name="ShieldEffect" />
-    <model id="0x00B6">
-        <description>? render failed (recursion limit)</description>
-    </model>
+    <model id="0x007F" name="StaffEnd1" />
+    <model id="0x0080" name="StaffEnd2" />
+    <model id="0x0081" name="StaffEnd0" />
+    <model id="0x0082" name="StaffEnd3" />
+    <model id="0x0083" name="StaffEnd4" />
+    <model id="0x0084" name="ShieldEffectYellow" />
+    <model id="0x0085" name="ShieldEffect" />
+    <model id="0x0086" name="CFPickKryst" />
     <model id="0x0087" name="Backpack" />
     <model id="0x0088" name="StaffBoostPad" />
     <model id="0x0089">
@@ -113,16 +155,28 @@
     <model id="0x008D" name="StaffLeverSquare">
         <description>Staff on/off switch (square indicator)</description>
     </model>
+    <model id="0x0093" name="CFGuardian" />
     <model id="0x0094">
         <description>? render failed (recursion limit)</description>
     </model>
+    <model id="0x0096" name="CFScalesGal" />
+    <model id="0x00AA" name="FlameBall" />
+    <model id="0x00AF" name="CF_Lamp" />
+    <model id="0x00B1" name="CF_MovDeckD" />
     <model id="0x00B5" name="TrickyBall" />
+    <model id="0x00B6">
+        <description>? render failed (recursion limit)</description>
+    </model>
+    <model id="0x00BB" name="DIMPushBlock" />
+    <model id="0x00C2" name="AlpineRoot" />
     <model id="0x00D6">
         <description>? render failed (bad opcode)</description>
     </model>
     <model id="0x00D9">
         <description>? render failed (bad opcode)</description>
     </model>
+    <model id="0x00DF" name="DIM_Portcul1" />
+    <model id="0x00E0" name="DIM_Portcul0" />
     <model id="0x00F5" name="KrystalHead">
         <description>floating head for cutscenes</description>
     </model>
@@ -133,6 +187,7 @@
         <description>? render failed (bad opcode)</description>
     </model>
     <model id="0x010B" name="Flowers" />
+    <model id="0x010D" name="InfoTablet" />
     <model id="0x010E" name="SmallPlant" />
     <model id="0x010F" name="PalmTree" />
     <model id="0x0116" name="SmallRock" />
@@ -154,6 +209,8 @@
     <model id="0x015F" name="Flashlight">
         <description>unused?</description>
     </model>
+    <model id="0x0160" name="DIM2_barrel" />
+    <model id="0x016D" name="CFWindLiftL" />
     <model id="0x016E" name="CrudeWoodFence">
         <description>haphazard wooden gate</description>
     </model>
@@ -181,6 +238,30 @@
     <model id="0x0176" name="WoodPlank176">
         <description>upright wooden plank</description>
     </model>
+    <model id="0x0177" name="CFLightPill" />
+    <model id="0x0178" name="CFLightWall" />
+    <model id="0x0179" name="CFPressureSwitch" />
+    <model id="0x017B" name="CFDungeonLi" />
+    <model id="0x017C" name="CFbrokenWal0" />
+    <model id="0x017D" name="CFbrokenWal1" />
+    <model id="0x017E" name="CFbrokenWal2" />
+    <model id="0x017F" name="CFbrokenWal3" />
+    <model id="0x0180" name="CFbrokenWal4" />
+    <model id="0x0181" name="CFbrokenWal5" />
+    <model id="0x0182" name="CFbrokenWal6" />
+    <model id="0x0183" name="CFbrokenWal7" />
+    <model id="0x0184" name="CFbrokenWal8" />
+    <model id="0x0185" name="CFbrokenWal9" />
+    <model id="0x0186" name="CFbrokenWal10" />
+    <model id="0x0187" name="CFbrokenWal11" />
+    <model id="0x0188" name="CFbrokenWal12" />
+    <model id="0x0189" name="CFbrokenWal13" />
+    <model id="0x018A" name="CFbrokenWal14" />
+    <model id="0x018B" name="CFbrokenWal15" />
+    <model id="0x018C" name="CFbrokenWal16" />
+    <model id="0x018D" name="CFbrokenWal17" />
+    <model id="0x018E" name="CFbrokenWal18" />
+    <model id="0x0197" name="CFSunTemple" />
     <model id="0x0198" name="DinoPlanet">
         <description>Dinosaur Planet on map</description>
     </model>
@@ -302,6 +383,9 @@
     <model id="0x0210">
         <description>a dome (lava bubble?)</description>
     </model>
+    <model id="0x024B" name="CF_WallTorch" />
+    <model id="0x0282" name="Krazoa" />
+    <model id="0x0289" name="DrakorLavaDroplet" />
     <model id="0x02AC" name="SmallBasket">
         <description>small basket</description>
     </model>
@@ -312,7 +396,6 @@
         <description>large crate</description>
     </model>
     <model id="0x02B6" name="DrakorSupplyBox" />
-    <model id="0x0289" name="DrakorLavaDroplet" />
     <model id="0x02BA">
         <description>? render failed (bad opcode)</description>
     </model>
@@ -339,34 +422,99 @@
         <description>used for some debug objects</description>
     </model>
     <model id="0x02D9" name="Trickywarp" />
+    <model id="0x02DA" name="DIMLogFire" />
+    <model id="0x02DB" name="DIMLogFireR" />
+    <model id="0x02E8" name="CFCrate" />
+    <model id="0x02EC" name="AnimSpell" />
     <model id="0x02EF" name="OldCube">
         <description>small cube with old (4-point) Sharpclaw emblem</description>
     </model>
     <model id="0x02F2" name="FireSpellstone" />
+    <model id="0x02F3" name="CRFireSpellstone">
+        <description>Spellstone used in race</description>
+    </model>
     <model id="0x02F4" name="WaterSpellstone" />
+    <model id="0x02F5" name="CFPuzzleSwitch" />
     <model id="0x02FA">
         <description>nothing? (has a ring texture #7A5E)</description>
     </model>
-    <model id="0x031B">
-        <description>orange droplet</description>
-    </model>
+    <model id="0x02FC" name="SnowBike" />
+    <model id="0x0302" name="DIMMagicLight" />
+    <model id="0x0305" name="CFExplosiveDoor" />
+    <model id="0x0306" name="CFMagicWall" />
+    <model id="0x0307" name="CRrockfall" />
+    <model id="0x0308" name="CRDropBomb0" />
+    <model id="0x0309" name="CRDropBomb1" />
+    <model id="0x030A" name="CFPrisonDoor" />
+    <model id="0x0310" name="CFMainCryst0" />
+    <model id="0x0311" name="CFMainCryst1" />
+    <model id="0x0312" name="CFPowerBase0" />
+    <model id="0x0313" name="CFPowerBase1" />
+    <model id="0x0314" name="CFPowerBase2" />
+    <model id="0x0315" name="CFPowerDoor0" />
+    <model id="0x0316" name="CFPowerDoor1" />
+    <model id="0x0317" name="CFPowerDoor2" />
+    <model id="0x0318" name="CFPowerDoor3" />
+    <model id="0x0319" name="CFWindLift0" />
+    <model id="0x031A" name="CFWindLift1" />
+    <model id="0x031B" name="CFPowerCrystalOrange" />
+    <model id="0x031C" name="CFPowerCrystal1" />
+    <model id="0x031D" name="CFPowerCrystal2" />
+    <model id="0x031E" name="CFPowerRoom" />
+    <model id="0x031F" name="CFPerch" />
+    <model id="0x0320" name="CFPrisonCage" />
+    <model id="0x0321" name="CFPrisonCage2" />
+    <model id="0x0322" name="CFMainDoorA" />
+    <model id="0x0323" name="CFMainDoorB" />
     <model id="0x0324" name="CloudrunnerFlute" />
-    <model id="0x035C">
-        <description>? render failed (Polygon group)</description>
+    <model id="0x0325" name="Lever" />
+    <model id="0x0326" name="CFSlideDoor" />
+    <model id="0x0327" name="CFGoldenPer" />
+    <model id="0x0328" name="CFBlastedRo" />
+    <model id="0x032B" name="CFTreasureDoor" />
+    <model id="0x032C" name="CFExplodeFl0" />
+    <model id="0x032D" name="CFExplodeFl1" />
+    <model id="0x032E" name="CFExplodeFl2" />
+    <model id="0x032F" name="CFExplodeFl3" />
+    <model id="0x0330" name="CFExplodeFl4" />
+    <model id="0x0331" name="CFExplodeFl5" />
+    <model id="0x0332" name="CFExplodeFl6" />
+    <model id="0x0333" name="CFExplodeFl7" />
+    <model id="0x0334" name="CFExplodeFl8" />
+    <model id="0x0335" name="CFTreasRobo" />
+    <model id="0x0336" name="Timer">
+        <description>Flashing light on exploding barrel</description>
     </model>
-    <model id="0x035D">
-        <description>? render failed (Polygon group)</description>
-    </model>
-    <model id="0x035E">
-        <description>? render failed (Polygon group)</description>
-    </model>
+    <model id="0x0337" name="CFBrokenPilDoor" />
+    <model id="0x0338" name="CFBrokenPil0" />
+    <model id="0x0339" name="CFBrokenPil1" />
+    <model id="0x033A" name="CFPowerLock0" />
+    <model id="0x033B" name="CFPowerLock1" />
+    <model id="0x0345" name="CF_DoorLigh" />
+    <model id="0x0342" name="CFBlastedWa0" />
+    <model id="0x0343" name="CFBlastedWa1" />
+    <model id="0x0344" name="CFBlastedWa20" />
+    <model id="0x0346" name="CFWinPrison" />
+    <model id="0x0347" name="CFbrokenGra0" />
+    <model id="0x0348" name="CFbrokenGra1" />
+    <model id="0x0349" name="CFbrokenGra2" />
+    <model id="0x034A" name="CFbrokenGra3" />
+    <model id="0x034B" name="CFrunnersta0" />
+    <model id="0x034C" name="CFrunnersta1" />
+    <model id="0x034D" name="CFGCrubble1" />
+    <model id="0x034E" name="CFGCrubble2" />
+    <model id="0x034F" name="CFGCrubble3" />
+    <model id="0x0350" name="CFGCrubble4" />
+    <model id="0x0351" name="CFGCpillbre" />
+    <model id="0x0352" name="CFGCsmallbl" />
+    <model id="0x035C" name="DRDebrisGir" />
+    <model id="0x035D" name="DRDebrisPip0" />
+    <model id="0x035E" name="DRDebrisPip1" />
     <model id="0x0362">
         <description>Fire hole?</description>
     </model>
     <model id="0x0364" name="PortalDoor" />
-    <model id="0x0365">
-        <description>? render failed (Polygon group)</description>
-    </model>
+    <model id="0x0365" name="DrakorHoverPad" />
     <model id="0x0377" name="ExplodedRockChunk1" />
     <model id="0x0378" name="ExplodedRockChunk2" />
     <model id="0x0379" name="ExplodedRockChunk3" />
@@ -377,31 +525,110 @@
         <description>? not sure</description>
     </model>
     <model id="0x037F" name="FireflyLantern" />
-    <model id="0x03AB">
-        <description>?</description>
-    </model>
-    <model id="0x03B5">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x03B6">
-        <description>metal sphere</description>
-    </model>
+    <model id="0x03A1" name="DrakorFirePipe" />
+    <model id="0x03A5" name="GCRobotPatr3A5" />
+    <model id="0x03AA" name="DIMSnowHorn" />
+    <model id="0x03AB" name="DIMafterbos" />
+    <model id="0x03AC" name="DIMSnowHornLock" />
+    <model id="0x03AD" name="DIMGate0" />
+    <model id="0x03AE" name="DIMGate1" />
+    <model id="0x03AF" name="DIMGate2" />
+    <model id="0x03B0" name="DIMWoodDoor2" />
+    <model id="0x03B1" name="DIMHutDoor" />
+    <model id="0x03B2" name="DIMBarrier" />
+    <model id="0x03B3" name="DIMFlag" />
+    <model id="0x03B4" name="WCBouncyCra" />
+    <model id="0x03B5" name="Cannon" />
+    <model id="0x03B6" name="CannonBall" />
+    <model id="0x03B7" name="FireCrawler" />
+    <model id="0x03B8" name="DIM2Torch" />
+    <model id="0x03B9" name="DIMLavaSmash0" />
+    <model id="0x03BA" name="DIMLavaSmash1" />
+    <model id="0x03BB" name="DIMLavaSmash2" />
+    <model id="0x03BC" name="DIMBridgeCo3BC" />
+    <model id="0x03BD" name="DIMBridgeCo3BD" />
+    <model id="0x03BE" name="DIMBridgeCo3BE" />
+    <model id="0x03BF" name="DIMBridgeCo3BF" />
+    <model id="0x03C0" name="DIMBridgeCo3C0" />
+    <model id="0x03C1" name="DIMBridgeCo3C1" />
+    <model id="0x03C2" name="01C8DIMBridgeCogMai0" />
+    <model id="0x03C3" name="01C8DIMBridgeCogMai1" />
+    <model id="0x03C4" name="DIMBridge0" />
+    <model id="0x03C5" name="DIMBridge1" />
+    <model id="0x03C8" name="DIMMagicBridge" />
     <model id="0x03C9" name="DinosaurHorn" />
-    <model id="0x03CB">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x03CC">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x03CD">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x03CE">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x03CF">
-        <description>? render failed (Bad opcode)</description>
-    </model>
+    <model id="0x03CA" name="DIMTruthHornIce" />
+    <model id="0x03CB" name="DIMicefloor0" />
+    <model id="0x03CC" name="DIMicefloor1" />
+    <model id="0x03CD" name="DIMicefloor2" />
+    <model id="0x03CE" name="DIMicefloor3" />
+    <model id="0x03CF" name="DIMicefloor4" />
+    <model id="0x03D0" name="DIMDoorBrid" />
+    <model id="0x03D1" name="DIM2CannonT0" />
+    <model id="0x03D2" name="DIM2CannonT1" />
+    <model id="0x03D3" name="DIM2Mammoth" />
+    <model id="0x03DB" name="DIMKey" />
+    <model id="0x03DE" name="DIM2_WallEx0" />
+    <model id="0x03DF" name="DIM2_WallEx1" />
+    <model id="0x03E0" name="DIM2_WallEx2" />
+    <model id="0x03E1" name="DIM2_WallEx3" />
+    <model id="0x03E2" name="DIM2_WallEx4" />
+    <model id="0x03E3" name="DIM2_WallEx5" />
+    <model id="0x03E5" name="CFExplosive" />
+    <model id="0x03E6" name="DIMWoodDoor" />
+    <model id="0x03E9" name="DIM2IceFloe0" />
+    <model id="0x03EC" name="DIM2IceFloe1" />
+    <model id="0x03ED" name="DIM2IceFloe2" />
+    <model id="0x03F7" name="DIM2TrapDoor1" />
+    <model id="0x03F8" name="DIM2TrapDoor0" />
+    <model id="0x0405" name="DIM2IcePlat0" />
+    <model id="0x0406" name="DIM2IcePlat1" />
+    <model id="0x0407" name="WCTempleBlock0" />
+    <model id="0x0408" name="WCTempleBlock1" />
+    <model id="0x0409" name="WCTempleDoor0" />
+    <model id="0x040A" name="WCTempleDoor1" />
+    <model id="0x040B" name="WCTempleDoor2" />
+    <model id="0x040C" name="WCSunTemple" />
+    <model id="0x040D" name="WCMoonTemple" />
+    <model id="0x040E" name="WCSunTempleDoor" />
+    <model id="0x040F" name="WCMoonTempleDoor" />
+    <model id="0x0410" name="WCSlabDoor" />
+    <model id="0x0411" name="WCBossDoor" />
+    <model id="0x0412" name="WCBeacon0" />
+    <model id="0x0413" name="WCBeacon1" />
+    <model id="0x0414" name="WCPressureSwitch0" />
+    <model id="0x0415" name="WCPressureSwitch1" />
+    <model id="0x0416" name="WCTrexStatue0" />
+    <model id="0x0417" name="WCTrexStatue1" />
+    <model id="0x0418" name="WCPushBlock0" />
+    <model id="0x0419" name="WCPushBlock1" />
+    <model id="0x041A" name="WCPushBlock2" />
+    <model id="0x041B" name="WCPushBlock3" />
+    <model id="0x041C" name="WCTile0" />
+    <model id="0x041D" name="WCTile1" />
+    <model id="0x041E" name="WCGoldTooth" />
+    <model id="0x041F" name="WCSilverTooth" />
+    <model id="0x0420" name="WCSunTemple420" />
+    <model id="0x0421" name="WCMoonTemple421" />
+    <model id="0x0422" name="WCGeneralDoor" />
+    <model id="0x0423" name="WCAnimSunStone" />
+    <model id="0x0424" name="WCAnimMoonStone" />
+    <model id="0x0425" name="WCApertures" />
+    <model id="0x0426" name="WCAperturem" />
+    <model id="0x0427" name="WCSunTempleLock0" />
+    <model id="0x0428" name="WCSunTempleLock1" />
+    <model id="0x0429" name="WCSunTempleLock2" />
+    <model id="0x042A" name="WCTempleDial0" />
+    <model id="0x042B" name="WCTempleDial1" />
+    <model id="0x042C" name="WCTempleDial2" />
+    <model id="0x042D" name="WCTempleBri0" />
+    <model id="0x042E" name="WCTempleBri1" />
+    <model id="0x0430" name="WCSunInside" />
+    <model id="0x0431" name="WCMoonInside" />
+    <model id="0x0432" name="WCFloorTile" />
+    <model id="0x0433" name="WCTemplePre" />
+    <model id="0x0434" name="WCTempleTop" />
+    <model id="0x0435" name="KingEarthwalker" />
     <model id="0x0448" name="CheatToken" />
     <model id="0x044B">
         <description>? render failed (Bad opcode)</description>
@@ -409,10 +636,11 @@
     <model id="0x044C">
         <description>a red cylinder</description>
     </model>
+    <model id="0x0450" name="SkyDome" />
     <model id="0x045A" name="DebugMidiFade" />
     <model id="0x045E" name="DebugCamera" />
     <model id="0x045F" name="DebugArrow" />
-    <model id="0x0461">
+    <model id="0x0461" name="SkeetlaWall">
         <description>Nothing? (blue wavy texture)</description>
     </model>
     <model id="0x0465" name="DebugCurve" />
@@ -445,21 +673,19 @@
     <model id="0x0485">
         <description>? render failed (Bad opcode)</description>
     </model>
-    <model id="0x0486">
-        <description>Orange laser beam? (Great Fox scene)</description>
+    <model id="0x0486" name="OrangeLaser">
+        <description>Great Fox scene</description>
     </model>
-    <model id="0x0487">
-        <description>Green laser beam? (Great Fox scene)</description>
+    <model id="0x0487" name="GreenLaser">
+        <description>Great Fox scene + unused laser spell</description>
     </model>
-    <model id="0x0488">
-        <description>Blue laser beam? (Arwing)</description>
+    <model id="0x0488" name="BlueLaser">
+        <description>Arwing laser?</description>
     </model>
-    <model id="0x0489">
+    <model id="0x0489" name="StaffFireball2">
         <description>three blue fireballs? (ice blast effect?)</description>
     </model>
-    <model id="0x048A" name="Fireball48A">
-        <description>Fireball</description>
-    </model>
+    <model id="0x048A" name="StaffFireball" />
     <model id="0x048B">
         <description>? render failed (PolygonGroup error)</description>
     </model>
@@ -524,6 +750,7 @@
     <model id="0x04AA" name="ArwingEnemyShip">
         <description>Enemy ship (Arwing) (Bad opcode)</description>
     </model>
+    <model id="0x04BB" name="Whirlpool" />
     <model id="0x04C0">
         <description>Blue circle with degree marks (viewfinder?)</description>
     </model>
@@ -543,12 +770,8 @@
     <model id="0x04CF" name="MagicCaveEntrance">
         <description>magic cave opening glow effect</description>
     </model>
-    <model id="0x04D6">
-        <description>three brown fireballs?</description>
-    </model>
-    <model id="0x04D7" name="Fireball4D7">
-        <description>fireball</description>
-    </model>
+    <model id="0x04D6" name="DrakorMissile2" />
+    <model id="0x04D7" name="DrakorMissile" />
     <model id="0x04E8" name="Krystal" />
     <model id="0x04E9" name="SharpclawDisguise" />
 </models>
