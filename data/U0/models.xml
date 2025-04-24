@@ -4,9 +4,7 @@
         <description>default cube</description>
     </model>
     <model id="0x0001" name="Fox" />
-    <model id="0x0002">
-        <description>a purple squished cylinder</description>
-    </model>
+    <model id="0x0002" name="Footstep" />
     <model id="0x0003" name="Tricky" />
     <model id="0x0004" name="TrickyExclamation">
         <description>Tricky's !</description>
@@ -19,10 +17,12 @@
     </model>
     <model id="0x0009" name="Kyte" />
     <model id="0x000A" name="CFCloudBaby" />
+    <model id="0x000B" name="WM_deaddino" />
     <model id="0x000C" name="EarthWalker" />
+    <model id="0x000D" name="EarthWalker2" />
     <model id="0x000E" name="CFPrisonUnc" />
     <model id="0x000F" name="CFAmbientCloudrunner" />
-    <model id="0x0010">
+    <model id="0x0010" name="InfoText">
         <description>a sphere of some sort</description>
     </model>
     <model id="0x0012" name="QuakeBlue">
@@ -46,19 +46,18 @@
     <model id="0x001A" name="SharpclawCo">
         <description>Buff sharpclaw</description>
     </model>
+    <model id="0x001C" name="AnimShadowC" />
     <model id="0x001D" name="Guardclaw">
         <description>Guardclaw aka Bribeclaw</description>
     </model>
     <model id="0x001E" name="GCRobotPatr" />
     <model id="0x001F" name="GCRobotLigh" />
     <model id="0x0021" name="SnowWorm" />
+    <model id="0x0022" name="DBstealerworm" />
     <model id="0x0023" name="Rachnop" />
-    <model id="0x0026">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x0027">
-        <description>? render failed (Bad opcode)</description>
-    </model>
+    <model id="0x0024" name="WM_WallCrawler" />
+    <model id="0x0026" name="BigSkeetla" />
+    <model id="0x0027" name="SmallSkeetla" />
     <model id="0x0029" name="HoodedZyck">
         <description>some kind of bug (loaded in Andross fight, unused?)</description>
     </model>
@@ -100,6 +99,8 @@
     <model id="0x004E" name="KaldachomSh_or_LaserTurret" />
     <model id="0x004F" name="GeneralScalesBoss" />
     <model id="0x0050" name="GeneralScales50" />
+    <model id="0x0051" name="ScalesBelt" />
+    <model id="0x0052" name="NW_GeneralScales" />
     <model id="0x0053" name="GeneralScales53" />
     <model id="0x0054" name="DIM_Boss" />
     <model id="0x0055" name="DIM_BossGut" />
@@ -118,8 +119,8 @@
     <model id="0x0062" name="IceSmash9" />
     <model id="0x0063" name="IceSmash10" />
     <model id="0x0064" name="IceSmash11" />
-    <model id="0x0065">
-        <description>a black square (checkerboard texture but only black part used)</description>
+    <model id="0x0065" name="Blacksquare">
+        <description>a black square (checkerboard texture but only black part used), for object literally named BlackSquare</description>
     </model>
     <model id="0x0066" name="Drakor" />
     <model id="0x006C" name="DrakorMine" />
@@ -129,6 +130,10 @@
     <model id="0x0070" name="KT_RexDoor" />
     <model id="0x0071" name="KT_Torch" />
     <model id="0x0072" name="AnimSpaceCr" />
+    <model id="0x0073" name="IMSpaceThruster0" />
+    <model id="0x0074" name="IMSpaceThruster1" />
+    <model id="0x0075" name="IMSpaceTrac" />
+    <model id="0x0076" name="IMSpaceRing" />
     <model id="0x0077" name="SharpclawClub" />
     <model id="0x0078" name="SharpclawWeaponT2" />
     <model id="0x0079" name="SharpclawAxe" />
@@ -146,55 +151,179 @@
     <model id="0x0086" name="CFPickKryst" />
     <model id="0x0087" name="Backpack" />
     <model id="0x0088" name="StaffBoostPad" />
-    <model id="0x0089">
-        <description>? Render failed (bad opcode)</description>
-    </model>
+    <model id="0x0089" name="StaffBoulder0" />
+    <model id="0x008A" name="StaffBoulder1" />
+    <model id="0x008B" name="StaffBoulder2" />
     <model id="0x008C" name="StaffLeverRound">
         <description>Staff on/off switch (round indicator)</description>
     </model>
     <model id="0x008D" name="StaffLeverSquare">
         <description>Staff on/off switch (square indicator)</description>
     </model>
+    <model id="0x0090" name="scalessword" />
     <model id="0x0093" name="CFGuardian" />
-    <model id="0x0094">
-        <description>? render failed (recursion limit)</description>
-    </model>
+    <model id="0x0094" name="HighTop" />
     <model id="0x0096" name="CFScalesGal" />
+    <model id="0x0097" name="SB_Galleon0" />
+    <model id="0x0098" name="GoldKey" />
+    <model id="0x0099" name="SB_Wheel" />
+    <model id="0x009B" name="SB_Galleon1" />
+    <model id="0x009C" name="SB_ShipFlag" />
+    <model id="0x009D" name="SB_Propeller0" />
+    <model id="0x009E" name="SB_Propeller1" />
+    <model id="0x009F" name="SB_Propeller2" />
+    <model id="0x00A0" name="SB_Propeller3" />
+    <model id="0x00A1" name="SB_Propeller4" />
+    <model id="0x00A2" name="SB_ShipMast" />
+    <model id="0x00A3" name="SB_Sail" />
+    <model id="0x00A4" name="SB_ShipHead" />
+    <model id="0x00A6" name="SB_ShipGun" />
+    <model id="0x00A7" name="SB_ShipGunB" />
+    <model id="0x00A8" name="SB_CloudBall" />
     <model id="0x00AA" name="FlameBall" />
+    <model id="0x00AC" name="SB_FireBall" />
+    <model id="0x00AD" name="SB_CannonBall" />
+    <model id="0x00AE" name="SB_KyteCage" />
     <model id="0x00AF" name="CF_Lamp" />
-    <model id="0x00B1" name="CF_MovDeckD" />
+    <model id="0x00B1" name="SB_DeckDoor" />
+    <model id="0x00B3" name="SB_SeqDoor0" />
+    <model id="0x00B4" name="SB_SeqDoor1" />
     <model id="0x00B5" name="TrickyBall" />
-    <model id="0x00B6">
-        <description>? render failed (recursion limit)</description>
+    <model id="0x00B6" name="NW_mammothh">
+        <description>double h is not a typo</description>
     </model>
+    <model id="0x00B7" name="NW_mammothb" />
+    <model id="0x00B8" name="NW_mammothg" />
+    <model id="0x00B9" name="NW_geyser" />
+    <model id="0x00BA" name="NW_AnimGeyser" />
     <model id="0x00BB" name="DIMPushBlock" />
+    <model id="0x00BE" name="NW_treebrid0" />
+    <model id="0x00BF" name="NW_treebrid1" />
+    <model id="0x00C0" name="NW_treebrid2" />
+    <model id="0x00C1" name="NW_treebrid3" />
     <model id="0x00C2" name="AlpineRoot" />
-    <model id="0x00D6">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x00D9">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x00DF" name="DIM_Portcul1" />
-    <model id="0x00E0" name="DIM_Portcul0" />
+    <model id="0x00C3" name="NWCallOFEld" />
+    <model id="0x00C4" name="NWSteppingS" />
+    <model id="0x00C5" name="NW_IcePrison0" />
+    <model id="0x00C6" name="NW_IcePrison1" />
+    <model id="0x00C7" name="NW_IcePrison2" />
+    <model id="0x00C8" name="NW_IcePrison3" />
+    <model id="0x00C9" name="NW_IcePrison4" />
+    <model id="0x00CA" name="NW_IcePrison5" />
+    <model id="0x00CB" name="NW_IcePrison6" />
+    <model id="0x00CC" name="NW_IcePrison7" />
+    <model id="0x00CD" name="NW_IcePrison8" />
+    <model id="0x00CE" name="NW_IcePrison9" />
+    <model id="0x00CF" name="NW_IcePrison10" />
+    <model id="0x00D0" name="NW_IcePrison11" />
+    <model id="0x00D1" name="NW_SmallSca" />
+    <model id="0x00D2" name="SH_NWkey" />
+    <model id="0x00D3" name="QueenEarthWalker" />
+    <model id="0x00D4" name="Thorntail" />
+    <model id="0x00D5" name="EnemyMushroom" />
+    <model id="0x00D6" name="BlueMushroom" />
+    <model id="0x00D7" name="WhiteGrubtub" />
+    <model id="0x00D8" name="BombPlant" />
+    <model id="0x00D9" name="BurnableVine" />
+    <model id="0x00DB" name="SH_swaplift" />
+    <model id="0x00DC" name="WarpStone" />
+    <model id="0x00DD" name="SH_MediumSc" />
+    <model id="0x00DE" name="SH_LargeSca" />
+    <model id="0x00DF" name="Portcullis1" />
+    <model id="0x00E0" name="Portcullis0" />
+    <model id="0x00E1" name="SH_BombWall0" />
+    <model id="0x00E2" name="SH_BombWall1" />
+    <model id="0x00E3" name="SH_BombWall2" />
+    <model id="0x00E4" name="SH_BombWall3" />
+    <model id="0x00E5" name="SH_BombWall4" />
+    <model id="0x00E6" name="SH_BombWall5" />
+    <model id="0x00E7" name="SH_BombWall6" />
+    <model id="0x00E8" name="SH_BombWall7" />
+    <model id="0x00E9" name="SH_BombWall8" />
+    <model id="0x00EA" name="SH_BombWall9" />
+    <model id="0x00EC" name="SH_FireWeed" />
+    <model id="0x00ED" name="SH_AnimMap" />
+    <model id="0x00EE" name="SH_FernTree" />
+    <model id="0x00EF" name="SH_QueensDoor" />
+    <model id="0x00F0" name="SH_MagicCave" />
+    <model id="0x00F1" name="SH_YellowWhiteFlowers" />
+    <model id="0x00F2" name="SH_BlueWhiteFlowers" />
+    <model id="0x00F3" name="SH_RedYellowFlowers" />
+    <model id="0x00F4" name="SH_BlueFlowers" />
     <model id="0x00F5" name="KrystalHead">
         <description>floating head for cutscenes</description>
     </model>
-    <model id="0x00F6">
-        <description>a sphere with a tripply blue texture</description>
-    </model>
-    <model id="0x0101">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x010B" name="Flowers" />
+    <model id="0x00F6" name="FuelCell" />
+    <model id="0x00F7" name="ReStartMark" />
+    <model id="0x00F8" name="SH_BombWall10" />
+    <model id="0x00F9" name="SH_BombWall11" />
+    <model id="0x00FA" name="SH_BombWall12" />
+    <model id="0x00FB" name="SH_BombWall13" />
+    <model id="0x00FC" name="SH_BombWall14" />
+    <model id="0x00FD" name="SH_BombWall15" />
+    <model id="0x00FE" name="SH_BombWall16" />
+    <model id="0x00FF" name="SH_boulder" />
+    <model id="0x0100" name="SHAnimBaby" />
+    <model id="0x0101" name="WaterFlowWe" />
+    <model id="0x0102" name="DirectionSi0" />
+    <model id="0x0103" name="DirectionSi1" />
+    <model id="0x0104" name="BlueFernFlower" />
+    <model id="0x0105" name="WhiteFernFlower" />
+    <model id="0x0106" name="YellowFernFlower" />
+    <model id="0x0107" name="AlienTreePa" />
+    <model id="0x0108" name="BlueFlowerP" />
+    <model id="0x0109" name="BlueWhiteFlowers" />
+    <model id="0x010A" name="RedYellowFlowers" />
+    <model id="0x010B" name="YellowWhiteFlowers" />
+    <model id="0x010C" name="FernTree" />
     <model id="0x010D" name="InfoTablet" />
-    <model id="0x010E" name="SmallPlant" />
+    <model id="0x010E" name="smallfern" />
     <model id="0x010F" name="PalmTree" />
+    <model id="0x0110" name="JungleTree0" />
+    <model id="0x0111" name="JungleTree1" />
+    <model id="0x0113" name="BullRush" />
+    <model id="0x0114" name="BullRushClu" />
+    <model id="0x0115" name="LongGrassCl" />
     <model id="0x0116" name="SmallRock" />
+    <model id="0x0117" name="DragonFly" />
     <model id="0x0118" name="Fish" />
-    <model id="0x012A">
-        <description>hanging vines?</description>
-    </model>
+    <model id="0x0119" name="AlienGrassC0" />
+    <model id="0x011A" name="AlienGrassC1" />
+    <model id="0x011B" name="SnowGrass" />
+    <model id="0x011C" name="SnowBullrush" />
+    <model id="0x011D" name="SnowBoulder" />
+    <model id="0x011E" name="SnowTree1" />
+    <model id="0x011F" name="SnowBush" />
+    <model id="0x0120" name="SnowTree2" />
+    <model id="0x0121" name="SnowTree3" />
+    <model id="0x0122" name="SnowTree4" />
+    <model id="0x0123" name="SnowLog" />
+    <model id="0x0124" name="SnowFruitTree" />
+    <model id="0x0125" name="SulphurCrystal" />
+    <model id="0x0126" name="CobwebCorner" />
+    <model id="0x0127" name="CobwebCeiling" />
+    <model id="0x0128" name="CobwebEdge" />
+    <model id="0x0129" name="HangingPlant0" />
+    <model id="0x012A" name="HangingPlant1" />
+    <model id="0x012B" name="GrassWeedCl" />
+    <model id="0x012C" name="GrassSupaCh" />
+    <model id="0x012D" name="FernBush" />
+    <model id="0x012E" name="FernCurly" />
+    <model id="0x012F" name="WaterLillyL" />
+    <model id="0x0130" name="WaterLillyF" />
+    <model id="0x0131" name="GroundQuake" />
+    <model id="0x0132" name="SC_chieflightfoot" />
+    <model id="0x0133" name="SC_lightfoot" />
+    <model id="0x0134" name="SC_babylightfoot" />
+    <model id="0x0135" name="SC_musclelightfoot" />
+    <model id="0x0136" name="SC_block_triangle" />
+    <model id="0x0137" name="SC_block_square" />
+    <model id="0x0138" name="SC_block_circle" />
+    <model id="0x0139" name="SC_PressureSwitch" />
+    <model id="0x013A" name="SC_totemstrength" />
+    <model id="0x013B" name="SC_throne" />
+    <model id="0x013C" name="SC_mounddoor" />
+    <model id="0x013D" name="SC_hutdoor" />
     <model id="0x013E" name="MetalGate13E" />
     <model id="0x013F">
         <description>? render failed (polygon group)</description>
@@ -203,13 +332,44 @@
     <model id="0x0141">
         <description>? render failed (polygon group)</description>
     </model>
-    <model id="0x014D">
-        <description>? render failed (bad opcode)</description>
-    </model>
+    <model id="0x0142" name="SC_capeclaw" />
+    <model id="0x0144" name="SH_Beacon" />
+    <model id="0x0146" name="SC_totembond" />
+    <model id="0x0147" name="SC_stepping" />
+    <model id="0x0148" name="SC_totempole" />
+    <model id="0x014A" name="SC_BirchTree" />
+    <model id="0x014B" name="SC_MusicTree" />
+    <model id="0x014C" name="HangingLight" />
+    <model id="0x014D" name="PoleFlame" />
+    <model id="0x014E" name="PoleLight" />
+    <model id="0x014F" name="SC_totempuzzle0" />
+    <model id="0x0150" name="SC_totempuzzle1" />
+    <model id="0x0151" name="SC_totempuzzle2" />
+    <model id="0x0152" name="SC_totempuzzle3" />
+    <model id="0x0153" name="SC_totempuzzle4" />
+    <model id="0x0154" name="SC_totempuzzle5" />
+    <model id="0x0157" name="SC_paypoint" />
+    <model id="0x0158" name="MMP_MagicCa" />
+    <model id="0x0159" name="MMP_asteroid0" />
+    <model id="0x015A" name="MMP_asteroid1" />
+    <model id="0x015C" name="MMP_moonrock" />
+    <model id="0x015E" name="MMP_asteroid2" />
     <model id="0x015F" name="Flashlight">
         <description>unused?</description>
     </model>
     <model id="0x0160" name="DIM2_barrel" />
+    <model id="0x0161" name="MoonSeed" />
+    <model id="0x0162" name="AlienSpore" />
+    <model id="0x0163" name="Padlock" />
+    <model id="0x0164" name="MMPkey" />
+    <model id="0x0165" name="MoonSeedBush" />
+    <model id="0x0166" name="MMP_Organic" />
+    <model id="0x0167" name="MoonSeedVine" />
+    <model id="0x0168" name="MMP_defenDo0" />
+    <model id="0x0169" name="MMP_defenDo1" />
+    <model id="0x016A" name="GunPowderBarrel" />
+    <model id="0x016B" name="DR_cradle" />
+    <model id="0x016C" name="DR_pulley" />
     <model id="0x016D" name="CFWindLiftL" />
     <model id="0x016E" name="CrudeWoodFence">
         <description>haphazard wooden gate</description>
@@ -241,49 +401,80 @@
     <model id="0x0177" name="CFLightPill" />
     <model id="0x0178" name="CFLightWall" />
     <model id="0x0179" name="CFPressureSwitch" />
+    <model id="0x017A" name="CF_BobbingC" />
     <model id="0x017B" name="CFDungeonLi" />
-    <model id="0x017C" name="CFbrokenWal0" />
-    <model id="0x017D" name="CFbrokenWal1" />
-    <model id="0x017E" name="CFbrokenWal2" />
-    <model id="0x017F" name="CFbrokenWal3" />
-    <model id="0x0180" name="CFbrokenWal4" />
-    <model id="0x0181" name="CFbrokenWal5" />
-    <model id="0x0182" name="CFbrokenWal6" />
-    <model id="0x0183" name="CFbrokenWal7" />
-    <model id="0x0184" name="CFbrokenWal8" />
-    <model id="0x0185" name="CFbrokenWal9" />
-    <model id="0x0186" name="CFbrokenWal10" />
-    <model id="0x0187" name="CFbrokenWal11" />
-    <model id="0x0188" name="CFbrokenWal12" />
-    <model id="0x0189" name="CFbrokenWal13" />
-    <model id="0x018A" name="CFbrokenWal14" />
-    <model id="0x018B" name="CFbrokenWal15" />
-    <model id="0x018C" name="CFbrokenWal16" />
-    <model id="0x018D" name="CFbrokenWal17" />
-    <model id="0x018E" name="CFbrokenWal18" />
+    <model id="0x017C" name="CFbrokenWall0" />
+    <model id="0x017D" name="CFbrokenWall1" />
+    <model id="0x017E" name="CFbrokenWall2" />
+    <model id="0x017F" name="CFbrokenWall3" />
+    <model id="0x0180" name="CFbrokenWall4" />
+    <model id="0x0181" name="CFbrokenWall5" />
+    <model id="0x0182" name="CFbrokenWall6" />
+    <model id="0x0183" name="CFbrokenWall7" />
+    <model id="0x0184" name="CFbrokenWall8" />
+    <model id="0x0185" name="CFbrokenWall9" />
+    <model id="0x0186" name="CFbrokenWall10" />
+    <model id="0x0187" name="CFbrokenWall11" />
+    <model id="0x0188" name="CFbrokenWall12" />
+    <model id="0x0189" name="CFbrokenWall13" />
+    <model id="0x018A" name="CFbrokenWall14" />
+    <model id="0x018B" name="CFbrokenWall15" />
+    <model id="0x018C" name="CFbrokenWall16" />
+    <model id="0x018D" name="CFbrokenWall17" />
+    <model id="0x018E" name="CFbrokenWall18" />
     <model id="0x0197" name="CFSunTemple" />
-    <model id="0x0198" name="DinoPlanet">
+    <model id="0x0198" name="WORLDdinoPlanet">
         <description>Dinosaur Planet on map</description>
     </model>
-    <model id="0x0199">
-        <description>One of the islands on the map</description>
+    <model id="0x0199" name="WORLDcloudrunner">
+        <description>CloudRunner Fortress on the map</description>
     </model>
-    <model id="0x019A">
-        <description>One of the islands on the map</description>
+    <model id="0x019A" name="WORLDdragrock">
+        <description>Dragon Rock on the map</description>
     </model>
-    <model id="0x019B">
-        <description>One of the islands on the map</description>
+    <model id="0x019B" name="WORLDwalledcity">
+        <description>Walled City on the map</description>
     </model>
-    <model id="0x019C">
-        <description>One of the islands on the map</description>
+    <model id="0x019C" name="WORLDdarkice">
+        <description>DarkIce Mines on the map</description>
     </model>
-    <model id="0x019D">
+    <model id="0x019D" name="WORLDcloudl">
         <description>nothing? (has cloud/water texture)</description>
     </model>
+    <model id="0x019E" name="WORLDpath1" />
+    <model id="0x019F" name="WORLDpath2" />
+    <model id="0x01A0" name="WORLDpath3" />
+    <model id="0x01A1" name="WORLDpath4" />
+    <model id="0x01A2" name="WORLDpath5" />
+    <model id="0x01A3" name="WORLDpath6" />
+    <model id="0x01A4" name="WORLDpath7" />
+    <model id="0x01A5" name="WORLDpath8" />
+    <model id="0x01A6" name="WORLDarwing" />
     <model id="0x01A7" name="GreatFox" />
+    <model id="0x01A8" name="WORLDsun0" />
+    <model id="0x01A9" name="WORLDsun1" />
+    <model id="0x01AA" name="WORLDsun2" />
+    <model id="0x01AB" name="WORLDsunray" />
+    <model id="0x01AC" name="WORLDsunflare" />
+    <model id="0x01AD" name="WORLDhalo" />
+    <model id="0x01AE" name="WORLDhalobr" />
+    <model id="0x01AF" name="WORLDshield" />
+    <model id="0x01B0" name="WORLDarrow0" />
+    <model id="0x01B1" name="WORLDarrow1" />
+    <model id="0x01B2" name="WORLDAsteroid0" />
+    <model id="0x01B3" name="WORLDAsteroid1" />
+    <model id="0x01B4" name="WORLDAsteroid2" />
+    <model id="0x01B5" name="WORLDAsteroid3" />
+    <model id="0x01B6" name="WORLDAsteroid4" />
+    <model id="0x01B7" name="WORLDAsteroid5" />
+    <model id="0x01B8" name="WORLDAsteroid6" />
+    <model id="0x01B9" name="WORLDAsteroid7" />
     <model id="0x01BA" name="GF_SpaceOutside">
         <description>space outside Great Fox windows</description>
     </model>
+    <model id="0x01BB" name="WORLDpepper1" />
+    <model id="0x01BC" name="WORLDpepper2" />
+    <model id="0x01BD" name="WORLDpepper0" />
     <model id="0x01BE" name="Jukebox" />
     <model id="0x01BF" name="GF_Door1" />
     <model id="0x01C0" name="GF_Door2" />
@@ -327,105 +518,265 @@
     <model id="0x01D0" name="KrystalShip">
         <description>Krystal's ship (ending scene)</description>
     </model>
+    <model id="0x01D1" name="FrontFox">
+        <description>Title screen Fox</description>
+    </model>
+    <model id="0x01D2" name="FrontPeppy">
+        <description>Title screen Peppy</description>
+    </model>
+    <model id="0x01D3" name="FrontSlippy">
+        <description>Title screen Slippy</description>
+    </model>
+    <model id="0x01D4" name="FrontRob">
+        <description>Title screen ROB</description>
+    </model>
+    <model id="0x01D5" name="PilotSeat2" />
     <model id="0x01D6" name="PilotSeat">
         <description>Fox's seat</description>
     </model>
     <model id="0x01D7" name="QueenCloudrunner" />
     <model id="0x01D8" name="Lightfoot" />
-    <model id="0x01D9">
+    <model id="0x01D9" name="CCdarkness">
         <description>pale green plane</description>
     </model>
-    <model id="0x01DA">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x01DB">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x01DC">
-        <description>lava bubble?</description>
-    </model>
-    <model id="0x01DD" name="SharpclawPad">
+    <model id="0x01DA" name="CCclawdoor" />
+    <model id="0x01DB" name="CCboulder" />
+    <model id="0x01DC" name="CCfireCrystal" />
+    <model id="0x01DD" name="CCSharpclawPad">
         <description>"Sharpclaw Only" pad</description>
     </model>
-    <model id="0x01DE">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x01DF">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x01E0">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x01E1">
-        <description>? render failed (polygon group)</description>
-    </model>
+    <model id="0x01DE" name="CCprisonDoo" />
+    <model id="0x01DF" name="CCclawOnlyDoor" />
+    <model id="0x01E0" name="CCskullDoor" />
+    <model id="0x01E1" name="CCOceanDoor" />
     <model id="0x01E2" name="CC_KrazoaStatue">
         <description>Krazoa statue (Cape Claw)</description>
     </model>
     <model id="0x01E3" name="CC_krazoaStatue2">
         <description>Krazoa statue + fire texture (Cape Claw)</description>
     </model>
-    <model id="0x01EB">
+    <model id="0x01E4" name="CCExploding1" />
+    <model id="0x01E5" name="CCExploding2" />
+    <model id="0x01E6" name="CCExploding3" />
+    <model id="0x01E7" name="CCExploding4" />
+    <model id="0x01E8" name="CCExploding5" />
+    <model id="0x01E9" name="CCExploding6" />
+    <model id="0x01EA" name="CCExploding0" />
+    <model id="0x01EB" name="CCwaterShut">
         <description>gray wooden pallet?</description>
     </model>
-    <model id="0x01EC">
-        <description>wooden/metal plank</description>
-    </model>
-    <model id="0x01ED">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x01EE">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x020E">
-        <description>? render failed (polygon group)</description>
-    </model>
-    <model id="0x0210">
-        <description>a dome (lava bubble?)</description>
-    </model>
+    <model id="0x01EC" name="CCBridge0" />
+    <model id="0x01ED" name="CCBridge1" />
+    <model id="0x01EE" name="CCgoldbar" />
+    <model id="0x01F0" name="VFP_Bobbing0" />
+    <model id="0x01EF" name="VFP_Bobbing1" />
+    <model id="0x01F1" name="VFP_Block2" />
+    <model id="0x01F2" name="VFP_newball0" />
+    <model id="0x01F3" name="VFP_newball1" />
+    <model id="0x01F4" name="VFP_newball2" />
+    <model id="0x01F5" name="VFP_Maindoor" />
+    <model id="0x01F6" name="VFP_Door2" />
+    <model id="0x01F7" name="VFP_statueb1" />
+    <model id="0x01F8" name="VFP_statueb2" />
+    <model id="0x01F9" name="VFP_statueb0" />
+    <model id="0x01FA" name="VFP_Doorlock" />
+    <model id="0x01FB" name="VFP_MiniFireball" />
+    <model id="0x01FD" name="VFP_Ladders" />
+    <model id="0x01FE" name="VFPLift1" />
+    <model id="0x0200" name="VFP_Platfor0" />
+    <model id="0x0201" name="VFP_Platfor1" />
+    <model id="0x0202" name="VFP_RoundDoor" />
+    <model id="0x0203" name="VFP_LiftSwitch" />
+    <model id="0x0204" name="VFP_DoorSwitch" />
+    <model id="0x0205" name="VFPLift2" />
+    <model id="0x0206" name="VFPLavaBloc" />
+    <model id="0x0207" name="VFPDragHead" />
+    <model id="0x0209" name="VFP_corepla" />
+    <model id="0x020A" name="VFP_corepla" />
+    <model id="0x020B" name="VFP_LiftInd0" />
+    <model id="0x020C" name="VFP_LiftInd1" />
+    <model id="0x020E" name="CC_PressureSwitch" />
+    <model id="0x020F" name="VFP_PitSwitch" />
+    <model id="0x0210" name="VFP_lavapoo" />
+    <model id="0x0211" name="VFP_mocklaz" />
+    <model id="0x0212" name="VFP_liftgra" />
+    <model id="0x0213" name="VFP_Warding" />
+    <model id="0x0214" name="OFPclawOnly" />
+    <model id="0x0215" name="DFP_RoundDoor" />
+    <model id="0x0218" name="DFP_floorbar" />
+    <model id="0x0219" name="DFPSpSG" />
+    <model id="0x021A" name="DFP_ToLinkDoor" />
+    <model id="0x021B" name="DFP_wallbar0" />
+    <model id="0x021C" name="DFP_wallbar1" />
+    <model id="0x021D" name="DFP_wallbar2" />
+    <model id="0x021E" name="DFP_PuzzleP" />
+    <model id="0x021F" name="DFP_PitSwitch" />
+    <model id="0x0220" name="DFP_DoorSwitch" />
+    <model id="0x0221" name="DFP_BigDoor" />
+    <model id="0x0222" name="DFP_SmallDoor" />
+    <model id="0x0223" name="DFP_dish" />
+    <model id="0x0225" name="DFP_RotatePuzzle" />
+    <model id="0x0226" name="DFP_Statue1" />
+    <model id="0x0227" name="DFP_PerchBa" />
+    <model id="0x0228" name="DFP_PerchSwitch" />
+    <model id="0x0229" name="DFP_ForceSw" />
+    <model id="0x022A" name="DFP_TargetBlock1" />
+    <model id="0x022B" name="DFP_TargetBlock0" />
+    <model id="0x022C" name="DFP_blockwa0" />
+    <model id="0x022D" name="DFP_blockwa1" />
+    <model id="0x022E" name="DFP_blockwa2" />
+    <model id="0x022F" name="DFP_SmallTu" />
+    <model id="0x0231" name="DFP_SmallDoor2" />
+    <model id="0x0232" name="DFP_Textblock" />
+    <model id="0x0233" name="DFP_transla" />
+    <model id="0x0234" name="DFP_Platfor" />
+    <model id="0x0235" name="DFP_SmallBr" />
+    <model id="0x0236" name="DFP_Bridge" />
+    <model id="0x0237" name="DFP_Water" />
+    <model id="0x0238" name="DFP_InnerRi" />
+    <model id="0x0239" name="DFP_OuterRi" />
+    <model id="0x023A" name="DFP_PlacePl" />
+    <model id="0x023B" name="DFPSpDA" />
+    <model id="0x023C" name="DFPSpDB" />
+    <model id="0x023D" name="WM_krazoast0" />
+    <model id="0x023E" name="WM_krazoast1" />
+    <model id="0x023F" name="WM_drape" />
+    <model id="0x0240" name="PressureSwitch" />
+    <model id="0x0241" name="WM_Door1" />
+    <model id="0x0242" name="WM_Door2" />
+    <model id="0x0243" name="WM_Door3" />
+    <model id="0x0244" name="WM_Door4" />
+    <model id="0x0245" name="WM_Column" />
+    <model id="0x0246" name="WM_Column_l" />
+    <model id="0x0247" name="WM_WarpDoor" />
+    <model id="0x0248" name="WM_colrise" />
     <model id="0x024B" name="CF_WallTorch" />
+    <model id="0x024C" name="CmbSrcTWall" />
+    <model id="0x024F" name="WM_VConsole" />
+    <model id="0x0250" name="WM_NoPassVi" />
+    <model id="0x0251" name="WM_NoPassHo" />
+    <model id="0x0252" name="WM_Walkway1" />
+    <model id="0x0253" name="WM_Walkway2" />
+    <model id="0x0255" name="WM_largeroc" />
+    <model id="0x0256" name="WM_fallenco" />
+    <model id="0x0257" name="WMFinalDoor" />
+    <model id="0x0258" name="WM_rock" />
+    <model id="0x0259" name="WM_sun0" />
+    <model id="0x025A" name="WM_sun1" />
+    <model id="0x025B" name="WM_sun2" />
+    <model id="0x025D" name="WM_Crystal" />
+    <model id="0x025E" name="WM_spiritplace" />
+    <model id="0x0261" name="WM_PlanDoor1" />
+    <model id="0x0262" name="WM_PlanDoor2" />
+    <model id="0x0263" name="WM_PlanDoor3" />
+    <model id="0x0264" name="WM_PlanDoor4" />
+    <model id="0x0266" name="WM_newcrystal1" />
+    <model id="0x0267" name="WM_newcrystal0" />
+    <model id="0x0268" name="WM_newcrystal2" />
+    <model id="0x0269" name="WM_TransTop" />
+    <model id="0x026D" name="KP_red_green0" />
+    <model id="0x026E" name="KP_red_green1" />
+    <model id="0x026F" name="KP_red_green2" />
+    <model id="0x0270" name="KP_red_blue0" />
+    <model id="0x0271" name="KP_red_blue1" />
+    <model id="0x0272" name="KP_red_blue2" />
+    <model id="0x0273" name="KP_red_yellow0" />
+    <model id="0x0274" name="KP_red_yellow1" />
+    <model id="0x0275" name="KP_red_yellow2" />
+    <model id="0x0276" name="KP_red_purple0" />
+    <model id="0x0277" name="KP_red_purple1" />
+    <model id="0x0278" name="KP_console_0" />
+    <model id="0x0279" name="KP_console_1" />
+    <model id="0x027A" name="KP_console_3" />
+    <model id="0x027B" name="KP_console_2" />
+    <model id="0x027C" name="KP_textblock0" />
+    <model id="0x027D" name="KP_textblock1" />
+    <model id="0x027E" name="KP_textblock2" />
+    <model id="0x027F" name="KP_textblock3" />
+    <model id="0x0280" name="KP_SectionDoor" />
+    <model id="0x0281" name="KP_FinDoor" />
     <model id="0x0282" name="Krazoa" />
+    <model id="0x0283" name="KP_RedKrazoa" />
     <model id="0x0289" name="DrakorLavaDroplet" />
+    <model id="0x028A" name="DFSH_Door1" />
+    <model id="0x028B" name="DFSH_Door2" />
+    <model id="0x028C" name="DFSH_Door3" />
+    <model id="0x028D" name="DFSH_Door4" />
+    <model id="0x028E" name="DFSH_Door1S" />
+    <model id="0x028F" name="DFSH_Door2S" />
+    <model id="0x0290" name="DFSH_Door3S" />
+    <model id="0x0291" name="DFSH_Door4S" />
+    <model id="0x0292" name="DFSHcol" />
+    <model id="0x0294" name="KrazoaSpirit" />
+    <model id="0x029B" name="VFP_locksym" />
+    <model id="0x029F" name="ECSH_Door1" />
+    <model id="0x02A0" name="ECSH_Door2" />
+    <model id="0x02A1" name="ECSH_Door3" />
+    <model id="0x02A2" name="ECSH_Door4" />
+    <model id="0x02A3" name="ECSH_Cup" />
+    <model id="0x02A4" name="ECSHcol" />
+    <model id="0x02A5" name="GPSHpickobj0" />
+    <model id="0x02A6" name="GPSHpickobj1" />
+    <model id="0x02A7" name="GPSHpickobj2" />
+    <model id="0x02A8" name="GPSHpickobj3" />
+    <model id="0x02A9" name="GPSHpickobj4" />
+    <model id="0x02AA" name="GPSHpickobj5" />
+    <model id="0x02AB" name="DBSH_Symbol" />
     <model id="0x02AC" name="SmallBasket">
         <description>small basket</description>
     </model>
-    <model id="0x02B0" name="Scarab">
-        <description>Scarab</description>
-    </model>
+    <model id="0x02AD" name="LargeBasket" />
+    <model id="0x02AF" name="RedScarab" />
+    <model id="0x02B0" name="Scarab" />
+    <model id="0x02B1" name="Scarab2" />
     <model id="0x02B2" name="LargeCrate">
         <description>large crate</description>
     </model>
+    <model id="0x02B3" name="LargeCrateL" />
+    <model id="0x02B4" name="ReinforcedCrate" />
+    <model id="0x02B5" name="MetalPushBlock" />
     <model id="0x02B6" name="DrakorSupplyBox" />
-    <model id="0x02BA">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x02BB">
+    <model id="0x02B7" name="TreasureChest" />
+    <model id="0x02B8" name="MapTreasureChest" />
+    <model id="0x02B9" name="EnergyEgg" />
+    <model id="0x02BA" name="AppleOnTree" />
+    <model id="0x02BB" name="Apple">
         <description>health pickup (orange/yellow stripes) I forgor what it's called</description>
     </model>
-    <model id="0x02C3">
-        <description>? render failed (bad opcode)</description>
-    </model>
-    <model id="0x02C4">
-        <description>? render failed (bad opcode)</description>
-    </model>
+    <model id="0x02BC" name="Fall_Ladders0" />
+    <model id="0x02BD" name="Fall_Ladders1" />
+    <model id="0x02BE" name="Fall_Ladders2" />
+    <model id="0x02BF" name="Fall_Ladders3" />
+    <model id="0x02C1" name="InfoPoint" />
+    <model id="0x02C3" name="MagicPlant0" />
+    <model id="0x02C4" name="MagicPlant1" />
     <model id="0x02C5" name="MagicGem">
         <description>purple magic gem</description>
     </model>
     <model id="0x02C6" name="Bafomdad" />
+    <model id="0x02C7" name="WM_5pushcra" />
     <model id="0x02C8" name="RedSwitch">
         <description>Fireball target</description>
     </model>
     <model id="0x02C9" name="RedSwitch2">
         <description>same as 02C8?</description>
     </model>
+    <model id="0x02CC" name="ExplodingWa" />
     <model id="0x02D1" name="N54Logo">
         <description>used for some debug objects</description>
     </model>
+    <model id="0x02D3" name="Rarelogo" />
+    <model id="0x02D4" name="PadlockKey" />
+    <model id="0x02D5" name="EffectBox" />
+    <model id="0x02D7" name="DR_Platform" />
     <model id="0x02D9" name="Trickywarp" />
     <model id="0x02DA" name="DIMLogFire" />
     <model id="0x02DB" name="DIMLogFireR" />
+    <model id="0x02DC" name="DFP_Torch" />
     <model id="0x02E8" name="CFCrate" />
+    <model id="0x02EB" name="WM_PureMagi" />
     <model id="0x02EC" name="AnimSpell" />
+    <model id="0x02EE" name="FirePole" />
     <model id="0x02EF" name="OldCube">
         <description>small cube with old (4-point) Sharpclaw emblem</description>
     </model>
@@ -435,10 +786,15 @@
     </model>
     <model id="0x02F4" name="WaterSpellstone" />
     <model id="0x02F5" name="CFPuzzleSwitch" />
-    <model id="0x02FA">
-        <description>nothing? (has a ring texture #7A5E)</description>
-    </model>
+    <model id="0x02FA" name="animbubble" />
+    <model id="0x02FB" name="IMIcePillar" />
     <model id="0x02FC" name="SnowBike" />
+    <model id="0x02FD" name="IMPrisonGate0" />
+    <model id="0x02FE" name="IMPrisonGate1" />
+    <model id="0x02FF" name="IMFence0" />
+    <model id="0x0300" name="IMFence1" />
+    <model id="0x0301" name="IMMagicLight0" />
+    <model id="0x0303" name="IMMagicLight1" />
     <model id="0x0302" name="DIMMagicLight" />
     <model id="0x0305" name="CFExplosiveDoor" />
     <model id="0x0306" name="CFMagicWall" />
@@ -490,10 +846,16 @@
     <model id="0x0339" name="CFBrokenPil1" />
     <model id="0x033A" name="CFPowerLock0" />
     <model id="0x033B" name="CFPowerLock1" />
-    <model id="0x0345" name="CF_DoorLigh" />
+    <model id="0x033C" name="BarrelGenerator" />
+    <model id="0x033D" name="BarrelPad" />
+    <model id="0x033E" name="MetalBarrel" />
+    <model id="0x033F" name="SpiritDoorL" />
+    <model id="0x0340" name="SpiritDoorS" />
+    <model id="0x0341" name="HoloPoint" />
     <model id="0x0342" name="CFBlastedWa0" />
     <model id="0x0343" name="CFBlastedWa1" />
     <model id="0x0344" name="CFBlastedWa20" />
+    <model id="0x0345" name="CF_DoorLigh" />
     <model id="0x0346" name="CFWinPrison" />
     <model id="0x0347" name="CFbrokenGra0" />
     <model id="0x0348" name="CFbrokenGra1" />
@@ -507,25 +869,74 @@
     <model id="0x0350" name="CFGCrubble4" />
     <model id="0x0351" name="CFGCpillbre" />
     <model id="0x0352" name="CFGCsmallbl" />
+    <model id="0x0353" name="DB_egg" />
+    <model id="0x0355" name="DR_EarthSad" />
+    <model id="0x0356" name="DR_AnimColl" />
+    <model id="0x0357" name="BrokenPipe" />
+    <model id="0x0358" name="MetalRafter" />
+    <model id="0x0359" name="ThornBush" />
+    <model id="0x035A" name="DR_James1Bo" />
+    <model id="0x035B" name="DR_James2Bo" />
     <model id="0x035C" name="DRDebrisGir" />
     <model id="0x035D" name="DRDebrisPip0" />
     <model id="0x035E" name="DRDebrisPip1" />
-    <model id="0x0362">
-        <description>Fire hole?</description>
+    <model id="0x035F" name="DR_EnergyDisc" />
+    <model id="0x0360" name="DR_BarrelGr" />
+    <model id="0x0361" name="RedBoulder" />
+    <model id="0x0362" name="FireHole">
+        <description>Also ice, steam holes</description>
     </model>
+    <model id="0x0363" name="KillerSpike" />
     <model id="0x0364" name="PortalDoor" />
     <model id="0x0365" name="DrakorHoverPad" />
+    <model id="0x0366" name="DR_ExplodeD" />
+    <model id="0x036A" name="DR_LaserCan" />
+    <model id="0x036B" name="FlameMuzzle" />
+    <model id="0x036C" name="DR_Generator" />
+    <model id="0x0370" name="DR_HighDoor0" />
+    <model id="0x0371" name="DR_HighDoor1" />
+    <model id="0x0372" name="DR_DrakorDo" />
+    <model id="0x0373" name="DR_CloudDoor0" />
+    <model id="0x0374" name="DR_CloudDoor1" />
+    <model id="0x0375" name="DR_IonCannon" />
+    <model id="0x0376" name="DRBlastedWa" />
     <model id="0x0377" name="ExplodedRockChunk1" />
     <model id="0x0378" name="ExplodedRockChunk2" />
     <model id="0x0379" name="ExplodedRockChunk3" />
     <model id="0x037A" name="ExplodedRockChunk4" />
     <model id="0x037B" name="ExplodedRockChunk5" />
     <model id="0x037C" name="ExplodedRockChunk6" />
-    <model id="0x037D">
-        <description>? not sure</description>
-    </model>
+    <model id="0x037D" name="DRCollapseP" />
+    <model id="0x037E" name="DR_WallGenerator" />
     <model id="0x037F" name="FireflyLantern" />
+    <model id="0x0380" name="DR_Vines" />
+    <model id="0x0381" name="DR_CageWithRope" />
+    <model id="0x0382" name="DR_CageNoRope" />
+    <model id="0x0383" name="DR_CageRope" />
+    <model id="0x0384" name="DR_Shackle" />
+    <model id="0x0385" name="DR_Shield" />
+    <model id="0x0386" name="DR_TowerSwitch" />
+    <model id="0x0387" name="DR_EarthDoor" />
+    <model id="0x0388" name="DR_Tower" />
+    <model id="0x0389" name="DR_BigShackle" />
+    <model id="0x038C" name="DR_LandSqua" />
+    <model id="0x038E" name="DR_TrackDoo0" />
+    <model id="0x038F" name="DR_TrackDoo1" />
+    <model id="0x0393" name="DRPlatformC0" />
+    <model id="0x0394" name="DRPlatformC1" />
+    <model id="0x0395" name="DR_CaveIn0" />
+    <model id="0x0396" name="DR_CaveIn1" />
+    <model id="0x0397" name="DR_CaveInFl0" />
+    <model id="0x0398" name="DR_CaveInFl1" />
+    <model id="0x0399" name="DR_LightBea" />
+    <model id="0x039A" name="DR_LightPole1" />
+    <model id="0x039B" name="DR_LightPole0" />
+    <model id="0x039C" name="DR_LightLamp" />
+    <model id="0x039D" name="DR_CloudPer" />
+    <model id="0x039E" name="DR_EarthCal" />
+    <model id="0x03A0" name="DR_CloudCal" />
     <model id="0x03A1" name="DrakorFirePipe" />
+    <model id="0x03A3" name="DR_TestWall" />
     <model id="0x03A5" name="GCRobotPatr3A5" />
     <model id="0x03AA" name="DIMSnowHorn" />
     <model id="0x03AB" name="DIMafterbos" />
@@ -567,20 +978,52 @@
     <model id="0x03D1" name="DIM2CannonT0" />
     <model id="0x03D2" name="DIM2CannonT1" />
     <model id="0x03D3" name="DIM2Mammoth" />
+    <model id="0x03D4" name="DIM2CellDoor0" />
+    <model id="0x03D5" name="DIM2CellDoor1" />
+    <model id="0x03D6" name="DIM2CellDoor2" />
+    <model id="0x03D7" name="DIM2CellDoor3" />
+    <model id="0x03D8" name="DIM2BossDoor0" />
+    <model id="0x03D9" name="DIM2BossDoor1" />
+    <model id="0x03DA" name="DIM2BossDoor2" />
     <model id="0x03DB" name="DIMKey" />
+    <model id="0x03DD" name="NWCellLock" />
     <model id="0x03DE" name="DIM2_WallEx0" />
     <model id="0x03DF" name="DIM2_WallEx1" />
     <model id="0x03E0" name="DIM2_WallEx2" />
     <model id="0x03E1" name="DIM2_WallEx3" />
     <model id="0x03E2" name="DIM2_WallEx4" />
+    <model id="0x03E4" name="DIM2SnowBall" />
     <model id="0x03E3" name="DIM2_WallEx5" />
     <model id="0x03E5" name="CFExplosive" />
     <model id="0x03E6" name="DIMWoodDoor" />
+    <model id="0x03E7" name="DIM2Icicle" />
+    <model id="0x03E8" name="DIM2IceGrate" />
     <model id="0x03E9" name="DIM2IceFloe0" />
     <model id="0x03EC" name="DIM2IceFloe1" />
     <model id="0x03ED" name="DIM2IceFloe2" />
+    <model id="0x03EE" name="DIM2StonePi" />
+    <model id="0x03EF" name="LINKE_stone" />
+    <model id="0x03F0" name="LINKE_Exploded0" />
+    <model id="0x03F1" name="LINKE_Exploded1" />
+    <model id="0x03F2" name="LINKE_Exploded2" />
+    <model id="0x03F3" name="LINKE_Exploded3" />
+    <model id="0x03F4" name="LINKE_Exploded4" />
+    <model id="0x03F5" name="LINKE_Exploded5" />
+    <model id="0x03F6" name="LINKE_Exploded6" />
     <model id="0x03F7" name="DIM2TrapDoor1" />
     <model id="0x03F8" name="DIM2TrapDoor0" />
+    <model id="0x03F9" name="DIM2ExplodedIce0" />
+    <model id="0x03FA" name="DIM2ExplodedIce1" />
+    <model id="0x03FB" name="DIM2ExplodedIce2" />
+    <model id="0x03FC" name="DIM2ExplodedIce3" />
+    <model id="0x03FD" name="DIM2ExplodedIce4" />
+    <model id="0x03FE" name="DIM2ExplodedIce5" />
+    <model id="0x03FF" name="DIM2ExplodedIce6" />
+    <model id="0x0400" name="DIM2ExplodedIce7" />
+    <model id="0x0401" name="DIM2ExplodedIce8" />
+    <model id="0x0402" name="DIM2ExplodedIce9" />
+    <model id="0x0403" name="DIM2ExplodedIce10" />
+    <model id="0x0404" name="DIM2ExplodedIce11" />
     <model id="0x0405" name="DIM2IcePlat0" />
     <model id="0x0406" name="DIM2IcePlat1" />
     <model id="0x0407" name="WCTempleBlock0" />
@@ -629,32 +1072,55 @@
     <model id="0x0433" name="WCTemplePre" />
     <model id="0x0434" name="WCTempleTop" />
     <model id="0x0435" name="KingEarthwalker" />
+    <model id="0x0436" name="SPShopKeeper" />
+    <model id="0x0437" name="SPDoor" />
+    <model id="0x0438" name="SPDrape" />
+    <model id="0x0439" name="SPMap" />
+    <model id="0x043E" name="SPitembeam" />
+    <model id="0x043F" name="SPFruitLarge" />
+    <model id="0x0440" name="SPEggLarge" />
+    <model id="0x0441" name="SPDusterHol" />
+    <model id="0x0442" name="SPStaffHitB" />
+    <model id="0x0443" name="AnimGoldRoot" />
+    <model id="0x0444" name="WarpstoneGift" />
+    <model id="0x0445" name="SPPda" />
+    <model id="0x0446" name="SPBinocular" />
+    <model id="0x0447" name="BombSpore" />
     <model id="0x0448" name="CheatToken" />
-    <model id="0x044B">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x044C">
-        <description>a red cylinder</description>
-    </model>
+    <model id="0x044B" name="hologrambas" />
+    <model id="0x044C" name="hologramhaz" />
+    <model id="0x044D" name="RipplePlain" />
+    <model id="0x044E" name="hazesphere" />
     <model id="0x0450" name="SkyDome" />
+    <model id="0x0451" name="LockIcon0" />
+    <model id="0x0454" name="LockIcon1" />
+    <model id="0x0455" name="LockIcon2" />
+    <model id="0x0458" name="Checkpoint" />
     <model id="0x045A" name="DebugMidiFade" />
     <model id="0x045E" name="DebugCamera" />
     <model id="0x045F" name="DebugArrow" />
     <model id="0x0461" name="SkeetlaWall">
         <description>Nothing? (blue wavy texture)</description>
     </model>
+    <model id="0x0464" name="xyzpoint" />
     <model id="0x0465" name="DebugCurve" />
     <model id="0x0466" name="DebugClapperBoard" />
     <model id="0x0467" name="DebugLevCtrl" />
     <model id="0x0468" name="DebugLevName" />
+    <model id="0x0469" name="VFP_PowerBo" />
     <model id="0x046A" name="DebugFx" />
-    <model id="0x046B" name="DebugTexScrl" />
+    <model id="0x046B" name="DebugTexScroll" />
     <model id="0x046C" name="DebugRestartPoint" />
-    <model id="0x046D" name="DebugWaveAnim" />
-    <model id="0x0471" name="DebugGroundAnim" />
-    <model id="0x0472" name="DebugTrigArea472" />
-    <model id="0x0474" name="DebugTrigArea474" />
+    <model id="0x046D" name="DebugWaveAnimator" />
+    <model id="0x046E" name="DebugAlphaAnimator" />
+    <model id="0x046F" name="DebugVisAnimator" />
+    <model id="0x0471" name="DebugGroundAnimator" />
+    <model id="0x0472" name="DebugTrigPln" />
+    <model id="0x0473" name="DebugTrigCyl" />
+    <model id="0x0474" name="DebugTrigArea" />
+    <model id="0x0475" name="DebugTrigCrve" />
     <model id="0x0476" name="DebugOverride" />
+    <model id="0x0477" name="DebugArea" />
     <model id="0x0478" name="DebugHitAnim" />
     <model id="0x0479" name="DebugLightBulb" />
     <model id="0x047C" name="DebugLight47C">
@@ -666,13 +1132,9 @@
     <model id="0x047E" name="DebugLightDirectional">
         <description>Directional light (debug)</description>
     </model>
-    <model id="0x0480">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x0484" name="Fireball484" />
-    <model id="0x0485">
-        <description>? render failed (Bad opcode)</description>
-    </model>
+    <model id="0x0480" name="Arwing" />
+    <model id="0x0484" name="ArwingFireball" />
+    <model id="0x0485" name="ARWArwingFo" />
     <model id="0x0486" name="OrangeLaser">
         <description>Great Fox scene</description>
     </model>
@@ -686,20 +1148,18 @@
         <description>three blue fireballs? (ice blast effect?)</description>
     </model>
     <model id="0x048A" name="StaffFireball" />
-    <model id="0x048B">
-        <description>? render failed (PolygonGroup error)</description>
-    </model>
-    <model id="0x048D">
-        <description>? render failed (PolygonGroup error)</description>
-    </model>
-    <model id="0x048E">
-        <description>? render failed (PolygonGroup error)</description>
-    </model>
+    <model id="0x048B" name="ARWBlocker" />
+    <model id="0x048C" name="ARWBlockerS" />
+    <model id="0x048D" name="ARWBlockerD0" />
+    <model id="0x048E" name="ARWBlockerD1" />
     <model id="0x048F" name="ArwingBombPickup" />
     <model id="0x0490" name="ArwingSupplyBox" />
+    <model id="0x0492" name="ARWSporeCol" />
+    <model id="0x0493" name="ARWMoonSeed" />
+    <model id="0x0494" name="ARWDinoEggC" />
     <model id="0x0495" name="ArwingLaserPickup" />
     <model id="0x0496" name="ArwingGoldRing" />
-    <model id="0x0497" name="ArwingGoldRingBLocked">
+    <model id="0x0497" name="ArwingGoldRingBlocked">
         <description>Arwing gold ring with X in middle</description>
     </model>
     <model id="0x0498" name="ArwingSilverRing">
@@ -708,27 +1168,13 @@
     <model id="0x0499" name="ArwingSilverRingBlocked">
         <description>Arwing silver ring with X in middle</description>
     </model>
-    <model id="0x049A">
-        <description>Arwing laser?</description>
-    </model>
-    <model id="0x049B">
-        <description>2D ring (Great Fox scene)</description>
-    </model>
-    <model id="0x049C">
-        <description>2D ring, flipped (Great Fox scene)</description>
-    </model>
-    <model id="0x049D">
-        <description>some kind of plasma ball? (Great Fox scene)</description>
-    </model>
-    <model id="0x049E">
-        <description>plasma ball with tail (Great Fox scene)</description>
-    </model>
-    <model id="0x049F" name="Fireball49F">
-        <description>fireball (Great Fox scene)</description>
-    </model>
-    <model id="0x04A0" name="Fireball4A0">
-        <description>same as 049F?</description>
-    </model>
+    <model id="0x049A" name="ARWSpeedStr" />
+    <model id="0x049B" name="ARWArwingRo0" />
+    <model id="0x049C" name="ARWArwingRo1" />
+    <model id="0x049D" name="ARWArwingGu0" />
+    <model id="0x049E" name="ARWArwingGu2" />
+    <model id="0x049F" name="ARWArwingGu1" />
+    <model id="0x04A0" name="ARWArwingGu3" />
     <model id="0x04A1" name="ArwingMeteor1">
         <description>Meteor 1 (Arwing)</description>
     </model>
@@ -738,30 +1184,49 @@
     <model id="0x04A3" name="ArwingCrosshair">
         <description>Arwing targeting crosshair</description>
     </model>
-    <model id="0x04A5">
-        <description>some kind of ray gun? (Arwing)</description>
-    </model>
+    <model id="0x04A5" name="ARWMobileGun" />
     <model id="0x04A6" name="ArwingMine">
         <description>Mine (Arwing)</description>
     </model>
-    <model id="0x04A7">
-        <description>? render failed</description>
-    </model>
+    <model id="0x04A7" name="ARWShipFly" />
+    <model id="0x04A8" name="ARWShipTwin" />
+    <model id="0x04A9" name="ARWShipAnge" />
     <model id="0x04AA" name="ArwingEnemyShip">
         <description>Enemy ship (Arwing) (Bad opcode)</description>
     </model>
+    <model id="0x04AB" name="SKYScapeDef" />
+    <model id="0x04AC" name="SKYScapeSto0" />
+    <model id="0x04AD" name="SKYScapeSto1" />
+    <model id="0x04AE" name="SKYRingDefa" />
+    <model id="0x04AF" name="SKYRingStor" />
+    <model id="0x04B0" name="SKYMountain0" />
+    <model id="0x04B1" name="SKYMountain1" />
+    <model id="0x04B2" name="SKYMountain2" />
+    <model id="0x04B3" name="SKYMountain3" />
+    <model id="0x04B4" name="SKYSun" />
+    <model id="0x04B5" name="SKYMoon" />
+    <model id="0x04B6" name="SkyVortS" />
+    <model id="0x04B7" name="SkyVortC" />
+    <model id="0x04B8" name="WndLiftS" />
+    <model id="0x04B9" name="WndLiftC" />
+    <model id="0x04BA" name="DIM_PitVort" />
     <model id="0x04BB" name="Whirlpool" />
-    <model id="0x04C0">
-        <description>Blue circle with degree marks (viewfinder?)</description>
-    </model>
-    <model id="0x04C1" name="BlueTriangle" />
-    <model id="0x04C2" name="RedTriangle" />
-    <model id="0x04C7">
-        <description>? render failed (Bad opcode)</description>
-    </model>
-    <model id="0x04C8">
-        <description>? render failed (Bad opcode)</description>
-    </model>
+    <model id="0x04BC" name="CommandMenu0" />
+    <model id="0x04BD" name="CommandMenu1" />
+    <model id="0x04BE" name="CommandMenu2" />
+    <model id="0x04BF" name="CommandMenu3" />
+    <model id="0x04C0" name="CommandMenuCircle" />
+    <model id="0x04C1" name="CommandMenuBlueTriangle" />
+    <model id="0x04C2" name="CommandMenuRedTriangle" />
+    <model id="0x04C3" name="Arwingsteps" />
+    <model id="0x04C4" name="FrontEndLog" />
+    <model id="0x04C5" name="robotscorpi" />
+    <model id="0x04C6" name="firebaddie" />
+    <model id="0x04C7" name="Andross" />
+    <model id="0x04C8" name="Androssleft" />
+    <model id="0x04C9" name="Androssrigh" />
+    <model id="0x04CA" name="AndrossBrain" />
+    <model id="0x04CB" name="AndrossRing" />
     <model id="0x04CC" name="WhiteSphere" />
     <model id="0x04CD" name="WhiteSquare" />
     <model id="0x04CE" name="WhiteSphereBlueRing">
@@ -770,8 +1235,29 @@
     <model id="0x04CF" name="MagicCaveEntrance">
         <description>magic cave opening glow effect</description>
     </model>
+    <model id="0x04D0" name="MCProjDoor0" />
+    <model id="0x04D1" name="MCProjDoor1" />
+    <model id="0x04D3" name="Cactus" />
+    <model id="0x04D4" name="RootPlant" />
+    <model id="0x04D5" name="DragonRockG" />
     <model id="0x04D6" name="DrakorMissile2" />
     <model id="0x04D7" name="DrakorMissile" />
+    <model id="0x04D8" name="LinkF_liftg" />
+    <model id="0x04D9" name="LinkF_cog" />
+    <model id="0x04DA" name="Grubtub" />
+    <model id="0x04DB" name="LINK_SnowPressureSwitch" />
+    <model id="0x04DC" name="LINK_Portcullis0" />
+    <model id="0x04DD" name="LINK_Portcullis1" />
+    <model id="0x04DE" name="LINKStaffLever" />
+    <model id="0x04DF" name="LINKSnowTree" />
+    <model id="0x04E0" name="LINKPoleFlag" />
+    <model id="0x04E1" name="LINKSnowLog" />
+    <model id="0x04E2" name="LINKSnowTree" />
+    <model id="0x04E3" name="LINKSnowGra" />
+    <model id="0x04E4" name="VFP_Platfor2" />
+    <model id="0x04E5" name="linkB_Stone" />
+    <model id="0x04E6" name="WarpCigar" />
+    <model id="0x04E7" name="WarpGasCyli" />
     <model id="0x04E8" name="Krystal" />
     <model id="0x04E9" name="SharpclawDisguise" />
 </models>

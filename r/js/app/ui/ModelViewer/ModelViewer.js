@@ -175,7 +175,7 @@ export default class ModelViewer {
             rows.push({
                 id:   id,
                 //sort missing names to bottom
-                sort: (name=='' ? 'zzz' : name)+dispId,
+                sort: ((name=='' ? 'zzz' : name)+dispId).toLowerCase(),
                 disp: `${dispId} ${name}`,
             });
         }

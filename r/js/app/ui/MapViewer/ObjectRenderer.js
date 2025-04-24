@@ -70,7 +70,7 @@ export default class ObjectRenderer {
         //if we already generated a batch, use it.
         if(this.batches[cacheKey]) return this.batches[cacheKey];
 
-        console.log("Creating object batch", cacheKey);
+        //console.log("Creating object batch", cacheKey);
         const batch = new RenderBatch(this.gx);
         this.batches[cacheKey] = batch;
 
