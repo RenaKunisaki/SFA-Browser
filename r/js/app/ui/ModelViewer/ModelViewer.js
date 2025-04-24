@@ -217,15 +217,14 @@ export default class ModelViewer {
         }
         const modelNo = this.eModelList.value;
 
-        //const model = this.game.maps[this.eMapList.value];
-        //negative 0x4E8 is Krystal, positive is placeholder cube
+        //XXX should add option to load models from disc root too
         //the game always negates the model numbers from the object
         //file, but apparently sometimes they're negative already?
         let model;
         try {
             model = this.game.loadModel(this.gx, -modelNo, `/${map.dirName}`);
             //const model = this.game.loadModel(this.gx, 0x4E8, '/warlock');
-            if(!model) throw "Invalid model selected";
+            if(!model) throw "No models found";
 
             this.model = model;
             this._modelRenderer.reset();
