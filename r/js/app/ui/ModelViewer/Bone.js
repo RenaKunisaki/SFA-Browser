@@ -14,7 +14,7 @@ export default class Bone {
         this.batch = new RenderBatch(this.gx);
         this.batch.addFunction(
             Box.fromLine(this.gx,
-                tail, head, [0.25, 0.25, 0.25]
+                tail, head, [0.1, 0.1, 0.1]
         ).setId(id).batch);
     }
 };
