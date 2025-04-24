@@ -99,7 +99,7 @@ export default class MapViewer {
         //XXX if the object is a trigger/curve, enable those.
 
         this.moveToObject(entry);
-        this.infoWidget.show({type:'object', entry:entry});
+        this.infoWidget.show({type:'object', obj:entry});
     }
 
     /** Set up the map viewer. */

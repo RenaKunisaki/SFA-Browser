@@ -20,7 +20,7 @@ export default class InfoWidget {
     }
 
     /** Display info about an object.
-     *  @param {object} obj What to show. Can be null.
+     *  @param {object} info What to show. Can be null.
      */
     show(info) {
         clearElement(this._tbl);
@@ -227,6 +227,7 @@ export default class InfoWidget {
     _showObject(info) {
         let   entry = info.entry;
         if(!entry) entry = info.obj.entry;
+        if(!entry) entry = info.obj; //what the fuck
         const dll   = entry.object.dll;
         let   acts  = [];
         for(let iAct=1; iAct<16; iAct++) {
@@ -235,8 +236,9 @@ export default class InfoWidget {
         if(acts.length == 0) acts.push('none');
         else if(acts.length == 15) acts = ['all'];
 
-        const wx = entry.position.x - (info.obj.map.worldX*MAP_CELL_SIZE);
-        const wz = entry.position.z - (info.obj.map.worldZ*MAP_CELL_SIZE);
+        //XXX why are we getting no info.obj from the object list widget
+        const wx = entry.position.x - info.obj ? (info.obj.map.worldX*MAP_CELL_SIZE) : 0;
+        const wz = entry.position.z - info.obj ? (info.obj.map.worldZ*MAP_CELL_SIZE) : 0;
 
         const rows = [
             E.tr(E.th(null, `Object ID 0x${hex(entry.id, 8)}`,
