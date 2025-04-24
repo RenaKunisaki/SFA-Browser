@@ -4,7 +4,7 @@ import DisplayList from '../DisplayList.js';
 import Texture from '../../app/ui/gl/Texture.js'
 
 //struct types
-let Header, DisplayListPtr, Shader, Bone, VertexGroup;
+let Header, DisplayListPtr, Shader, Bone, VertexGroup, GCPolygon, PolygonGroup;
 
 /** A model file in SFA. */
 export default class SfaModel {
@@ -17,6 +17,8 @@ export default class SfaModel {
         Shader = this.app.types.getType('sfa.maps.Shader');
         Bone = this.app.types.getType('sfa.models.Bone');
         VertexGroup = this.app.types.getType('sfa.models.VertexGroup');
+        GCPolygon = this.app.types.getType('sfa.maps.GCPolygon');
+        PolygonGroup = this.app.types.getType('sfa.maps.PolygonGroup');
     }
 
     static fromData(game, gx, data, dir) {
@@ -115,8 +117,14 @@ export default class SfaModel {
             const lastPoly = this.polyGroups[i+1] ?
                 this.polyGroups[i+1].firstPolygon : this.header.nPolyGons;
             for(let iPoly=group.firstPolygon; iPoly<lastPoly; iPoly++) {
-                this.polygons[iPoly].groupIdx = i;
-                this.polygons[iPoly].group = group;
+                if(this.polygons[iPoly] == undefined) {
+                    console.error("Polygon %d not defined (group %d)",
+                        iPoly, i, group);
+                }
+                else {
+                    this.polygons[iPoly].groupIdx = i;
+                    this.polygons[iPoly].group = group;
+                }
             }
         }
     }
