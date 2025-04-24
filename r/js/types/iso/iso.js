@@ -91,8 +91,12 @@ export class ISO {
         return this;
     }
 
-    /** Retrieve file from ISO. */
+    /** Retrieve file from ISO.
+     *  @param {string} path The file path.
+     *  @returns {IsoFile} The file, or null.
+     */
     getFile(path) {
+        path = path.replaceAll(/\/+/g, '/'); //replace multiple slashes with one slash
         for(const file of this.files) {
             if(file.path == path) return file;
         }

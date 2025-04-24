@@ -762,7 +762,7 @@
         <description>same as 02C8?</description>
     </model>
     <model id="0x02CC" name="ExplodingWa" />
-    <model id="0x02D1" name="N54Logo">
+    <model id="0x02D1" name="N64Logo">
         <description>used for some debug objects</description>
     </model>
     <model id="0x02D3" name="Rarelogo" />

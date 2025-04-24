@@ -313,7 +313,7 @@ export default class MapViewer {
         }
         block = this.map.blocks[iBlock];
         if(!block) {
-            console.error("Map has no blocks", this.map);
+            //console.error("Map has no blocks", this.map);
             return null;
         }
         return block;
@@ -422,7 +422,8 @@ export default class MapViewer {
         //const gl = this.gx.gl;
         if(!this.curBlock) {
             this.curBlock = this._findABlock();
-            if(!this.curBlock) return;
+            //if(!this.curBlock) return;
+            //we can still render, in case there are objects
         }
 
         //console.log("map block", this.curBlock);

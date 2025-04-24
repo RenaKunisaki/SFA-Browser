@@ -222,9 +222,6 @@ export default class ModelViewer {
         }
         const modelNo = this.eModelList.value;
 
-        //XXX should add option to load models from disc root too
-        //and not list maps with no files
-
         //the game always negates the model numbers from the object
         //file, but apparently sometimes they're negative already?
         let model;

@@ -64,6 +64,18 @@ export class MapParser {
             map.dirName = this.game.mapDirs[map.dirId];
             this.game.mapsByDirId[map.dirId] = map;
         }
+
+        //add an entry for the assets in the disc root.
+        this.game.maps[0xFF] = new Map(this.game, {
+            id: 0xFF,
+            dirName: '/',
+            dirId: -1,
+            name: "(disc root)",
+            description: "Leftover assets in disc root",
+            isUsed: false,
+            blocks: [],
+        });
+
         return this.game.maps;
     }
     readMapNames() {
@@ -338,8 +350,7 @@ export class MapParser {
             let desc = elem.getElementsByTagName('description');
             if(desc && desc[0]) map.description = desc[0].textContent;
 
-            map.isUsed = getAttr(elem, 'used') != '0';
-            if(getAttr(elem, 'unused')) map.isUsed = false; //XXX old data
+            map.isUsed = getAttr(elem, 'isused') != '0';
         }
     }
 }
