@@ -119,7 +119,12 @@ export default class ModelViewer {
         this.eMapList = E.select({id:'modelview-map-list'});
         const maps = [];
         for(let [id, map] of Object.entries(this.game.maps)) {
-            maps.push({id:id, map:map});
+            //ignore empty dirs, and maps that point to animtest
+            //but aren't actually animtest.
+            if(map.hasAssets() &&
+            (map.dirName != 'animtest' || map.id == 0x1A)) {
+                maps.push({id:id, map:map});
+            }
         }
         maps.sort((a, b) => { //sort by name, falling back to ID
             let nA = a.map.name;
@@ -218,6 +223,8 @@ export default class ModelViewer {
         const modelNo = this.eModelList.value;
 
         //XXX should add option to load models from disc root too
+        //and not list maps with no files
+
         //the game always negates the model numbers from the object
         //file, but apparently sometimes they're negative already?
         let model;

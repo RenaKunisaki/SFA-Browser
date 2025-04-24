@@ -213,6 +213,17 @@ export default class Map {
         this.blocks.push(block);
     }
 
+    /** Check if this map has any asset files.
+     *  @returns {bool} true if the map has asset files.
+     *  @note Used to filter empty/missing map directories
+     *   from the model viewer.
+     */
+    hasAssets() {
+        //any asset file will do
+        const mTab = this.game.iso.getFile(`/${this.dirName}/MODELS.tab`);
+        return mTab ? true : false;
+    }
+
     /** Get the list of model IDs present in this map.
      * @returns List of model IDs found in this map.
      */
