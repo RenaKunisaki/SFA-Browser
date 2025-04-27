@@ -13404,6 +13404,10 @@ seemingly only used to track magic plants' growth</description>
       </field>
       <field count="3" name="size" offset="0x3A" type="u8"/>
       <field count="2" name="rot" offset="0x3D" type="u8"/>
+      <field offset="0x3F" type="undefined"/>
+      <field offset="0x40" type="undefined"/>
+      <field offset="0x41" type="undefined"/>
+      <field offset="0x42" type="undefined"/>
       <field name="target" offset="0x43" type="u8">
         <description>0:player/mount/arwing 1:tricky 2:camera</description>
       </field>
@@ -13420,13 +13424,6 @@ seemingly only used to track magic plants' growth</description>
         <description>also int action, for TrigCrve</description>
         <note>Overlaps trigBits[2], trigBits[3]</note>
       </field>
-      <field name="size2" offset="0x3B" type="byte"/>
-      <field name="size3" offset="0x3C" type="byte"/>
-      <field name="rotY" offset="0x3E" type="byte"/>
-      <field offset="0x3F" type="undefined"/>
-      <field offset="0x40" type="undefined"/>
-      <field offset="0x41" type="undefined"/>
-      <field offset="0x42" type="undefined"/>
       <field name="trigBits2" offset="0x4A" type="GameBit16"/>
       <field name="trigBits4" offset="0x4E" type="GameBit16"/>
     </objparams>

@@ -375,18 +375,16 @@ export class TrigPln extends Trigger {
             console.warn("Failed to load TRIG AREA texture");
         }
 
-        //probably still wrong...
-        //scale looks about right? but some are rotated wrong.
         const x  = this.entry.position.x;
         const y  = this.entry.position.y;
         const z  = this.entry.position.z;
         const s  = entry.params.size.value.value[0] * 6.25 * 2 * entry.object.scale;
-        const rx = rot2rad((entry.params.rot.value.value[0] & 0x3F) << 10);
-        const ry = rot2rad(entry.params.rot.value.value[1] << 8);
+        const ry = rot2rad((entry.params.rot.value.value[0] & 0x3F) << 10);
+        const rx = rot2rad(entry.params.rot.value.value[1] << 8);
         batch.addFunction((new Box(this.gx,
             [-0.5, -0.5, -0.1],
             [ 0.5,  0.5,  0.1],
-        )).setScale(s,s,1).setRot(0,rx,ry).setPos(x,y,z).setId(id)
+        )).setScale(s,s,1).setRot(rx,ry,0).setPos(x,y,z).setId(id)
             .setColors(this.chooseColor())
             .setTexture(tex)
             .batch);
