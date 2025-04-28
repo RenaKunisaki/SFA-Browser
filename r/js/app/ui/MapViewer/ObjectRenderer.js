@@ -46,9 +46,7 @@ export default class ObjectRenderer {
             const inst  = createObjInstance(this.gx, this.game, map, entry);
             this.objInstances.push(inst);
             this.objInstancesById[entry.id] = inst;
-            const batch = this.drawObject(inst);
-            console.assert(batch, "Batch for object", entry, inst, "is", batch);
-            this.batches[`obj${entry.idx}`] = batch;
+            this._renderObject(entry, inst);
         }
     }
 
@@ -65,7 +63,9 @@ export default class ObjectRenderer {
         const showTrig = this.mapViewer.layerChooser.getLayer("triggers");
         const showCurv = this.mapViewer.layerChooser.getLayer("curves");
         const groups   = this.mapViewer.layerChooser.getGroups();
-        const cacheKey = [isPicker, acts, groups, showTrig, showCurv].join(':');
+        const color    = this.mapViewer.layerChooser.getObjColorMode();
+        const cacheKey = [isPicker, acts, groups, showTrig, showCurv,
+            color].join(':');
 
         //if we already generated a batch, use it.
         if(this.batches[cacheKey]) return this.batches[cacheKey];
@@ -81,10 +81,10 @@ export default class ObjectRenderer {
         const objs = [];
         for(let entry of map.romList.entries) {
             if((entry.actsMask & acts) && (entry.groupMask & groups)) {
-                const batch = this.batches[`obj${entry.idx}`];
+                const inst = this.objInstancesById[entry.id];
+                const batch = this._renderObject(entry, inst);
                 console.assert(batch, "Batch for object", entry, "is", batch);
                 if(!batch) debugger;
-                const inst = this.objInstancesById[entry.id];
                 const isTrig = (inst instanceof Trigger);
                 const isCurv = (inst instanceof Curve);
                 if(isTrig && showTrig) objs.push(batch);
@@ -99,22 +99,28 @@ export default class ObjectRenderer {
         return batch;
     }
 
-    /** Draw an object.
+    /** Draw an object, using the current color mode.
      *  @param {ObjInstance} inst Object to draw.
      *  @returns {RenderBatch} The render batch.
      */
-    drawObject(inst) {
-        let id = this.pickerIds[inst.entry.idx];
+    _renderObject(entry, objInstance) {
+        const color = this.mapViewer.layerChooser.getObjColorMode();
+        const key = `obj${entry.idx}:${color}`;
+        if(this.batches[key]) return this.batches[key];
+
+        objInstance.colorBy = color;
+        let id = this.pickerIds[objInstance.entry.idx];
         if(id == undefined) {
             id = this.gx.addPickerObj({
                 type: 'object',
-                obj:  inst,
+                obj:  objInstance,
             });
-            this.pickerIds[inst.entry.idx] = id;
+            this.pickerIds[objInstance.entry.idx] = id;
         }
-        const result = inst.render(id);
-        console.assert(result, "Failed to render object", id, inst);
-        return result;
+        const batch = objInstance.render(id);
+        console.assert(batch, "Failed to render object", id, objInstance);
+        this.batches[key] = batch;
+        return batch;
     }
 
     /** Set up the render params to render objects.

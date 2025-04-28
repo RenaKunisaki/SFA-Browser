@@ -54,6 +54,8 @@ export default class LayerChooser {
         this._addLayer(this.eObjs, 'boolean', 'curves', "Curves",
             false, "Invisible control objects");
 
+        //populate the Objects box
+        this._makeObjColorPicker();
         this._makeActPicker();
         this._makeObjGroupPicker();
 
@@ -65,6 +67,20 @@ export default class LayerChooser {
         ));
     }
 
+    _makeObjColorPicker() {
+        this.eObjColor = E.select(null, {id:'map-view-obj-color-mode'},
+            E.option(null, {value:'category'}, "Category"),
+            E.option(null, {value:'dll'}, "DLL"),
+            E.option(null, {value:'group'}, "Group"),
+        );
+        this.eObjs.append(
+            E.label(null, {'for':'map-view-obj-color-mode'}, "Color:"),
+            this.eObjColor
+        );
+        this.eObjColor.addEventListener('change', e => {
+            this.mapViewer.redraw();
+        });
+    }
     _makeActPicker() {
         this.eActs = E.span('act-list', E.div('subtitle', "Acts"));
         for(let i=1; i<NUM_MAP_ACTS; i++) {
@@ -191,6 +207,10 @@ export default class LayerChooser {
             if(this.layers[`group${i}`].value) result |= (1 << (i+1));
         }
         return result;
+    }
+
+    getObjColorMode() {
+        return this.eObjColor.value;
     }
 
     _updateActList() {

@@ -413,7 +413,7 @@ export default class RenderStreamParser {
                 if(idx >= 0 && this.model.textures[idx]) {
                     tex = this.model.textures[idx];
                 }
-                console.log("select texture", idx, tex);
+                //console.log("select texture", idx, tex);
             }
             textures.push([i, tex]);
         }

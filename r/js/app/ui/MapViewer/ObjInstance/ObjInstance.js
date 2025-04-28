@@ -18,6 +18,7 @@ export class ObjInstance {
         this.entry = romListEntry;
         this.gx    = gx;
         this.gl    = gx.gl;
+        this.colorBy = 'category'; //can also be 'dll', 'group'
     }
 
     /** Render the object.
@@ -30,7 +31,23 @@ export class ObjInstance {
         const y = this.entry.position.y;
         const z = this.entry.position.z;
         const s = Math.max(this.entry.object.scale, 10);
-        const [r,g,b] = hsv2rgb((this.entry.object.header.catId / 0x83)*360, 1, 1);
+        let r, g, b;
+        switch(this.colorBy) {
+            case 'category':
+            default:
+                [r,g,b] = hsv2rgb((this.entry.object.header.catId / 0x83)*360, 1, 1);
+                break;
+
+            case 'dll':
+                [r,g,b] = hsv2rgb((
+                    (this.entry.object.header.dll_id-171) / (704-171))*360, 1, 1);
+                break;
+
+            case 'group':
+                if(this.entry.group < 0) [r,g,b] = [1,1,1];
+                else [r,g,b] = hsv2rgb((this.entry.group / 32)*360, 1, 1);
+                break;
+        }
 
         const batch = new RenderBatch(this.gx);
         batch.addFunction((new Box(this.gx,
