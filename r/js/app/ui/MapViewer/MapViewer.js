@@ -406,7 +406,10 @@ export default class MapViewer {
         if(LC.getLayer('origin')) this._drawOrigin();
         this._drawBlocks(blockStats, blockStreams);
         if(LC.getLayer('blockHits')) this._drawBlockHits();
+        const wasWireframe = this.gx.context.useWireframe;
+        this.gx.context.useWireframe = false;
         await this._drawObjects();
+        this.gx.context.useWireframe = wasWireframe;
         if(LC.getLayer('warps')) this._drawWarps();
         if(LC.getLayer('hitPolys')) this._drawHitPolys();
         if(LC.getLayer('polyGroups')) this._drawPolyGroups();
