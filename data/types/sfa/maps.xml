@@ -261,6 +261,15 @@
         <item name="waterEdge" value="0x10">
             <description>Lets you climb out of water</description>
         </item>
+        <item name="CameraWall" value="0x11">
+            <description>Camera moves to overhead view</description>
+        </item>
+        <item name="Push" value="0x12">
+            <description>Pressing A does push animation</description>
+        </item>
+        <item name="Electrified" value="0x13">
+            <description>Does damage with green spark effect</description>
+        </item>
     </enum>
 
     <enum name="RomlistObjLoadFlags" type="u8">

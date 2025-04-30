@@ -402,18 +402,22 @@ export default class MapViewer {
         ];
 
         const blockStats = {totals:{}};
-        this._beginRender();
-        if(LC.getLayer('origin')) this._drawOrigin();
-        this._drawBlocks(blockStats, blockStreams);
-        if(LC.getLayer('blockHits')) this._drawBlockHits();
         const wasWireframe = this.gx.context.useWireframe;
+        this._beginRender();
         this.gx.context.useWireframe = false;
-        await this._drawObjects();
+        if(LC.getLayer('origin')) this._drawOrigin();
+
         this.gx.context.useWireframe = wasWireframe;
+        this._drawBlocks(blockStats, blockStreams);
+
+        this.gx.context.useWireframe = false;
+        if(LC.getLayer('blockHits')) this._drawBlockHits();
+        await this._drawObjects();
         if(LC.getLayer('warps')) this._drawWarps();
         if(LC.getLayer('hitPolys')) this._drawHitPolys();
         if(LC.getLayer('polyGroups')) this._drawPolyGroups();
         if(LC.getLayer('blockBounds')) this._drawBlockBounds();
+        this.gx.context.useWireframe = wasWireframe;
         this._finishRender(blockStats, blockStreams);
         //console.log("block render OK", this.gx.context.stats);
         //console.log("GX logs:", this.gx.program.getLogs());

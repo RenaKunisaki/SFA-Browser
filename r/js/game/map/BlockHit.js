@@ -35,7 +35,7 @@ export default class BlockHit {
             unk10:        (entry.flags & 0x10) != 0,
             unk08:        (entry.flags & 0x08) != 0,
             unk04:        (entry.flags & 0x04) != 0,
-            unk02:        (entry.flags & 0x02) != 0,
+            ignoreTricky: (entry.flags & 0x02) != 0,
             ignorePlayer: (entry.flags & 0x01) != 0,
         };
         this.unk10 = entry._10;
@@ -69,9 +69,12 @@ export default class BlockHit {
             [x2, y2+h2, z2],
             [x2, y2,    z2],
         ];
-        const [r,g,b] = hsv2rgb(((this.type / 0x1F)*360) % 360,
-            (this.type & 0x40) ? 0.25 : 1, 1);
-        const color = [r*255, g*255, b*255, 0xA0 ];
+        let hue = 1;
+        if(this.unkTypeBits) hue /= 2;
+        //if(this.flags.ignorePlayer) hue /= 2;
+        const [r,g,b] = hsv2rgb(((this.type / 0x3F)*360) % 360, hue, 1);
+        const color = [r*255, g*255, b*255,
+            this.flags.ignorePlayer ? 0x80 : 0xA0 ];
         for(let idx of idxs) {
             vtxs.push({
                 PNMTXIDX: -1,
