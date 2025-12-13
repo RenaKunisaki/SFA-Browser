@@ -241,7 +241,7 @@ export default class InfoWidget {
         const wz = entry.position.z - info.obj ? (info.obj.map.worldZ*MAP_CELL_SIZE) : 0;
 
         const rows = [
-            E.tr(E.th(null, `Object ID 0x${hex(entry.id, 8)}`,
+            E.tr(E.th(null, `Object ID 0x${hex(entry.id, 8)} (${entry.id})`,
                 {colspan:2, title:`${entry.id}`})),
             E.tr(
                 E.th(null, "Name"),
