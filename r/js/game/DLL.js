@@ -160,8 +160,13 @@ export default class DLL {
         }
 
         //create a Struct
-        const ns = this.app.types.getType('sfa');
-        this.objParamStruct = this.app.types.parseStruct(eParams, ns);
+        try {
+            const ns = this.app.types.getType('sfa');
+            this.objParamStruct = this.app.types.parseStruct(eParams, ns);
+        }
+        catch(ex) {
+            console.error("Error parsing struct for DLL", this, eDll, eParams, ex);
+        }
     }
 
     /** Read object params from data.
