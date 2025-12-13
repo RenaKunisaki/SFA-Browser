@@ -649,7 +649,7 @@
   <bit id="0x00D8" table="2" size="1" offset="0x04E9"></bit>
   <bit id="0x00D9" table="2" size="1" offset="0x04EA"></bit>
   <bit id="0x00DA" table="2" size="1" offset="0x04EB"></bit>
-  <bit id="0x00DB" table="2" size="1" offset="0x0023"></bit>
+  <bit id="0x00DB" table="2" size="1" offset="0x0023" name="SawCannonExplanation"></bit>
   <bit id="0x00DC" table="2" size="1" offset="0x0361"></bit>
   <bit id="0x00DD" table="2" size="1" offset="0x0849" name="ITEM_TrickyCall_Got" hintid="264">
     <objref map="wastes" obj="NW_seqobjec" objid="0x00048F8E" param="usedBit"></objref>
