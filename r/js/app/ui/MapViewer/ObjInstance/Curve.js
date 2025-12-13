@@ -10,12 +10,13 @@ export default class Curve extends ObjInstance {
             (entry.params.type.value.value / 0x3F) * 360, 1, 1);
         return [r*255, g*255, b*255, 0xC0];
     }
-    _renderPoint(id, obj, batch) {
+    _renderPoint(id, obj, batch, color=null) {
+        if(color == null) color = this._makeColor(obj);
         batch.addFunction(Box.fromLine(this.gx,
             [this.entry.position.x, this.entry.position.y, this.entry.position.z],
             [obj.position.x, obj.position.y, obj.position.z],
             [0.25, 0.25, 0.25])
-            .setId(id).setColors([this._makeColor(obj)]).batch);
+            .setId(id).setColors([color]).batch);
     }
 
     render(id) {
@@ -36,11 +37,13 @@ export default class Curve extends ObjInstance {
         }
 
         const others = [idPrev, id24, id28];
-        for(let idOther of others) {
+        const colors = [null, [192, 192, 192, 0xC0], [32, 32, 32, 0xC0]];
+        for(let i=0; i<others.length; i++) {
+            const idOther = others[i];
             if(idOther > 0) {
                 const that = this.map.romList.objsByUniqueId[idOther];
                 if(that && that.params.idNext.value.value != entry.id) {
-                    this._renderPoint(id, that, batch);
+                    this._renderPoint(id, that, batch, colors[i]);
                 }
             }
         }
@@ -49,7 +52,6 @@ export default class Curve extends ObjInstance {
         const x = this.entry.position.x;
         const y = this.entry.position.y;
         const z = this.entry.position.z;
-        const s = 5;
         batch.addFunction((new Box(this.gx,
             [-0.5, -0.5, -0.5],
             [ 0.5,  0.5,  0.5],
