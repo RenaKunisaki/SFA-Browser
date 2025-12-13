@@ -42,6 +42,7 @@ export default class MapViewer {
         this.textureViewer = new TextureViewer(this);
         this.eLeftSidebar  = E.div('sidebar sidebar-left');
         this.eRightSidebar = E.div('sidebar sidebar-right');
+        this._isLoading    = true;
         this._inputHandler = new InputHandler(this);
         this._setupKeyEvents();
         this._reset();
@@ -199,6 +200,7 @@ export default class MapViewer {
     _reset() {
         this._batches = [];
         this._isFirstDrawAfterLoadingMap = true;
+        this._isLoading = true;
 
         if(!this.context) return; //don't start if not initialized
         //don't start until user actually picks a map
@@ -287,6 +289,7 @@ export default class MapViewer {
                 textures[tex.gameTexture.id] = tex;
             }
         }
+        this._isLoading = false;
         this.textureViewer.setTextures(textures);
         this._isLoading = false;
     }
