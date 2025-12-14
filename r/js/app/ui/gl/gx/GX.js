@@ -44,8 +44,9 @@ export default class GX extends GXConstants {
         this.whiteTexture.makeSolidColor(255, 255, 255, 255);
         //used for when a texture can't be loaded.
         this.missingTexture = new Texture(context);
-        this.missingTexture.loadFromImage(
-            window.location.pathname + '/r/missing-texture.png');
+        let path = window.location.pathname;
+        if(!path.endsWith('/')) path += '/';
+        this.missingTexture.loadFromImage(path + 'r/missing-texture.png');
         //if changing this we need to also add more samplers in the fragment
         //shader and update loadPrograms()
         this.MAX_TEXTURES = 2;
@@ -108,7 +109,7 @@ export default class GX extends GXConstants {
         const gl = this.gl;
 
         //get shader code and create program
-        const path = window.location.pathname + '/r/js/app/ui/gl/gx';
+        const path = window.location.pathname + 'r/js/app/ui/gl/gx';
         this.program = new Program(this.context, {
             [gl.VERTEX_SHADER]:   (await get(`${path}/vertex.glsl`))  .responseText,
             [gl.FRAGMENT_SHADER]: (await get(`${path}/fragment.glsl`)).responseText,
