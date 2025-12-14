@@ -221,12 +221,20 @@ export default class Context {
             gl.RGBA,              // format
             gl.UNSIGNED_BYTE,     // type
             data);                // typed array to hold result
-
-        //console.log("Read picker", x, y, "=>", pixelX, pixelY, "data", data,
-        //    "rect", rect, "client", gl.canvas.clientWidth, gl.canvas.clientHeight,
-        //    "wh", gl.canvas.width, gl.canvas.height);
-        return data[3] | (data[2] << 8) | (data[1] << 16) | (data[0] << 24);
-        //return data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
+        console.log("Read picker", x, y, "=>", pixelX, pixelY, "data", data,
+            "rect", rect, "client", gl.canvas.clientWidth, gl.canvas.clientHeight,
+            "wh", gl.canvas.width, gl.canvas.height);
+        //some browsers (ahem Firefox) don't handle this properly, and return 0xFF
+        //for the "alpha" channel, even when the shader wrote something else.
+        //XXX look into whether this is actually correct and we're doing something
+        //wrong that just happens to work in Chrome?
+        if(data[3] == 0xFF) {
+            return data[0] | (data[1] << 8) | (data[2] << 16);
+        }
+        else {
+            return data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
+            //return data[3] | (data[2] << 8) | (data[1] << 16) | (data[0] << 24);
+        }
     }
 
     /** Create modelview and projection matrices.
@@ -302,10 +310,11 @@ export default class Context {
                 //console.log("LOL", gl.canvas);
                 gl.canvas.setAttribute('width', cWidth);
                 gl.canvas.setAttribute('height', cHeight);
+                //console.log("LOL", gl.canvas.width, gl.canvas.height);
                 this.redraw();
             }
         };
-        setInterval(lol2, 1000);
+        setInterval(lol2, 2000);
     }
 
     _onResetCamera() {
@@ -393,6 +402,7 @@ export default class Context {
         if(!this.showPickBuffer) {
             gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);
         }
+        else gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         if(this.drawFunc) {
             try {

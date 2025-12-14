@@ -122,10 +122,8 @@ export default class InputHandler {
                 this._mouseStartPos = [event.x, event.y];
             }
         }
-        else {
+        else { //other buttons, including none
             this._mouseStartView = null;
-            //const obj = await this.viewer._getObjAt(event.clientX, event.clientY);
-            //this.viewer.infoWidget.show(obj);
         }
         this._prevMousePos = [event.x, event.y];
     }

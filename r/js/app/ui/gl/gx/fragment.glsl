@@ -35,11 +35,10 @@ void main() {
     if(u_useId) {
         //render for picker buffer. vertex color = its ID.
         out_Color = vec4(
-            float( int(vtx_Id) >> 24) / 255.0,
-            //gl_FragCoord.y / 1024.0,
-            float((int(vtx_Id) >> 16) & 0xFF) / 255.0,
+            float( int(vtx_Id)        & 0xFF) / 255.0,
             float((int(vtx_Id) >>  8) & 0xFF) / 255.0,
-            float( int(vtx_Id)        & 0xFF) / 255.0);
+            float((int(vtx_Id) >> 16) & 0xFF) / 255.0,
+            float( int(vtx_Id) >> 24) / 255.0);
     }
     else if(!u_useAlphaTest) out_Color = col.rgba;
     //else if(!u_useAlphaTest) out_Color = vec4(col.rgb, 1.0);
