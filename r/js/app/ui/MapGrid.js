@@ -1,6 +1,7 @@
 import Game from "../../game/Game.js";
 import { E, clearElement } from "../../lib/Element.js";
 import { assertType, hex } from "../../Util.js";
+import WorldExporter from "./MapViewer/WorldExporter.js";
 
 //XXX move these
 const MAP_CELL_SIZE = 640;
@@ -51,7 +52,28 @@ export default class MapGrid {
         elem.value = this.layerNo;
         elem.addEventListener('change', e => this.refresh());
         this.eLayerPicker = elem;
-        clearElement(this.eToolbar).append(this.eLayerPicker, this.eCellInfo);
+
+        this.eExport = E.button('export-file', "Export 3D",
+            {title:"Export this layer's map geometry as a .glb file"});
+        this.eExport.addEventListener('click', e => this.exportLayer());
+        clearElement(this.eToolbar).append(this.eLayerPicker, this.eExport,
+            this.eCellInfo);
+    }
+
+    /** Export the current layer's map geometry to a .glb file. */
+    async exportLayer() {
+        const gx = this.app.ui.mapView.gx;
+        if(!gx || !gx.program) {
+            alert("The map viewer isn't ready yet.");
+            return;
+        }
+        this.eExport.disabled = true;
+        try {
+            await (new WorldExporter(this.game, gx, this.layerNo)).export();
+        }
+        finally {
+            this.eExport.disabled = false;
+        }
     }
 
     _getCell(layer, x, z) {
