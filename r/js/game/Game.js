@@ -160,6 +160,19 @@ export default class Game {
         return res;
     }
 
+    getMapById(id) {
+        return this.maps[id];
+    }
+
+    getMapByDirId(id) {
+        return this.mapsByDirId[id];
+    }
+
+    getMapName(id) {
+        if(this.maps[id] != undefined) return this.maps[id].name;
+        return `0x${hex(id,2)}`;
+    }
+
     getMapDirName(id) {
         if(!this.mapDirs) return "";
         if(id == -1) return "";

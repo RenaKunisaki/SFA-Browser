@@ -64,8 +64,8 @@ export class Trigger extends ObjInstance {
             //if neither enter/leave are set it triggers every frame
             if(flags & 0x1C == 0x10) conditions.push("Always");
             if(!conditions.length) {
-                if(flags & 0x04) conditions.push("?Enter");
-                else if(flags & 0x08) conditions.push("?Leave");
+                if(flags & 0x04) conditions.push("OnCamEnter");
+                else if(flags & 0x08) conditions.push("OnCamLeave");
                 else conditions.push("Never");
                 this._hasActions.unknown = true; //Never is pretty strange too
             }
@@ -127,7 +127,7 @@ export class Trigger extends ObjInstance {
                     }
                     break;
                 }
-                case 0x0B: { //subcmd, relates tp seq
+                case 0x0B: { //subcmd, relates to seq
                     switch(cmd.param1) {
                         case 0: {
                             name = "StartSeq";
@@ -172,7 +172,9 @@ export class Trigger extends ObjInstance {
                     break;
                 }
                 case 0x1A: case 0x1B: { //show/hide in other map
-                    params = `${this.game.getMapDirName(cmd.param2)} ${cmd.param1}`;
+                    //this uses map ID, not dir ID, unlike some other commands
+                    const map = this._getMapName(cmd.param2, false);
+                    params = `${map} #${cmd.param1}`;
                     this._hasActions.objGroup = true;
                     break;
                 }
@@ -204,7 +206,8 @@ export class Trigger extends ObjInstance {
                     break;
                 }
                 case 0x1E: { //set map act for other map
-                    params = `${this.game.getMapDirName(cmd.param2)} ${cmd.param1}`;
+                    const map = this._getMapName(cmd.param2, true);
+                    params = `${map} #${cmd.param1}`;
                     this._hasActions.setAct = true;
                     break;
                 }
@@ -266,13 +269,13 @@ export class Trigger extends ObjInstance {
                     break;
                 }
                 case 0x27: case 0x28: { //load/free map assets
-                    const id = (cmd.param1 << 8) | cmd.param2;
-                    params = this.game.getMapDirName(id);
+                    params = this._getMapName((cmd.param1 << 8) | cmd.param2, true);
                     this._hasActions.loadMap = true;
                     break;
                 }
                 case 0x2A: case 0x2B: { //lock/unlock bucket
-                    params = `${this.game.getMapDirName(cmd.param1)} ${hex(cmd.param2,2)}`;
+                    const map = this._getMapName(cmd.param, true);
+                    params = `${map} #${hex(cmd.param2,2)}`;
                     this._hasActions.loadMap = true;
                     break;
                 }
@@ -313,6 +316,14 @@ export class Trigger extends ObjInstance {
         if(this._hasActions.showText)    return [0xC0, 0x40, 0x40, 0x80];
         if(this._hasActions.gameBit)     return [0xC0, 0x00, 0xC0, 0x80];
         return [0x80, 0x80, 0x80, 0x80];
+    }
+
+    _getMapName(id, isDirId) {
+        let map;
+        if(isDirId) map = this.game.getMapByDirId(id);
+        else map = this.game.getMapById(id);
+        if(map == undefined) return `0x${hex(id,2)} (invalid)`;
+        else return `${map.dirName} (${map.name})`;
     }
 } //class Trigger
 
