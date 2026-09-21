@@ -274,7 +274,7 @@ export class Trigger extends ObjInstance {
                     break;
                 }
                 case 0x2A: case 0x2B: { //lock/unlock bucket
-                    const map = this._getMapName(cmd.param, true);
+                    const map = this._getMapName(cmd.param1, true);
                     params = `${map} #${hex(cmd.param2,2)}`;
                     this._hasActions.loadMap = true;
                     break;
@@ -320,6 +320,7 @@ export class Trigger extends ObjInstance {
 
     _getMapName(id, isDirId) {
         let map;
+        console.assert(id != undefined);
         if(isDirId) map = this.game.getMapByDirId(id);
         else map = this.game.getMapById(id);
         if(map == undefined) return `0x${hex(id,2)} (invalid)`;
