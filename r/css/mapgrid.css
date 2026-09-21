@@ -4,6 +4,12 @@
     height: calc(100% - 4em);
 }
 
+.mapGrid .toolbar {
+    position: sticky;
+    inset: 1em;
+    background: var(--main-bg-color);
+}
+
 .mapGrid .notice {
     position: absolute;
     top: 1em;
