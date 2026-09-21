@@ -225,7 +225,7 @@ export default class InfoWidget {
      *  @note `info.obj` should be a RomListEntry.
      */
     _showObject(info) {
-        let   entry = info.entry;
+        let entry = info.entry;
         if(!entry) entry = info.obj.entry;
         if(!entry) entry = info.obj; //what the fuck
         const dll   = entry.object.dll;
@@ -237,8 +237,8 @@ export default class InfoWidget {
         else if(acts.length == 15) acts = ['all'];
 
         //XXX why are we getting no info.obj from the object list widget
-        const wx = entry.position.x - info.obj ? (info.obj.map.worldX*MAP_CELL_SIZE) : 0;
-        const wz = entry.position.z - info.obj ? (info.obj.map.worldZ*MAP_CELL_SIZE) : 0;
+        const wx = entry.position.x + (info.obj ? (info.obj.map.worldX*MAP_CELL_SIZE) : 0);
+        const wz = entry.position.z + (info.obj ? (info.obj.map.worldZ*MAP_CELL_SIZE) : 0);
 
         const rows = [
             E.tr(E.th(null, `Object ID 0x${hex(entry.id, 8)} (${entry.id})`,
