@@ -9,13 +9,13 @@
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004A6B0" param="bit1A"></objref>
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004A6B1" param="bit1A"></objref>
   </bit>
-  <bit id="0x0002" table="0" size="1" offset="0x02E1" name="AndrossRelated0002&#xA;">
+  <bit id="0x0002" table="0" size="1" offset="0x02E1" name="AndrossRel0002">
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004A6AF" param="bit18"></objref>
   </bit>
-  <bit id="0x0003" table="0" size="1" offset="0x02E2" name="AndrossRelated0003">
+  <bit id="0x0003" table="0" size="1" offset="0x02E2" name="AndrossRel0003">
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004A6B0" param="bit18"></objref>
   </bit>
-  <bit id="0x0004" table="0" size="1" offset="0x02E3" name="AndrossRelated0004">
+  <bit id="0x0004" table="0" size="1" offset="0x02E3" name="AndrossRel0004">
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004A6B1" param="bit18"></objref>
   </bit>
   <bit id="0x0005" table="1" size="1" offset="0x0003" name="TTH_KilledBloop1">
@@ -35,23 +35,20 @@
     <description>when first landing there</description>
   </bit>
   <bit id="0x000C" table="1" size="1" offset="0x0021"></bit>
-  <bit id="0x000D" table="0" size="1" offset="0x02E4" name="AndrossIsFiringMissiles">
-    <description>
-</description>
+  <bit id="0x000D" table="0" size="1" offset="0x02E4" name="AndrossFiringMissiles">
   </bit>
-  <bit id="0x000E" table="0" size="1" offset="0x02E5" name="AndrossGiveBomb&#xA;">
-    <description>Spawns supply box with a bomb
-</description>
+  <bit id="0x000E" table="0" size="1" offset="0x02E5" name="AndrossGiveBomb">
+    <description>Spawns supply box with a bomb</description>
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004ABA4" param="bit1A"></objref>
   </bit>
   <bit id="0x000F" table="0" size="1" offset="0x02E6" name="AndrossDoFalcoScene">
     <objref map="arwing" obj="ANDSeqObjec" objid="0x0004AC1E" param="bit1A"></objref>
   </bit>
-  <bit id="0x0010" table="0" size="1" offset="0x02E7" name="AndrossRelated0010">
+  <bit id="0x0010" table="0" size="1" offset="0x02E7" name="AndrossRel0010">
     <description>cleared before init arwing</description>
   </bit>
   <bit id="0x0011" table="2" size="1" offset="0x0105" name="TTH_StaffTutRunning"></bit>
-  <bit id="0x0012" table="0" size="1" offset="0x02E8" name="AndrossRelated0012"></bit>
+  <bit id="0x0012" table="0" size="1" offset="0x02E8" name="AndrossRel0012"></bit>
   <bit id="0x0013" table="1" size="1" offset="0x0005" name="TTH_KilledBloop3">
     <objref map="hollow" obj="WB" objid="0x00044641" param="bit_incOnDeath"></objref>
   </bit>
@@ -158,7 +155,7 @@
   <bit id="0x0039" table="2" size="1" offset="0x0417">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x0004B1C0" param="bit18"></objref>
   </bit>
-  <bit id="0x003A" table="2" size="1" offset="0x0391" name="DIMRelated003A"></bit>
+  <bit id="0x003A" table="2" size="1" offset="0x0391" name="DIMRel003A"></bit>
   <bit id="0x003B" table="2" size="1" offset="0x0392"></bit>
   <bit id="0x003C" table="0" size="1" offset="0x00F6"></bit>
   <bit id="0x003D" table="0" size="1" offset="0x00F7"></bit>
@@ -190,14 +187,14 @@
   <bit id="0x0048" table="2" size="1" offset="0x029A"></bit>
   <bit id="0x0049" table="0" size="1" offset="0x0081"></bit>
   <bit id="0x004A" table="1" size="1" offset="0x0033"></bit>
-  <bit id="0x004B" table="2" size="4" offset="0x029B">
-    <description>related to water spellstone</description>
+  <bit id="0x004B" table="2" size="4" offset="0x029B" name="CF_RecoveredStaff">
+    <description>related to water spellstone? becomes 1 when you recover staff, 14 after windlift turning on scene</description>
   </bit>
   <bit id="0x004C" table="2" size="1" offset="0x029F">
     <objref map="clouddungeon" obj="HitAnimator" objid="0x00043930" param="target"></objref>
     <objref map="clouddungeon" obj="StaffLeverO" objid="0x00043FB3" param="activated"></objref>
   </bit>
-  <bit id="0x004D" table="2" size="1" offset="0x02A0" name="CFPerchRelated004D">
+  <bit id="0x004D" table="2" size="1" offset="0x02A0" name="CFPerchRel004D">
     <objref map="clouddungeon" obj="HitAnimator" objid="0x000438BB" param="target"></objref>
     <objref map="clouddungeon" obj="StaffLeverO" objid="0x00043FAF" param="activated"></objref>
   </bit>
@@ -215,9 +212,9 @@
   </bit>
   <bit id="0x0052" table="2" size="1" offset="0x02A5" name="ITEM_CFGreenCrystal_Got"></bit>
   <bit id="0x0053" table="2" size="1" offset="0x02A6" name="ITEM_CFBlueCrystal_Got"></bit>
-  <bit id="0x0054" table="2" size="1" offset="0x02AD" name="CF_CrystalRelated0054"></bit>
-  <bit id="0x0055" table="2" size="1" offset="0x02AE" name="CF_CrystalRelated0055"></bit>
-  <bit id="0x0056" table="2" size="1" offset="0x02AF" name="CF_CrystalRelated0056"></bit>
+  <bit id="0x0054" table="2" size="1" offset="0x02AD" name="CF_CrystalRel0054"></bit>
+  <bit id="0x0055" table="2" size="1" offset="0x02AE" name="CF_CrystalRel0055"></bit>
+  <bit id="0x0056" table="2" size="1" offset="0x02AF" name="CF_CrystalRel0056"></bit>
   <bit id="0x0057" table="2" size="1" offset="0x02B0" name="CF_PowerOn" hintid="328">
     <objref map="clouddungeon" obj="StaffLeverT" objid="0x000477A7" param="enabled"></objref>
     <objref map="fortress" obj="HitAnimator" objid="0x0004397B" param="target"></objref>
@@ -235,7 +232,7 @@
   <bit id="0x0058" table="1" size="1" offset="0x0036"></bit>
   <bit id="0x0059" table="1" size="1" offset="0x0037"></bit>
   <bit id="0x005A" table="1" size="1" offset="0x0038"></bit>
-  <bit id="0x005B" table="2" size="1" offset="0x02B1">
+  <bit id="0x005B" table="2" size="1" offset="0x02B1" name="CF_PrisonWindLiftRel05B">
     <objref map="clouddungeon" obj="StaffLeverT" objid="0x000477A7" param="activated"></objref>
   </bit>
   <bit id="0x005C" table="2" size="1" offset="0x02B2">
@@ -273,11 +270,11 @@
   <bit id="0x006D" table="2" size="1" offset="0x030F">
     <objref map="newicemount" obj="IMSeqObject" objid="0x00003AE2" param="bit1A"></objref>
   </bit>
-  <bit id="0x006E" table="2" size="1" offset="0x0310" name="IM_TrickyRelated006E">
+  <bit id="0x006E" table="2" size="1" offset="0x0310" name="IM_TrickyRel006E">
     <description>set after Tricky landing scene</description>
     <objref map="newicemount" obj="IMSeqObject" objid="0x00003AE2" param="bit18"></objref>
   </bit>
-  <bit id="0x006F" table="2" size="1" offset="0x0311" name="IM_TrickyRelated006F">
+  <bit id="0x006F" table="2" size="1" offset="0x0311" name="IM_TrickyRel006F">
     <description>set when entering hut</description>
   </bit>
   <bit id="0x0070" table="2" size="1" offset="0x0312" name="IM_RescuedTricky" hintid="261"></bit>
@@ -305,7 +302,7 @@
   <bit id="0x007A" table="2" size="1" offset="0x0178">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00044A6C" param="bit18"></objref>
   </bit>
-  <bit id="0x007B" table="2" size="1" offset="0x017F">
+  <bit id="0x007B" table="2" size="1" offset="0x017F" name="LV_Open">
     <objref map="swapcircle" obj="SC_settelme" objid="0x000028B8" param="open"></objref>
   </bit>
   <bit id="0x007C" table="2" size="1" offset="0x0180"></bit>
@@ -328,12 +325,12 @@
   <bit id="0x0084" table="2" size="1" offset="0x01C2" name="LV_Totem4_Activated">
     <objref map="swapcircle" obj="StaffLeverO" objid="0x00044A5B" param="activated"></objref>
   </bit>
-  <bit id="0x0085" table="2" size="1" offset="0x0181">
+  <bit id="0x0085" table="2" size="1" offset="0x0181" name="LV_BasementDoor_Open">
     <objref map="swapcircle" obj="SC_mounddoo" objid="0x000028B6" param="open"></objref>
     <objref map="swapcircle" obj="HitAnimator" objid="0x0004C837" param="target"></objref>
   </bit>
-  <bit id="0x0086" table="2" size="1" offset="0x0182"></bit>
-  <bit id="0x0087" table="2" size="1" offset="0x018B">
+  <bit id="0x0086" table="2" size="1" offset="0x0182" name="LV_BasementDoorRel086"></bit>
+  <bit id="0x0087" table="2" size="1" offset="0x018B" name="LV_SqrBlk_Step2Raised">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00045CEB" param="open"></objref>
   </bit>
   <bit id="0x0088" table="2" size="1" offset="0x00D5" name="TTH_WarpStonePathOpen">
@@ -357,7 +354,7 @@
   <bit id="0x008F" table="2" size="1" offset="0x00EE" name="TTH_BombPlanted08F">
     <objref map="hollow" obj="BombPlant" objid="0x00044B2A" param="exists"></objref>
   </bit>
-  <bit id="0x0090" table="2" size="1" offset="0x00FF" name="TTH_Related0090">
+  <bit id="0x0090" table="2" size="1" offset="0x00FF" name="TTH_Rel0090">
     <objref map="hollow" obj="HitAnimator" objid="0x0004BBDE" param="target"></objref>
   </bit>
   <bit id="0x0091" table="2" size="1" offset="0x03D8"></bit>
@@ -518,10 +515,10 @@
   <bit id="0x009E" table="2" size="1" offset="0x084A">
     <description>related to Queen EarthWalker</description>
   </bit>
-  <bit id="0x009F" table="0" size="1" offset="0x01A4" name="NpcTalkRelated009F">
+  <bit id="0x009F" table="0" size="1" offset="0x01A4" name="NpcTalkRel009F">
     <description>related to talking to NPCs</description>
   </bit>
-  <bit id="0x00A0" table="1" size="1" offset="0x01D5" name="GalleonRelated00A0"></bit>
+  <bit id="0x00A0" table="1" size="1" offset="0x01D5" name="GalleonRel00A0"></bit>
   <bit id="0x00A1" table="2" size="1" offset="0x00EF" name="TTH_BombPlanted0A1">
     <objref map="hollow" obj="BombPlant" objid="0x00043C76" param="exists"></objref>
   </bit>
@@ -529,7 +526,7 @@
   <bit id="0x00A3" table="1" size="1" offset="0x001C" name="CC_SeqNeedBit0A3">
     <objref map="capeclaw" obj="CCseqobj" objid="0x000492F1" param="needBit"></objref>
   </bit>
-  <bit id="0x00A4" table="1" size="1" offset="0x0219" name="WM_GalleonRelated00A4"></bit>
+  <bit id="0x00A4" table="1" size="1" offset="0x0219" name="WM_GalleonRel00A4"></bit>
   <bit id="0x00A5" table="0" size="1" offset="0x01AF"></bit>
   <bit id="0x00A6" table="2" size="1" offset="0x025D" name="CC_Currents1_Disable">
     <description>Disables some water currents in Cape Claw when some switch is activated</description>
@@ -542,7 +539,7 @@
     <objref map="capeclaw" obj="CCriverflow" objid="0x00045DBE" param="disable"></objref>
     <objref map="capeclaw" obj="CCseqobj" objid="0x000492F4" param="needBit"></objref>
   </bit>
-  <bit id="0x00A7" table="0" size="1" offset="0x01B5" name="WM_SwitchRelatedA7">
+  <bit id="0x00A7" table="0" size="1" offset="0x01B5" name="WM_SwitchRelA7">
     <description>related to KP pressure switch door; toggled repeatedly during Krystal getting
       captured scene</description>
     <objref map="warlock" obj="WM_Pressure" objid="0x00001F1A" param="pressed"></objref>
@@ -587,8 +584,8 @@
   <bit id="0x00BF" table="2" size="1" offset="0x0093" name="TTH_ReturnedToQueen" hintid="270">
     <description>Talked to queen after bringing Tricky back from Ice Mountain</description>
   </bit>
-  <bit id="0x00C0" table="0" size="1" offset="0x000D" name="TTH_Entered00C0">
-    <description>also toggled when leaving queen cave, and in CRFort</description>
+  <bit id="0x00C0" table="0" size="1" offset="0x000D" name="TTH_QueenRel0C0">
+    <description>Toggled when leaving queen cave/after told to go back to WC, and in CRFort</description>
   </bit>
   <bit id="0x00C1" table="2" size="4" offset="0x0073" name="ITEM_TrickyFood_Count">
     <description>Number of Tricky foods (GrubTub Fungus)</description>
@@ -631,12 +628,12 @@
     <objref map="newicemount" obj="IMSeqObject" objid="0x00003AFA" param="bit18"></objref>
     <objref map="newicemount3" obj="IMSeqObject" objid="0x00003AFA" param="bit18"></objref>
   </bit>
-  <bit id="0x00CE" table="2" size="1" offset="0x0319" name="IMRelated00CE">
+  <bit id="0x00CE" table="2" size="1" offset="0x0319" name="IMRel00CE">
     <objref map="newicemount" obj="IMSeqObject" objid="0x00046A00" param="bit1A"></objref>
     <objref map="newicemount3" obj="IMSeqObject" objid="0x00046A06" param="bit1A"></objref>
   </bit>
   <bit id="0x00CF" table="0" size="1" offset="0x01AE"></bit>
-  <bit id="0x00D0" table="2" size="1" offset="0x04E4" name="WM_GalleonRelated00D0"></bit>
+  <bit id="0x00D0" table="2" size="1" offset="0x04E4" name="WM_GalleonRel00D0"></bit>
   <bit id="0x00D1" table="2" size="1" offset="0x04E5"></bit>
   <bit id="0x00D2" table="2" size="1" offset="0x04E6"></bit>
   <bit id="0x00D3" table="2" size="1" offset="0x002A" name="NW_ClawDead0D3">
@@ -763,14 +760,14 @@
   <bit id="0x0107" table="2" size="1" offset="0x06FE" name="ITEM_GroundQuake_Got" hintid="308">
     <objref map="moonpass" obj="MagicCaveTo" objid="0x00049196" param="Collected"></objref>
   </bit>
-  <bit id="0x0108" table="0" size="1" offset="0x02EA" name="AndrossRelated108">
+  <bit id="0x0108" table="0" size="1" offset="0x02EA" name="AndrossRel108">
     <description>these are randomly chosen from</description>
   </bit>
-  <bit id="0x0109" table="0" size="1" offset="0x02EB" name="AndrossRelated109"></bit>
-  <bit id="0x010A" table="0" size="1" offset="0x02EC" name="AndrossRelated10A"></bit>
-  <bit id="0x010B" table="0" size="1" offset="0x02ED" name="AndrossRelated10B"></bit>
-  <bit id="0x010C" table="0" size="1" offset="0x02EE" name="AndrossRelated10C"></bit>
-  <bit id="0x010D" table="0" size="1" offset="0x02EF" name="AndrossRelated10D"></bit>
+  <bit id="0x0109" table="0" size="1" offset="0x02EB" name="AndrossRel109"></bit>
+  <bit id="0x010A" table="0" size="1" offset="0x02EC" name="AndrossRel10A"></bit>
+  <bit id="0x010B" table="0" size="1" offset="0x02ED" name="AndrossRel10B"></bit>
+  <bit id="0x010C" table="0" size="1" offset="0x02EE" name="AndrossRel10C"></bit>
+  <bit id="0x010D" table="0" size="1" offset="0x02EF" name="AndrossRel10D"></bit>
   <bit id="0x010E" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x010F" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0110" table="0" size="1" offset="0x0000"></bit>
@@ -818,16 +815,16 @@
   </bit>
   <bit id="0x0125" table="0" size="1" offset="0x01EE"></bit>
   <bit id="0x0126" table="0" size="1" offset="0x028B"></bit>
-  <bit id="0x0127" table="0" size="1" offset="0x0287" name="TestStrengthTexScrollRelated127"></bit>
+  <bit id="0x0127" table="0" size="1" offset="0x0287" name="TestStrengthTexScrollRel127"></bit>
   <bit id="0x0128" table="0" size="1" offset="0x0288"></bit>
   <bit id="0x0129" table="0" size="1" offset="0x0289" name="WM_EnteredKrazoaTest1_0129">
     <description>set when entering Krazoa test 1, cleared when talking to spirit</description>
   </bit>
-  <bit id="0x012A" table="0" size="1" offset="0x0073"></bit>
+  <bit id="0x012A" table="0" size="1" offset="0x0073" name="ECSH_SpiritEntered"></bit>
   <bit id="0x012B" table="0" size="1" offset="0x0210"></bit>
   <bit id="0x012C" table="0" size="1" offset="0x0074"></bit>
   <bit id="0x012D" table="0" size="1" offset="0x0211"></bit>
-  <bit id="0x012E" table="0" size="1" offset="0x0006" name="ITEM_Shroom_Unk12E&#xA;">
+  <bit id="0x012E" table="0" size="1" offset="0x0006" name="ITEM_Shroom_Unk12E">
     <description>cleared when collecting mushrooms</description>
   </bit>
   <bit id="0x012F" table="2" size="32" offset="0x0732" name="HintTexts0">
@@ -860,7 +857,7 @@
   </bit>
   <bit id="0x0141" table="2" size="1" offset="0x00D3"></bit>
   <bit id="0x0142" table="2" size="1" offset="0x028D"></bit>
-  <bit id="0x0143" table="0" size="1" offset="0x021E" name="WM_Spirit1Related_0143">
+  <bit id="0x0143" table="0" size="1" offset="0x021E" name="WM_Spirit1Rel_0143">
     <description>set when collecting first spirit; cleared when it enters krazoa head</description>
   </bit>
   <bit id="0x0144" table="1" size="4" offset="0x032A" name="MC_ActNo">
@@ -893,7 +890,7 @@
     <objref map="wastes" obj="NW_seqobjec" objid="0x0004A09C" param="needBit"></objref>
     <objref map="wastes" obj="HitAnimator" objid="0x0004CB23" param="target"></objref>
   </bit>
-  <bit id="0x015A" table="2" size="1" offset="0x0106" name="TTH_WarpStoneRelated015A">
+  <bit id="0x015A" table="2" size="1" offset="0x0106" name="TTH_WarpStoneRel015A">
     <description>set during intro speech</description>
   </bit>
   <bit id="0x015B" table="2" size="1" offset="0x0364"></bit>
@@ -924,19 +921,19 @@
     <objref map="capeclaw" obj="CCseqobj" objid="0x00045FF7" param="usedBit"></objref>
     <objref map="capeclaw" obj="HitAnimator" objid="0x0004B7BE" param="target"></objref>
   </bit>
-  <bit id="0x0164" table="2" size="1" offset="0x0263" name="WMRelated0164">
+  <bit id="0x0164" table="2" size="1" offset="0x0263" name="WMRel0164">
     <objref map="capeclaw" obj="HitAnimator" objid="0x00045FF8" param="target"></objref>
     <objref map="capeclaw" obj="HitAnimator" objid="0x00046014" param="target"></objref>
   </bit>
   <bit id="0x0165" table="2" size="1" offset="0x0264"></bit>
-  <bit id="0x0166" table="2" size="1" offset="0x0085" name="TTH_StaffTutRelated0166">
+  <bit id="0x0166" table="2" size="1" offset="0x0085" name="TTH_StaffTutRel0166">
     <description>set at some random point</description>
     <objref map="hollow" obj="sharpclawGr" objid="0x000484F6" param="bit_incOnDeath"></objref>
   </bit>
   <bit id="0x0167" table="2" size="1" offset="0x0086" name="TTH_StaffTutBaddie1Dead">
     <objref map="hollow" obj="sharpclawGr" objid="0x000484F7" param="bit_incOnDeath"></objref>
   </bit>
-  <bit id="0x0168" table="2" size="1" offset="0x00A2" name="TTH_ThornTailRelated0168">
+  <bit id="0x0168" table="2" size="1" offset="0x00A2" name="TTH_ThornTailRel0168">
     <objref map="hollow2" obj="SH_BottomSe" objid="0x0004AAE0" param="usedBit"></objref>
   </bit>
   <bit id="0x0169" table="3" size="1" offset="0x0029"></bit>
@@ -961,7 +958,7 @@
   <bit id="0x0176" table="0" size="1" offset="0x0268">
     <objref map="nwshrine" obj="NWSH_Seqobj" objid="0x00049E68" param="bit18"></objref>
   </bit>
-  <bit id="0x0177" table="2" size="1" offset="0x00CC" name="TTH_Related0177"></bit>
+  <bit id="0x0177" table="2" size="1" offset="0x00CC" name="TTH_Rel0177"></bit>
   <bit id="0x0178" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0179" table="2" size="1" offset="0x007B"></bit>
   <bit id="0x017A" table="2" size="1" offset="0x0376" name="DIM_Lever17A">
@@ -970,10 +967,10 @@
   <bit id="0x017B" table="2" size="1" offset="0x036E" name="ITEM_DIMCog1_Got">
     <objref map="snowmines" obj="DIMUseObjec" objid="0x00001B13" param="key"></objref>
   </bit>
-  <bit id="0x017C" table="2" size="1" offset="0x0378" name="DIM_BridgeRelated17C">
+  <bit id="0x017C" table="2" size="1" offset="0x0378" name="DIM_BridgeRel17C">
     <objref map="snowmines" obj="DIMBridge" objid="0x00001B4D" param="bit1A"></objref>
   </bit>
-  <bit id="0x017D" table="2" size="1" offset="0x037A" name="DIM_BridgeRelated17D">
+  <bit id="0x017D" table="2" size="1" offset="0x037A" name="DIM_BridgeRel17D">
     <objref map="snowmines" obj="DIMBridge" objid="0x00001B4D" param="bit18"></objref>
     <objref map="snowmines" obj="HitAnimator" objid="0x0004A1CB" param="target"></objref>
     <objref map="snowmines" obj="HitAnimator" objid="0x00030C0B" param="target"></objref>
@@ -1003,27 +1000,29 @@
     <objref map="snowmines" obj="DIMUseObjec" objid="0x00001DE4" param="open"></objref>
   </bit>
   <bit id="0x0185" table="2" size="1" offset="0x007C"></bit>
-  <bit id="0x0186" table="2" size="1" offset="0x084E" name="Tricky_LoadBadge"></bit>
+  <bit id="0x0186" table="2" size="1" offset="0x084E" name="Tricky_LoadBadge">
+    <description>Tricky has the Star Fox emblem (model not loaded in most maps)</description>
+  </bit>
   <bit id="0x0187" table="2" size="1" offset="0x022A"></bit>
-  <bit id="0x0188" table="2" size="1" offset="0x0028" name="IM_SnowRelated0188">
+  <bit id="0x0188" table="2" size="1" offset="0x0028" name="IM_SnowRel0188">
     <description>set when you enter the trigger that starts the snow</description>
   </bit>
   <bit id="0x0189" table="2" size="1" offset="0x001F" name="SawBombPlant"></bit>
   <bit id="0x018A" table="2" size="1" offset="0x0850"></bit>
   <bit id="0x018B" table="2" size="1" offset="0x0080" name="ITEM_Staff_FoxFound" hintid="254"></bit>
-  <bit id="0x018C" table="2" size="1" offset="0x00B5" name="TTH_BeaconRelated18C">
+  <bit id="0x018C" table="2" size="1" offset="0x00B5" name="TTH_Beacon_NearExit">
     <objref map="hollow" obj="SH_Beacon" objid="0x00044167" param="_20"></objref>
   </bit>
-  <bit id="0x018D" table="2" size="1" offset="0x00B6" name="TTH_BeaconRelated18D">
+  <bit id="0x018D" table="2" size="1" offset="0x00B6" name="TTH_BeaconRel18D">
     <objref map="hollow" obj="SH_Beacon" objid="0x00044168" param="_20"></objref>
   </bit>
   <bit id="0x018E" table="2" size="1" offset="0x0853" name="SawBombSpore"></bit>
-  <bit id="0x018F" table="2" size="1" offset="0x00B7" name="TTH_BeaconRelated18F">
+  <bit id="0x018F" table="2" size="1" offset="0x00B7" name="TTH_BeaconRel18F">
     <objref map="hollow" obj="SH_Beacon" objid="0x00044166" param="_20"></objref>
   </bit>
   <bit id="0x0190" table="2" size="1" offset="0x00B8" name="TTH_FireWeed_190"></bit>
-  <bit id="0x0191" table="2" size="1" offset="0x00B9" name="TTH_FireWeed_191"></bit>
-  <bit id="0x0192" table="2" size="1" offset="0x00BA" name="TTH_FireWeed_192"></bit>
+  <bit id="0x0191" table="2" size="1" offset="0x00B9" name="TTH_Beacon_WarpStone"></bit>
+  <bit id="0x0192" table="2" size="1" offset="0x00BA" name="TTH_Beacon_NearQueen"></bit>
   <bit id="0x0193" table="2" size="1" offset="0x00BB" name="ITEM_MoonPassKey_Got" hintid="298"></bit>
   <bit id="0x0194" table="2" size="2" offset="0x00B3" name="ITEM_FireWeed_Count"></bit>
   <bit id="0x0195" table="2" size="1" offset="0x0852"></bit>
@@ -1051,7 +1050,7 @@
   <bit id="0x019F" table="2" size="1" offset="0x005E" name="SnowHornArtifact19F">
     <description>checked when using artifact</description>
   </bit>
-  <bit id="0x01A0" table="2" size="1" offset="0x00CE" name="TTH_ThornTailRelated01A0">
+  <bit id="0x01A0" table="2" size="1" offset="0x00CE" name="TTH_ThornTailRel01A0">
     <description>related to ThornTail</description>
     <objref map="hollow" obj="SH_newseqob" objid="0x000446CA" param="usedBit"></objref>
   </bit>
@@ -1073,7 +1072,7 @@
     <objref map="wastes" obj="MagicCaveTo" objid="0x00043FD5" param="Collected"></objref>
   </bit>
   <bit id="0x01A7" table="0" size="1" offset="0x0010"></bit>
-  <bit id="0x01A8" table="0" size="1" offset="0x0011" name="TTH_WarpStoneRelated01A8">
+  <bit id="0x01A8" table="0" size="1" offset="0x0011" name="TTH_WarpStoneRel01A8">
     <description>toggled when talking to WarpStone, and in CRFort</description>
   </bit>
   <bit id="0x01A9" table="2" size="1" offset="0x003F">
@@ -1125,7 +1124,7 @@
   <bit id="0x01B8" table="2" size="8" offset="0x0000" name="MC_ExitWarp">
     <description>WARPTAB index that magic cave will exit to</description>
   </bit>
-  <bit id="0x01B9" table="0" size="1" offset="0x000E" name="IM_TrickyRelated01B9">
+  <bit id="0x01B9" table="0" size="1" offset="0x000E" name="IM_TrickyRel01B9">
     <description>set when starting Tricky landing scene</description>
   </bit>
   <bit id="0x01BA" table="0" size="1" offset="0x0012"></bit>
@@ -1166,7 +1165,7 @@
   <bit id="0x01C7" table="0" size="1" offset="0x026A">
     <objref map="nwshrine" obj="NWSH_Seqobj" objid="0x00049E6A" param="bit18"></objref>
   </bit>
-  <bit id="0x01C8" table="0" size="1" offset="0x026B" name="BaddieRelated1C8">
+  <bit id="0x01C8" table="0" size="1" offset="0x026B" name="BaddieRel1C8">
     <objref map="nwshrine" obj="NWSH_Seqobj" objid="0x00049E6B" param="bit1A"></objref>
   </bit>
   <bit id="0x01C9" table="0" size="1" offset="0x026C">
@@ -1186,7 +1185,7 @@
   <bit id="0x01D3" table="0" size="1" offset="0x027F"></bit>
   <bit id="0x01D4" table="0" size="1" offset="0x0280"></bit>
   <bit id="0x01D5" table="0" size="1" offset="0x0281"></bit>
-  <bit id="0x01D6" table="3" size="1" offset="0x002B" name="IM_TrickyRelated01D6">
+  <bit id="0x01D6" table="3" size="1" offset="0x002B" name="IM_TrickyRel01D6">
     <description>set when starting Tricky landing scene, cleared after race</description>
   </bit>
   <bit id="0x01D7" table="2" size="1" offset="0x0700" name="ITEM_DeletedSpell1D7">
@@ -1218,10 +1217,10 @@
     <objref map="snowmines" obj="HitAnimator" objid="0x00048090" param="target"></objref>
   </bit>
   <bit id="0x01E2" table="2" size="1" offset="0x0396"></bit>
-  <bit id="0x01E3" table="2" size="1" offset="0x0377">
+  <bit id="0x01E3" table="2" size="1" offset="0x0377" name="DIM_Opened2ndBridge">
     <objref map="snowmines" obj="DIMLever" objid="0x00001DDD" param="open"></objref>
   </bit>
-  <bit id="0x01E4" table="2" size="1" offset="0x0379" name="DIM_BridgeRelated1E4">
+  <bit id="0x01E4" table="2" size="1" offset="0x0379" name="DIM_BridgeRel1E4">
     <objref map="snowmines" obj="DIMBridge" objid="0x00001DD9" param="bit1A"></objref>
   </bit>
   <bit id="0x01E5" table="2" size="1" offset="0x037B" name="DIM_LocatedCogs" hintid="287">
@@ -1245,7 +1244,7 @@
     <objref map="capeclaw" obj="sharpclawGr" objid="0x00045D7F" param="bit_incOnDeath"></objref>
   </bit>
   <bit id="0x01EC" table="2" size="1" offset="0x028E"></bit>
-  <bit id="0x01ED" table="3" size="1" offset="0x002C" name="IM_TrickyRelated01ED">
+  <bit id="0x01ED" table="3" size="1" offset="0x002C" name="IM_TrickyRel01ED">
     <description>set when warping to Ice Mountain, cleared when starting Tricky landing scene</description>
   </bit>
   <bit id="0x01EE" table="2" size="1" offset="0x03A0" name="ITEM_DinoHorn_Got" hintid="288">
@@ -1273,7 +1272,7 @@
   <bit id="0x01FA" table="2" size="1" offset="0x03E0" name="DIM_CrossedBlizzard" hintid="289">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x00001E98" param="bit1A"></objref>
   </bit>
-  <bit id="0x01FB" table="2" size="1" offset="0x03E1" name="SnowBikeRelated01FB">
+  <bit id="0x01FB" table="2" size="1" offset="0x03E1" name="SnowBikeRel01FB">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x00001E98" param="bit18"></objref>
   </bit>
   <bit id="0x01FC" table="2" size="1" offset="0x0525" name="WM_FoundKrystal" hintid="315">
@@ -1413,24 +1412,26 @@
   <bit id="0x0237" table="2" size="1" offset="0x0274">
     <objref map="capeclaw" obj="CCseqobj" objid="0x000460B8" param="usedBit"></objref>
   </bit>
-  <bit id="0x0238" table="0" size="1" offset="0x000F"></bit>
+  <bit id="0x0238" table="0" size="1" offset="0x000F" name="TTH_EggThiefRel238"></bit>
   <bit id="0x0239" table="2" size="1" offset="0x0082" name="TTH_StaffTutStarted">
     <description>starts combat tutorial</description>
     <objref map="hollow2" obj="SH_BottomSe" objid="0x000469D9" param="needBit"></objref>
   </bit>
-  <bit id="0x023A" table="1" size="1" offset="0x0002" name="TTH_MagicCaveVisible">
+  <bit id="0x023A" table="1" size="1" offset="0x0002" name="TTH_PortalMagicCaveVisible">
+    <description>Cave where you get Portal Device</description>
     <objref map="hollow" obj="MagicCaveTo" objid="0x0004659A" param="Visible"></objref>
     <objref map="hollow" obj="SH_newseqob" objid="0x0004658C" param="usedBit"></objref>
     <objref map="hollow" obj="HitAnimator" objid="0x0004CE6E" param="target"></objref>
   </bit>
-  <bit id="0x023B" table="2" size="1" offset="0x00C5">
+  <bit id="0x023B" table="2" size="1" offset="0x00C5" name="TTH_ToldGoBackToWC">
     <objref map="hollow" obj="SH_newseqob" objid="0x0004803C" param="needBit"></objref>
   </bit>
-  <bit id="0x023C" table="2" size="1" offset="0x00C6" name="TTH_Related023C">
+  <bit id="0x023C" table="2" size="1" offset="0x00C6" name="TTH_Rel023C">
+    <description>Set after queen tells us to go back to WC</description>
     <objref map="hollow" obj="SH_newseqob" objid="0x0004803C" param="usedBit"></objref>
   </bit>
-  <bit id="0x023D" table="1" size="1" offset="0x0000" name="TTH_ThornTailRelated023D">
-    <description>related to ThornTail</description>
+  <bit id="0x023D" table="1" size="1" offset="0x0000" name="TTH_EggThief_Start">
+    <description>Starts the "they're stealing my eggs" event</description>
     <objref map="hollow" obj="SH_newseqob" objid="0x0004658B" param="needBit"></objref>
   </bit>
   <bit id="0x023E" table="2" size="1" offset="0x03F1"></bit>
@@ -1526,7 +1527,7 @@
   <bit id="0x026F" table="2" size="1" offset="0x03FD"></bit>
   <bit id="0x0270" table="2" size="1" offset="0x03FE"></bit>
   <bit id="0x0271" table="2" size="1" offset="0x03FF"></bit>
-  <bit id="0x0272" table="2" size="1" offset="0x03FB" name="PushableRelated0272">
+  <bit id="0x0272" table="2" size="1" offset="0x03FB" name="PushableRel0272">
     <objref map="snowmines2" obj="HitAnimator" objid="0x0004656F" param="target"></objref>
     <objref map="snowmines2" obj="HitAnimator" objid="0x0004CD63" param="target"></objref>
   </bit>
@@ -1564,7 +1565,7 @@
   <bit id="0x0289" table="2" size="1" offset="0x0065">
     <objref map="wastes" obj="NW_seqobjec" objid="0x0004A09C" param="usedBit"></objref>
   </bit>
-  <bit id="0x028A" table="2" size="1" offset="0x0009" name="MC_DoorRelated028A">
+  <bit id="0x028A" table="2" size="1" offset="0x0009" name="MC_DoorRel028A">
     <description>related to iron gate, unsure of purpose</description>
   </bit>
   <bit id="0x028B" table="2" size="1" offset="0x00F9"></bit>
@@ -1589,7 +1590,7 @@
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004961F" param="seqStarted"></objref>
     <objref map="warlock" obj="WM_spiritpl" objid="0x00047295" param="start"></objref>
   </bit>
-  <bit id="0x029B" table="2" size="1" offset="0x0524" name="WM_TransporterRelated029B">
+  <bit id="0x029B" table="2" size="1" offset="0x0524" name="WM_TransporterRel029B">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004961F" param="_20"></objref>
   </bit>
   <bit id="0x029C" table="0" size="1" offset="0x01B7"></bit>
@@ -1627,7 +1628,7 @@
     <objref map="hollow" obj="SH_Portcull" objid="0x000467FA" param="open"></objref>
     <objref map="hollow" obj="HitAnimator" objid="0x0004CA70" param="target"></objref>
   </bit>
-  <bit id="0x02B3" table="0" size="1" offset="0x0029">
+  <bit id="0x02B3" table="0" size="1" offset="0x0029" name="LV_TrackingTest_Start">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00046162" param="bit1A"></objref>
   </bit>
   <bit id="0x02B4" table="2" size="1" offset="0x00FE">
@@ -1639,7 +1640,7 @@
   </bit>
   <bit id="0x02B6" table="2" size="16" offset="0x010F" name="LV_TestStrengthBestTime1"></bit>
   <bit id="0x02B7" table="2" size="16" offset="0x0143" name="LV_TestTrackingBestTime1"></bit>
-  <bit id="0x02B8" table="0" size="1" offset="0x0027">
+  <bit id="0x02B8" table="0" size="1" offset="0x0027" name="LV_TrackingTest_EnableSwitches">
     <objref map="swapcircle" obj="StaffLeverO" objid="0x00044A5A" param="enabled"></objref>
     <objref map="swapcircle" obj="StaffLeverO" objid="0x00044A5B" param="enabled"></objref>
     <objref map="swapcircle" obj="StaffLeverO" objid="0x00044A5C" param="enabled"></objref>
@@ -1664,7 +1665,7 @@
     <objref map="hollow" obj="HitAnimator" objid="0x0004AC59" param="target"></objref>
     <objref map="hollow2" obj="SH_BottomSe" objid="0x000469DA" param="usedBit"></objref>
   </bit>
-  <bit id="0x02C1" table="0" size="1" offset="0x0013" name="IM_TrickyRelated02C1">
+  <bit id="0x02C1" table="0" size="1" offset="0x0013" name="IM_TrickyRel02C1">
     <description>set when starting tricky landing scene</description>
   </bit>
   <bit id="0x02C2" table="2" size="1" offset="0x03EC">
@@ -1674,12 +1675,13 @@
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x00033EEA" param="bit18"></objref>
   </bit>
   <bit id="0x02C4" table="0" size="1" offset="0x01CD"></bit>
-  <bit id="0x02C5" table="1" size="1" offset="0x0001">
+  <bit id="0x02C5" table="1" size="1" offset="0x0001" name="TTH_EggThief_Done">
     <objref map="hollow" obj="SH_newseqob" objid="0x0004658B" param="usedBit"></objref>
   </bit>
-  <bit id="0x02C6" table="2" size="1" offset="0x018E">
+  <bit id="0x02C6" table="2" size="1" offset="0x018E" name="LV_CirBlk_RaiseStep">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00049322" param="open"></objref>
     <objref map="swapcircle" obj="HitAnimator" objid="0x00049329" param="target"></objref>
+    <description>Trigger raising the stepping stones activated by the circle block</description>
   </bit>
   <bit id="0x02C7" table="2" size="1" offset="0x01A5"></bit>
   <bit id="0x02C8" table="0" size="1" offset="0x0033">
@@ -1694,7 +1696,7 @@
   <bit id="0x02CB" table="2" size="16" offset="0x0153" name="LV_TestTrackingBestTime2"></bit>
   <bit id="0x02CC" table="2" size="16" offset="0x0163" name="LV_TestTrackingBestTime3"></bit>
   <bit id="0x02CD" table="2" size="1" offset="0x018F"></bit>
-  <bit id="0x02CE" table="2" size="1" offset="0x0190">
+  <bit id="0x02CE" table="2" size="1" offset="0x0190" name="LV_CirBlk_Step1Raised">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00049323" param="open"></objref>
   </bit>
   <bit id="0x02CF" table="2" size="1" offset="0x0087" name="TTH_StaffTutStarted02CF">
@@ -1726,7 +1728,7 @@
     <objref map="hollow2" obj="SH_BottomSe" objid="0x000469DA" param="needBit"></objref>
   </bit>
   <bit id="0x02DB" table="0" size="1" offset="0x01CE"></bit>
-  <bit id="0x02DC" table="2" size="1" offset="0x0183">
+  <bit id="0x02DC" table="2" size="1" offset="0x0183" name="LV_ShrineDoor_Open">
     <objref map="swapcircle" obj="SC_Shrine_d" objid="0x00033F52" param="open"></objref>
   </bit>
   <bit id="0x02DD" table="0" size="1" offset="0x01CF"></bit>
@@ -1742,7 +1744,7 @@
   <bit id="0x02E3" table="0" size="1" offset="0x01D1"></bit>
   <bit id="0x02E4" table="0" size="1" offset="0x01D2"></bit>
   <bit id="0x02E5" table="0" size="1" offset="0x01D3"></bit>
-  <bit id="0x02E6" table="2" size="1" offset="0x0184"></bit>
+  <bit id="0x02E6" table="2" size="1" offset="0x0184" name="LV_ShrineDoorRel2E6"></bit>
   <bit id="0x02E7" table="2" size="1" offset="0x010E" name="LV_ChiefStartedTest" hintid="348">
     <objref map="swapcircle" obj="SC_sequence" objid="0x000331A9" param="bit18"></objref>
   </bit>
@@ -1778,18 +1780,18 @@
   <bit id="0x02F9" table="1" size="1" offset="0x008B"></bit>
   <bit id="0x02FA" table="0" size="1" offset="0x01D9"></bit>
   <bit id="0x02FB" table="1" size="1" offset="0x020F"></bit>
-  <bit id="0x02FC" table="1" size="1" offset="0x0061" name="CFRelated02FC">
+  <bit id="0x02FC" table="1" size="1" offset="0x0061" name="CFRel02FC">
     <objref map="fortress" obj="CFseqobject" objid="0x00047F8F" param="bit1A"></objref>
     <objref map="fortress" obj="CFGoldenPer" objid="0x000029EE" param="bit18"></objref>
   </bit>
-  <bit id="0x02FD" table="1" size="1" offset="0x0062" name="CFRelated02FD">
+  <bit id="0x02FD" table="1" size="1" offset="0x0062" name="CFRel02FD">
     <objref map="fortress" obj="CFseqobject" objid="0x00047FAE" param="bit1A"></objref>
     <objref map="fortress" obj="CFGoldenPer" objid="0x000029EF" param="bit18"></objref>
   </bit>
-  <bit id="0x02FE" table="1" size="1" offset="0x0063" name="CFRelated02FE">
+  <bit id="0x02FE" table="1" size="1" offset="0x0063" name="CFRel02FE">
     <objref map="fortress" obj="CFGoldenPer" objid="0x000029F2" param="bit18"></objref>
   </bit>
-  <bit id="0x02FF" table="1" size="1" offset="0x0064" name="CFRelated02FF">
+  <bit id="0x02FF" table="1" size="1" offset="0x0064" name="CFRel02FF">
     <objref map="fortress" obj="CFseqobject" objid="0x00047FA2" param="bit1A"></objref>
     <objref map="fortress" obj="CFGoldenPer" objid="0x000029F3" param="bit18"></objref>
   </bit>
@@ -1942,7 +1944,7 @@
   <bit id="0x0371" table="2" size="1" offset="0x0467">
     <objref map="wallcity" obj="WCSeqObject" objid="0x00041597" param="bit18"></objref>
   </bit>
-  <bit id="0x0372" table="3" size="1" offset="0x0004" name="KrazTest1Related0372">
+  <bit id="0x0372" table="3" size="1" offset="0x0004" name="KrazTest1Rel0372">
     <description>set when entering Krazoa test 1, cave beside WarpStone</description>
   </bit>
   <bit id="0x0373" table="3" size="32" offset="0x0088" name="DIM2_ObjGroups"></bit>
@@ -1961,10 +1963,10 @@
   <bit id="0x0377" table="2" size="1" offset="0x0324" name="IM_DoorOpen">
     <objref map="newicemount" obj="HitAnimator" objid="0x0004C61C" param="target"></objref>
   </bit>
-  <bit id="0x0378" table="1" size="1" offset="0x0136" name="IM_BikeRelated0378">
+  <bit id="0x0378" table="1" size="1" offset="0x0136" name="IM_BikeRel0378">
     <description>set when approaching SharpClaws in hut, cleared after race</description>
   </bit>
-  <bit id="0x0379" table="2" size="1" offset="0x031D" name="IM_BikeRelated0379">
+  <bit id="0x0379" table="2" size="1" offset="0x031D" name="IM_BikeRel0379">
     <description>set to 0x19 when finishing race even though max is 1 - in kiosk, related to demo
       mode - map 0x19 is newicemount3</description>
     <objref map="newicemount" obj="IMSeqObject" objid="0x00003AFB" param="bit1A"></objref>
@@ -1974,7 +1976,7 @@
     <objref map="newicemount" obj="IMSeqObject" objid="0x00003AFB" param="bit18"></objref>
     <objref map="newicemount3" obj="IMSeqObject" objid="0x00003AFB" param="bit18"></objref>
   </bit>
-  <bit id="0x037B" table="2" size="1" offset="0x031F" name="IMRelated037B">
+  <bit id="0x037B" table="2" size="1" offset="0x031F" name="IMRel037B">
     <objref map="newicemount" obj="IMSeqObject" objid="0x00046A01" param="bit1A"></objref>
     <objref map="newicemount3" obj="IMSeqObject" objid="0x00046A07" param="bit1A"></objref>
   </bit>
@@ -1997,7 +1999,7 @@
   <bit id="0x0381" table="2" size="1" offset="0x0342">
     <objref map="linkb" obj="LINKB_seqob" objid="0x00048E6D" param="usedBit"></objref>
   </bit>
-  <bit id="0x0382" table="2" size="1" offset="0x0323" name="IM_HutRelated0382">
+  <bit id="0x0382" table="2" size="1" offset="0x0323" name="IM_HutRel0382">
     <description>changed when near hut</description>
     <objref map="newicemount" obj="IMPrisonGat" objid="0x00003C93" param="open"></objref>
   </bit>
@@ -2009,7 +2011,9 @@
   <bit id="0x0386" table="2" size="1" offset="0x0347"></bit>
   <bit id="0x0387" table="2" size="1" offset="0x0348"></bit>
   <bit id="0x0388" table="1" size="1" offset="0x022E"></bit>
-  <bit id="0x0389" table="2" size="1" offset="0x01C5"></bit>
+  <bit id="0x0389" table="2" size="1" offset="0x01C5" name="MMP_BarrelSpawn2_Enable">
+    <description>Also triggers barrel music</description>
+  </bit>
   <bit id="0x038A" table="2" size="1" offset="0x01C7">
     <objref map="moonpass" obj="MMP_seqobje" objid="0x00003CDE" param="bit1A"></objref>
     <objref map="moonpass" obj="MMP_seqobje" objid="0x00003CDE" param="bit18"></objref>
@@ -2021,7 +2025,7 @@
   <bit id="0x038D" table="1" size="1" offset="0x0216"></bit>
   <bit id="0x038E" table="1" size="1" offset="0x0217"></bit>
   <bit id="0x038F" table="1" size="1" offset="0x0218"></bit>
-  <bit id="0x0390" table="3" size="1" offset="0x0005" name="KrazTest1Related0390">
+  <bit id="0x0390" table="3" size="1" offset="0x0005" name="KrazTest1Rel0390">
     <description>set when entering Krazoa test 1, cleared when talking to WarpStone</description>
   </bit>
   <bit id="0x0391" table="0" size="1" offset="0x0274"></bit>
@@ -2043,16 +2047,16 @@
   <bit id="0x039D" table="1" size="1" offset="0x0234"></bit>
   <bit id="0x039E" table="1" size="1" offset="0x0235"></bit>
   <bit id="0x039F" table="0" size="1" offset="0x01E7"></bit>
-  <bit id="0x03A0" table="3" size="1" offset="0x0000" name="IM_WaterRelated03A0">
+  <bit id="0x03A0" table="3" size="1" offset="0x0000" name="IM_WaterRel03A0">
     <description>set when getting out of water</description>
   </bit>
   <bit id="0x03A1" table="3" size="1" offset="0x0001" name="IM_Done">
     <description>Tricky now follows you</description>
   </bit>
-  <bit id="0x03A2" table="1" size="1" offset="0x0133" name="IM_BikeRelated03A2">
+  <bit id="0x03A2" table="1" size="1" offset="0x0133" name="IM_BikeRel03A2">
     <description>set when gaining control of bike, cleared at end</description>
   </bit>
-  <bit id="0x03A3" table="1" size="1" offset="0x0134" name="IM_BikeRelated03A3">
+  <bit id="0x03A3" table="1" size="1" offset="0x0134" name="IM_BikeRel03A3">
     <description>cleared at end of race</description>
   </bit>
   <bit id="0x03A4" table="1" size="1" offset="0x0236"></bit>
@@ -2061,7 +2065,7 @@
   <bit id="0x03A7" table="1" size="1" offset="0x0239"></bit>
   <bit id="0x03A8" table="3" size="1" offset="0x0002"></bit>
   <bit id="0x03A9" table="3" size="1" offset="0x0003"></bit>
-  <bit id="0x03AA" table="2" size="1" offset="0x0102" name="TTH_Related03AA"></bit>
+  <bit id="0x03AA" table="2" size="1" offset="0x0102" name="TTH_Rel03AA"></bit>
   <bit id="0x03AB" table="3" size="1" offset="0x0014" name="ENV_disableDayFX1"></bit>
   <bit id="0x03AC" table="3" size="1" offset="0x0015" name="ENV_disableDayFX2">
     <description>disable an environment effect</description>
@@ -2082,11 +2086,11 @@
   <bit id="0x03B8" table="2" size="1" offset="0x0103" name="TTH_NeedStaffTutorial">
     <description>set when first getting staff, cleared after fight</description>
   </bit>
-  <bit id="0x03B9" table="1" size="1" offset="0x0135" name="IM_BikeRelated03B9">
+  <bit id="0x03B9" table="1" size="1" offset="0x0135" name="IM_BikeRel03B9">
     <description>set when approaching SharpClaws in hut, cleared after race</description>
     <objref map="newicemount" obj="IMFence" objid="0x0003012B" param="open"></objref>
   </bit>
-  <bit id="0x03BA" table="2" size="1" offset="0x0326" name="IM_BikeRelated03BA">
+  <bit id="0x03BA" table="2" size="1" offset="0x0326" name="IM_BikeRel03BA">
     <description>set at some point during race</description>
   </bit>
   <bit id="0x03BB" table="1" size="1" offset="0x0242"></bit>
@@ -2152,7 +2156,7 @@
     <description>Alpine Root while riding SnowHorn through blizzard; collecting one sets this to 1,
       then 0 </description>
   </bit>
-  <bit id="0x03EA" table="2" size="1" offset="0x0089" name="TTH_QueenRelated03EA">
+  <bit id="0x03EA" table="2" size="1" offset="0x0089" name="TTH_QueenRel03EA">
     <description>set when entering queen cave + when Krystal talks during staff tutorial</description>
     <objref map="hollow" obj="HitAnimator" objid="0x0004AC54" param="target"></objref>
   </bit>
@@ -2161,7 +2165,7 @@
     <objref map="hollow" obj="StaffLeverO" objid="0x00048009" param="activated"></objref>
   </bit>
   <bit id="0x03EC" table="1" size="1" offset="0x001A"></bit>
-  <bit id="0x03ED" table="2" size="1" offset="0x084D"></bit>
+  <bit id="0x03ED" table="2" size="1" offset="0x084D" name="Tricky_ChangingForm"></bit>
   <bit id="0x03EE" table="1" size="4" offset="0x0312" name="DBAY_ActNo"></bit>
   <bit id="0x03EF" table="2" size="1" offset="0x03B2">
     <objref map="snowmines" obj="DIMSeqObjec" objid="0x00030329" param="bit18"></objref>
@@ -2191,7 +2195,7 @@
   <bit id="0x03FB" table="2" size="1" offset="0x093F" name="ARW_WC_Unlocked" hintid="359">
     <description>unlocked Walled City on world map</description>
   </bit>
-  <bit id="0x03FC" table="2" size="1" offset="0x0940" name="ARW_DR_Unlocked&#xA;" hintid="384">
+  <bit id="0x03FC" table="2" size="1" offset="0x0940" name="ARW_DR_Unlocked" hintid="384">
     <description>unlocked Dragon Rock on world map</description>
   </bit>
   <bit id="0x03FD" table="2" size="1" offset="0x0941" name="TTH_FuelCell_3FD">
@@ -2251,11 +2255,11 @@
   <bit id="0x041B" table="2" size="1" offset="0x094A" name="TTH_FuelCell_41B">
     <objref map="hollow" obj="fuelCell" objid="0x000499EA" param="Collected"></objref>
   </bit>
-  <bit id="0x041C" table="2" size="1" offset="0x01CB">
+  <bit id="0x041C" table="2" size="1" offset="0x01CB" name="MMP_BarrelSpawnRel41C">
     <objref map="moonpass" obj="MMP_seqobje" objid="0x00030479" param="bit18"></objref>
     <objref map="moonpass" obj="MMP_seqobje" objid="0x0003047A" param="bit18"></objref>
   </bit>
-  <bit id="0x041D" table="2" size="1" offset="0x01C6"></bit>
+  <bit id="0x041D" table="2" size="1" offset="0x01C6" name="MMP_BarrelSpawn1_Enable"></bit>
   <bit id="0x041E" table="2" size="1" offset="0x094B" name="TTH_FuelCell_41E">
     <objref map="hollow" obj="fuelCell" objid="0x000499EB" param="Collected"></objref>
   </bit>
@@ -2271,7 +2275,7 @@
   <bit id="0x0426" table="1" size="1" offset="0x027A"></bit>
   <bit id="0x0427" table="1" size="1" offset="0x027B"></bit>
   <bit id="0x0428" table="1" size="4" offset="0x027C"></bit>
-  <bit id="0x0429" table="2" size="1" offset="0x04F2" name="WM_GalleonRelated429">
+  <bit id="0x0429" table="2" size="1" offset="0x04F2" name="WM_GalleonRel429">
     <description>related to savegame/obj groups/galleon</description>
   </bit>
   <bit id="0x042A" table="1" size="1" offset="0x0280"></bit>
@@ -2323,7 +2327,7 @@
   <bit id="0x044C" table="1" size="1" offset="0x0272"></bit>
   <bit id="0x044D" table="1" size="1" offset="0x0273"></bit>
   <bit id="0x044E" table="1" size="1" offset="0x0264"></bit>
-  <bit id="0x044F" table="0" size="1" offset="0x0366" name="GameBooting&#xA;">
+  <bit id="0x044F" table="0" size="1" offset="0x0366" name="GameBooting">
     <description>set by n_rareware DLL</description>
   </bit>
   <bit id="0x0450" table="1" size="1" offset="0x0265"></bit>
@@ -2458,7 +2462,7 @@
   <bit id="0x0499" table="1" size="1" offset="0x0118">
     <objref map="cloudrace" obj="CFRaceSeqob" objid="0x00030CD0" param="bit1A"></objref>
   </bit>
-  <bit id="0x049A" table="1" size="1" offset="0x0119" name="SpellStoneRelated049A">
+  <bit id="0x049A" table="1" size="1" offset="0x0119" name="SpellStoneRel049A">
     <objref map="cloudrace" obj="CFRaceSeqob" objid="0x0004B5BC" param="bit1A"></objref>
     <objref map="linki" obj="LINKIseqobj" objid="0x0004A252" param="bit1A"></objref>
   </bit>
@@ -2508,7 +2512,7 @@
   </bit>
   <bit id="0x04AF" table="1" size="1" offset="0x0215"></bit>
   <bit id="0x04B0" table="0" size="1" offset="0x028D"></bit>
-  <bit id="0x04B1" table="2" size="1" offset="0x0535" name="AndrossRelated04B1">
+  <bit id="0x04B1" table="2" size="1" offset="0x0535" name="AndrossRel04B1">
     <description>set when Andross dies
 </description>
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004B322" param="seqStarted"></objref>
@@ -2526,7 +2530,7 @@
   <bit id="0x04B6" table="1" size="1" offset="0x0126">
     <objref map="cloudrace" obj="CFRaceSeqob" objid="0x00030CE3" param="bit18"></objref>
   </bit>
-  <bit id="0x04B7" table="1" size="1" offset="0x0127" name="TargetRelated04B7">
+  <bit id="0x04B7" table="1" size="1" offset="0x0127" name="TargetRel04B7">
     <description>related to object targeting</description>
   </bit>
   <bit id="0x04B8" table="1" size="1" offset="0x0017"></bit>
@@ -2534,10 +2538,10 @@
   <bit id="0x04BA" table="1" size="1" offset="0x0128"></bit>
   <bit id="0x04BB" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x04BC" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x04BD" table="0" size="1" offset="0x0028"></bit>
+  <bit id="0x04BD" table="0" size="1" offset="0x0028" name="LV_TrackingTestRel4BD"></bit>
   <bit id="0x04BE" table="1" size="1" offset="0x00BF"></bit>
   <bit id="0x04BF" table="1" size="1" offset="0x00C0"></bit>
-  <bit id="0x04C0" table="2" size="1" offset="0x02D1">
+  <bit id="0x04C0" table="2" size="1" offset="0x02D1" name="CF_TreasRoom_Open">
     <objref map="fortress" obj="CFTreasureD" objid="0x00002BEF" param="open"></objref>
   </bit>
   <bit id="0x04C1" table="2" size="1" offset="0x02D2"></bit>
@@ -2585,7 +2589,7 @@
   <bit id="0x04DD" table="1" size="1" offset="0x00C4"></bit>
   <bit id="0x04DE" table="1" size="1" offset="0x00C5"></bit>
   <bit id="0x04DF" table="1" size="1" offset="0x00A8"></bit>
-  <bit id="0x04E0" table="1" size="1" offset="0x0034" name="CFPowerRelated04E0">
+  <bit id="0x04E0" table="1" size="1" offset="0x0034" name="CFPowerRel04E0">
     <objref map="fortress" obj="CFseqobject" objid="0x00002803" param="bit1A"></objref>
   </bit>
   <bit id="0x04E1" table="2" size="1" offset="0x096F" name="LINKF_FuelCell_4E1">
@@ -2672,14 +2676,14 @@
   <bit id="0x0510" table="2" size="1" offset="0x0971" name="CC_FuelCell_510">
     <objref map="capeclaw" obj="fuelCell" objid="0x0004BB4E" param="Collected"></objref>
   </bit>
-  <bit id="0x0511" table="2" size="1" offset="0x0527" name="WM_TransporterRelated0511">
+  <bit id="0x0511" table="2" size="1" offset="0x0527" name="WM_TransporterRel0511">
     <objref map="warlock" obj="WM_seqpoint" objid="0x00002191" param="_20"></objref>
   </bit>
   <bit id="0x0512" table="2" size="1" offset="0x0567">
     <objref map="temple" obj="VFP_flamepo" objid="0x000427B3" param="activated"></objref>
     <objref map="temple" obj="VFP_seqpoin" objid="0x00032332" param="_1E"></objref>
   </bit>
-  <bit id="0x0513" table="2" size="1" offset="0x0568">
+  <bit id="0x0513" table="2" size="1" offset="0x0568" name="VFP_FlamePlatOpen513">
     <objref map="temple" obj="VFP_flamepo" objid="0x00044196" param="activated"></objref>
     <objref map="temple" obj="VFP_seqpoin" objid="0x00032336" param="_1E"></objref>
   </bit>
@@ -2989,7 +2993,7 @@
   <bit id="0x05DA" table="0" size="1" offset="0x0185"></bit>
   <bit id="0x05DB" table="3" size="32" offset="0x0368" name="DR_ObjGroups"></bit>
   <bit id="0x05DC" table="3" size="32" offset="0x0388" name="DRBOT_ObjGroups"></bit>
-  <bit id="0x05DD" table="0" size="1" offset="0x0000" name="DR_Creator_Related05DD">
+  <bit id="0x05DD" table="0" size="1" offset="0x0000" name="DR_Creator_Rel05DD">
     <description>set to 0 when DR_Creator spawns
 </description>
   </bit>
@@ -3071,15 +3075,16 @@
   <bit id="0x060D" table="2" size="1" offset="0x098A" name="VFP_FuelCell_60D">
     <objref map="temple" obj="fuelCell" objid="0x0004CEDB" param="Collected"></objref>
   </bit>
-  <bit id="0x060E" table="0" size="1" offset="0x0020"></bit>
-  <bit id="0x060F" table="0" size="1" offset="0x0021"></bit>
+  <bit id="0x060E" table="0" size="1" offset="0x0020" name="LVChallengeMenuRel60E"></bit>
+  <bit id="0x060F" table="0" size="1" offset="0x0021" name="LV_ChiefRel60F"></bit>
   <bit id="0x0610" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0611" table="2" size="1" offset="0x017B" name="ITEM_MMPKey_Got">
     <objref map="moonpass" obj="MMP_padlock" objid="0x0003084B" param="key"></objref>
   </bit>
-  <bit id="0x0612" table="2" size="1" offset="0x0187">
+  <bit id="0x0612" table="2" size="1" offset="0x0187" name="LV_SqrBlk_RaiseStep">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00045CE9" param="open"></objref>
     <objref map="swapcircle" obj="HitAnimator" objid="0x00045D72" param="target"></objref>
+    <description>Trigger raising the stepping stones activated by the square block</description>
   </bit>
   <bit id="0x0613" table="2" size="1" offset="0x0188"></bit>
   <bit id="0x0614" table="3" size="8" offset="0x002E"></bit>
@@ -3099,7 +3104,7 @@
   <bit id="0x061C" table="2" size="1" offset="0x0177" name="LV_DoneTests" hintid="349">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00044A6C" param="bit1A"></objref>
   </bit>
-  <bit id="0x061D" table="0" size="1" offset="0x00AF" name="ShopRelated61D">
+  <bit id="0x061D" table="0" size="1" offset="0x00AF" name="ShopRel61D">
     <objref map="swapstore" obj="SPSeqObj" objid="0x00034324" param="bit1A"></objref>
   </bit>
   <bit id="0x061E" table="2" size="1" offset="0x098D"></bit>
@@ -3111,16 +3116,16 @@
   <bit id="0x0621" table="2" size="1" offset="0x098F"></bit>
   <bit id="0x0622" table="2" size="1" offset="0x0990"></bit>
   <bit id="0x0623" table="2" size="1" offset="0x0991"></bit>
-  <bit id="0x0624" table="0" size="1" offset="0x00B0" name="ShopRelated624">
+  <bit id="0x0624" table="0" size="1" offset="0x00B0" name="ShopRel624">
     <objref map="swapstore" obj="SPSeqObj" objid="0x00034333" param="bit1A"></objref>
   </bit>
-  <bit id="0x0625" table="0" size="1" offset="0x00B1" name="ShopRelated625">
+  <bit id="0x0625" table="0" size="1" offset="0x00B1" name="ShopRel625">
     <objref map="swapstore" obj="SPSeqObj" objid="0x00034334" param="bit1A"></objref>
   </bit>
   <bit id="0x0626" table="0" size="1" offset="0x00B2" name="SHOP_ScarabGameRunning">
     <objref map="swapstore" obj="HitAnimator" objid="0x000343F3" param="target"></objref>
   </bit>
-  <bit id="0x0627" table="2" size="1" offset="0x0142"></bit>
+  <bit id="0x0627" table="2" size="1" offset="0x0142" name="LV_StrengthTestRel627"></bit>
   <bit id="0x0628" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0629" table="2" size="1" offset="0x0992"></bit>
   <bit id="0x062A" table="1" size="1" offset="0x0174">
@@ -3155,7 +3160,7 @@
   <bit id="0x0636" table="2" size="1" offset="0x0993"></bit>
   <bit id="0x0637" table="2" size="1" offset="0x0994"></bit>
   <bit id="0x0638" table="2" size="1" offset="0x0995"></bit>
-  <bit id="0x0639" table="2" size="1" offset="0x017C" name="SC_totempuzzle_running">
+  <bit id="0x0639" table="2" size="1" offset="0x017C" name="SC_totempuzzle_done">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00034680" param="bit1A"></objref>
   </bit>
   <bit id="0x063A" table="0" size="1" offset="0x017E"></bit>
@@ -3164,7 +3169,7 @@
     <objref map="temple" obj="VFP_seqpoin" objid="0x00049BF5" param="_1E"></objref>
   </bit>
   <bit id="0x063D" table="2" size="1" offset="0x0575"></bit>
-  <bit id="0x063E" table="2" size="1" offset="0x0176"></bit>
+  <bit id="0x063E" table="2" size="1" offset="0x0176" name="LV_TrackingTestRel63E"></bit>
   <bit id="0x063F" table="2" size="1" offset="0x0174">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00044A6A" param="bit18"></objref>
   </bit>
@@ -3174,12 +3179,12 @@
   <bit id="0x0641" table="2" size="1" offset="0x0175">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00044A69" param="bit18"></objref>
   </bit>
-  <bit id="0x0642" table="0" size="1" offset="0x0352" name="TumbleweedRelated642"></bit>
+  <bit id="0x0642" table="0" size="1" offset="0x0352" name="TumbleweedRel642"></bit>
   <bit id="0x0643" table="2" size="1" offset="0x03D5"></bit>
   <bit id="0x0644" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0645" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0646" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0647" table="2" size="1" offset="0x018D" name="ITEM_LVBlock2_Used">
+  <bit id="0x0647" table="2" size="1" offset="0x018D" name="ITEM_LVSqrBlock_Used">
     <objref map="swapcircle" obj="SC_blockpla" objid="0x00049759" param="open"></objref>
   </bit>
   <bit id="0x0648" table="0" size="1" offset="0x0000"></bit>
@@ -3452,7 +3457,9 @@
     <objref map="hollow" obj="Duster" objid="0x00044282" param="collected"></objref>
   </bit>
   <bit id="0x0700" table="2" size="1" offset="0x08BA"></bit>
-  <bit id="0x0701" table="2" size="1" offset="0x08BB"></bit>
+  <bit id="0x0701" table="2" size="1" offset="0x08BB" name="TTH_BafomDad701">
+    <description>Outside shop</description>
+  </bit>
   <bit id="0x0702" table="2" size="1" offset="0x08BC"></bit>
   <bit id="0x0703" table="2" size="1" offset="0x08BD" name="WM_Bafomdad1_Got">
     <description>hidden passage at start</description>
@@ -3600,10 +3607,10 @@
     <objref map="kraztest" obj="StaffBoostP" objid="0x00044825" param="enabled"></objref>
   </bit>
   <bit id="0x0767" table="2" size="1" offset="0x05F2"></bit>
-  <bit id="0x0768" table="0" size="1" offset="0x003E"></bit>
-  <bit id="0x0769" table="0" size="1" offset="0x003F"></bit>
-  <bit id="0x076A" table="0" size="1" offset="0x0040"></bit>
-  <bit id="0x076B" table="0" size="1" offset="0x0041"></bit>
+  <bit id="0x0768" table="0" size="1" offset="0x003E" name="LV_TiedUp_BeatGuy1"></bit>
+  <bit id="0x0769" table="0" size="1" offset="0x003F" name="LV_TiedUp_BeatGuy2"></bit>
+  <bit id="0x076A" table="0" size="1" offset="0x0040" name="LV_TiedUp_BeatGuy3"></bit>
+  <bit id="0x076B" table="0" size="1" offset="0x0041" name="LV_TiedUp_BeatGuy4"></bit>
   <bit id="0x076C" table="2" size="1" offset="0x05F3"></bit>
   <bit id="0x076D" table="2" size="1" offset="0x05F4"></bit>
   <bit id="0x076E" table="1" size="4" offset="0x031A" name="DR_ActNo"></bit>
@@ -3627,20 +3634,20 @@
   <bit id="0x077E" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x077F" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0780" table="2" size="1" offset="0x09A3"></bit>
-  <bit id="0x0781" table="0" size="1" offset="0x0023">
+  <bit id="0x0781" table="0" size="1" offset="0x0023" name="LV_StrengthTestRel781">
     <objref map="swapcircle" obj="SC_sequence" objid="0x000331AB" param="bit1A"></objref>
   </bit>
   <bit id="0x0782" table="2" size="1" offset="0x013F">
     <objref map="swapcircle" obj="SC_sequence" objid="0x000331AB" param="bit18"></objref>
   </bit>
   <bit id="0x0783" table="1" size="1" offset="0x0197"></bit>
-  <bit id="0x0784" table="0" size="1" offset="0x0024">
+  <bit id="0x0784" table="0" size="1" offset="0x0024" name="LV_StrengthTest_Win">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00035338" param="bit1A"></objref>
   </bit>
   <bit id="0x0785" table="2" size="1" offset="0x0140">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00035338" param="bit18"></objref>
   </bit>
-  <bit id="0x0786" table="0" size="1" offset="0x0025">
+  <bit id="0x0786" table="0" size="1" offset="0x0025" name="LV_StrengthTest_Lose">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00035339" param="bit1A"></objref>
   </bit>
   <bit id="0x0787" table="2" size="1" offset="0x0141">
@@ -3741,7 +3748,7 @@
   <bit id="0x07CC" table="1" size="1" offset="0x01A1"></bit>
   <bit id="0x07CD" table="1" size="1" offset="0x01A2"></bit>
   <bit id="0x07CE" table="3" size="32" offset="0x03E8" name="HT_ObjStates"></bit>
-  <bit id="0x07CF" table="0" size="1" offset="0x002A">
+  <bit id="0x07CF" table="0" size="1" offset="0x002A" name="LV_TrackingTest_WinScene">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00044A6A" param="bit1A"></objref>
   </bit>
   <bit id="0x07D0" table="0" size="1" offset="0x0000"></bit>
@@ -3967,7 +3974,7 @@
   </bit>
   <bit id="0x085C" table="2" size="1" offset="0x09AE"></bit>
   <bit id="0x085D" table="2" size="1" offset="0x042D"></bit>
-  <bit id="0x085E" table="2" size="1" offset="0x0427" name="DIM2_CannonRelated085E">
+  <bit id="0x085E" table="2" size="1" offset="0x0427" name="DIM2_CannonRel085E">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x00049760" param="bit1A"></objref>
     <objref map="snowmines2" obj="HitAnimator" objid="0x00049982" param="target"></objref>
   </bit>
@@ -3997,7 +4004,7 @@
   <bit id="0x0871" table="1" size="1" offset="0x029C"></bit>
   <bit id="0x0872" table="1" size="1" offset="0x029D"></bit>
   <bit id="0x0873" table="1" size="1" offset="0x029E"></bit>
-  <bit id="0x0874" table="2" size="1" offset="0x0428" name="DIM2_CannonRelated0874">
+  <bit id="0x0874" table="2" size="1" offset="0x0428" name="DIM2_CannonRel0874">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x0004975F" param="bit1A"></objref>
     <objref map="snowmines2" obj="HitAnimator" objid="0x00049984" param="target"></objref>
     <objref map="snowmines2" obj="HitAnimator" objid="0x0004B558" param="target"></objref>
@@ -4008,7 +4015,7 @@
   <bit id="0x0878" table="2" size="1" offset="0x0577"></bit>
   <bit id="0x0879" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x087A" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x087B" table="2" size="2" offset="0x01D1" name="MMPAsteroidRelated087B"></bit>
+  <bit id="0x087B" table="2" size="2" offset="0x01D1" name="MMPAsteroidRel087B"></bit>
   <bit id="0x087C" table="2" size="1" offset="0x09B2"></bit>
   <bit id="0x087D" table="1" size="1" offset="0x029F"></bit>
   <bit id="0x087E" table="1" size="1" offset="0x02A0"></bit>
@@ -4017,11 +4024,11 @@
   <bit id="0x0881" table="0" size="1" offset="0x01BD"></bit>
   <bit id="0x0882" table="2" size="1" offset="0x09B3"></bit>
   <bit id="0x0883" table="2" size="1" offset="0x09B4"></bit>
-  <bit id="0x0884" table="2" size="1" offset="0x0107" name="TTH_WarpStoneRelated0884">
+  <bit id="0x0884" table="2" size="1" offset="0x0107" name="TTH_WarpStoneRel0884">
     <objref map="hollow" obj="SH_seqobjec" objid="0x00042270" param="bit1A"></objref>
   </bit>
   <bit id="0x0885" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0886" table="2" size="1" offset="0x0108" name="ITEM_RockCandyRelated0886">
+  <bit id="0x0886" table="2" size="1" offset="0x0108" name="ITEM_RockCandyRel0886">
     <description>related to rock candy</description>
     <objref map="hollow" obj="SH_seqobjec" objid="0x000018A4" param="bit1A"></objref>
   </bit>
@@ -4158,7 +4165,7 @@
   <bit id="0x08DB" table="0" size="1" offset="0x008F"></bit>
   <bit id="0x08DC" table="0" size="1" offset="0x0090"></bit>
   <bit id="0x08DD" table="0" size="1" offset="0x0091"></bit>
-  <bit id="0x08DE" table="0" size="1" offset="0x0000"></bit>
+  <bit id="0x08DE" table="0" size="1" offset="0x0000" name="ITEM_LVCirBlock_Used"></bit>
   <bit id="0x08DF" table="0" size="1" offset="0x0092"></bit>
   <bit id="0x08E0" table="0" size="1" offset="0x0093"></bit>
   <bit id="0x08E1" table="0" size="1" offset="0x0094"></bit>
@@ -4177,7 +4184,7 @@
   </bit>
   <bit id="0x08ED" table="3" size="32" offset="0x0408" name="KP_ObjGroups"></bit>
   <bit id="0x08EE" table="2" size="1" offset="0x05F6"></bit>
-  <bit id="0x08EF" table="2" size="1" offset="0x09BC"></bit>
+  <bit id="0x08EF" table="2" size="1" offset="0x09BC" name="LV_totempuzzle_winScene"></bit>
   <bit id="0x08F0" table="2" size="1" offset="0x057D"></bit>
   <bit id="0x08F1" table="0" size="1" offset="0x0297"></bit>
   <bit id="0x08F2" table="2" size="1" offset="0x09BD"></bit>
@@ -4214,7 +4221,7 @@
     <objref map="fortress" obj="CFseqobject" objid="0x000430B8" param="bit18"></objref>
   </bit>
   <bit id="0x090A" table="1" size="1" offset="0x00F1"></bit>
-  <bit id="0x090B" table="2" size="1" offset="0x0189">
+  <bit id="0x090B" table="2" size="1" offset="0x0189" name="LV_SqrBlk_Step1Raised">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00045CEA" param="open"></objref>
   </bit>
   <bit id="0x090C" table="2" size="1" offset="0x018A"></bit>
@@ -4230,7 +4237,7 @@
   <bit id="0x0912" table="2" size="1" offset="0x0018" name="SawWarpPad">
     <description>if not, explains what it is when touching one</description>
   </bit>
-  <bit id="0x0913" table="2" size="1" offset="0x0019" name="PushableRelated0913"></bit>
+  <bit id="0x0913" table="2" size="1" offset="0x0019" name="PushableRel0913"></bit>
   <bit id="0x0914" table="2" size="1" offset="0x0025"></bit>
   <bit id="0x0915" table="2" size="1" offset="0x0026"></bit>
   <bit id="0x0916" table="0" size="1" offset="0x0000"></bit>
@@ -4298,7 +4305,7 @@
   <bit id="0x0940" table="2" size="1" offset="0x02E2" name="CF_RescuedBabies" hintid="330">
     <objref map="fortress" obj="CFseqobject" objid="0x000430BD" param="bit1A"></objref>
   </bit>
-  <bit id="0x0941" table="2" size="1" offset="0x02E3" name="CF_BabyRelated941">
+  <bit id="0x0941" table="2" size="1" offset="0x02E3" name="CF_BabyRel941">
     <objref map="fortress" obj="CFseqobject" objid="0x000430BD" param="bit18"></objref>
   </bit>
   <bit id="0x0942" table="1" size="1" offset="0x00F2"></bit>
@@ -4369,15 +4376,15 @@
   <bit id="0x096A" table="2" size="1" offset="0x070A"></bit>
   <bit id="0x096B" table="2" size="1" offset="0x070B" name="ITEM_SuperQuake_Disabled"></bit>
   <bit id="0x096C" table="1" size="1" offset="0x00F6"></bit>
-  <bit id="0x096D" table="0" size="1" offset="0x0213">
+  <bit id="0x096D" table="0" size="1" offset="0x0213" name="ECSH_Gate1_Open">
     <objref map="mmshrine" obj="ECSH_Pressu" objid="0x00047B6C" param="pressed"></objref>
     <objref map="mmshrine" obj="SC_Shrine_d" objid="0x00047B6D" param="open"></objref>
   </bit>
-  <bit id="0x096E" table="0" size="1" offset="0x0214">
+  <bit id="0x096E" table="0" size="1" offset="0x0214" name="ECSH_Gate2_Open">
     <objref map="mmshrine" obj="ECSH_Pressu" objid="0x00047B68" param="pressed"></objref>
     <objref map="mmshrine" obj="SC_Shrine_d" objid="0x00047B6B" param="open"></objref>
   </bit>
-  <bit id="0x096F" table="0" size="1" offset="0x0215">
+  <bit id="0x096F" table="0" size="1" offset="0x0215" name="ECSH_Gate3_Open">
     <objref map="mmshrine" obj="ECSH_Pressu" objid="0x00047B63" param="pressed"></objref>
     <objref map="mmshrine" obj="SC_Shrine_d" objid="0x00047B67" param="open"></objref>
   </bit>
@@ -4418,8 +4425,8 @@
   <bit id="0x0980" table="0" size="1" offset="0x0133"></bit>
   <bit id="0x0981" table="0" size="1" offset="0x0134"></bit>
   <bit id="0x0982" table="1" size="1" offset="0x00F9"></bit>
-  <bit id="0x0983" table="3" size="1" offset="0x0022" name="CFRelated0983"></bit>
-  <bit id="0x0984" table="3" size="1" offset="0x0023" name="CFRelated0984"></bit>
+  <bit id="0x0983" table="3" size="1" offset="0x0022" name="CFRel0983"></bit>
+  <bit id="0x0984" table="3" size="1" offset="0x0023" name="CFRel0984"></bit>
   <bit id="0x0985" table="3" size="1" offset="0x0024"></bit>
   <bit id="0x0986" table="2" size="1" offset="0x0714" name="ITEM_FireBlaster_Disabled"></bit>
   <bit id="0x0987" table="1" size="1" offset="0x00F0"></bit>
@@ -4550,7 +4557,7 @@
   <bit id="0x09D5" table="0" size="1" offset="0x0384" name="IncomingCommunication">
     <description>Slippy calling you</description>
   </bit>
-  <bit id="0x09D6" table="1" size="1" offset="0x02B3" name="ArwingRelated09D6"></bit>
+  <bit id="0x09D6" table="1" size="1" offset="0x02B3" name="ArwingRel09D6"></bit>
   <bit id="0x09D7" table="1" size="1" offset="0x02B4" name="ArwingLevelFailed">
     <objref map="arwingcity" obj="ARWSeqObjec" objid="0x00044C4A" param="bit1A"></objref>
     <objref map="arwingcloud" obj="ARWSeqObjec" objid="0x00044C4A" param="bit1A"></objref>
@@ -4683,7 +4690,7 @@
   <bit id="0x0A17" table="0" size="1" offset="0x033D"></bit>
   <bit id="0x0A18" table="0" size="1" offset="0x0298"></bit>
   <bit id="0x0A19" table="2" size="1" offset="0x05AA"></bit>
-  <bit id="0x0A1A" table="0" size="1" offset="0x0299" name="PushableRelated0A1A"></bit>
+  <bit id="0x0A1A" table="0" size="1" offset="0x0299" name="PushableRel0A1A"></bit>
   <bit id="0x0A1B" table="0" size="1" offset="0x0108"></bit>
   <bit id="0x0A1C" table="1" size="1" offset="0x01B4">
     <objref map="dragbot" obj="DR_SeqobjBo" objid="0x00045CC8" param="bit18"></objref>
@@ -4695,7 +4702,7 @@
   <bit id="0x0A1E" table="1" size="1" offset="0x01B6"></bit>
   <bit id="0x0A1F" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0A20" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0A21" table="2" size="1" offset="0x03B1" name="DIM_CannonRelated0A21">
+  <bit id="0x0A21" table="2" size="1" offset="0x03B1" name="DIM_CannonRel0A21">
     <description>related to DIM cannon</description>
     <objref map="snowmines" obj="HitAnimator" objid="0x00046161" param="target"></objref>
     <objref map="snowmines" obj="HitAnimator" objid="0x00046164" param="target"></objref>
@@ -4725,7 +4732,7 @@
     <objref map="hollow" obj="CNTstopwatc" objid="0x000466ED" param="target"></objref>
     <objref map="hollow" obj="HitAnimator" objid="0x000466EE" param="target"></objref>
   </bit>
-  <bit id="0x0A32" table="0" size="1" offset="0x001C">
+  <bit id="0x0A32" table="0" size="1" offset="0x001C" name="TTH_EggThief_TimerRunning">
     <objref map="hollow" obj="CNTstopwatc" objid="0x000466ED" param="enabled"></objref>
   </bit>
   <bit id="0x0A33" table="0" size="1" offset="0x0000"></bit>
@@ -4737,10 +4744,10 @@
   <bit id="0x0A39" table="0" size="1" offset="0x0172"></bit>
   <bit id="0x0A3A" table="0" size="1" offset="0x0173"></bit>
   <bit id="0x0A3B" table="0" size="1" offset="0x0169"></bit>
-  <bit id="0x0A3C" table="0" size="1" offset="0x01A5" name="SBRelated0A3C"></bit>
+  <bit id="0x0A3C" table="0" size="1" offset="0x01A5" name="SBRel0A3C"></bit>
   <bit id="0x0A3D" table="0" size="1" offset="0x01A6" name="SB_IsRaining"></bit>
-  <bit id="0x0A3E" table="0" size="1" offset="0x01A7" name="SBRelated0A3E"></bit>
-  <bit id="0x0A3F" table="0" size="1" offset="0x01A8" name="SBRelated0A3F"></bit>
+  <bit id="0x0A3E" table="0" size="1" offset="0x01A7" name="SBRel0A3E"></bit>
+  <bit id="0x0A3F" table="0" size="1" offset="0x01A8" name="SBRel0A3F"></bit>
   <bit id="0x0A40" table="0" size="1" offset="0x016A"></bit>
   <bit id="0x0A41" table="0" size="1" offset="0x016B">
     <objref map="dragrock" obj="DR_Seqobj" objid="0x00046AB8" param="bit1A"></objref>
@@ -4755,7 +4762,7 @@
     <objref map="temple" obj="VFPSeqObj" objid="0x0004C087" param="bit1A"></objref>
   </bit>
   <bit id="0x0A44" table="0" size="1" offset="0x0146"></bit>
-  <bit id="0x0A45" table="2" size="1" offset="0x010A" name="WarpstoneRelated0A45"></bit>
+  <bit id="0x0A45" table="2" size="1" offset="0x010A" name="WarpstoneRel0A45"></bit>
   <bit id="0x0A46" table="0" size="1" offset="0x0147"></bit>
   <bit id="0x0A47" table="0" size="1" offset="0x0148"></bit>
   <bit id="0x0A48" table="2" size="1" offset="0x09DB"></bit>
@@ -4769,10 +4776,10 @@
   <bit id="0x0A4D" table="0" size="1" offset="0x003B"></bit>
   <bit id="0x0A4E" table="0" size="1" offset="0x003C"></bit>
   <bit id="0x0A4F" table="0" size="1" offset="0x003D"></bit>
-  <bit id="0x0A50" table="0" size="1" offset="0x0042"></bit>
-  <bit id="0x0A51" table="0" size="1" offset="0x0043"></bit>
-  <bit id="0x0A52" table="0" size="1" offset="0x0044"></bit>
-  <bit id="0x0A53" table="0" size="1" offset="0x0045"></bit>
+  <bit id="0x0A50" table="0" size="1" offset="0x0042" name="LV_TiedUp_BeatGuy5"></bit>
+  <bit id="0x0A51" table="0" size="1" offset="0x0043" name="LV_TiedUp_BeatGuy6"></bit>
+  <bit id="0x0A52" table="0" size="1" offset="0x0044" name="LV_TiedUp_BeatGuy7"></bit>
+  <bit id="0x0A53" table="0" size="1" offset="0x0045" name="LV_TiedUp_BeatGuy8"></bit>
   <bit id="0x0A54" table="0" size="1" offset="0x016C">
     <objref map="dragrock" obj="DR_Seqobj" objid="0x00046AB8" param="bit18"></objref>
   </bit>
@@ -4786,7 +4793,7 @@
     <objref map="warlock" obj="ExplodeWall" objid="0x00046E42" param="exploded"></objref>
     <objref map="warlock" obj="HitAnimator" objid="0x00046E4F" param="target"></objref>
   </bit>
-  <bit id="0x0A59" table="2" size="1" offset="0x0503" name="WM_Wall1Related0A59">
+  <bit id="0x0A59" table="2" size="1" offset="0x0503" name="WM_Wall1Rel0A59">
     <description>set after blowing up wall</description>
     <objref map="warlock" obj="ExplodeWall" objid="0x00046E42" param="onExplode"></objref>
   </bit>
@@ -4795,7 +4802,7 @@
     <objref map="warlock" obj="HitAnimator" objid="0x00046E50" param="target"></objref>
     <objref map="warlock" obj="ExplodeWall" objid="0x0004CEB4" param="exploded"></objref>
   </bit>
-  <bit id="0x0A5B" table="2" size="1" offset="0x0505" name="WM_Wall2Related0A5B">
+  <bit id="0x0A5B" table="2" size="1" offset="0x0505" name="WM_Wall2Rel0A5B">
     <objref map="warlock" obj="ExplodeWall" objid="0x0004CEB4" param="onExplode"></objref>
   </bit>
   <bit id="0x0A5C" table="0" size="1" offset="0x01AB"></bit>
@@ -4812,14 +4819,14 @@
   </bit>
   <bit id="0x0A61" table="0" size="1" offset="0x0224" name="TestSkillBarrelSpawning"></bit>
   <bit id="0x0A62" table="3" size="32" offset="0x0448" name="FinalBoss_ObjGroups"></bit>
-  <bit id="0x0A63" table="2" size="1" offset="0x0930" name="ARW_DP_Cleared&#xA;">
+  <bit id="0x0A63" table="2" size="1" offset="0x0930" name="ARW_DP_Open">
     <description>unlocked Dinosaur Planet on world map (automatically set when loading the world
       map)</description>
   </bit>
-  <bit id="0x0A64" table="2" size="1" offset="0x0931" name="ARW_DIM_Cleared"></bit>
-  <bit id="0x0A65" table="2" size="1" offset="0x0932" name="ARW_CRF_Cleared"></bit>
-  <bit id="0x0A66" table="2" size="1" offset="0x0933" name="ARW_WC_Cleared"></bit>
-  <bit id="0x0A67" table="2" size="1" offset="0x0934" name="ARW_DR_Cleared"></bit>
+  <bit id="0x0A64" table="2" size="1" offset="0x0931" name="ARW_DIM_Open"></bit>
+  <bit id="0x0A65" table="2" size="1" offset="0x0932" name="ARW_CRF_Open"></bit>
+  <bit id="0x0A66" table="2" size="1" offset="0x0933" name="ARW_WC_Open"></bit>
+  <bit id="0x0A67" table="2" size="1" offset="0x0934" name="ARW_DR_Open"></bit>
   <bit id="0x0A68" table="0" size="1" offset="0x006C"></bit>
   <bit id="0x0A69" table="0" size="1" offset="0x006D"></bit>
   <bit id="0x0A6A" table="0" size="1" offset="0x006E"></bit>
@@ -4833,7 +4840,7 @@
   <bit id="0x0A70" table="0" size="1" offset="0x0227">
     <objref map="ecshrine" obj="ECSH_seqpoi" objid="0x00046563" param="_20"></objref>
   </bit>
-  <bit id="0x0A71" table="0" size="1" offset="0x01A9" name="SBRelated0A71"></bit>
+  <bit id="0x0A71" table="0" size="1" offset="0x01A9" name="SBRel0A71"></bit>
   <bit id="0x0A72" table="2" size="1" offset="0x04FC" name="WM_DestroyedBox1">
     <description>box blocking ramp at start</description>
   </bit>
@@ -4864,7 +4871,7 @@
     <objref map="snowmines2" obj="HitAnimator" objid="0x0004975E" param="target"></objref>
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x000470E3" param="bit1A"></objref>
   </bit>
-  <bit id="0x0A7F" table="3" size="1" offset="0x0052" name="WMRelated0A7F">
+  <bit id="0x0A7F" table="3" size="1" offset="0x0052" name="WMRel0A7F">
     <description>related to music? toggled constantly in KP</description>
   </bit>
   <bit id="0x0A80" table="2" size="1" offset="0x041A">
@@ -4928,7 +4935,7 @@
     <objref map="warlock" obj="TrigCyl" objid="0x000472A9" param="activate"></objref>
   </bit>
   <bit id="0x0A97" table="0" size="1" offset="0x01C2"></bit>
-  <bit id="0x0A98" table="0" size="1" offset="0x01C3">
+  <bit id="0x0A98" table="0" size="1" offset="0x01C3" name="WM_WindLiftRelA98">
     <objref map="warlock" obj="TrigCyl" objid="0x000472CD" param="activate"></objref>
   </bit>
   <bit id="0x0A99" table="0" size="1" offset="0x01C4">
@@ -5057,14 +5064,16 @@
     <objref map="dfshrine" obj="SC_Shrine_d" objid="0x00047B58" param="open"></objref>
   </bit>
   <bit id="0x0AE2" table="1" size="1" offset="0x021C"></bit>
-  <bit id="0x0AE3" table="0" size="1" offset="0x0216"></bit>
+  <bit id="0x0AE3" table="0" size="1" offset="0x0216" name="ECSH_BarrelSpawn_Enabled"></bit>
   <bit id="0x0AE4" table="0" size="1" offset="0x0217">
     <objref map="mmshrine" obj="MMSH_seqpoi" objid="0x000491C9" param="_1E"></objref>
   </bit>
   <bit id="0x0AE5" table="0" size="1" offset="0x0218">
     <objref map="mmshrine" obj="MMSH_seqpoi" objid="0x000491C9" param="_20"></objref>
   </bit>
-  <bit id="0x0AE6" table="0" size="1" offset="0x0219"></bit>
+  <bit id="0x0AE6" table="0" size="1" offset="0x0219" name="ECSH_FearTestRelAE6">
+    <description>Set, then soon cleared, when test starts</description>
+  </bit>
   <bit id="0x0AE7" table="2" size="1" offset="0x0245">
     <objref map="capeclaw" obj="SC_settelme" objid="0x00047B70" param="open"></objref>
     <objref map="capeclaw" obj="StaffLeverO" objid="0x00047B74" param="activated"></objref>
@@ -5211,36 +5220,36 @@
   <bit id="0x0B27" table="1" size="1" offset="0x0046"></bit>
   <bit id="0x0B28" table="1" size="1" offset="0x0047"></bit>
   <bit id="0x0B29" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0B2A" table="1" size="1" offset="0x0066" name="CFRelated0B2A">
+  <bit id="0x0B2A" table="1" size="1" offset="0x0066" name="CFRel0B2A">
     <objref map="fortress" obj="CFseqobject" objid="0x00047F83" param="bit18"></objref>
   </bit>
-  <bit id="0x0B2B" table="1" size="1" offset="0x0067" name="CFRelated0B2B">
+  <bit id="0x0B2B" table="1" size="1" offset="0x0067" name="CFRel0B2B">
     <objref map="fortress" obj="CFseqobject" objid="0x00047FA2" param="bit18"></objref>
   </bit>
-  <bit id="0x0B2C" table="1" size="1" offset="0x0068" name="CFRelated0B2C">
+  <bit id="0x0B2C" table="1" size="1" offset="0x0068" name="CFRel0B2C">
     <objref map="fortress" obj="CFseqobject" objid="0x00047FAE" param="bit18"></objref>
   </bit>
-  <bit id="0x0B2D" table="1" size="1" offset="0x0069" name="CFRelated0B2D">
+  <bit id="0x0B2D" table="1" size="1" offset="0x0069" name="CFRel0B2D">
     <objref map="fortress" obj="CFseqobject" objid="0x00047F8F" param="bit18"></objref>
   </bit>
-  <bit id="0x0B2E" table="1" size="1" offset="0x006A" name="CFRelated0B2E">
+  <bit id="0x0B2E" table="1" size="1" offset="0x006A" name="CFRel0B2E">
     <objref map="fortress" obj="CFseqobject" objid="0x0004818C" param="bit1A"></objref>
     <objref map="fortress" obj="sharpclawGr" objid="0x000434A4" param="bit_incOnDeath"></objref>
   </bit>
-  <bit id="0x0B2F" table="1" size="1" offset="0x006B" name="CFRelated0B2F">
+  <bit id="0x0B2F" table="1" size="1" offset="0x006B" name="CFRel0B2F">
     <objref map="fortress" obj="TrigBits" objid="0x00047FA3" param="activate"></objref>
   </bit>
-  <bit id="0x0B30" table="1" size="1" offset="0x006C" name="CFRelated0B30">
+  <bit id="0x0B30" table="1" size="1" offset="0x006C" name="CFRel0B30">
     <objref map="fortress" obj="TrigBits" objid="0x00047FAF" param="activate"></objref>
   </bit>
-  <bit id="0x0B31" table="1" size="1" offset="0x006D" name="CFRelated0B31"></bit>
-  <bit id="0x0B32" table="1" size="1" offset="0x006F" name="CFRelated0B32">
+  <bit id="0x0B31" table="1" size="1" offset="0x006D" name="CFRel0B31"></bit>
+  <bit id="0x0B32" table="1" size="1" offset="0x006F" name="CFRel0B32">
     <objref map="fortress" obj="CFseqobject" objid="0x00047F83" param="bit1A"></objref>
   </bit>
   <bit id="0x0B33" table="1" size="1" offset="0x0070"></bit>
   <bit id="0x0B34" table="1" size="1" offset="0x0071"></bit>
   <bit id="0x0B35" table="1" size="1" offset="0x0072"></bit>
-  <bit id="0x0B36" table="3" size="1" offset="0x002D" name="LINKB_LightRelatedB36"></bit>
+  <bit id="0x0B36" table="3" size="1" offset="0x002D" name="LINKB_LightRelB36"></bit>
   <bit id="0x0B37" table="1" size="1" offset="0x0073" name="CF_ClawDeadB37">
     <objref map="fortress" obj="sharpclawGr" objid="0x00047F8A" param="bit_incOnDeath"></objref>
   </bit>
@@ -5274,7 +5283,7 @@
   <bit id="0x0B43" table="1" size="1" offset="0x007F"></bit>
   <bit id="0x0B44" table="1" size="1" offset="0x0080"></bit>
   <bit id="0x0B45" table="3" size="1" offset="0x001C"></bit>
-  <bit id="0x0B46" table="1" size="1" offset="0x0081" name="CFRelated0B46">
+  <bit id="0x0B46" table="1" size="1" offset="0x0081" name="CFRel0B46">
     <objref map="fortress" obj="CFPressureS" objid="0x00048007" param="pressed"></objref>
     <objref map="fortress" obj="CAMERAseqob" objid="0x0004AF0A" param="bit1A"></objref>
     <objref map="fortress" obj="CNTstopwatc" objid="0x0004C85E" param="enabled"></objref>
@@ -5348,7 +5357,7 @@
   <bit id="0x0B69" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0B6A" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0B6B" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0B6C" table="1" size="1" offset="0x006E" name="CFRelated0B6C">
+  <bit id="0x0B6C" table="1" size="1" offset="0x006E" name="CFRel0B6C">
     <objref map="fortress" obj="CFseqobject" objid="0x0004818C" param="bit18"></objref>
   </bit>
   <bit id="0x0B6D" table="1" size="1" offset="0x003E"></bit>
@@ -5533,7 +5542,7 @@
     <objref map="dfshrine" obj="sharpclawAs" objid="0x000490DB" param="bit_incOnDeath"></objref>
   </bit>
   <bit id="0x0BC2" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0BC3" table="1" size="1" offset="0x012B" name="CR_SpellStoneRelatedBC3"></bit>
+  <bit id="0x0BC3" table="1" size="1" offset="0x012B" name="CR_SpellStoneRelBC3"></bit>
   <bit id="0x0BC4" table="1" size="1" offset="0x012C"></bit>
   <bit id="0x0BC5" table="1" size="1" offset="0x012D">
     <objref map="cloudrace" obj="CFRaceSeqob" objid="0x0004B5BC" param="bit18"></objref>
@@ -5593,27 +5602,28 @@
     <objref map="dragbot" obj="DR_SeqobjBo" objid="0x000492EA" param="bit18"></objref>
   </bit>
   <bit id="0x0BDB" table="2" size="1" offset="0x0191"></bit>
-  <bit id="0x0BDC" table="2" size="1" offset="0x0192">
+  <bit id="0x0BDC" table="2" size="1" offset="0x0192" name="LV_CirBlk_Step2Raised">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00049324" param="open"></objref>
   </bit>
   <bit id="0x0BDD" table="2" size="1" offset="0x0193"></bit>
   <bit id="0x0BDE" table="2" size="1" offset="0x0194" name="ITEM_LVBlock3_Used">
     <objref map="swapcircle" obj="SC_blockpla" objid="0x00049748" param="open"></objref>
   </bit>
-  <bit id="0x0BDF" table="2" size="1" offset="0x0195">
+  <bit id="0x0BDF" table="2" size="1" offset="0x0195" name="LV_TriBlk_RaiseStep">
     <objref map="swapcircle" obj="SC_stepping" objid="0x0004942F" param="open"></objref>
     <objref map="swapcircle" obj="HitAnimator" objid="0x00049433" param="target"></objref>
+    <description>Trigger raising the stepping stones activated by the triangle block</description>
   </bit>
   <bit id="0x0BE0" table="2" size="1" offset="0x0196"></bit>
-  <bit id="0x0BE1" table="2" size="1" offset="0x0197">
+  <bit id="0x0BE1" table="2" size="1" offset="0x0197" name="LV_TriBlk_Step1Raised">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00049430" param="open"></objref>
   </bit>
   <bit id="0x0BE2" table="2" size="1" offset="0x0198"></bit>
-  <bit id="0x0BE3" table="2" size="1" offset="0x0199">
+  <bit id="0x0BE3" table="2" size="1" offset="0x0199" name="LV_TriBlk_Step2Raised">
     <objref map="swapcircle" obj="SC_stepping" objid="0x00049431" param="open"></objref>
   </bit>
   <bit id="0x0BE4" table="2" size="1" offset="0x019A"></bit>
-  <bit id="0x0BE5" table="2" size="1" offset="0x019B" name="ITEM_LVBlock1_Used">
+  <bit id="0x0BE5" table="2" size="1" offset="0x019B" name="ITEM_LVTriBlock_Used">
     <objref map="swapcircle" obj="SC_blockpla" objid="0x00049756" param="open"></objref>
   </bit>
   <bit id="0x0BE6" table="0" size="1" offset="0x0346"></bit>
@@ -5686,11 +5696,11 @@
   <bit id="0x0C0F" table="0" size="1" offset="0x01A1">
     <objref map="dragbot" obj="TrigBits" objid="0x000495E2" param="activate"></objref>
   </bit>
-  <bit id="0x0C10" table="0" size="1" offset="0x0030">
+  <bit id="0x0C10" table="0" size="1" offset="0x0030" name="SC_totempuzzle_running">
     <objref map="swapcircle" obj="CAMERAseqob" objid="0x0004B43F" param="bit1A"></objref>
   </bit>
-  <bit id="0x0C11" table="2" size="1" offset="0x0092" name="MaybeHaveTricky">
-    <description>maybe wrong</description>
+  <bit id="0x0C11" table="2" size="1" offset="0x0092" name="Tricky_Got">
+    <description>Cleared after WC2</description>
   </bit>
   <bit id="0x0C12" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0C13" table="3" size="32" offset="0x04A8"></bit>
@@ -5704,7 +5714,7 @@
     <objref map="snowmines" obj="CAMERAseqob" objid="0x0004973B" param="bit1A"></objref>
   </bit>
   <bit id="0x0C16" table="2" size="1" offset="0x03C3"></bit>
-  <bit id="0x0C17" table="2" size="1" offset="0x03C4" name="DIM_CannonRelated0C17">
+  <bit id="0x0C17" table="2" size="1" offset="0x03C4" name="DIM_CannonRel0C17">
     <description>related to DIM cannon</description>
     <objref map="snowmines" obj="CAMERAseqob" objid="0x0004973B" param="bit18"></objref>
   </bit>
@@ -5738,26 +5748,26 @@
     <objref map="dragrock" obj="ExplodePlan" objid="0x00049B89" param="onExplode"></objref>
   </bit>
   <bit id="0x0C24" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0C25" table="2" size="1" offset="0x019C" name="ITEM_LVBlock1_Got">
+  <bit id="0x0C25" table="2" size="1" offset="0x019C" name="ITEM_LVTriBlock_Got">
     <objref map="swapcircle" obj="SC_blockpla" objid="0x00049756" param="key"></objref>
   </bit>
-  <bit id="0x0C26" table="2" size="1" offset="0x019D" name="ITEM_LVBlock2_Got">
+  <bit id="0x0C26" table="2" size="1" offset="0x019D" name="ITEM_LVSqrBlock_Got">
     <objref map="swapcircle" obj="SC_blockpla" objid="0x00049759" param="key"></objref>
   </bit>
-  <bit id="0x0C27" table="2" size="1" offset="0x019E" name="ITEM_LVBlock3_Got">
+  <bit id="0x0C27" table="2" size="1" offset="0x019E" name="ITEM_LVCirBlock_Got">
     <objref map="swapcircle" obj="SC_blockpla" objid="0x00049748" param="key"></objref>
   </bit>
-  <bit id="0x0C28" table="2" size="1" offset="0x019F"></bit>
-  <bit id="0x0C29" table="2" size="1" offset="0x01A0"></bit>
-  <bit id="0x0C2A" table="2" size="1" offset="0x01A1"></bit>
+  <bit id="0x0C28" table="2" size="1" offset="0x019F" name="ITEM_LVTriBlock_Found"></bit>
+  <bit id="0x0C29" table="2" size="1" offset="0x01A0" name="ITEM_LVSqrBlock_Found"></bit>
+  <bit id="0x0C2A" table="2" size="1" offset="0x01A1" name="ITEM_LVCirBlock_Found"></bit>
   <bit id="0x0C2B" table="2" size="1" offset="0x042E" name="DIM2_ClawDeadC2B">
     <objref map="snowmines2" obj="sharpclawSn" objid="0x000496FC" param="bit_incOnDeath"></objref>
   </bit>
   <bit id="0x0C2C" table="2" size="1" offset="0x042F"></bit>
-  <bit id="0x0C2D" table="2" size="1" offset="0x0429" name="DIM2_CannonRelated0C2D">
+  <bit id="0x0C2D" table="2" size="1" offset="0x0429" name="DIM2_CannonRel0C2D">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x00049760" param="bit18"></objref>
   </bit>
-  <bit id="0x0C2E" table="2" size="1" offset="0x042A" name="DIM2_CannonRelated0C2E">
+  <bit id="0x0C2E" table="2" size="1" offset="0x042A" name="DIM2_CannonRel0C2E">
     <objref map="snowmines2" obj="DIM2SeqObje" objid="0x0004975F" param="bit18"></objref>
   </bit>
   <bit id="0x0C2F" table="0" size="1" offset="0x0000"></bit>
@@ -5786,20 +5796,20 @@
     <objref map="wallcity" obj="HitAnimator" objid="0x00049934" param="target"></objref>
     <objref map="wallcity" obj="SH_Portcull" objid="0x0004B846" param="open"></objref>
   </bit>
-  <bit id="0x0C38" table="2" size="1" offset="0x01B4">
+  <bit id="0x0C38" table="2" size="1" offset="0x01B4" name="LVRelC38">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00049948" param="bit18"></objref>
   </bit>
-  <bit id="0x0C39" table="2" size="1" offset="0x01B5">
+  <bit id="0x0C39" table="2" size="1" offset="0x01B5" name="LVRelC39">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00049947" param="bit18"></objref>
   </bit>
-  <bit id="0x0C3A" table="2" size="1" offset="0x01B6">
+  <bit id="0x0C3A" table="2" size="1" offset="0x01B6" name="LVRelC3A">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00049945" param="bit18"></objref>
   </bit>
   <bit id="0x0C3B" table="2" size="1" offset="0x01B7"></bit>
-  <bit id="0x0C3C" table="2" size="1" offset="0x01B8"></bit>
-  <bit id="0x0C3D" table="2" size="1" offset="0x01B9"></bit>
-  <bit id="0x0C3E" table="2" size="1" offset="0x01BA"></bit>
-  <bit id="0x0C3F" table="2" size="1" offset="0x01BB"></bit>
+  <bit id="0x0C3C" table="2" size="1" offset="0x01B8" name="LVRelC3C"></bit>
+  <bit id="0x0C3D" table="2" size="1" offset="0x01B9" name="LVRelC3D"></bit>
+  <bit id="0x0C3E" table="2" size="1" offset="0x01BA" name="LVRelC3E"></bit>
+  <bit id="0x0C3F" table="2" size="1" offset="0x01BB" name="LVRelC3F"></bit>
   <bit id="0x0C40" table="2" size="1" offset="0x01BC"></bit>
   <bit id="0x0C41" table="0" size="1" offset="0x0046">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00049948" param="bit1A"></objref>
@@ -5814,16 +5824,16 @@
   </bit>
   <bit id="0x0C46" table="2" size="1" offset="0x01AA"></bit>
   <bit id="0x0C47" table="3" size="1" offset="0x001F"></bit>
-  <bit id="0x0C48" table="2" size="1" offset="0x00C7">
+  <bit id="0x0C48" table="2" size="1" offset="0x00C7" name="TTH_PortalDoorRelC48">
     <objref map="hollow2" obj="SH_BottomSe" objid="0x0004993D" param="usedBit"></objref>
   </bit>
-  <bit id="0x0C49" table="2" size="1" offset="0x01AE">
+  <bit id="0x0C49" table="2" size="1" offset="0x01AE" name="LVRelC49">
     <objref map="swapcircle" obj="SC_sequence" objid="0x0004999B" param="bit1A"></objref>
   </bit>
-  <bit id="0x0C4A" table="2" size="1" offset="0x01AF">
+  <bit id="0x0C4A" table="2" size="1" offset="0x01AF" name="LVRelC4A">
     <objref map="swapcircle" obj="SC_sequence" objid="0x0004999D" param="bit1A"></objref>
   </bit>
-  <bit id="0x0C4B" table="2" size="1" offset="0x01B0">
+  <bit id="0x0C4B" table="2" size="1" offset="0x01B0" name="LVRelC4B">
     <objref map="swapcircle" obj="SC_sequence" objid="0x00049997" param="bit1A"></objref>
   </bit>
   <bit id="0x0C4C" table="2" size="1" offset="0x01B1">
@@ -5841,9 +5851,9 @@
     <objref map="swapcircle" obj="SC_hutdoor" objid="0x000499A6" param="open"></objref>
   </bit>
   <bit id="0x0C51" table="2" size="1" offset="0x01BE"></bit>
-  <bit id="0x0C52" table="2" size="1" offset="0x01AB"></bit>
-  <bit id="0x0C53" table="2" size="1" offset="0x01AC"></bit>
-  <bit id="0x0C54" table="2" size="1" offset="0x01AD"></bit>
+  <bit id="0x0C52" table="2" size="1" offset="0x01AB" name="LightFootRelC52"></bit>
+  <bit id="0x0C53" table="2" size="1" offset="0x01AC" name="LightFootRelC53"></bit>
+  <bit id="0x0C54" table="2" size="1" offset="0x01AD" name="LightFootRelC54"></bit>
   <bit id="0x0C55" table="2" size="1" offset="0x06FF" name="ITEM_SuperQuake_Got" hintid="364">
     <objref map="wallcity" obj="MagicCaveTo" objid="0x00049A19" param="Collected"></objref>
   </bit>
@@ -5937,7 +5947,7 @@
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004A1BC" param="seqStarted"></objref>
     <objref map="warlock" obj="WM_spiritpl" objid="0x0004A1C0" param="start"></objref>
   </bit>
-  <bit id="0x0C71" table="2" size="1" offset="0x052D" name="WM_TransporterRelated07C1">
+  <bit id="0x0C71" table="2" size="1" offset="0x052D" name="WM_TransporterRel07C1">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004A1BC" param="_20"></objref>
   </bit>
   <bit id="0x0C72" table="0" size="1" offset="0x0260">
@@ -6108,15 +6118,15 @@
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004A63F" param="seqStarted"></objref>
     <objref map="warlock" obj="WM_spiritpl" objid="0x0004A5E6" param="start"></objref>
   </bit>
-  <bit id="0x0CB8" table="2" size="1" offset="0x0531" name="WM_TransportedRelated0CB8">
-    <description>related to transporter</description>
+  <bit id="0x0CB8" table="2" size="1" offset="0x0531" name="WM_TransportedRel0CB8">
+    <description>Set to -1 when approaching warp in LV basement</description>
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004806F" param="seqStarted"></objref>
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004A63F" param="_20"></objref>
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004CB28" param="seqStarted"></objref>
   </bit>
   <bit id="0x0CB9" table="2" size="1" offset="0x05DB"></bit>
   <bit id="0x0CBA" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0CBB" table="3" size="1" offset="0x054D">
+  <bit id="0x0CBB" table="3" size="1" offset="0x054D" name="WM_TransporterRel0CBB">
     <description>related to transporter; set to -1 when stepping on one for first time; toggled
       constantly in Krazoa Test 1; checked in CRFort</description>
   </bit>
@@ -6166,11 +6176,11 @@
   <bit id="0x0CD4" table="2" size="1" offset="0x009B">
     <objref map="hollow2" obj="HitAnimator" objid="0x0004B04B" param="target"></objref>
   </bit>
-  <bit id="0x0CD5" table="2" size="1" offset="0x00A0" name="TTH_ThornTailRelated0CD5">
+  <bit id="0x0CD5" table="2" size="1" offset="0x00A0" name="TTH_ThornTailRel0CD5">
     <description>probably "talked to guy who tells you to get a lantern"</description>
     <objref map="hollow2" obj="SH_BottomSe" objid="0x0004AADF" param="needBit"></objref>
   </bit>
-  <bit id="0x0CD6" table="2" size="1" offset="0x00A1" name="TTH_ThornTailRelated0CD6">
+  <bit id="0x0CD6" table="2" size="1" offset="0x00A1" name="TTH_ThornTailRel0CD6">
     <objref map="hollow2" obj="SH_BottomSe" objid="0x0004AAE0" param="needBit"></objref>
   </bit>
   <bit id="0x0CD7" table="0" size="1" offset="0x0000"></bit>
@@ -6357,26 +6367,26 @@
     <objref map="wastes" obj="fuelCell" objid="0x0004AE4D" param="Visible"></objref>
     <objref map="wastes" obj="CAMERAseqob" objid="0x0004AE50" param="bit1A"></objref>
   </bit>
-  <bit id="0x0D19" table="1" size="1" offset="0x0205">
+  <bit id="0x0D19" table="1" size="1" offset="0x0205" name="WM_ClawDoor_Open">
     <objref map="warlock" obj="HitAnimator" objid="0x0004CE70" param="target"></objref>
     <objref map="warlock" obj="CCclawOnlyD" objid="0x000477BA" param="open"></objref>
   </bit>
   <bit id="0x0D1A" table="2" size="1" offset="0x0047">
     <objref map="wastes" obj="CAMERAseqob" objid="0x0004AE50" param="bit18"></objref>
   </bit>
-  <bit id="0x0D1B" table="1" size="1" offset="0x01E7" name="WMRelated0D1B">
+  <bit id="0x0D1B" table="1" size="1" offset="0x01E7" name="WMRel0D1B">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004AEB1" param="seqStarted"></objref>
   </bit>
-  <bit id="0x0D1C" table="1" size="1" offset="0x01E8" name="WMRelated0D1C">
+  <bit id="0x0D1C" table="1" size="1" offset="0x01E8" name="WMRel0D1C">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004AEB2" param="seqStarted"></objref>
   </bit>
-  <bit id="0x0D1D" table="1" size="1" offset="0x01E9" name="WMRelated0D1D">
+  <bit id="0x0D1D" table="1" size="1" offset="0x01E9" name="WMRel0D1D">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004AEB3" param="seqStarted"></objref>
   </bit>
-  <bit id="0x0D1E" table="1" size="1" offset="0x01EA" name="WMRelated0D1E">
+  <bit id="0x0D1E" table="1" size="1" offset="0x01EA" name="WMRel0D1E">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004AEB4" param="seqStarted"></objref>
   </bit>
-  <bit id="0x0D1F" table="1" size="1" offset="0x01EB" name="WMRelated0D1F">
+  <bit id="0x0D1F" table="1" size="1" offset="0x01EB" name="WMRel0D1F">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004AEB5" param="seqStarted"></objref>
   </bit>
   <bit id="0x0D20" table="2" size="1" offset="0x00B0" name="DIM2_Key_Got" hintid="275">
@@ -6427,8 +6437,8 @@
     <objref map="wastes" obj="NW_seqobjec" objid="0x0004B1E0" param="usedBit"></objref>
   </bit>
   <bit id="0x0D34" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0D35" table="3" size="1" offset="0x000A" name="TTH_Related0D35"></bit>
-  <bit id="0x0D36" table="3" size="1" offset="0x000B" name="TTH_Related0D36"></bit>
+  <bit id="0x0D35" table="3" size="1" offset="0x000A" name="TTH_Rel0D35"></bit>
+  <bit id="0x0D36" table="3" size="1" offset="0x000B" name="TTH_Rel0D36"></bit>
   <bit id="0x0D37" table="1" size="1" offset="0x0206" name="WM_FlewTo" hintid="419">
     <objref map="warlock" obj="HitAnimator" objid="0x0004C587" param="target"></objref>
     <objref map="warlock" obj="HitAnimator" objid="0x0004C589" param="target"></objref>
@@ -6442,7 +6452,7 @@
   <bit id="0x0D3A" table="1" size="1" offset="0x01F7"></bit>
   <bit id="0x0D3B" table="1" size="1" offset="0x01F8"></bit>
   <bit id="0x0D3C" table="1" size="1" offset="0x01F9"></bit>
-  <bit id="0x0D3D" table="1" size="1" offset="0x0022" name="CFRestartPointRelated0D3D"></bit>
+  <bit id="0x0D3D" table="1" size="1" offset="0x0022" name="CFRestartPointRel0D3D"></bit>
   <bit id="0x0D3E" table="2" size="1" offset="0x05B2">
     <objref map="temple" obj="HitAnimator" objid="0x0004B256" param="target"></objref>
     <objref map="temple" obj="VFPSeqObj" objid="0x0004B255" param="bit18"></objref>
@@ -6452,7 +6462,7 @@
   <bit id="0x0D41" table="1" size="1" offset="0x0227"></bit>
   <bit id="0x0D42" table="1" size="1" offset="0x0228"></bit>
   <bit id="0x0D43" table="1" size="1" offset="0x0229"></bit>
-  <bit id="0x0D44" table="3" size="1" offset="0x0056" name="VFPLightRelated0D44"></bit>
+  <bit id="0x0D44" table="3" size="1" offset="0x0056" name="VFPLightRel0D44"></bit>
   <bit id="0x0D45" table="2" size="1" offset="0x0218">
     <objref map="moonpass" obj="HitAnimator" objid="0x0004CCA3" param="target"></objref>
     <objref map="moonpass" obj="MMP_MagicCa" objid="0x0004B3F0" param="open"></objref>
@@ -6477,7 +6487,7 @@
   <bit id="0x0D52" table="2" size="1" offset="0x01D7">
     <objref map="moonpass" obj="HitAnimator" objid="0x0004B451" param="target"></objref>
   </bit>
-  <bit id="0x0D53" table="1" size="1" offset="0x0361" name="WarpPointRelatedD53"></bit>
+  <bit id="0x0D53" table="1" size="1" offset="0x0361" name="WarpPointRelD53"></bit>
   <bit id="0x0D54" table="2" size="1" offset="0x021C"></bit>
   <bit id="0x0D55" table="2" size="1" offset="0x021D"></bit>
   <bit id="0x0D56" table="2" size="1" offset="0x0612" name="OFT_ClawAliveD56">
@@ -6521,7 +6531,7 @@
   <bit id="0x0D65" table="0" size="1" offset="0x0086" name="CF_SeqD65">
     <objref map="fortress" obj="CFseqobject" objid="0x0004B5A0" param="bit1A"></objref>
   </bit>
-  <bit id="0x0D66" table="0" size="1" offset="0x0087" name="CR_RaceRelatedD66">
+  <bit id="0x0D66" table="0" size="1" offset="0x0087" name="CR_RaceRelD66">
     <objref map="cloudrace" obj="TrigPln" objid="0x0004B5CD" param="activate"></objref>
     <objref map="cloudrace" obj="CFRaceSeqob" objid="0x0004B5CE" param="bit1A"></objref>
   </bit>
@@ -6548,8 +6558,8 @@
   <bit id="0x0D6F" table="2" size="1" offset="0x0565"></bit>
   <bit id="0x0D70" table="2" size="1" offset="0x0566"></bit>
   <bit id="0x0D71" table="3" size="1" offset="0x005A"></bit>
-  <bit id="0x0D72" table="1" size="1" offset="0x0226" name="VFPRelated0D72"></bit>
-  <bit id="0x0D73" table="2" size="1" offset="0x01C4" name="CFRelated0D73">
+  <bit id="0x0D72" table="1" size="1" offset="0x0226" name="VFPRel0D72"></bit>
+  <bit id="0x0D73" table="2" size="1" offset="0x01C4" name="CFRel0D73">
     <description>Cleared when Arwing flies to CR Fort</description>
   </bit>
   <bit id="0x0D74" table="0" size="1" offset="0x02D6"></bit>
@@ -6679,7 +6689,7 @@
     <objref map="wallcity" obj="HitAnimator" objid="0x0004CB9C" param="target"></objref>
   </bit>
   <bit id="0x0DAA" table="2" size="1" offset="0x02F8"></bit>
-  <bit id="0x0DAB" table="3" size="1" offset="0x0043" name="DIMLightRelatedDAB"></bit>
+  <bit id="0x0DAB" table="3" size="1" offset="0x0043" name="DIMLightRelDAB"></bit>
   <bit id="0x0DAC" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0DAD" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0DAE" table="0" size="1" offset="0x0000"></bit>
@@ -6714,9 +6724,9 @@
     <objref map="capeclaw" obj="ExplodeWall" objid="0x0004BA41" param="exploded"></objref>
     <objref map="capeclaw" obj="HitAnimator" objid="0x0004BA92" param="target"></objref>
   </bit>
-  <bit id="0x0DB8" table="3" size="1" offset="0x0021" name="CFRelated0DB8"></bit>
+  <bit id="0x0DB8" table="3" size="1" offset="0x0021" name="CFRel0DB8"></bit>
   <bit id="0x0DB9" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0DBA" table="3" size="1" offset="0x0044" name="DIMLightRelatedDBA"></bit>
+  <bit id="0x0DBA" table="3" size="1" offset="0x0044" name="DIMLightRelDBA"></bit>
   <bit id="0x0DBB" table="2" size="1" offset="0x0278">
     <objref map="capeclaw" obj="ExplodeWall" objid="0x0004BA33" param="onExplode"></objref>
   </bit>
@@ -6757,8 +6767,8 @@
   <bit id="0x0DC7" table="2" size="1" offset="0x0222"></bit>
   <bit id="0x0DC8" table="2" size="1" offset="0x0223"></bit>
   <bit id="0x0DC9" table="2" size="1" offset="0x0224"></bit>
-  <bit id="0x0DCA" table="0" size="1" offset="0x0049" name="CFRelated0DCA"></bit>
-  <bit id="0x0DCB" table="0" size="1" offset="0x004A" name="CFRaceRelated0DCB"></bit>
+  <bit id="0x0DCA" table="0" size="1" offset="0x0049" name="CFRel0DCA"></bit>
+  <bit id="0x0DCB" table="0" size="1" offset="0x004A" name="CFRaceRel0DCB"></bit>
   <bit id="0x0DCC" table="2" size="1" offset="0x0538"></bit>
   <bit id="0x0DCD" table="2" size="1" offset="0x0539"></bit>
   <bit id="0x0DCE" table="3" size="1" offset="0x0065"></bit>
@@ -6771,12 +6781,12 @@
   <bit id="0x0DD3" table="0" size="1" offset="0x0264"></bit>
   <bit id="0x0DD4" table="1" size="1" offset="0x0025"></bit>
   <bit id="0x0DD5" table="1" size="1" offset="0x0026"></bit>
-  <bit id="0x0DD6" table="1" size="1" offset="0x0024"></bit>
+  <bit id="0x0DD6" table="1" size="1" offset="0x0024" name="CF_PrisonWindLiftRel0D6"></bit>
   <bit id="0x0DD7" table="2" size="1" offset="0x0252"></bit>
   <bit id="0x0DD8" table="2" size="1" offset="0x0253">
     <objref map="capeclaw" obj="HitAnimator" objid="0x0004C7D1" param="target"></objref>
   </bit>
-  <bit id="0x0DD9" table="2" size="1" offset="0x01A2"></bit>
+  <bit id="0x0DD9" table="2" size="1" offset="0x01A2" name="LV_BurnedBramblesToSqrBlk"></bit>
   <bit id="0x0DDA" table="2" size="1" offset="0x0254" name="CC_FuelCellVisible_DDA">
     <objref map="capeclaw" obj="fuelCell" objid="0x0004B248" param="Visible"></objref>
   </bit>
@@ -6845,7 +6855,7 @@
     <objref map="gamefront" obj="FrontSeq" objid="0x0004BC15" param="bit1A"></objref>
   </bit>
   <bit id="0x0DF7" table="0" size="1" offset="0x0000"></bit>
-  <bit id="0x0DF8" table="2" size="1" offset="0x0433" name="DIM2_LightRelatedDF8"></bit>
+  <bit id="0x0DF8" table="2" size="1" offset="0x0433" name="DIM2_LightRelDF8"></bit>
   <bit id="0x0DF9" table="2" size="1" offset="0x0354">
     <objref map="linkf" obj="LINK_Portcu" objid="0x00049B51" param="open"></objref>
     <objref map="linkf" obj="HitAnimator" objid="0x0004A069" param="target"></objref>
@@ -6879,7 +6889,7 @@
   <bit id="0x0E04" table="2" size="1" offset="0x05D3">
     <objref map="kraztest" obj="CAMERAseqob" objid="0x0004BDD3" param="bit18"></objref>
   </bit>
-  <bit id="0x0E05" table="2" size="1" offset="0x04AE" name="WC_MagicCaveRelated0E05">
+  <bit id="0x0E05" table="2" size="1" offset="0x04AE" name="WC_MagicCaveRel0E05">
     <description>cleared when Arwing flies to Walled City</description>
   </bit>
   <bit id="0x0E06" table="2" size="1" offset="0x04AF"></bit>
@@ -6924,8 +6934,8 @@
   <bit id="0x0E1C" table="2" size="1" offset="0x05C6">
     <objref map="temple" obj="CAMERAnewse" objid="0x0004C01A" param="usedBit"></objref>
   </bit>
-  <bit id="0x0E1D" table="3" size="1" offset="0x0025" name="CFRelated0E1D"></bit>
-  <bit id="0x0E1E" table="3" size="1" offset="0x0018"></bit>
+  <bit id="0x0E1D" table="3" size="1" offset="0x0025" name="CFRel0E1D"></bit>
+  <bit id="0x0E1E" table="3" size="1" offset="0x0018" name="LVBasementRelE1E"></bit>
   <bit id="0x0E1F" table="2" size="1" offset="0x05C7">
     <objref map="temple" obj="StaffLeverO" objid="0x00045CD8" param="enabled"></objref>
   </bit>
@@ -6934,7 +6944,7 @@
   <bit id="0x0E22" table="2" size="1" offset="0x05B4">
     <objref map="temple" obj="VFPSeqObj" objid="0x0004C087" param="bit18"></objref>
   </bit>
-  <bit id="0x0E23" table="3" size="1" offset="0x0026" name="CFRelated0E23"></bit>
+  <bit id="0x0E23" table="3" size="1" offset="0x0026" name="CFRel0E23"></bit>
   <bit id="0x0E24" table="3" size="1" offset="0x0027"></bit>
   <bit id="0x0E25" table="2" size="1" offset="0x056C" name="VFP_OpenedSecondPath" hintid="371">
     <objref map="temple" obj="HitAnimator" objid="0x0004C6F3" param="target"></objref>
@@ -7022,7 +7032,7 @@
     <objref map="linkj" obj="LINKJseqobj" objid="0x0004C39A" param="usedBit"></objref>
     <objref map="linkj" obj="LINKJseqobj" objid="0x0004C915" param="usedBit"></objref>
   </bit>
-  <bit id="0x0E49" table="0" size="1" offset="0x01B3" name="WM_KrystalRelated0E49">
+  <bit id="0x0E49" table="0" size="1" offset="0x01B3" name="WM_KrystalRel0E49">
     <description>set when she looks around in the crystal</description>
   </bit>
   <bit id="0x0E4A" table="2" size="1" offset="0x04D9">
@@ -7061,7 +7071,7 @@
   <bit id="0x0E57" table="2" size="1" offset="0x05CC"></bit>
   <bit id="0x0E58" table="2" size="1" offset="0x05CD"></bit>
   <bit id="0x0E59" table="0" size="1" offset="0x0229"></bit>
-  <bit id="0x0E5A" table="1" size="1" offset="0x022D" name="OFT_LightRelatedE5A"></bit>
+  <bit id="0x0E5A" table="1" size="1" offset="0x022D" name="OFT_LightRelE5A"></bit>
   <bit id="0x0E5B" table="2" size="1" offset="0x00AC" name="TTH_Got6WhiteShrooms" hintid="274"></bit>
   <bit id="0x0E5C" table="0" size="1" offset="0x0000"></bit>
   <bit id="0x0E5D" table="2" size="1" offset="0x032D" name="IM_DestroyedBox1">
@@ -7110,7 +7120,7 @@
     <description>set when gaining control of bike</description>
     <objref map="newicemount" obj="ReinforcedC" objid="0x00047A36" param="destroyed"></objref>
   </bit>
-  <bit id="0x0E6B" table="2" size="1" offset="0x033B" name="IM_BikeRelated0E6B">
+  <bit id="0x0E6B" table="2" size="1" offset="0x033B" name="IM_BikeRel0E6B">
     <description>set when gaining control of bike</description>
   </bit>
   <bit id="0x0E6C" table="2" size="1" offset="0x04B1">
@@ -7144,9 +7154,9 @@
   <bit id="0x0E78" table="2" size="1" offset="0x0532">
     <objref map="warlock" obj="WM_seqpoint" objid="0x0004806F" param="_20"></objref>
   </bit>
-  <bit id="0x0E79" table="2" size="1" offset="0x0534" name="WM_VortexRelatedE79"></bit>
+  <bit id="0x0E79" table="2" size="1" offset="0x0534" name="WM_VortexRelE79"></bit>
   <bit id="0x0E7A" table="0" size="1" offset="0x0079"></bit>
-  <bit id="0x0E7B" table="2" size="1" offset="0x04B9" name="DRArwingRelated0E7B">
+  <bit id="0x0E7B" table="2" size="1" offset="0x04B9" name="DRArwingRel0E7B">
     <description>cleared when Arwing flies to Dragon Rock</description>
   </bit>
   <bit id="0x0E7C" table="2" size="1" offset="0x05D5">
@@ -7154,18 +7164,19 @@
     <objref map="kraztest" obj="HitAnimator" objid="0x0004C979" param="target"></objref>
     <objref map="kraztest" obj="HitAnimator" objid="0x0004C9AA" param="target"></objref>
   </bit>
-  <bit id="0x0E7D" table="2" size="1" offset="0x0100" name="TTH_DustMoteE7D">
+  <bit id="0x0E7D" table="2" size="1" offset="0x0100" name="TTH_ShowGlowingGatewayStuff">
+    <description>Set when releasing the glowing stuff from the portal door</description>
     <objref map="hollow" obj="DustMoteSou" objid="0x0004C7D0" param="_24"></objref>
   </bit>
   <bit id="0x0E7E" table="0" size="1" offset="0x0005"></bit>
-  <bit id="0x0E7F" table="3" size="1" offset="0x004C" name="DR_LightRelatedE7F"></bit>
-  <bit id="0x0E80" table="2" size="1" offset="0x0072" name="TTH_EggEventRelated0E80"></bit>
+  <bit id="0x0E7F" table="3" size="1" offset="0x004C" name="DR_LightRelE7F"></bit>
+  <bit id="0x0E80" table="2" size="1" offset="0x0072" name="TTH_EggEventRel0E80"></bit>
   <bit id="0x0E81" table="2" size="1" offset="0x05D9"></bit>
-  <bit id="0x0E82" table="0" size="1" offset="0x021A"></bit>
-  <bit id="0x0E83" table="0" size="1" offset="0x021B"></bit>
-  <bit id="0x0E84" table="0" size="1" offset="0x021C"></bit>
-  <bit id="0x0E85" table="0" size="1" offset="0x021D"></bit>
-  <bit id="0x0E86" table="0" size="1" offset="0x0034">
+  <bit id="0x0E82" table="0" size="1" offset="0x021A" name="ECSH_FearTestRelE82"></bit>
+  <bit id="0x0E83" table="0" size="1" offset="0x021B" name="ECSH_FearTestRelE83"></bit>
+  <bit id="0x0E84" table="0" size="1" offset="0x021C" name="ECSH_FearTestRelE84"></bit>
+  <bit id="0x0E85" table="0" size="1" offset="0x021D" name="ECSH_FearTestRelE85"></bit>
+  <bit id="0x0E86" table="0" size="1" offset="0x0034" name="ECSH_FearTest_Cleared">
     <objref map="swapcircle" obj="SC_sequence" objid="0x0004B9DD" param="bit1A"></objref>
   </bit>
   <bit id="0x0E87" table="2" size="1" offset="0x01A7">
@@ -7255,7 +7266,7 @@
   </bit>
   <bit id="0x0EB1" table="2" size="1" offset="0x0081" name="ITEM_Magic_Got"></bit>
   <bit id="0x0EB2" table="2" size="1" offset="0x09EE" name="ITEM_BafomdadHolder_Got"></bit>
-  <bit id="0x0EB3" table="2" size="1" offset="0x00C8" name="TTH_Related0EB3">
+  <bit id="0x0EB3" table="2" size="1" offset="0x00C8" name="TTH_Rel0EB3">
     <objref map="hollow2" obj="SH_BottomSe" objid="0x0004993D" param="needBit"></objref>
   </bit>
   <bit id="0x0EB4" table="2" size="1" offset="0x09EF" name="WM_SeqEB4">
@@ -7311,7 +7322,7 @@
   <bit id="0x0EDB" table="3" size="1" offset="0x004B"></bit>
   <bit id="0x0EDC" table="0" size="1" offset="0x013D"></bit>
   <bit id="0x0EDD" table="0" size="1" offset="0x013E"></bit>
-  <bit id="0x0EDE" table="2" size="1" offset="0x00C2" name="TTH_Related0EDE">
+  <bit id="0x0EDE" table="2" size="1" offset="0x00C2" name="TTH_Rel0EDE">
     <description>Triggers a communication after pushing switch at bottom of well</description>
   </bit>
   <bit id="0x0EDF" table="0" size="1" offset="0x0000"></bit>
@@ -7369,9 +7380,9 @@
     <objref map="wallcity" obj="TrigPln" objid="0x0004B82C" param="activate"></objref>
   </bit>
   <bit id="0x0EFA" table="0" size="1" offset="0x028F" name="TestSkillInShrine">
-    <description>set when entering Krazoa test 1, cleared when leaving</description>
+    <description>set when entering Krazoa test 1, cleared when leaving; also cleared when leaving Test of Fear</description>
   </bit>
-  <bit id="0x0EFB" table="0" size="1" offset="0x038D" name="WarpRelated0EFB">
+  <bit id="0x0EFB" table="0" size="1" offset="0x038D" name="WarpRel0EFB">
     <description>related to warp pads/magic cave; maybe override destination with MagicCaveExitWarp?</description>
   </bit>
   <bit id="0x0EFC" table="0" size="1" offset="0x038E"></bit>
@@ -7425,7 +7436,7 @@
   <bit id="0x0F1A" table="2" size="1" offset="0x092D" name="WorldMap_Volcano"></bit>
   <bit id="0x0F1B" table="2" size="1" offset="0x092E" name="WorldMap_CloudRunner"></bit>
   <bit id="0x0F1C" table="2" size="1" offset="0x092F" name="WorldMap_CapeClaw"></bit>
-  <bit id="0x0F1D" table="0" size="1" offset="0x0026"></bit>
+  <bit id="0x0F1D" table="0" size="1" offset="0x0026" name="LV_StrengthTest_Active"></bit>
   <bit id="0x0F1E" table="0" size="1" offset="0x01AC" name="SB_CanShootPropeller"></bit>
   <bit id="0x0F1F" table="2" size="1" offset="0x061E">
     <objref map="dfptop" obj="CAMERAseqob" objid="0x0004CCD3" param="bit18"></objref>
@@ -7509,7 +7520,7 @@
   <bit id="0x0F46" table="2" size="1" offset="0x050E">
     <objref map="warlock" obj="WM_Door1" objid="0x00047248" param="open"></objref>
   </bit>
-  <bit id="0x0F47" table="2" size="1" offset="0x050F" name="WM_SwitchRelated0F47">
+  <bit id="0x0F47" table="2" size="1" offset="0x050F" name="WM_SwitchRel0F47">
     <description>related to KP pressure-switch door</description>
     <objref map="warlock" obj="HitAnimator" objid="0x0004A6C6" param="target"></objref>
   </bit>
