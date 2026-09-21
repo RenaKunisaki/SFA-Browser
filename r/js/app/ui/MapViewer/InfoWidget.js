@@ -226,7 +226,6 @@ export default class InfoWidget {
      */
     _showObject(info) {
         let entry = info.entry;
-        let entry = info.entry;
         if(!entry) entry = info.obj.entry;
         if(!entry) entry = info.obj; //what the fuck
         const dll   = entry.object.dll;
