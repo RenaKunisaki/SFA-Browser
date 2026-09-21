@@ -5964,10 +5964,10 @@
   <bit id="0x0C76" table="2" size="1" offset="0x0280">
     <objref map="linkj" obj="HitAnimator" objid="0x0004C7EE" param="target"></objref>
   </bit>
-  <bit id="0x0C77" table="1" size="1" offset="0x001F">
+  <bit id="0x0C77" table="1" size="1" offset="0x001F" name="LINKJ_WaterRaised">
     <objref map="linkj" obj="HitAnimator" objid="0x0004C19E" param="target"></objref>
   </bit>
-  <bit id="0x0C78" table="1" size="1" offset="0x0020"></bit>
+  <bit id="0x0C78" table="1" size="1" offset="0x0020" name="LINKJ_WaterRelC78"></bit>
   <bit id="0x0C79" table="0" size="1" offset="0x01A2"></bit>
   <bit id="0x0C7A" table="2" size="1" offset="0x0281">
     <objref map="linkj" obj="SC_Shrine_d" objid="0x00049CC7" param="open"></objref>
