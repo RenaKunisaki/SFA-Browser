@@ -54,7 +54,22 @@ export default class Block {
         this.gx = gx;
         this._triedLoad = true;
         this._loadModel();
-        return true;
+        return this._triedLoad;
+    }
+
+    /** Free the block's model data and GL textures.
+     *  The block can be loaded again later.
+     */
+    unload() {
+        if(this.textures) {
+            for(const tex of this.textures) {
+                if(tex !== this.gx.missingTexture) this.gx.gl.deleteTexture(tex.texture);
+            }
+        }
+        this.header   = this.vtxPositions = this.vtxColors = this.texCoords = null;
+        this.polygons = this.polyGroups   = this.dlists    = this.renderInstrs = null;
+        this.shaders  = this.textures     = this.hits      = null;
+        this._triedLoad = undefined;
     }
 
     _loadModel() {
